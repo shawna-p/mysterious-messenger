@@ -34,33 +34,58 @@ image animated_morning_clouds_front = Composite(
     (2250, 0), 'Phone UI/animated_bgs/morning/morning_clouds_front.webp'
 )
 
+transform move_clouds(t=150, ytime=1, ysize=0):
+    subpixel True
+    ysize int(max(config.screen_height-113-165, 1334,
+        ysize*(float(config.screen_height-113-165)/1334.0)))
+    fit "cover"
+    parallel:
+        yalign 0.0
+        yoffset (0 if config.screen_height == 1334 else 165)
+        linear ytime yalign (1.0 if ysize else 0.0)
+    parallel:
+        block:
+            xpos 1.0 xanchor 1.0
+            linear t xanchor 0.5 xpos 1.0
+            repeat
+
 screen animated_morning():
     zorder 0
     tag animated_bg
     add 'Phone UI/animated_bgs/morning/morning_clouds_bg.webp':
-        at topbottom_pan(150, 0, 0, 0, -946, 1.0, 0, 1.0)
+        at reverse_topbottom_pan(150, 0, 0, 1.0, 0, 1.0)
+        ysize int(2280.0/1334.0*config.screen_height)
+
+    default xran = config.screen_width // 2
+    default yran = (config.screen_height-113-165) // 3
 
     # Add a bunch of stars
-    for x in [0, 375]:
-        for star_type in ['med', 'tiny', 'big', 'med', 'tiny', 'big',
-                        'med', 'tiny', 'big', 'med', 'tiny', 'big']:
-            add 'animated_' + star_type + '_star':
-                at star_twinkle_out(100, x, x+375, 200, 200+350)
-            add 'animated_' + star_type + '_star':
-                at star_twinkle_out(100, x, x+375, 200+350, 200+350*2)
-            add 'animated_' + star_type + '_star':
-                at star_twinkle_out(100, x, x+375, 200+350*2, 1150)
+    for x in range(2):
+        for y in range(3):
+            for star_type in ['med', 'tiny', 'big', 'med', 'tiny', 'big']:
+                add 'animated_{}_star'.format(star_type):
+                    at star_twinkle_out(100,
+                        x*xran, x*xran+xran,
+                        y*yran+165, y*yran+yran+165)
+                add 'animated_{}_star'.format(star_type):
+                    at star_twinkle_out(100,
+                        x*xran, x*xran+xran,
+                        y*yran+165, y*yran+yran+165)
+                add 'animated_{}_star'.format(star_type):
+                    at star_twinkle_out(100,
+                        x*xran, x*xran+xran,
+                        y*yran+165, y*yran+yran+165)
 
     # Clouds
     # add 'gentle_snow_back' at colorize_snow_morning()
-    add 'animated_morning_clouds_back' at slow_pan(300, 250)
-    add 'animated_morning_clouds_mid' at slow_pan(220, 230)
-    add 'animated_morning_clouds_front' at slow_pan(150, 210)
+    add 'animated_morning_clouds_back' at move_clouds(300, 250, 1692)
+    add 'animated_morning_clouds_mid' at move_clouds(220, 230, 1692)
+    add 'animated_morning_clouds_front' at move_clouds(150, 210, 1692)
     # add 'gentle_snow_front' at colorize_snow_morning()
 
     # A gradient overlay to ease the transition from night into morning
     add 'Phone UI/animated_bgs/morning/morning_darken.webp':
-        at topbottom_pan(180, 160, 30, 0, -1334, 0.8, 0, 0.0, 0.0)
+        at reverse_topbottom_pan(180, 160, 30, 0.8, 0, 0.0, 0.0)
 
     use animated_shake_borders()
 
@@ -88,14 +113,18 @@ image animated_noon_clouds_front = Composite(
     (2250, 0), 'Phone UI/animated_bgs/noon/noon_clouds_front.webp'
 )
 
+image animated_noon_bg = Transform(
+    'Phone UI/animated_bgs/noon/noon_background.webp',
+    ysize=config.screen_height, fit="cover")
+
 screen animated_noon():
     zorder 0
     tag animated_bg
-    add 'Phone UI/animated_bgs/noon/noon_background.webp'
+    add 'animated_noon_bg'
     # Clouds
-    add 'animated_noon_clouds_back' at slow_pan(300)
-    add 'animated_noon_clouds_mid' at slow_pan(200)
-    add 'animated_noon_clouds_front' at slow_pan(110)
+    add 'animated_noon_clouds_back' at move_clouds(300)
+    add 'animated_noon_clouds_mid' at move_clouds(200)
+    add 'animated_noon_clouds_front' at move_clouds(110)
 
     use animated_shake_borders()
 
@@ -122,31 +151,41 @@ image animated_evening_clouds_front = Composite(
 screen animated_evening():
     zorder 0
     tag animated_bg
-    add 'Phone UI/animated_bgs/evening/evening_clouds_bright.webp' xalign 0.487
+
+    default yinit = -1*(config.screen_height-113-165)
+
+    add 'Phone UI/animated_bgs/evening/evening_clouds_bright.webp':
+        ysize config.screen_height
 
     # There are three different sun colours for the evening as the sun sets
     add 'Phone UI/animated_bgs/evening/evening_clouds_yellow_sun.webp':
         xalign 0.5
-        at topbottom_pan(180, 0, 60, -1138, 1138*1.5, 1.0, 100)
+        at topbottom_pan(movetime=180, delay1=0, fadetime=60,
+            init_y=yinit, y_move=yinit*-1.5, start_alpha=1.0, delay_2=100)
     add 'Phone UI/animated_bgs/evening/evening_clouds_orange_sun.webp':
         xalign 0.5
-        at topbottom_pan(180, 60, 60, -1138, 1138*1.5, 0.0, 100)
+        at topbottom_pan(movetime=180, delay1=60, fadetime=60,
+            init_y=yinit, y_move=yinit*-1.5, start_alpha=0.0, delay_2=100)
     add 'Phone UI/animated_bgs/evening/evening_clouds_red_sun.webp':
         xalign 0.5
-        at topbottom_pan(180, 120, 60, -1138, 1138*1.5, 0.0, 100, 1.0)
+        at topbottom_pan(movetime=180, delay1=120, fadetime=60,
+            init_y=yinit, y_move=yinit*-1.5, start_alpha=0.0, delay_2=100,
+            disappear=1.0)
 
     # Clouds
     # add 'gentle_snow_back' at colorize_snow_evening()
-    add 'animated_evening_clouds_back' at slow_pan(300)
-    add 'animated_evening_clouds_mid' at slow_pan(200)
-    add 'animated_evening_clouds_front' at slow_pan(110)
+    add 'animated_evening_clouds_back' at move_clouds(300)
+    add 'animated_evening_clouds_mid' at move_clouds(200)
+    add 'animated_evening_clouds_front' at move_clouds(110)
     # add 'gentle_snow_front' at colorize_snow_evening()
 
     # These gradients help blend the sun colours with the sky and clouds
     add 'Phone UI/animated_bgs/evening/evening_clouds_orange.webp':
-        at fadein_out(60, 60, 60, 170-90-75, 0.0)
+        at fadein_out(delay1=45, fadein=45, fadeout=45, delay_2=170-90-75, start_alpha=0.0)
+        ysize config.screen_height
     add 'Phone UI/animated_bgs/evening/evening_clouds_red.webp':
-        at fadein_out(120, 60, 10, 10, 0.0, 0.3)
+        at fadein_out(delay1=90, fadein=45, fadeout=10, delay_2=10, start_alpha=0.0, end_alpha=0.3)
+        ysize config.screen_height
 
     use animated_shake_borders()
 
@@ -169,110 +208,118 @@ image animated_night_tiny_star = "Phone UI/animated_bgs/night/night_tiny_star.we
 image animated_shooting_star1 = 'Phone UI/animated_bgs/night/night_shooting_star_1.webp'
 image animated_shooting_star2 = 'Phone UI/animated_bgs/night/night_shooting_star_2.webp'
 
+image animated_night_bg = 'center_full:Phone UI/animated_bgs/night/night_background.webp'
+
 screen animated_night():
     zorder 0
     tag animated_bg
-    add 'Phone UI/animated_bgs/night/night_background.webp'
+    add 'animated_night_bg'
+
+    default xran = config.screen_width // 3
+    default yran = (config.screen_height-113-165) // 4
 
     # Gradient overlay
     add 'Phone UI/animated_bgs/night/night_overlay.webp':
-        at topbottom_pan(100, 100, 50, -1334, 1334, 1.0, 0, 0.0, 0.0)
+        #at topbottom_pan(100, 100, 50, -config.screen_height, config.screen_height, 1.0, 0, 0.0, 0.0)
+        at topbottom_pan2(100, 100, 50, 1.0, 0, 0.0, 0.0)
+
 
     fixed:
         # at star_rotate(250) # originally the whole sky rotated
         #xysize (1524, 1524)
-        xysize (config.screen_width, 1134) # Don't bother adding stars behind the UI
-        align (0.5, 0.6)
+        xysize (config.screen_width, config.screen_height-113-165) # Don't bother adding stars behind the UI
+        align (0.5, 1.0)
+        yoffset -113
         # Stars
-        for x in [0, 250, 500]:#[0, 381, 762, 1143]:
-            for y in [0, 333, 666, 999]:#[0, 381, 762, 1143]:
+        for x in range(3):
+            for y in range(4):
                 add 'animated_night_med_star':
                     at star_twinkle_in(0, 50,
-                        x, x+250,
-                        y, y+333)
+                        x*xran, x*xran+xran,
+                        y*yran, y*yran+yran)
                 add 'animated_night_med_star':
                     at star_twinkle_in(51, 100,
-                        x, x+250,
-                        y, y+333)
+                        x*xran, x*xran+xran,
+                        y*yran, y*yran+yran)
                 add 'animated_night_med_star':
                     at star_twinkle_in(101, 200,
-                        x, x+250,
-                        y, y+333)
+                        x*xran, x*xran+xran,
+                        y*yran, y*yran+yran)
                 add 'animated_night_tiny_star':
                     at star_twinkle_in(0, 50,
-                        x, x+250,
-                        y, y+333)
+                        x*xran, x*xran+xran,
+                        y*yran, y*yran+yran)
                 add 'animated_night_tiny_star':
                     at star_twinkle_in(51, 100,
-                        x, x+250,
-                        y, y+333)
+                        x*xran, x*xran+xran,
+                        y*yran, y*yran+yran)
                 add 'animated_night_tiny_star':
                     at star_twinkle_in(101, 200,
-                        x, x+250,
-                        y, y+333)
+                        x*xran, x*xran+xran,
+                        y*yran, y*yran+yran)
                 add 'animated_night_big_star':
                     at star_twinkle_in(0, 50,
-                        x, x+250,
-                        y, y+333)
+                        x*xran, x*xran+xran,
+                        y*yran, y*yran+yran)
                 add 'animated_night_big_star':
                     at star_twinkle_in(51, 100,
-                        x, x+250,
-                        y, y+333)
+                        x*xran, x*xran+xran,
+                        y*yran, y*yran+yran)
                 add 'animated_night_big_star':
                     at star_twinkle_in(101, 200,
-                        x, x+250,
-                        y, y+333)
+                        x*xran, x*xran+xran,
+                        y*yran, y*yran+yran)
 
                 add 'animated_night_med_star':
                     at star_place_randomly(
-                        x, x+250,
-                        y, y+333)
+                        x*xran, x*xran+xran,
+                        y*yran, y*yran+yran)
                 add 'animated_night_tiny_star':
                     at star_place_randomly(
-                        x, x+250,
-                        y, y+333)
+                        x*xran, x*xran+xran,
+                        y*yran, y*yran+yran)
                 add 'animated_night_big_star':
                     at star_place_randomly(
-                        x, x+250,
-                        y, y+333)
+                        x*xran, x*xran+xran,
+                        y*yran, y*yran+yran)
 
                 for i in range(2):
                     add 'animated_night_med_star':
                         at star_fade_in(20, 50,
-                            x, x+250,
-                            y, y+333)
+                            x*xran, x*xran+xran,
+                            y*yran, y*yran+yran)
                     add 'animated_night_med_star':
                         at star_fade_in(51, 100,
-                            x, x+250,
-                            y, y+333)
+                            x*xran, x*xran+xran,
+                            y*yran, y*yran+yran)
                     add 'animated_night_med_star':
                         at star_fade_in(101, 200,
-                            x, x+250,
-                            y, y+333)
+                            x*xran, x*xran+xran,
+                            y*yran, y*yran+yran)
                     add 'animated_night_tiny_star':
                         at star_fade_in(0, 50,
-                            x, x+250,
-                            y, y+333)
+                            x*xran, x*xran+xran,
+                            y*yran, y*yran+yran)
                     add 'animated_night_tiny_star':
                         at star_fade_in(51, 100,
-                            x, x+250,
-                            y, y+333)
+                            x*xran, x*xran+xran,
+                            y*yran, y*yran+yran)
                     add 'animated_night_tiny_star':
                         at star_fade_in(101, 200,
-                            x, x+250,
-                            y, y+333)
+                            x*xran, x*xran+xran,
+                            y*yran, y*yran+yran)
                     add 'animated_night_big_star':
                         at star_fade_in(30, 50,
-                            x, x+250,
-                            y, y+333)
+                            x*xran, x*xran+xran,
+                            y*yran, y*yran+yran)
                     add 'animated_night_big_star':
                         at star_fade_in(51, 100,
-                            x, x+250,
-                            y, y+333)
+                            x*xran, x*xran+xran,
+                            y*yran, y*yran+yran)
                     add 'animated_night_big_star':
                         at star_fade_in(101, 200,
-                            x, x+250,
-                            y, y+333)
+                            x*xran, x*xran+xran,
+                            y*yran, y*yran+yran)
         # Shooting stars
         add 'animated_shooting_star1' at shooting_star
         add 'animated_shooting_star2' at shooting_star
@@ -287,87 +334,26 @@ screen animated_earlyMorn():
     zorder 0
     tag animated_bg
     add 'Phone UI/animated_bgs/earlyMorn/earlymorn_background.webp':
-        at topbottom_pan(150, 0, 0, 0, -946, 1.0, 0, 1.0)
+        at reverse_topbottom_pan(150, 0, 0, 1.0, 0, 1.0)
+
+    default xran = config.screen_width // 3
+    default yran = (config.screen_height-113-165) // 4
 
     fixed:
         # Stars
         xysize (config.screen_width, 1134)
         align (0.5, 0.6)
-        for x in [0, 250, 500]:
-            for y in [0, 333, 666, 999]:
-                add 'animated_night_med_star':
-                    at star_twinkle_randomly(
-                        x, x+250,
-                        y, y+333)
-                add 'animated_night_med_star':
-                    at star_twinkle_randomly(
-                        x, x+250,
-                        y, y+333)
-                add 'animated_night_med_star':
-                    at star_twinkle_randomly(
-                        x, x+250,
-                        y, y+333)
-                add 'animated_night_tiny_star':
-                    at star_twinkle_randomly(
-                        x, x+250,
-                        y, y+333)
-                add 'animated_night_tiny_star':
-                    at star_twinkle_randomly(
-                        x, x+250,
-                        y, y+333)
-                add 'animated_night_tiny_star':
-                    at star_twinkle_randomly(
-                        x, x+250,
-                        y, y+333)
-                add 'animated_night_big_star':
-                    at star_twinkle_randomly(
-                        x, x+250,
-                        y, y+333)
-                add 'animated_night_big_star':
-                    at star_twinkle_randomly(
-                        x, x+250,
-                        y, y+333)
-                add 'animated_night_big_star':
-                    at star_twinkle_randomly(
-                        x, x+250,
-                        y, y+333)
-
-                add 'animated_night_med_star':
-                    at star_place_randomly(
-                        x, x+250,
-                        y, y+333)
-                add 'animated_night_med_star':
-                    at star_place_randomly(
-                        x, x+250,
-                        y, y+333)
-                add 'animated_night_med_star':
-                    at star_place_randomly(
-                        x, x+250,
-                        y, y+333)
-                add 'animated_night_tiny_star':
-                    at star_place_randomly(
-                        x, x+250,
-                        y, y+333)
-                add 'animated_night_tiny_star':
-                    at star_place_randomly(
-                        x, x+250,
-                        y, y+333)
-                add 'animated_night_tiny_star':
-                    at star_place_randomly(
-                        x, x+250,
-                        y, y+333)
-                add 'animated_night_big_star':
-                    at star_place_randomly(
-                        x, x+250,
-                        y, y+333)
-                add 'animated_night_big_star':
-                    at star_place_randomly(
-                        x, x+250,
-                        y, y+333)
-                add 'animated_night_big_star':
-                    at star_place_randomly(
-                        x, x+250,
-                        y, y+333)
+        for x in range(3):
+            for y in range(4):
+                for star_type in ['med', 'tiny', 'big']:
+                    add 'animated_night_{}_star'.format(star_type):
+                        at star_twinkle_randomly(
+                            x*xran, x*xran+xran,
+                            y*yran, y*yran+yran)
+                    add 'animated_night_{}_star'.format(star_type):
+                        at star_place_randomly(
+                            x*xran, x*xran+xran,
+                            y*yran, y*yran+yran)
 
     frame:
         # Constellations
@@ -491,7 +477,10 @@ image capricorn_constellation:
 # Slowly pan an image across the screen for timing seconds. Optionally,
 # also pan it in the y direction. The x direction repeats but the y
 # direction does not.
-transform slow_pan(timing=0, y_timing=0):
+transform slow_pan(timing=0, y_timing=0, ysize=0):
+    ysize max(config.screen_height-113-165, 1334, ysize)
+    fit "cover"
+    yoffset (-113 if (config.screen_height-113-165 > 1334) else 0)
     subpixel True
     parallel:
         block:
@@ -503,7 +492,31 @@ transform slow_pan(timing=0, y_timing=0):
             yalign 0.0
             easein y_timing yalign 1.0
 
+transform topbottom_pan2(movetime, delay1, fadetime, start_alpha, delay2,
+        disappear=0.0, fadein_alpha=1.0):
+    # Start anchored to the bottom
+    yalign 1.0
+    alpha start_alpha subpixel True
+    parallel:
+        linear movetime yalign 0.0
+    parallel:
+        delay1
+        linear fadetime alpha fadein_alpha
+        delay2
+        alpha disappear
 
+transform reverse_topbottom_pan(movetime, delay1, fadetime, start_alpha, delay2,
+        disappear=0.0, fadein_alpha=1.0):
+    # Start anchored to the top
+    yalign 0.0
+    alpha start_alpha subpixel True
+    parallel:
+        linear movetime yalign 1.0
+    parallel:
+        delay1
+        linear fadetime alpha fadein_alpha
+        delay2
+        alpha disappear
 
 # Slowly pan an image from the top of the screen to the bottom. Optionally,
 # includes an alpha transform.
@@ -738,10 +751,11 @@ screen animated_hack_background(red=False):
     add 'Phone UI/hacking_bg.webp' yalign 0.75 xysize (config.screen_width, config.screen_height)
     default hacking_text_to_scramble = hacking_text
     frame:
-        ysize 1080
+        ysize config.screen_height-113-165
         xsize 1100
         yalign 0.5
         xoffset 30
+        yoffset 30
         text hacking_text_to_scramble:
             size 16
             xsize 1100
@@ -789,7 +803,7 @@ screen hack_tear(number=10, offtimeMult=0.4, ontimeMult=0.2, offsetMin=-10,
                 offsetMax=30, w_timer=0.18, srf=None):
     zorder 1
     add Tear(number, offtimeMult, ontimeMult, offsetMin,
-                                offsetMax, srf) size (config.screen_width,1334)
+                                offsetMax, srf) size (config.screen_width,config.screen_height)
     timer w_timer action Hide('hack_tear')
 
 screen white_squares_2(w_timer=0.5):
@@ -955,14 +969,15 @@ image animated_rainy_clouds_underlay = Composite(
 screen animated_rainy_day():
     zorder 0
     tag animated_bg
-    add 'Phone UI/animated_bgs/rainy_day/rainy_clouds_gradient.webp'
+    add 'Phone UI/animated_bgs/rainy_day/rainy_clouds_gradient.webp':
+        ysize config.screen_height
     # Clouds
-    add 'animated_rainy_clouds_underlay' at slow_pan(400)
-    add 'lightning_clouds' at slow_pan(200), lightning_cloud_flash()
-    add 'animated_rainy_clouds_back' at slow_pan(300)
-    add 'animated_rainy_clouds_mid' at slow_pan(200)
+    add 'animated_rainy_clouds_underlay' at move_clouds(400)
+    add 'lightning_clouds' at move_clouds(200), lightning_cloud_flash()
+    add 'animated_rainy_clouds_back' at move_clouds(300)
+    add 'animated_rainy_clouds_mid' at move_clouds(200)
     add 'simulated_rain'
-    add 'animated_rainy_clouds_front' at slow_pan(110)
+    add 'animated_rainy_clouds_front' at move_clouds(110)
     add Solid("#000") size (config.screen_width, 3) yalign 1.0
     add 'front_rain'
 
@@ -1049,13 +1064,14 @@ screen animated_snowy_day():
     zorder 0
     tag animated_bg
 
-    add "Phone UI/animated_bgs/snow/snow_bg2.webp"
+    add "Phone UI/animated_bgs/snow/snow_bg2.webp":
+        ysize config.screen_height
 
     # Clouds
-    add 'animated_snow_clouds_back' at slow_pan(300)
+    add 'animated_snow_clouds_back' at move_clouds(300)
     add 'gentle_snow_back'
-    add 'animated_snow_clouds_mid' at slow_pan(200)
-    add 'animated_snow_clouds_front' at slow_pan(110)
+    add 'animated_snow_clouds_mid' at move_clouds(200)
+    add 'animated_snow_clouds_front' at move_clouds(110)
     add 'gentle_snow_front'
 
 image animated_morning_snow_clouds_back = Transform('animated_noon_clouds_back', alpha=0.8)
@@ -1067,13 +1083,14 @@ screen animated_morning_snow():
     zorder 0
     tag animated_bg
 
-    add "Phone UI/animated_bgs/snow/snow_bg1.webp"
+    add "Phone UI/animated_bgs/snow/snow_bg1.webp":
+        ysize config.screen_height
 
     # Clouds
-    add 'animated_morning_snow_clouds_back' at slow_pan(300)
+    add 'animated_morning_snow_clouds_back' at move_clouds(300)
     add 'gentle_snow_back'
-    add 'animated_morning_snow_clouds_mid' at slow_pan(200)
-    add 'animated_morning_snow_clouds_front' at slow_pan(110)
+    add 'animated_morning_snow_clouds_mid' at move_clouds(200)
+    add 'animated_morning_snow_clouds_front' at move_clouds(110)
     add 'gentle_snow_front'
 
     use animated_shake_borders()
