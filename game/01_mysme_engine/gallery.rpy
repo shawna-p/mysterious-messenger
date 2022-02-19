@@ -784,7 +784,10 @@ screen viewCG_fullsize_album(album, caption, name):
     zorder 5
     tag menu
 
-    use starry_night()
+    default fullscreen_on = False
+
+    #use starry_night()
+    add "black"
 
     # This draggroup defines two hotspots on the left and
     # right side of the screen to detect which direction
@@ -794,17 +797,17 @@ screen viewCG_fullsize_album(album, caption, name):
     draggroup:
         drag:
             drag_name "Left"
-            child Transform('translucent_img', size=(70,1334))
+            child Transform('translucent_img', size=(70,config.screen_height))
             draggable False
             xalign 0.0
         drag:
             drag_name "Right"
             draggable False
-            child Transform('translucent_img', size=(70, 1334))
+            child Transform('translucent_img', size=(70, config.screen_height))
             xalign 1.0
         drag:
             drag_name "the_CG"
-            drag_handle (0, 0, config.screen_width, 1334)
+            drag_handle (0, 0, config.screen_width, config.screen_height)
             child 'translucent_img'
             dragged drag_box
             droppable False
@@ -819,47 +822,134 @@ screen viewCG_fullsize_album(album, caption, name):
     # which is why there are two "left"s and "right"s.
     if swipe_anim == "left":
         if prev_cg_left:
-            add prev_cg_left at cg_swipe_left_hide
-            add fullsizeCG at cg_swipe_left
+            add prev_cg_left at cg_swipe_left_hide:
+                if fullscreen_on:
+                    xsize None ysize config.screen_height fit "cover"
         else:
-            add fullsizeCG
+                    xsize 750 ysize None fit "contain"
+            add fullsizeCG at cg_swipe_left:
+                if fullscreen_on:
+                    xsize None ysize config.screen_height fit "cover"
+                else:
+                    xsize 750 ysize None fit "contain"
+        else:
+            add fullsizeCG:
+                align (0.5, 0.5)
+                if fullscreen_on:
+                    xsize None ysize config.screen_height fit "cover"
+                else:
+                    xsize 750 ysize None fit "contain"
     elif swipe_anim == "right":
         if prev_cg_right:
-            add prev_cg_right at cg_swipe_right_hide
-            add fullsizeCG at cg_swipe_right
+            add prev_cg_right at cg_swipe_right_hide:
+                if fullscreen_on:
+                    xsize None ysize config.screen_height fit "cover"
         else:
-            add fullsizeCG
+                    xsize 750 ysize None fit "contain"
+            add fullsizeCG at cg_swipe_right:
+                if fullscreen_on:
+                    xsize None ysize config.screen_height fit "cover"
+                else:
+                    xsize 750 ysize None fit "contain"
+        else:
+            add fullsizeCG:
+                align (0.5, 0.5)
+                if fullscreen_on:
+                    xsize None ysize config.screen_height fit "cover"
+                else:
+                    xsize 750 ysize None fit "contain"
     elif swipe_anim == "left2":
         if prev_cg_left:
-            add prev_cg_left at cg_swipe_left_hide
-            add fullsizeCG at cg_swipe_left2
+            add prev_cg_left at cg_swipe_left_hide:
+                if fullscreen_on:
+                    xsize None ysize config.screen_height fit "cover"
         else:
-            add fullsizeCG
+                    xsize 750 ysize None fit "contain"
+            add fullsizeCG at cg_swipe_left2:
+                if fullscreen_on:
+                    xsize None ysize config.screen_height fit "cover"
+                else:
+                    xsize 750 ysize None fit "contain"
+        else:
+            add fullsizeCG:
+                align (0.5, 0.5)
+                if fullscreen_on:
+                    xsize None ysize config.screen_height fit "cover"
+                else:
+                    xsize 750 ysize None fit "contain"
     elif swipe_anim == "right2":
         if prev_cg_right:
-            add prev_cg_right at cg_swipe_right_hide
-            add fullsizeCG at cg_swipe_right2
+            add prev_cg_right at cg_swipe_right_hide:
+                if fullscreen_on:
+                    xsize None ysize config.screen_height fit "cover"
         else:
-            add fullsizeCG
+                    xsize 750 ysize None fit "contain"
+            add fullsizeCG at cg_swipe_right2:
+                if fullscreen_on:
+                    xsize None ysize config.screen_height fit "cover"
     else:
-        add fullsizeCG
+                    xsize 750 ysize None fit "contain"
+        else:
+            add fullsizeCG:
+                align (0.5, 0.5)
+                if fullscreen_on:
+                    xsize None ysize config.screen_height fit "cover"
+                else:
+                    xsize 750 ysize None fit "contain"
+    else:
+        add fullsizeCG:
+            align (0.5, 0.5)
+            if fullscreen_on:
+                xsize None ysize config.screen_height fit "cover"
+            else:
+                xsize 750 ysize None fit "contain"
 
     # Show the close button if it's visible.
     if close_visible:
-        imagebutton:
-            xalign 0.5
-            yalign 0.0
-            focus_mask True
-            idle "close_button"
+        frame:
+            background Solid("#00000066")
+            xysize (config.screen_width, 99)
+
+            textbutton "Close":
+                style_prefix "CG_close"
+                if persistent.dialogue_outlines:
+                    text_outlines [ (2, "#000",
+                                absolute(0), absolute(0)) ]
+                    text_font gui.sans_serif_1b
             action [SetVariable('prev_cg_left', False),
                     SetVariable('prev_cg_right', False),
                     Show('character_gallery', album=album,
                         caption=caption, name=name)]
 
-        text "Close" style "CG_close":
+            if config.screen_height != 1334:
+                button:
+                    style_prefix 'cg_full'
+                    padding (10, 40)
+                    align (1.0, 0.5) xoffset -60
+                    action ToggleScreenVariable('fullscreen_on')
+                    has hbox
+                    text "[[" xalign 1.0:
+                        if persistent.dialogue_outlines:
+                            outlines [ (2, "#000",
+                                        absolute(0), absolute(0)) ]
+                            font gui.sans_serif_1xb
+                    fixed:
+                        xsize 30
+                        text "{}".format("-" if fullscreen_on else "+") xalign 0.5:
+                            if persistent.dialogue_outlines:
+                                outlines [ (2, "#000",
+                                            absolute(0), absolute(0)) ]
+                                font gui.sans_serif_1xb
+                    text "]" xalign 0.0:
             if persistent.dialogue_outlines:
                 outlines [ (2, "#000",
                             absolute(0), absolute(0)) ]
+                            font gui.sans_serif_1xb
+
+style cg_full_text:
+    size 45
+    color "#fff"
+    hover_color "#b3f3ee"
                 font gui.sans_serif_1b
 
 

@@ -85,33 +85,61 @@ label viewCG(textmsg=False):
 screen viewCG_fullsize(fullsizeCG):
     zorder 5
 
+    default fullscreen_on = False
+
+    add "black"
+
     button:
         xysize (config.screen_width, config.screen_height)
         action ToggleVariable("close_visible", False, True)
 
     if isinstance(fullsizeCG, Album):
-        add fullsizeCG.chat_img
+        add fullsizeCG.chat_img:
+            align (0.5, 0.5)
+            if fullscreen_on:
+                ysize config.screen_height fit "cover"
+            else:
+                xsize 750 ysize None fit "contain"
     else:
-        add fullsizeCG align (0.5, 0.5)
+        add fullsizeCG:
+            align (0.5, 0.5)
+            if fullscreen_on:
+                ysize config.screen_height fit "cover"
+            else:
+                xsize 750 ysize None fit "contain"
 
     if close_visible:
-        imagebutton:
-            xalign 0.5
-            yalign 0.0
-            focus_mask True
-            idle "close_button"
-            action Return()
+        frame:
+            background Solid("#00000066")
+            xysize (config.screen_width, 99)
 
-        text "Close" style "CG_close":
-            if persistent.dialogue_outlines:
-                outlines [ (2, "#000",
-                            absolute(0), absolute(0)) ]
-                font gui.sans_serif_1xb
+            textbutton "Close":
+                style_prefix "CG_close"
+                action Return()
+                if persistent.dialogue_outlines:
+                    text_outlines [ (2, "#000",
+                                absolute(0), absolute(0)) ]
+                    text_font gui.sans_serif_1xb
+
+            if config.screen_height != 1334:
+                button:
+                    style_prefix 'cg_full'
+                    padding (10, 40)
+                    align (1.0, 0.5) xoffset -60
+                    action ToggleScreenVariable('fullscreen_on')
+                    has hbox
+                    text "[[" xalign 1.0
+                    fixed:
+                        xsize 30
+                        text "{}".format("-" if fullscreen_on else "+") xalign 0.5
+                    text "]" xalign 0.0
 
 # Style for the Close button when viewing a fullscreen CG
-style CG_close is text:
-    xalign 0.06
-    yalign 0.016
-    font gui.sans_serif_1
+style CG_close_button:
+    yalign 0.5 xpos 20
+    padding (10, 40)
+style CG_close_button_text is text:
+    font gui.sans_serif_1b
     color "#ffffff"
     size 45
+    hover_color "#b3f3ee"
