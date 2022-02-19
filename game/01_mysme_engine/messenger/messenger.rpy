@@ -41,7 +41,7 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
             has vbox
             spacing 10
             xfill True
-            if len(chatlog) < 20:
+            if len(chatlog) < 20 and (not in_chat_creator or is_main_menu_replay):
                 null height config.screen_height
             if not in_chat_creator or is_main_menu_replay:
                 for i index id(i) in chatlog[-bubbles_to_keep:]:

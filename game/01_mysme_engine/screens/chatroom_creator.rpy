@@ -620,11 +620,11 @@ screen chatroom_creator():
     tag menu
     use starry_night()
     add Transform('bg ' + current_background,
-            crop=(0, 315, 750, creator_messenger_ysize)):
+            crop=(0, 315, config.screen_width, creator_messenger_ysize)):
         yoffset 150
     if cc_cracked_overlay:
         add Transform('screen_crack',
-                crop=(0, 315, 750, creator_messenger_ysize)):
+                crop=(0, 315, config.screen_width, creator_messenger_ysize)):
             yoffset 150
     use menu_header("Chat Creator", MainMenu(),
             hide_bkgr=True):
@@ -1175,7 +1175,7 @@ screen select_anim():
                                 ('hack', 'red'))]
                     imagebutton:
                         idle Transform('red_static_background',
-                            crop=(0, 200, 750, 1000))
+                            crop=(0, 200, config.screen_width, 1000))
                         hover_foreground "#fff5"
                         selected_foreground "#fff3"
                         at transform:
@@ -1186,7 +1186,7 @@ screen select_anim():
                                 ('hack', 'red_static'))]
                     imagebutton:
                         idle Transform('secure_chat_intro',
-                            crop=(80, 200, 750, 1000))
+                            crop=(80, 200, config.screen_width, 1000))
                         hover_foreground "#fff5"
                         selected_foreground "#fff3"
                         at transform:
@@ -1724,7 +1724,8 @@ screen chatroom_file_slots(title, current_page=0, num_pages=5, slots_per_column=
         end_page = begin_page + num_pages
 
     fixed:
-        xysize (750, 1170)
+        xsize config.screen_width
+        ysize config.screen_height-172
         yalign 1.0
         ## This ensures the input will get the enter event before any of the
         ## buttons do.
