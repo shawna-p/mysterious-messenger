@@ -34,12 +34,12 @@ init python:
         def render(self, width, height, st, at):
             render = renpy.Render(self.width, self.height)
             if st >= self.delay:
-              render.blit(self.srf, (0, 0))
+                render.blit(self.srf, (0, 0))
             return render
 
 ## Define the invert screen for renpy
 screen invert(w_timer=False):
-    add Invert() size (750, 1334)
+    add Invert() size (config.screen_width, config.screen_height)
     if w_timer:
         timer w_timer action Hide("invert")
 
@@ -123,7 +123,7 @@ screen tear(number=10, offtimeMult=1, ontimeMult=1, offsetMin=0,
                             offsetMax=50, w_timer=False, srf=None):
     zorder 150 #Screen tear appears above pretty much everything
     add Tear(number, offtimeMult, ontimeMult, offsetMin,
-                                offsetMax, srf) size (750,1334)
+                                offsetMax, srf) size (config.screen_width,config.screen_height)
     if w_timer:
         timer w_timer action Hide('tear')
 
