@@ -567,8 +567,7 @@ define config.narrator_menu = True
 
 style choice_vbox:
     xalign 0.5
-    ypos 600
-    yanchor 0.40
+    yalign 0.5
     spacing gui.choice_spacing
 
 style choice_button is default:
