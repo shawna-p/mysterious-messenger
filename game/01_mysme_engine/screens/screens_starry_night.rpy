@@ -63,7 +63,7 @@ screen starry_night():
     add Transform("#000", alpha=persistent.starry_contrast)
 
 image starry_night_img = Composite(
-    (750, 1334),
+    (config.screen_width, config.screen_height),
     (0, 0), "#000",
     (0, 0), "bg starry_night",
     (renpy.random.random(), renpy.random.random()), 'small_star_2',
