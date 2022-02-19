@@ -141,7 +141,7 @@ screen say(who, what):
             # that shows the Auto/Skip/Log buttons
             hbox:
                 if persistent.vn_window_alpha < 0.1:
-                    yoffset 20
+                    yoffset -275+20
                 imagebutton:
                     idle Text("Auto", style="vn_button_hover")
                     hover Text("Auto", style="vn_button")
@@ -225,8 +225,8 @@ style vn_mode_button_text:
     hover_color "#999999"
 
 style vn_mode_hbox:
-    yalign 0.785
-    xalign 0.90
+    xalign 1.0 xoffset -25
+    yalign 1.0 yoffset -275
     spacing 20
 
 style call_window:
