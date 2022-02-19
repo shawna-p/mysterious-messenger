@@ -4,10 +4,7 @@
 # This allows the program to keep track of when it should
 # shake the screen during a chatroom
 label shake():
-    if persistent.screenshake and not persistent.animated_backgrounds:
-        $ renpy.show('bgshake', what=center_crop_bg_img('bg ' + current_background),
-                            at_list=[shake])
-    elif persistent.screenshake:
+    if persistent.screenshake:
         show layer animated_bg at shake
     if (not observing and not persistent.testing_mode and gamestate == CHAT):
         # Add this shake to the replay_log
@@ -266,10 +263,7 @@ label chatroom_replay():
                     renpy.sound.play(second, loop=False)
                 elif first == "shake":
                     current_background = second
-                    if persistent.screenshake and not persistent.animated_backgrounds:
-                        renpy.show('bgshake', what=center_crop_bg_img('bg ' + second),
-                            at_list=[shake])
-                    elif persistent.screenshake:
+                    if persistent.screenshake:
                         renpy.show_layer_at([shake], 'animated_bg')
                 elif first == "enter":
                     mystring = second.name + " has entered the chatroom."

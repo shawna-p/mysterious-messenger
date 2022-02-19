@@ -40,14 +40,14 @@ init python:
             new_bg = store.current_timeline_item.time_of_day
 
         store.current_background = new_bg
-        if new_bg in store.all_static_backgrounds:
-            renpy.scene()
-            renpy.show('bg ' + new_bg)
         # If the background is misspelled or can't be found, set
         # a generic black background
+        renpy.scene()
+        renpy.show('bg black')
+        if (new_bg in store.all_static_backgrounds
+                or renpy.has_image('bg {}'.format(new_bg))):
+            renpy.show('bg {}'.format(new_bg), layer='animated_bg')
         else:
-            renpy.scene()
-            renpy.show('bg black')
             store.current_background = 'morning'
             ScriptError("Could not find the background \"bg", new_bg + "\"",
                 header="Chatrooms", subheader="Adding Chatroom Backgrounds")
