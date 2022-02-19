@@ -774,7 +774,7 @@ screen in_call(who=ja, story_call=False):
 
     use menu_header("In Call"):
         fixed:
-            xysize (config.screen_width, 1250)
+            xysize (config.screen_width, config.screen_height-84)
             vbox:
                 style_prefix 'phone_timer'
                 add AlphaMask(who.get_pfp(130),
@@ -822,7 +822,7 @@ screen incoming_call(phonecall, countdown_time=10):
     on 'hide' action Function(renpy.music.stop)
     use menu_header("In Call"):
         frame:
-            xysize (config.screen_width, 1250)
+            xysize (config.screen_width, config.screen_height-84)
             frame:
                 xfill True
                 ysize 500
@@ -895,8 +895,8 @@ screen phone_footer(answer_action=False,
                     center_item=False,
                     hangup_action=False):
     frame:
-        xysize(710, 200)
-        yalign 0.95
+        xysize(config.screen_width-40, 200)
+        yalign 1.0 yoffset -70
         xalign 0.5
         has hbox
         align (0.5, 0.5)
@@ -968,7 +968,7 @@ screen outgoing_call(phonecall, voicemail=False):
 
     use menu_header("In Call"):
         frame:
-            xysize (config.screen_width, 1250)
+            xysize (config.screen_width, config.screen_height-84)
             frame:
                 xfill True
                 ysize 500
