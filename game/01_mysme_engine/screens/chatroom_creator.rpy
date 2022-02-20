@@ -573,7 +573,7 @@ default undo_list = [ ]
 default redo_list = [ ]
 default chatlog_copy = [ ]
 default saved_background = "morning"
-define creator_messenger_ysize = 640
+define creator_messenger_ysize = config.screen_height-715 #640
 # Styles which are applied to a fresh entry
 default entry_styles = {
     'font' : gui.sans_serif_1,
@@ -621,11 +621,11 @@ screen chatroom_creator():
     use starry_night()
     add Transform('bg ' + current_background,
             crop=(0, 315, config.screen_width, creator_messenger_ysize)):
-        yoffset 150
+        yoffset 168
     if cc_cracked_overlay:
         add Transform('screen_crack',
                 crop=(0, 315, config.screen_width, creator_messenger_ysize)):
-            yoffset 150
+            yoffset 168
     use menu_header("Chat Creator", MainMenu(),
             hide_bkgr=True):
         use messenger_screen()
