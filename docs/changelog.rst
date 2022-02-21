@@ -72,6 +72,8 @@ Fixes
       - Fixed an issue where players weren't awarded an hourglass upon first viewing a guest's information in the guestbook.
     * - Branch VNs
       - Fix an issue with branch VNs that would cause a script error dialogue for trigger times.
+    * - Background shake
+      - Improve how background shake is set up. Backgrounds without an animated version still shake.
 
 
 .. _qol-3-3-0:
