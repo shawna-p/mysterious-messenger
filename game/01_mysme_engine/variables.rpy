@@ -1077,6 +1077,9 @@ init -6 python:
                     set_chatroom_background(name)
                 return
 
+        elif gamestate == VNMODE and 'bg' in name:
+            at_list.insert(0, scale_vn_bg)
+
         at_list = at_list or []
         behind = behind or []
 
@@ -1228,6 +1231,16 @@ init -6 python:
         print("WARNING: Failed to recover when loading game.")
 
         return 'reload_game_restart'
+
+    def align_to_pos(x, y, xsize, ysize):
+
+        anchorx = x*float(xsize)
+        anchory = y*float(ysize)
+
+        return (int(anchorx//2), int(anchory//2))
+
+    def align_new_dimensions(y):
+        return y*1334.0/float(config.screen_height)
 
 
     # Some colour names, mostly for testing
