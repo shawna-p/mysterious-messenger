@@ -149,12 +149,14 @@ screen history():
 
     # Close button
     button:
-        xalign 1.0
+        background "#00000066"
+        xalign 0.5
         yalign 0.0
         focus_mask True
-        add "close_button"
+        xysize (config.screen_width, 99)
         action Hide('history')#Return()
-        text "Close" style "CG_close":
+        text "Close" style "CG_close_button_text":
+            yalign 0.5 xpos 20
             if persistent.dialogue_outlines:
                 outlines [ (2, "#000",
                             absolute(0), absolute(0)) ]
@@ -168,7 +170,7 @@ screen history():
         draggable True
         side_yfill True
 
-        ysize 1235
+        ysize config.screen_height-100
         yalign 1.0
 
         vbox:
@@ -202,6 +204,7 @@ screen history():
 
             if not _history_list:
                 label _("The dialogue history is empty.")
+            null height 10
 
 
 ## This determines what tags are allowed to be displayed on the history screen.
