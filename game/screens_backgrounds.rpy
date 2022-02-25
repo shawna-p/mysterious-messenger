@@ -208,19 +208,19 @@ image animated_night_tiny_star = "Phone UI/animated_bgs/night/night_tiny_star.we
 image animated_shooting_star1 = 'Phone UI/animated_bgs/night/night_shooting_star_1.webp'
 image animated_shooting_star2 = 'Phone UI/animated_bgs/night/night_shooting_star_2.webp'
 
-image animated_night_bg = 'center_full:Phone UI/animated_bgs/night/night_background.webp'
+image animated_night_bg = 'Phone UI/animated_bgs/night/night_background.webp'
 
 screen animated_night():
     zorder 0
     tag animated_bg
-    add 'animated_night_bg'
+    add 'animated_night_bg':
+        ysize max(1334, config.screen_height-113-165) fit "cover"
 
     default xran = config.screen_width // 3
     default yran = (config.screen_height-113-165) // 4
 
     # Gradient overlay
     add 'Phone UI/animated_bgs/night/night_overlay.webp':
-        #at topbottom_pan(100, 100, 50, -config.screen_height, config.screen_height, 1.0, 0, 0.0, 0.0)
         at topbottom_pan2(100, 100, 50, 1.0, 0, 0.0, 0.0)
 
 
