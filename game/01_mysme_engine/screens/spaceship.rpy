@@ -229,7 +229,7 @@ screen chip_end():
 
     add "choice_darken"
 
-    add 'spotlight' xalign 0.5 yalign 0.0
+    add 'spotlight' xalign 0.5 yalign 0.6
 
     frame:
         xysize(481,598)

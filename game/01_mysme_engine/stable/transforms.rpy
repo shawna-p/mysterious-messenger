@@ -384,5 +384,11 @@ init 5:
 
 
 
+    # A displayable prefix which scales VN background images for
+    # varying screen sizes.
+    transform scale_vn_bg():
+        align (0.5, 1.0)
+        ysize config.screen_height
+        fit "cover"
 
 
