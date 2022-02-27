@@ -14,38 +14,40 @@
 # This label has largely been rendered obsolete, however, it
 # is still used to set up a chatroom for introductions.
 label chat_begin(background=None, clearchat=True, resetHP=True):
-    $ set_chatroom_background(background)
     if starter_story:
         $ begin_timeline_item(generic_chatroom, clearchat, resetHP)
     elif isinstance(current_timeline_item, ChatRoom):
         $ begin_timeline_item(current_timeline_item, clearchat, resetHP)
+    $ set_chatroom_background(background)
     return
 
 ## This label simplifies setting up backgrounds for chatrooms
 ## It takes the name of a background and shows the corresponding
 ## static or animated background
 init python:
+
     def set_chatroom_background(new_bg):
         """Set the correct background and nickname colour."""
 
         if new_bg is None:
             renpy.scene()
-            renpy.show('bg black')
-            store.current_background = 'morning'
-            return
+            new_bg = store.current_timeline_item.time_of_day
 
         if new_bg.startswith('bg '):
             new_bg = new_bg[3:]
 
+        if new_bg == "autobackground":
+            new_bg = store.current_timeline_item.time_of_day
+
         store.current_background = new_bg
-        if new_bg in store.all_static_backgrounds:
-            renpy.scene()
-            renpy.show('bg ' + new_bg)
         # If the background is misspelled or can't be found, set
         # a generic black background
+        renpy.scene()
+        renpy.show('bg black')
+        if (new_bg in store.all_static_backgrounds
+                or renpy.has_image('bg {}'.format(new_bg))):
+            renpy.show('bg {}'.format(new_bg), layer='animated_bg')
         else:
-            renpy.scene()
-            renpy.show('bg black')
             store.current_background = 'morning'
             ScriptError("Could not find the background \"bg", new_bg + "\"",
                 header="Chatrooms", subheader="Adding Chatroom Backgrounds")
@@ -98,8 +100,8 @@ label chat_end_route():
 ## you to show a VN section in the middle of a chatroom
 ## The VN section needs to be defined in its own separate label
 label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
-                     reset_participants=False, end_after_vn=False,
-                     from_link=False):
+                    reset_participants=False, end_after_vn=False,
+                    from_link=False):
 
     # Add an instruction for the replay log
     if (not observing and not persistent.testing_mode):
@@ -132,6 +134,7 @@ label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
     $ _history_list = []
     $ _history = True
     $ _preferences.afm_enable = False
+    $ gamestate = VNMODE
 
     # Don't worry about setting `observing` as it should
     # still be set from the connected chatroom
@@ -145,6 +148,7 @@ label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
         return
 
     $ reset_story_vars(vn_jump=True)
+    $ gamestate = CHAT
     if clearchat_on_return:
         $ chatlog = []
         $ addchat(filler, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", 0)
@@ -184,9 +188,7 @@ label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
     # If this is part of a replayed chatroom, go back to
     # the replay log (NOT replayed from the History in the
     # main menu)
-    if (observing and not vn_choice and not text_msg_reply
-            and not in_phone_call and not email_reply
-            and not _in_replay):
+    if (observing and gamestate == CHAT and not _in_replay):
         $ replay_from = chatroom_replay_index
         jump chatroom_replay
     return
@@ -207,10 +209,7 @@ screen save_and_exit():
     zorder 4
     tag chat_footer
     imagebutton:
-        xanchor 0.0
-        yanchor 0.0
-        xpos 0
-        ypos 1220
+        yalign 1.0
         focus_mask True
         idle "save_exit"
         keysym "K_SPACE"
@@ -227,7 +226,7 @@ screen signature_screen(phone=True):
     modal True
     style_prefix "sig_screen"
     if phone:
-        add "save_exit" ypos 1220
+        add "save_exit" yalign 1.0
     add "choice_darken"
     frame:
         has vbox
@@ -330,8 +329,7 @@ label skip_intro_setup():
     $ persistent.first_boot = False
     $ persistent.on_route = True
 
-    if vn_choice:
-        $ vn_choice = False
+    if gamestate == VNMODE:
         $ phone = False
     $ most_recent_item = story_archive[0].archive_list[0]
     $ collected_hp = {'good': [], 'bad': [], 'break': []}

@@ -4,14 +4,9 @@
 # This allows the program to keep track of when it should
 # shake the screen during a chatroom
 label shake():
-    if persistent.screenshake and not persistent.animated_backgrounds:
-        $ renpy.show('bgshake', what=center_crop_bg_img('bg ' + current_background),
-                            at_list=[shake])
-    elif persistent.screenshake:
+    if persistent.screenshake:
         show layer animated_bg at shake
-    if (not observing and not persistent.testing_mode
-            and not vn_choice
-            and renpy.get_screen('phone_overlay')):
+    if (not observing and not persistent.testing_mode and gamestate == CHAT):
         # Add this shake to the replay_log
         $ shake_entry = ("shake", current_background)
         $ current_timeline_item.replay_log.append(shake_entry)
@@ -28,9 +23,7 @@ label invert_screen(t=0, p=0):
             show screen invert(t)
         else:
             show screen invert()
-    if (not observing and not persistent.testing_mode
-            and not vn_choice
-            and renpy.get_screen('phone_overlay')):
+    if (not observing and not persistent.testing_mode and gamestate == CHAT):
         # Add this to the replay_log
         if t == 0:
             $ tlen = False
@@ -50,9 +43,7 @@ label white_square_screen(t=0, p=0):
             show screen white_squares(t)
         else:
             show screen white_squares()
-    if (not observing and not persistent.testing_mode
-            and not vn_choice
-            and renpy.get_screen('phone_overlay')):
+    if (not observing and not persistent.testing_mode and gamestate == CHAT):
         # Add this to the replay_log
         if t == 0:
             $ tlen = False
@@ -72,9 +63,7 @@ label hack_rectangle_screen(t=0, p=0):
             show screen hack_rectangle(t)
         else:
             show screen hack_rectangle()
-    if (not observing and not persistent.testing_mode
-            and not vn_choice
-            and renpy.get_screen('phone_overlay')):
+    if (not observing and not persistent.testing_mode and gamestate == CHAT):
         # Add this to the replay_log
         if t == 0:
             $ tlen = False
@@ -96,9 +85,7 @@ label tear_screen(number=40, offtimeMult=0.4, ontimeMult=0.2,
                         ontimeMult=ontimeMult, offsetMin=offsetMin,
                         offsetMax=offsetMax, w_timer=w_timer)
 
-    if (not observing and not persistent.testing_mode
-            and not vn_choice
-            and renpy.get_screen('phone_overlay')):
+    if (not observing and not persistent.testing_mode and gamestate == CHAT):
         # Add this to the replay_log
         $ effect_entry = ("tear", [number, offtimeMult, ontimeMult, offsetMin,
                                     offsetMax, w_timer])
@@ -111,9 +98,7 @@ label tear_screen(number=40, offtimeMult=0.4, ontimeMult=0.2,
 
 label remove_entries(num=1):
     $ num *= -1
-    if (not observing and not persistent.testing_mode
-            and not vn_choice
-            and renpy.get_screen('phone_overlay')):
+    if (not observing and not persistent.testing_mode and gamestate == CHAT):
         # Add this to the replay_log
         $ remove_entry = ("remove", num)
         $ current_timeline_item.replay_log.append(remove_entry)
@@ -147,6 +132,7 @@ label rewatch_chatroom():
     $ text_person = None
     window hide
     $ text_msg_reply = False
+    $ gamestate = None
     $ in_phone_call = False
     $ vn_choice = False
     $ email_reply = False
@@ -183,10 +169,14 @@ label chatroom_replay():
             chatroom_replay_index += 1
             if isinstance(entry, ReplayEntry):
                 # pop it through the addchat function
+                temp_link_img = getattr(entry, 'link_img', None)
+                temp_link_title = getattr(entry, 'link_title', None)
+                temp_link_action = getattr(entry, 'link_action', None)
+                temp_link_text = getattr(entry, 'link_text', None)
                 addchat(entry.who, entry.what, entry.pauseVal,
                     entry.img, entry.bounce, entry.specBubble,
-                    entry.link_img, entry.link_title, entry.link_text,
-                    entry.link_action)
+                    temp_link_img, temp_link_title, temp_link_text,
+                    temp_link_action)
             elif isinstance(entry, tuple):
                 # It's some kind of command; determine what to do
                 # based on what the command and given info is
@@ -273,10 +263,7 @@ label chatroom_replay():
                     renpy.sound.play(second, loop=False)
                 elif first == "shake":
                     current_background = second
-                    if persistent.screenshake and not persistent.animated_backgrounds:
-                        renpy.show('bgshake', what=center_crop_bg_img('bg ' + second),
-                            at_list=[shake])
-                    elif persistent.screenshake:
+                    if persistent.screenshake:
                         renpy.show_layer_at([shake], 'animated_bg')
                 elif first == "enter":
                     mystring = second.name + " has entered the chatroom."

@@ -151,7 +151,7 @@ python early:
             """
 
             global available_calls
-            if self.avail_timeout == 'test':
+            if self.avail_timeout is None or self.avail_timeout == 'test':
                 # You generally shouldn't mess with this, but it
                 # lets you make a call 'infinitely' available for testing
                 pass
@@ -171,8 +171,9 @@ python early:
             else:
                 # You shouldn't be able to call a character back and get the
                 # same conversation, so remove the call from available_calls
-                if self in available_calls and self.avail_timeout != 'test':
-                        available_calls.remove(self)
+                if (self in available_calls
+                        and self.avail_timeout not in ('test', None)):
+                    available_calls.remove(self)
 
             # If you are calling back someone after missing their
             # call, it shows up in the history as an outgoing call
@@ -206,7 +207,7 @@ init -6 python:
 
         global call_history, available_calls
         phonecall.call_status = 'missed'
-        store.in_phone_call = False
+        store.gamestate = None
         missed_call = copy(phonecall)
         missed_call.call_time = upTime()
         # Can't play this conversation back as it hasn't been viewed
@@ -267,29 +268,34 @@ init -6 python:
         """
 
         global available_calls, incoming_call, call_history
-        global unseen_calls, all_characters
+        global unseen_calls, all_characters, phone_timeout_dict
         missed_call = False
         phonecall = False
         all_call_list = list(all_characters)
         all_call_list.extend(store.phone_only_characters)
+
         # Add available calls
         for c in all_call_list:
             # Add available outgoing calls to the list
-            if renpy.has_label(lbl + '_outgoing_' + c.file_id):
-                available_calls.append(PhoneCall(c,
-                    lbl + '_outgoing_' + c.file_id, 'outgoing'))
+            og_call = "{}_outgoing_{}".format(lbl, c.file_id)
+            if renpy.has_label(og_call):
+                # Check if there's a more specific timeout defined
+                avail_timeout = phone_timeout_dict.get(og_call, 1) + 1
+                available_calls.append(
+                    PhoneCall(c, og_call, 'outgoing', avail_timeout)
+                )
 
+            ic_call = "{}_incoming_{}".format(lbl, c.file_id)
             # Update the incoming call, or move it if the call has expired
-            if renpy.has_label(lbl + '_incoming_' + c.file_id):
+            if renpy.has_label(ic_call):
+                # Check if there's a more specific timeout defined
+                avail_timeout = phone_timeout_dict.get(ic_call, 1) + 1
                 if expired:
-                    phonecall = PhoneCall(c, lbl + '_incoming_' + c.file_id,
-                                    'outgoing')
+                    phonecall = PhoneCall(c, ic_call, 'outgoing', avail_timeout)
                     phonecall.callback = True
-                    missed_call = PhoneCall(c, lbl + '_incoming_' + c.file_id,
-                                    'missed')
+                    missed_call = PhoneCall(c, ic_call, 'missed', avail_timeout)
                 else:
-                    incoming_call = PhoneCall(c, lbl + '_incoming_'
-                                    + c.file_id, 'incoming')
+                    incoming_call = PhoneCall(c, ic_call, 'incoming', avail_timeout)
 
         # The player backed out of the item; no missed call but should
         # add it to the outgoing calls list
@@ -386,6 +392,104 @@ init -6 python:
             except AttributeError:
                 return
 
+    def MMReplayCall(phonecall):
+        """Return the action for replaying a phone call."""
+        return [SetVariable('observing', True),
+                SetVariable('current_call', phonecall),
+                Jump('play_phone_call')]
+    def MMOutgoingCall(phonecall=None, caller=None):
+        """Return the action for making an outgoing phonecall."""
+
+        if phonecall:
+            i = phonecall.caller
+        else:
+            i = caller
+
+        if call_available(i):
+            return [Preference("auto-forward", "enable"),
+                    SetVariable('gamestate', PHONE),
+                    Show('outgoing_call',
+                        phonecall=call_available(i))]
+        elif i in phone_only_characters:
+            return None
+        else:
+            return [Preference("auto-forward", "enable"),
+                    SetVariable('gamestate', PHONE),
+                    Show('outgoing_call',
+                        phonecall=i.voicemail,
+                        voicemail=True)]
+
+    def MMStartCall():
+        """Return the action for beginning a phone call (on show)."""
+        return [Stop('music'),
+                SetVariable('gamestate', PHONE),
+                Preference('auto-forward after click', 'enable')]
+    def MMEndCall():
+        """Return the action for ending a phone call (on hide)."""
+        return [SetVariable('gamestate', None),
+                Preference('auto-forward after click', 'disable')]
+    def MMHangupCall(story=False, incoming=False):
+        """Return the action for hanging up the phone."""
+        if incoming:
+            return [Stop('music'),
+                Function(call_hang_up_incoming, current_call),
+                Show('chat_home')]
+        if story:
+            return If((observing
+                    or current_timeline_item.currently_expired),
+                [Jump('exit_item_early')],
+
+                CConfirm(("Do you really want "
+                + "to hang up this call? Please note that you cannot "
+                + "participate once you leave. If you want to "
+                + "participate in this call again, you will need to "
+                + "buy it back."),
+                [Hide('phone_say'),
+                    Jump('exit_item_early')]
+                ))
+        else:
+            return CConfirm(("Do you really want to end this phone call? "
+                + "You may not be able to have this conversation "
+                + "again if you hang up."),
+                        [Hide('phone_say'), Jump('hang_up')])
+    def MMIncomingCall(phonecall, starter=False):
+        """Return the action for an incoming call."""
+        if starter:
+            return [Stop('music'),
+                SetVariable('current_call', phonecall),
+                Return()]
+        else:
+            return [Stop('music'),
+                        Preference("auto-forward", "enable"),
+                        SetVariable('current_call', phonecall),
+                        Jump('play_phone_call')]
+
+    def MMIncomingCountdown(call_countdown):
+        """
+        Return the action which occurs as the timer counts down on an
+        incoming call.
+        """
+        return If(call_countdown>1,
+                SetScreenVariable("call_countdown",
+                call_countdown-1),
+                [Function(call_hang_up_incoming, current_call),
+                Show('chat_home')])
+
+    def MMPauseCall():
+        """
+        Return the action which pauses/unpauses a phone call in-progress.
+        """
+        if _preferences.afm_enable: #preferences.afm_time > 0:
+            return [SetScreenVariable('show_timer', False),
+                    PauseAudio('voice', value=True),
+                    Function(toggle_afm)]
+        else:
+            return [SetScreenVariable('show_timer', True),
+                    PauseAudio('voice', value=False),
+                    Function(toggle_afm)]
+
+
+
 init offset = -5
 # Track characters who only appear in phone calls
 default phone_only_characters = [ ]
@@ -420,7 +524,7 @@ screen phone_calls():
     on 'replace' action [AutoSave()]
 
     use menu_header("Call History", [Show('chat_home', Dissolve(0.5)),
-                                     AutoSave()]):
+                                    AutoSave()]):
 
         frame:
             style_prefix "phone_contacts"
@@ -447,10 +551,6 @@ screen phone_calls():
             has vbox
             for i in call_history:
                 $ call_status = 'call_' + i.call_status
-                if i.playback:
-                    $ replay_bkgr = 'call_replay_active'
-                else:
-                    $ replay_bkgr = 'call_replay_inactive'
 
                 frame:
                     style_prefix None
@@ -483,14 +583,14 @@ screen phone_calls():
                         align (0.5, 0.5)
                         spacing 30
                         imagebutton:
-                            idle replay_bkgr
+                            idle 'call_replay_active'
+                            insensitive 'call_replay_inactive'
                             align(0.5, 0.5)
                             xysize(96,85)
-                            hover Transform(replay_bkgr, zoom=1.1)
-                            if i.playback:
-                                action [SetVariable('observing', True),
-                                        SetVariable('current_call', i),
-                                        Jump('play_phone_call')]
+                            sensitive i.playback
+                            hover Transform('call_replay_active', zoom=1.1,
+                                            align=(.5, .5))
+                            action MMReplayCall(i)
 
                         imagebutton:
                             idle 'call_back'
@@ -499,16 +599,8 @@ screen phone_calls():
                             align(0.5, 0.5)
                             xysize(96,85)
                             hover Transform('call_back', zoom=1.1)
-                            if call_available(i.caller):
-                                action [Preference("auto-forward", "enable"),
-                                Show('outgoing_call',
-                                    phonecall=call_available(i.caller))]
-                            else:
-                                sensitive (i.caller not in phone_only_characters)
-                                action [Preference("auto-forward", "enable"),
-                                Show('outgoing_call',
-                                    phonecall=i.caller.voicemail,
-                                    voicemail=True)]
+                            action MMOutgoingCall(phonecall=i)
+
 
 style call_display_viewport:
     xalign 0.5
@@ -596,24 +688,26 @@ style phone_contacts_button:
     hover_background "menu_tab_inactive_hover"
     activate_sound 'audio/sfx/UI/phone_tab_switch.mp3'
 
+
+image contact_available = Transform(
+    'Text Messages/main02_new_icon.webp',
+    zoom=0.7
+)
+
 ## A small screen which contains a single contact button
 screen phone_contact_btn(person):
-    vbox:
-        style_prefix 'contacts_grid'
-        imagebutton:
-            background person.file_id + '_contact'
-            idle person.file_id + '_contact'
-            hover_foreground person.file_id + '_contact'
-            if call_available(person):
-                action [Preference("auto-forward", "enable"),
-                        Show('outgoing_call',
-                            phonecall=call_available(person))]
-            else:
-                action [Preference("auto-forward", "enable"),
-                        Show('outgoing_call',
-                            phonecall=person.voicemail,
-                            voicemail=True)]
-        text person.name style 'contact_text'
+    fixed:
+        fit_first True
+        vbox:
+            style_prefix 'contacts_grid'
+            imagebutton:
+                background person.file_id + '_contact'
+                idle person.file_id + '_contact'
+                hover_foreground person.file_id + '_contact'
+                action MMOutgoingCall(caller=person)
+            text person.name style 'contact_text'
+        if persistent.available_call_indicator and call_available(person):
+            add 'contact_available' align (0.5, 0.0) yoffset 185
 
 style contacts_grid_grid:
     align (0.5, 0.3)
@@ -647,7 +741,7 @@ style call_text:
 ## This label ensures the rest of the phone conversation will
 ## not play out if the player hangs up
 label hang_up():
-    $ in_phone_call = False
+    $ gamestate = None
     $ purge_temp_texts()
     if not observing:
         $ call_hang_up(phonecall=current_call)
@@ -670,23 +764,17 @@ label hang_up():
 screen in_call(who=ja, story_call=False):
 
     tag menu
-    on 'show' action [renpy.music.stop(),
-                        SetVariable('in_phone_call', True),
-                        Preference('auto-forward after click', 'enable')]
-    on 'hide' action [SetVariable('in_phone_call', False),
-                        Preference('auto-forward after click', 'disable')]
-    on 'replace' action [renpy.music.stop(),
-                        SetVariable('in_phone_call', True),
-                        Preference('auto-forward after click', 'enable')]
-    on 'replaced' action [SetVariable('in_phone_call', False),
-                        Preference('auto-forward after click', 'disable')]
+    on 'show' action MMStartCall()
+    on 'replace' action MMStartCall()
+    on 'hide' action MMEndCall()
+    on 'replaced' action MMEndCall()
 
     default show_timer = True
     default countup = 0
 
     use menu_header("In Call"):
         fixed:
-            xysize (750, 1250)
+            xysize (config.screen_width, config.screen_height-84)
             vbox:
                 style_prefix 'phone_timer'
                 add AlphaMask(who.get_pfp(130),
@@ -697,26 +785,11 @@ screen in_call(who=ja, story_call=False):
                     text "{0:01}".format((countup%60)//10)
                     text "{0:01}".format((countup%60)%10)
             if not starter_story and not story_call:
-                use phone_footer(False, "call_pause",
-                    CConfirm(("Do you really want to end this phone call? "
-                        + "You may not be able to have this conversation "
-                        + "again if you hang up."),
-                                [Hide('phone_say'), Jump('hang_up')]))
+                use phone_footer(False, "call_pause", MMHangupCall())
             elif story_call:
                 use phone_footer(answer_action=False,
                     center_item='call_pause',
-                    hangup_action=If((observing
-                            or current_timeline_item.currently_expired),
-                        [Jump('exit_item_early')],
-
-                        CConfirm(("Do you really want "
-                        + "to hang up this call? Please note that you cannot "
-                        + "participate once you leave. If you want to "
-                        + "participate in this call again, you will need to "
-                        + "buy it back."),
-                        [Hide('phone_say'),
-                            Jump('exit_item_early')]
-                        )))
+                    hangup_action=MMHangupCall(story=True))
             else:
                 use phone_footer(False, "call_pause", False)
 
@@ -749,7 +822,7 @@ screen incoming_call(phonecall, countdown_time=10):
     on 'hide' action Function(renpy.music.stop)
     use menu_header("In Call"):
         frame:
-            xysize (750, 1250)
+            xysize (config.screen_width, config.screen_height-84)
             frame:
                 xfill True
                 ysize 500
@@ -799,33 +872,22 @@ screen incoming_call(phonecall, countdown_time=10):
                     text "[call_countdown]" xalign 0.5  color '#fff' size 80
 
             if starter_story:
-                use phone_footer([Stop('music'),
-                                SetVariable('current_call', phonecall),
-                                Return()],
+                use phone_footer(MMIncomingCall(phonecall, True),
                                     "headphones", False)
             elif isinstance(phonecall, StoryCall):
                 use phone_footer(Return(),
                                 "headphones",
                                 False)
             else:
-                use phone_footer([Stop('music'),
-                                Preference("auto-forward", "enable"),
-                                SetVariable('current_call', phonecall),
-                                Jump('play_phone_call')],
+                use phone_footer(MMIncomingCall(phonecall, False),
                                 "headphones",
-                                [Stop('music'),
-                                Function(call_hang_up_incoming, current_call),
-                                Show('chat_home')])
+                                MMHangupCall(incoming=True))
 
 
     on 'show' action SetScreenVariable('call_countdown', countdown_time)
     on 'replace' action SetScreenVariable('call_countdown', countdown_time)
     if not starter_story and not isinstance(phonecall, StoryCall):
-        timer 1.0 action If(call_countdown>1,
-                            SetScreenVariable("call_countdown",
-                            call_countdown-1),
-                            [Function(call_hang_up_incoming, current_call),
-                            Show('chat_home')]) repeat True
+        timer 1.0 action MMIncomingCountdown(call_countdown) repeat True
 
 
 ## Screen that shows the pick up/answer buttons at the bottom
@@ -833,8 +895,8 @@ screen phone_footer(answer_action=False,
                     center_item=False,
                     hangup_action=False):
     frame:
-        xysize(710, 200)
-        yalign 0.95
+        xysize(config.screen_width-40, 200)
+        yalign 1.0 yoffset -70
         xalign 0.5
         has hbox
         align (0.5, 0.5)
@@ -853,20 +915,14 @@ screen phone_footer(answer_action=False,
             if center_item == "headphones":
                 add 'call_headphones' yalign 1.0 xalign 0.5
             elif center_item == "call_pause":
-                 imagebutton:
+                imagebutton:
                     align (0.5, 0.5)
-                    if _preferences.afm_enable: #preferences.afm_time > 0:
-                        idle 'call_pause'
-                        action [SetScreenVariable('show_timer', False),
-                                PauseAudio('voice', value=True),
-                                Function(toggle_afm)]
-                                #Preference("auto-forward", "toggle")
-                    else:
-                        idle 'call_play'
-                        action [SetScreenVariable('show_timer', True),
-                                PauseAudio('voice', value=False),
-                                Function(toggle_afm)]
-                                #Preference("auto-forward", "toggle"
+                    selected _preferences.afm_enable
+                    selected_idle 'call_pause'
+                    selected_hover 'call_pause'
+                    idle 'call_play'
+                    hover 'call_play'
+                    action MMPauseCall()
 
         frame:
             xysize(160,160)
@@ -885,18 +941,34 @@ screen phone_footer(answer_action=False,
 
 define phone_dial_sfx = "audio/sfx/phone ring.mp3"
 
+init python:
+    def MMPlayDialtone():
+        """Return the action for playing the phone ringing sound effect."""
+        return Function(renpy.music.play, ["<silence 1.5>",
+                phone_dial_sfx, "<silence 1.5>"], loop=True)
+
+    def MMVoicemail(phonecall):
+        """Return the action which triggers a voicemail."""
+        return If(phonecall, [Stop('music'),
+                SetVariable('current_call', phonecall),
+                Jump('play_phone_call')],
+                Show('phone_calls'))
+
+    def MMCallPickup(phonecall):
+        """Return the action when a character picks up a call."""
+        return [Stop('music'),
+                SetVariable('current_call', phonecall),
+                Jump('play_phone_call')]
+
 screen outgoing_call(phonecall, voicemail=False):
     tag menu
 
-
-    on 'show' action Function(renpy.music.play, ["<silence 1.5>",
-                        phone_dial_sfx, "<silence 1.5>"], loop=True)
-    on 'replace' action Function(renpy.music.play, ["<silence 1.5>",
-                        phone_dial_sfx, "<silence 1.5>"], loop=True)
+    on 'show' action MMPlayDialtone()
+    on 'replace' action MMPlayDialtone()
 
     use menu_header("In Call"):
         frame:
-            xysize (750, 1250)
+            xysize (config.screen_width, config.screen_height-84)
             frame:
                 xfill True
                 ysize 500
@@ -934,14 +1006,9 @@ screen outgoing_call(phonecall, voicemail=False):
                             [Stop('music'), Show('phone_calls')])
 
     if voicemail:
-        timer randint(8, 10) action If(phonecall, [Stop('music'),
-                                        SetVariable('current_call', phonecall),
-                                        Jump('play_phone_call')],
-                                        Show('phone_calls'))
+        timer randint(8, 10) action MMVoicemail(phonecall)
     else:
-        timer randint(2, 7) action [Stop('music'),
-                                    SetVariable('current_call', phonecall),
-                                    Jump('play_phone_call')]
+        timer randint(2, 7) action MMCallPickup(phonecall)
 
 ## Screen used to say dialogue for phone characters
 screen phone_say(who, what):
@@ -982,6 +1049,7 @@ label phone_begin(resetHP=True):
 ## This label sets the appropriate variables/actions when you finish
 ## a phone call. Now largely moot.
 label phone_end():
+    $ gamestate = None
     if starter_story and not renpy.get_return_stack():
         jump end_prologue
     return
@@ -995,7 +1063,7 @@ label play_phone_call():
     # This stops it from recording the dialogue
     # from the phone call in the history log
     $ _history = False
-    $ in_phone_call = True
+    $ gamestate = PHONE
     $ preferences.afm_enable = True
     hide screen incoming_call
     hide screen outgoing_call
@@ -1037,7 +1105,7 @@ label play_phone_call():
         $ send_temp_texts()
         $ reset_story_vars()
         $ renpy.end_replay()
-        $ in_phone_call = False
+        $ gamestate = None
         $ current_call = False
         $ observing = False
         $ _history = True

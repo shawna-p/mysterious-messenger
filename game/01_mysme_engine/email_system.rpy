@@ -52,6 +52,10 @@ init python:
             self.notified = False
             self.sent_time = upTime()
             self.success_list = list()
+            try:
+                self.callback = guest.callback
+            except AttributeError:
+                self.callback = None
 
 
         def __eq__(self, other):
@@ -77,12 +81,25 @@ init python:
 
         @read.setter
         def read(self, new_status):
+            """Mark this email as read and optionally trigger a callback."""
+
             old_status = self.__read
             self.__read = new_status
+
+            # Set the guest's likelihood of attending the party
             self.set_attendance()
+
+            # Move this email to the back of the list if it's completed now
             if not old_status and new_status and self.completed:
                 store.email_list.remove(self)
                 store.email_list.append(self)
+
+            # Trigger a callback
+            try:
+                if self.callback is not None:
+                    self.callback(self)
+            except AttributeError:
+                pass
 
 
         @property
@@ -232,7 +249,6 @@ init python:
             # the guest to attend
             self.guest.attending = renpy.random.choice(self.success_list)
 
-
         @property
         def completed(self):
             """Return True if this email chain is completed."""
@@ -325,6 +341,21 @@ init python:
                 self.deliver_reply -= 5
             self.timeout -= 5
 
+        def send_now(self):
+            """Ensure the email is delivered immediately."""
+
+            if self.deliver_reply is not None:
+                self.deliver_reply = 0
+
+    def send_emails_sooner():
+        for email in store.email_list:
+            email.send_sooner()
+
+    def send_emails_now():
+        for email in store.email_list:
+            email.send_now()
+        deliver_emails()
+
 
     class Guestv3(renpy.store.object):
         """
@@ -375,12 +406,15 @@ init python:
         reply_icons : string[]
             A list of the types of icons that should be used to display
             whether a particular email in the chain was passed or failed.
+        callback : function
+            A function which will be called after the guest's reply is
+            delivered to the player.
         """
 
         def __init__(self, name, dialogue_name, thumbnail, large_img,
                 short_desc, personal_info, start_msg, choices,
                 dialogue_what=None, comment_who=None, comment_what=None,
-                comment_img=None, num_emails=3):
+                comment_img=None, num_emails=3, callback=None):
 
             self.name = name
             self.dialogue_name = dialogue_name
@@ -400,6 +434,7 @@ init python:
 
             self.attending = None
             self.reply_icons = []
+            self.callback = callback
 
             if self.name not in store.persistent.guestbook:
                 store.persistent.guestbook[self.name] = None
@@ -463,11 +498,12 @@ init python:
         pattern = "^ +"
         s = regex.sub(pattern, '', s, flags=regex.MULTILINE)
         # Ensure there are no spaces at the end of any lines
-        pattern = ".* +$"
+        pattern = " +$"
         s = regex.sub(pattern, '', s, flags=regex.MULTILINE)
-        # Remove singular newlines and replace with a space
-        pattern = "(?<!\n)(\n)(?!\n)"
-        s = regex.sub(pattern, ' ', s, flags=regex.MULTILINE)
+        if store.email_newline_to_space:
+            # Remove singular newlines and replace with a space
+            pattern = "(?<!\n)(\n)(?!\n)"
+            s = regex.sub(pattern, ' ', s, flags=regex.MULTILINE)
         return s
 
     def unread_emails():
@@ -498,6 +534,40 @@ init python:
                 num_guests += 1
         return num_guests
 
+    def MMGoToEmail():
+        """Return the action to Go To the email screen from a popup."""
+
+        return If(gamestate is None,
+            [Hide('email_popup'),
+                Function(hide_all_popups),
+                Hide('save_load'),
+                Hide('menu'),
+                Hide('chat_footer'),
+                Hide('phone_overlay'),
+                Hide('settings_screen'),
+                Show('email_hub')], None)
+
+    def MMOpenEmail(e):
+        """Return the action to open the email e."""
+        return [SetVariable("current_email", e),
+                SetField(e, 'read', True),
+                Show('open_email', e=e)]
+
+    def MMGuestStory(guest):
+        """Return the action to view a guest's story."""
+        return [Preference('auto-forward', 'disable'),
+                # Set up a dissolve transition
+                SetVariable('config.enter_replay_transition', dissolve),
+                SetVariable('config.exit_replay_transition', dissolve),
+                # Ensure the replay info is set up
+                Replay('guest_info',
+                {'guest_replay_info' :
+                    guest}, False),
+                Function(renpy.retain_after_load),
+                # Reset the dissolve transition
+                SetVariable('config.enter_replay_transition', None),
+                SetVariable('config.exit_replay_transition', None)]
+
 default email_list = []
 default email_reply = False
 # List of all the guests the player has successfully
@@ -519,8 +589,7 @@ screen email_popup(e):
         style_prefix 'email_popup'
         imagebutton:
             align (1.0, 0.0)
-            idle 'input_close'
-            hover 'input_close_hover'
+            auto 'input_close_%s'
             action Hide('email_popup')
         hbox:
             add 'new_text_envelope'
@@ -534,22 +603,8 @@ screen email_popup(e):
             # This button takes you directly to the email. It is
             # included so long as the email popup is not shown
             # during phone calls or chatrooms.
-            textbutton _('Go to'):
-                if (not (renpy.get_screen('in_call')
-                        or renpy.get_screen('incoming_call')
-                        or renpy.get_screen('outgoing call')
-                        or text_person)):
-                    action If (((not (renpy.get_screen('in_call')
-                            or renpy.get_screen('incoming_call')
-                            or renpy.get_screen('outgoing call')
-                            or text_person))),
-                        [Hide('email_popup'),
-                            Hide('save_load'),
-                            Hide('menu'),
-                            Hide('chat_footer'),
-                            Hide('phone_overlay'),
-                            Hide('settings_screen'),
-                            Show('email_hub')], None)
+            if gamestate is None:
+                textbutton _('Go to') action MMGoToEmail()
 
     timer 3.25 action Hide('email_popup', Dissolve(0.25))
 
@@ -606,7 +661,8 @@ screen email_hub():
     tag menu
 
     default current_page = 0
-    default num_pages = (len(email_list) + 7 - 1) // 7
+    default emails_per_page = (config.screen_height-245-40) // 150
+    default num_pages = (len(email_list) + emails_per_page - 1) // emails_per_page
 
     on 'replace' action [AutoSave()]
     on 'show' action [AutoSave()]
@@ -619,7 +675,7 @@ screen email_hub():
             null height -15
             if len(email_list) == 0:
                 text "Inbox is empty"
-            for e in email_list[current_page*7:current_page*7+7]:
+            for e in email_list[current_page*emails_per_page:current_page*emails_per_page+emails_per_page]:
                 use email_button(e)
 
         hbox:
@@ -645,7 +701,7 @@ screen email_hub():
 style email_hub_frame:
     background 'left_corner_menu'
     padding (20,20)
-    xysize (685, 1100)
+    xysize (685, config.screen_height-245)
     align (0.5, 0.75)
 
 style email_hub_vbox:
@@ -684,9 +740,7 @@ screen email_button(e):
         else:
             background 'email_mint'
 
-        action [SetVariable("current_email", e),
-                SetField(e, 'read', True),
-                Show('open_email', e=e)]
+        action MMOpenEmail(e)
 
         hbox:
             fixed:
@@ -761,8 +815,7 @@ screen open_email(e):
     frame:
         style_prefix 'open_email'
         imagebutton:
-            idle 'input_close'
-            hover 'input_close_hover'
+            auto 'input_close_%s'
             action Hide('open_email')
         vbox:
             hbox:
@@ -945,8 +998,7 @@ screen guest_info_popup(guest, unlocked):
         has fixed
         yfit True
         imagebutton:
-            idle 'input_close'
-            hover 'input_close_hover'
+            auto 'input_close_%s'
             action [Hide('guest_info_popup')]
         vbox:
             text '@[guest.name]':
@@ -980,14 +1032,7 @@ screen guest_info_popup(guest, unlocked):
                             if unlocked:
                                 idle 'guest_story'
                                 hover Transform('guest_story', zoom=1.1)
-                                action [Preference('auto-forward',
-                                        'disable'),
-                                    Replay('guest_info',
-                                    {'guest_replay_info' :
-                                        guest}, False),
-                                    SetDict(persistent.guestbook,
-                                        guest.name, 'viewed'),
-                                    Function(renpy.retain_after_load)]
+                                action MMGuestStory(guest)
                             else:
                                 idle 'guest_story_locked'
 
@@ -998,23 +1043,27 @@ label guest_info():
         what = guest_replay_info.comment_what
         expr = guest_replay_info.comment_img
 
-        # Award an hourglass if this is the first time
-        # the player has seen this guest's guestbook
-        if persistent.guestbook[guest_replay_info.name] == 'attended':
-            persistent.guestbook[guest_replay_info.name] = 'viewed'
-            if not persistent.animated_icons:
-                renpy.show_screen(allocate_notification_screen(),
-                    message="Hourglass +1")
-            else:
-                renpy.show_screen(allocate_hg_screen())
-            renpy.music.play("audio/sfx/UI/select_4.mp3", channel='sound')
-            persistent.HG += 1
+        # Set up the player's name and profile pic in case it's used
+        set_name_pfp()
+        set_pronouns()
 
     $ begin_timeline_item(StoryMode("Guest", "guest_info", "00:00"))
     $ viewing_guest = True
+
+    # Award an hourglass if this is the first time
+    # the player has seen this guest's guestbook
+    if persistent.guestbook[guest_replay_info.name] == 'attended':
+        $ persistent.guestbook[guest_replay_info.name] = 'viewed'
+        if not persistent.animated_icons:
+            $ renpy.show_screen(allocate_notification_screen(), message="Hourglass +1")
+        else:
+            $ renpy.show_screen(allocate_hg_screen())
+        $ renpy.music.play("audio/sfx/UI/select_4.mp3", channel='sound')
+        $ persistent.HG += 1
+
     scene bg rfa_party_3
     show expression expr
-    who "[what]"
+    who "[what!i]"
     $ viewing_guest = False
     $ renpy.end_replay()
     return

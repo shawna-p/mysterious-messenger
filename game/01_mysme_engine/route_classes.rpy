@@ -272,7 +272,7 @@ init -6 python:
                 self.deliver_calls()
 
             for phonecall in self.story_calls_list:
-               phonecall.deliver_next_after_content()
+                phonecall.deliver_next_after_content()
 
 
         def expire_all(self):
@@ -424,6 +424,37 @@ init -6 python:
             if self.phonecall_label:
                 deliver_calls(self.phonecall_label, expired=self.expired)
             return
+
+        @property
+        def time_of_day(self):
+            """
+            Return the time of day which corresponds to this timeline item's
+            trigger time.
+            """
+
+            trig = self.trigger_time
+            hour = trig[:2]
+            try:
+                hour = int(hour)
+            except Exception as e:
+                return 'black'
+
+            if hour < 6:
+                # Early Morning 0:00-5:59
+                return 'earlyMorn'
+            elif hour < 10:
+                # Morning 6:00 - 9:59
+                return 'morning'
+            elif hour < 17:
+                # Afternoon 10:00 - 16:59
+                return 'noon'
+            elif hour < 20:
+                # Evening 17:00 - 19:59
+                return 'evening'
+            else:
+                # Night greeting 20:00 - 23:59
+                return 'night'
+
 
         @property
         def trigger_time(self):
@@ -1132,6 +1163,10 @@ label play_timeline_item():
     if isinstance(current_timeline_item, ChatRoom):
         if skip_story_item:
             pass
+        elif (_in_replay and current_timeline_item.expired):
+            $ renpy.call(current_timeline_item.expired_label)
+        elif (_in_replay):
+            $ renpy.call(current_timeline_item.item_label)
         elif (current_timeline_item.expired
                 and not current_timeline_item.played
                 and not current_timeline_item.buyback):
@@ -1164,6 +1199,14 @@ label play_timeline_item():
     elif isinstance(current_timeline_item, StoryCall):
         if skip_story_item:
             pass
+        elif (_in_replay and current_timeline_item.expired):
+            $ renpy.show_screen('in_call', who=current_timeline_item.caller,
+                story_call=True)
+            $ renpy.call(current_timeline_item.expired_label)
+        elif (_in_replay):
+            $ renpy.show_screen('in_call',
+                who=current_timeline_item.caller, story_call=True)
+            $ renpy.call(current_timeline_item.item_label)
         elif (current_timeline_item.expired
                 and not current_timeline_item.buyback):
             $ renpy.show_screen('in_call', who=current_timeline_item.caller,
@@ -1186,11 +1229,11 @@ label play_timeline_item():
     $ end_timeline_item_checks()
 
     if not skip_story_item:
-        if isinstance(current_timeline_item, ChatRoom) and not vn_choice:
+        if isinstance(current_timeline_item, ChatRoom) and gamestate != VNMODE:
             call screen save_and_exit()
             if not observing:
                 call screen signature_screen(True)
-        elif isinstance(current_timeline_item, StoryMode) or vn_choice:
+        elif isinstance(current_timeline_item, StoryMode) or gamestate == VNMODE:
             call screen signature_screen(False)
 
         if observing and not _in_replay:
@@ -1240,6 +1283,7 @@ init python:
         store.in_phone_call = False
         store.vn_choice = False
         store.email_reply = False
+        store.gamestate = None
         if item not in store.generic_timeline_items:
             store.current_choices = []
             store.current_call = None
@@ -1268,6 +1312,8 @@ init python:
                 c.reset_pfp()
             if store.expired_replay:
                 item.expired = True
+            else:
+                item.expired = False
 
         # Only allow the player to pick choices they've seen on this playthrough
         if (store.observing and not store._in_replay
@@ -1276,10 +1322,12 @@ init python:
 
         # Chatroom setup
         if isinstance(item, ChatRoom):
+            store.gamestate = CHAT
             # Make sure messenger screens are showing
             renpy.show_screen('phone_overlay')
             renpy.show_screen('messenger_screen')
             renpy.show_screen('pause_button')
+            store.gamestate = CHAT
 
             # Clear the chatlog
             if clearchat:
@@ -1287,7 +1335,8 @@ init python:
                 # Fill the beginning of the chat with 'empty space' so messages
                 # appear at the bottom of the screen
                 addchat(filler, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", 0)
-
+                # Set up the "automatic" background (which can be replaced)
+                set_chatroom_background('autobackground')
             store.text_person = None
             store._window_hide()
 
@@ -1299,13 +1348,11 @@ init python:
                 for person in item.original_participants:
                     if person.name not in store.in_chat:
                         store.in_chat.append(person.name)
-
                 # If the player is participating, add them to the
                 # participants list
                 if ((not item.expired or item.buyback or item.buyahead)
                         and not store.expired_replay):
                     store.in_chat.append(store.main_character.name)
-
 
         # Story Mode/VN setup
         elif isinstance(item, StoryMode):
@@ -1322,7 +1369,7 @@ init python:
             else:
                 renpy.show_screen('vn_overlay')
 
-            store.vn_choice = True
+            store.gamestate = VNMODE
             # Clear the history log screen
             store._history_list = []
             store.history = True
@@ -1339,7 +1386,7 @@ init python:
             renpy.hide_screen('pause_button')
 
             store._history = False
-            store.in_phone_call = True
+            store.gamestate = PHONE
             preferences.afm_enable = True
             if not starter_story and not item == generic_storycall:
                 store.current_call = item
@@ -1358,6 +1405,8 @@ init python:
         Perform additional logic to finish off a TimelineItem, like resetting
         story variables to return to the menu screens.
         """
+
+        store.gamestate = None
 
         if store._in_replay:
             return
@@ -1538,8 +1587,8 @@ label execute_plot_branch():
 ## to the main menu
 label end_route():
     $ is_chat = False
-    if isinstance(current_timeline_item, ChatRoom) and not (vn_choice
-            or in_phone_call):
+    if (isinstance(current_timeline_item, ChatRoom)
+            and not (gamestate in (PHONE, VNMODE))):
         call screen save_and_exit()
         $ is_chat = True
     if not isinstance(current_timeline_item, StoryCall):
@@ -1562,7 +1611,7 @@ label end_route():
 
 label end_prologue():
     $ define_variables()
-    if not in_phone_call and not vn_choice:
+    if gamestate not in (PHONE, VNMODE):
         # It's a chatroom
         $ chat = True
     else:
@@ -1636,6 +1685,7 @@ init python:
         # Switch off variables
         store.vn_choice = False
         store.in_phone_call = False
+        store.gamestate = None
         store.current_call = False
         store._history = True
         store.block_interrupts = False

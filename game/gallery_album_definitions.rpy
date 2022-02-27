@@ -70,9 +70,11 @@ default u_album = []
 default v_album = []
 default y_album = []
 default z_album = []
-default common_album = [ Album("cg common_1"),
-                        Album("cg common_2"),
-                        Album("cg common_3")]
+default common_album = [
+    Album("cg common_1"),
+    Album("cg common_2"),
+    Album("cg common_3")
+]
 
 # This list allows the program to automatically merge the persistent
 # and regular albums each time the game is started.

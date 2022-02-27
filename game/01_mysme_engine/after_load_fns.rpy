@@ -32,7 +32,7 @@ init python:
             try:
                 for r in all_routes:
                     test = r.ending_chatrooms
-            except AttributeError:
+            except (AttributeError, KeyError) as e:
                 for r in all_routes:
                     setattr(r, 'ending_chatrooms', [])
                     # Not 100% accurate, but for most cases
@@ -136,8 +136,15 @@ init python:
             store.chat_name = store.persistent.chat_name
             store.m.name = "[persistent.chat_name]"
 
+        if store._version < (3, 2, 0):
+            # Add temp_msg_queue
+            for chara in store.all_characters:
+                if not hasattr(chara.text_msg, 'temp_msg_queue'):
+                    chara.text_msg.temp_msg_queue = [ ]
+
+
         # Update to most recent version
-        store._version = (3, 1, 0)
+        store._version = (3, 3, 0)
 
         # Turn the version back into a string
         store._version = '.'.join(map(str, store._version))
@@ -154,7 +161,6 @@ init python:
                 store.music_dictionary.update(updated_music_dict)
         except Exception as e:
             print_file("ERROR Updating music dictionary:", e)
-
 
     def unlock_profile_pics(who):
         """Ensure seen CGs and profile pictures are unlocked where possible."""
@@ -188,8 +194,6 @@ init python:
         if who.default_prof_pic not in store.persistent.unlocked_prof_pics:
             add_img_to_set(store.persistent.unlocked_prof_pics,
                         who.default_prof_pic)
-
-
 
     def find_route_endings(route, chatlist, titles):
         """
@@ -233,7 +237,6 @@ init python:
                 route.ending_labels.append(chatlist[i-1].vn_label)
         return extra_ending_titles
 
-
     def reset_old_persistent():
         """Reset problematic persistent values to their original values."""
 
@@ -257,7 +260,9 @@ init python:
         # MC name, pronouns, and pfp
         temp_MC_pic = store.persistent.__dict__['MC_pic']
         temp_name = store.persistent.__dict__['name']
+        temp_chat_name = store.persistent.__dict__['chat_name']
         temp_pronoun = store.persistent.__dict__['pronoun']
+        temp_gender = store.persistent.__dict__['gender']
         # Played chatrooms
         temp_completed_chatrooms = store.persistent.__dict__['completed_chatrooms']
         temp_guestbook = store.persistent.__dict__['guestbook']
@@ -280,6 +285,19 @@ init python:
         temp_timed_menu_pv = store.persistent.__dict__['timed_menu_pv']
         temp_animated_icons = store.persistent.__dict__['animated_icons']
 
+        # 3.1+ new vars
+        temp_last_update_check = store.persistent.__dict__['last_update_check']
+        temp_check_for_updates = store.persistent.__dict__['check_for_updates']
+        temp_check_for_prerelease = store.persistent.__dict__['check_for_prerelease']
+        temp_ignored_versions = store.persistent.__dict__['ignored_versions']
+        temp_available_update = store.persistent.__dict__['available_update']
+        temp_open_docs_locally = store.persistent.__dict__['open_docs_locally']
+        temp_link_wait_pause = store.persistent.__dict__['link_wait_pause']
+        temp_available_call_indicator = store.persistent.__dict__['available_call_indicator']
+
+
+        all_persistent_albums = [ x for x in persistent.__dict__ if '_album' in x ]
+
         # Reset persistent
         store.persistent._clear()
 
@@ -301,7 +319,9 @@ init python:
         store.persistent.custom_footers = temp_custom_footers
         store.persistent.MC_pic = temp_MC_pic
         store.persistent.name = temp_name
+        store.persistent.chat_name = temp_chat_name
         store.persistent.pronoun = temp_pronoun
+        store.persistent.gender = temp_gender
         store.persistent.completed_chatrooms = temp_completed_chatrooms
         store.persistent.guestbook = temp_guestbook
         store.persistent.real_time = temp_real_time
@@ -310,15 +330,8 @@ init python:
         store.persistent.on_route = False
         store.persistent.animated_backgrounds = temp_animated_backgrounds
 
-        store.persistent.ja_album = []
-        store.persistent.ju_album = []
-        store.persistent.r_album = []
-        store.persistent.s_album = []
-        store.persistent.u_album = []
-        store.persistent.v_album = []
-        store.persistent.y_album = []
-        store.persistent.z_album = []
-        store.persistent.common_album = []
+        for alb in all_persistent_albums:
+            setattr(store.persistent, alb, [ ])
 
         # v3.0 new vars
         store.persistent.mc_unlocked_pfps = temp_mc_unlocked_pfps
@@ -330,6 +343,16 @@ init python:
         store.persistent.completed_chatrooms = temp_completed_chatrooms
         store.persistent.timed_menu_pv = temp_timed_menu_pv
         store.persistent.animated_icons = temp_animated_icons
+
+        # v3.1+ new vars
+        store.persistent.last_update_check = temp_last_update_check
+        store.persistent.check_for_updates = temp_check_for_updates
+        store.persistent.check_for_prerelease = temp_check_for_prerelease
+        store.persistent.ignored_versions = temp_ignored_versions
+        store.persistent.available_update = temp_available_update
+        store.persistent.open_docs_locally = temp_open_docs_locally
+        store.persistent.link_wait_pause = temp_link_wait_pause
+        store.persistent.available_call_indicator = temp_available_call_indicator
 
         store.persistent.phone_tone = 'audio/sfx/Ringtones etc/phone_basic_1.wav'
         store.persistent.text_tone = "audio/sfx/Ringtones etc/text_basic_1.wav"
@@ -361,7 +384,6 @@ init python:
             new_obj.available = item.available
 
         return new_obj
-
 
     def chathistory_to_chatroom(item, copy_everything=False):
         """Convert item to a ChatRoom object and return it."""
@@ -482,7 +504,7 @@ init python:
 
         # print_file("All of chara's fields:", chara.__dict__)
         for key, val in chara.__dict__.items():
-            if "_m1_character_definitions__" in key:
+            if key.startswith("_m1_character_definitions__"):
                 chara.__dict__["_m1_chatcharacter_definition__"
                     + key[27:]] = val
 
@@ -536,6 +558,7 @@ init python:
         # Replace this character object
         chara = new_c
 
+
     def update_character_list(new_list):
         """Update the character_list variable to new_list."""
 
@@ -559,12 +582,17 @@ init python:
         # is making a choice/on a choice menu
         store.choosing = False
 
-        if isinstance(all_albums[0], tuple) or isinstance(all_albums[0], list):
-            for p_album, reg_album in all_albums:
-                merge_albums(p_album, reg_album)
-        else: # Should be a string
-            for alb in all_albums:
-                merge_albums_string(alb)
+        ## Test for album type
+        if check_for_old_albums(False):
+            print_file("Old albums detected")
+            if isinstance(all_albums[0], tuple) or isinstance(all_albums[0], list):
+                for p_album, reg_album in all_albums:
+                    merge_albums(p_album, reg_album)
+            else: # Should be a string
+                for alb in all_albums:
+                    merge_albums_string(alb)
+        else:
+            print_file("Albums have been updated")
 
         set_name_pfp()
 
@@ -702,12 +730,21 @@ label after_load():
         # Don't update variables as is usually done
         return
 
-
     $ renpy.set_return_stack([])
+    jump reload_game_restart
+
+label reload_game_restart():
     # Forcibly make sure the game isn't in an interaction so it can
     # jump to chat_home again.
     if renpy.game.context().interacting:
         $ renpy.game.context().interacting = False
         # show screen messenger_error
+
+    # Ensures the background music is playing
+    if hacked_effect:
+        $ renpy.music.play(mystic_chat_hacked, loop=True, if_changed=True)
+    else:
+        $ renpy.music.play(mystic_chat, loop=True, if_changed=True)
+
     call screen chat_home
     return

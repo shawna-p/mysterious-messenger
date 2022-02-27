@@ -45,46 +45,47 @@ init -10 python:
     def colorize_vn_window(c):
         """Colorizes the generic VN window background with colour c."""
 
-        return im.MatrixColor('VN Mode/Chat Bubbles/white_vn.webp',
-            im.matrix.colorize('#000', c))
+        return Transform('VN Mode/Chat Bubbles/white_vn.webp',
+            matrixcolor=ColorizeMatrix('#000', c))
 
     # Essentially copied from renpy.store.adv; a default ADV character
     # to work with the new MyADVCharacter class.
-    my_adv = MyADVCharacter(None,
-                   who_prefix='',
-                   who_suffix='',
-                   what_prefix='',
-                   what_suffix='',
+    my_adv = MyADVCharacter(
+                None,
+                who_prefix='',
+                who_suffix='',
+                what_prefix='',
+                what_suffix='',
 
-                   show_function=renpy.show_display_say,
-                   predict_function=renpy.predict_show_display_say,
+                show_function=renpy.show_display_say,
+                predict_function=renpy.predict_show_display_say,
 
-                   condition=None,
-                   dynamic=False,
-                   image=None,
+                condition=None,
+                dynamic=False,
+                image=None,
 
-                   interact=True,
-                   slow=True,
-                   slow_abortable=True,
-                   afm=True,
-                   ctc=None,
-                   ctc_pause=None,
-                   ctc_timedpause=None,
-                   ctc_position="nestled",
-                   all_at_once=False,
-                   with_none=None,
-                   callback=None,
-                   type='say',
-                   advance=True,
+                interact=True,
+                slow=True,
+                slow_abortable=True,
+                afm=True,
+                ctc=None,
+                ctc_pause=None,
+                ctc_timedpause=None,
+                ctc_position="nestled",
+                all_at_once=False,
+                with_none=None,
+                callback=None,
+                type='say',
+                advance=True,
 
-                   who_style='say_label',
-                   what_style='say_dialogue',
-                   window_style='say_window',
-                   screen='say',
-                   mode='say',
-                   voice_tag=None,
+                who_style='say_label',
+                what_style='say_dialogue',
+                window_style='say_window',
+                screen='say',
+                mode='say',
+                voice_tag=None,
 
-                   kind=False)
+                kind=False)
 
     def Character(name=renpy.character.NotSet, kind=None, **properties):
         """
@@ -148,12 +149,14 @@ screen history():
 
     # Close button
     button:
-        xalign 1.0
+        background "#00000066"
+        xalign 0.5
         yalign 0.0
         focus_mask True
-        add "close_button"
+        xysize (config.screen_width, 99)
         action Hide('history')#Return()
-        text "Close" style "CG_close":
+        text "Close" style "CG_close_button_text":
+            yalign 0.5 xpos 20
             if persistent.dialogue_outlines:
                 outlines [ (2, "#000",
                             absolute(0), absolute(0)) ]
@@ -167,7 +170,7 @@ screen history():
         draggable True
         side_yfill True
 
-        ysize 1235
+        ysize config.screen_height-100
         yalign 1.0
 
         vbox:
@@ -201,6 +204,7 @@ screen history():
 
             if not _history_list:
                 label _("The dialogue history is empty.")
+            null height 10
 
 
 ## This determines what tags are allowed to be displayed on the history screen.

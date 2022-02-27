@@ -56,7 +56,7 @@ label example_chat():
 
     # This sets up a very specific phone call which will never expire.
     # You should generally never add phone calls this way.
-    $ available_calls.append(PhoneCall(r, 'test_call', 'outgoing', 'test'))
+    $ available_calls.append(PhoneCall(r, 'test_call', 'outgoing', None))
     # `show hack effect` will show the flashing scrolled code on-screen
     show hack effect
     # You set the background of a chatroom like you would elsewhere in Ren'Py.
@@ -720,7 +720,7 @@ label seven_emoji():
     jump emoji
 
 label rika_emoji():
-    s "These rika_emotes were created by {b}Sakekobomb{/b} on Tumblr, used with permission."
+    s "These Rika emojis were created by {b}CheruAngelic{/b} on Tumblr, used with permission."
     ri "{image=rika_happy}" (img=True)
     ri "{image=rika_cry}" (img=True)
     ri "{image=rika_pout}" (img=True)

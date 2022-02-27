@@ -12,13 +12,17 @@ init -6 python:
             Dialogue of the greeting, in English.
         korean : string
             Dialogue of the greeting, in Korean.
+        extension : string
+            The extension for this file. If none is given, defaults to
+            greeting_audio_extension.
         """
 
-        def __init__(self, sound_file, english=False, korean=False):
+        def __init__(self, sound_file, english=False, korean=False,
+                extension=None):
             """Creates a DayGreeting object to store a daily greeting."""
 
-            self.sound_file = (store.greeting_audio_path + sound_file
-                    + store.greeting_audio_extension)
+            ext = extension if extension is not None else greeting_audio_extension
+            self.sound_file = (store.greeting_audio_path + sound_file + ext)
             self.english = english or "Welcome to Mysterious Messenger!"
             self.korean = korean or "제 프로그램으로 환영합니다!"
 
@@ -31,7 +35,6 @@ default greet_text_english = "Welcome to Mysterious Messenger!"
 
 ## This lets the program randomly pick a greet
 ## character to display for greetings
-default greet_list = [x.file_id for x in all_characters if x not in no_greet_chars ]
 default greet_char = 's'
 
 # Path where the audio files for greetings are stored

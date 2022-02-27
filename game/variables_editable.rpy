@@ -49,6 +49,46 @@ init python:
         # Save all variables
         renpy.retain_after_load()
 
+    def get_term(fem, masc, neutral):
+        """
+        A function which will return a term based on the player's pronouns
+        and gender. Generally prefers returning the neutral term.
+        """
+        if persistent.gender == "female" and persistent.pronoun == "she/her":
+            return fem
+        elif persistent.gender == "male" and persistent.pronoun == "he/him":
+            return masc
+        else:
+            return neutral
+
+init 100 python:
+    ## FOR RELEASE
+    # This will force these persistent values to always be the value
+    # given here on a launch of the game. Use it if you'd like to enforce
+    # certain gameplay styles or appearances
+    if not config.developer:
+        ## Dev option; should almost always be False for a release
+        persistent.testing_mode = False
+        ## Dev option; should almost always be False for a release
+        persistent.unlock_all_story = False
+        ## Whether the player can get hourglasses in chatrooms randomly
+        persistent.receive_hg = True
+        ## Whether an online indicator is shown next to characters who
+        ## have an available phone call
+        persistent.available_call_indicator = False
+        ## Whether the footer at the bottom of the screen when the player
+        ## must click a link in the chat is the pause button or some text
+        ## with a customizable message
+        persistent.link_wait_pause = False
+        ## Whether the game uses the custom route select screen or the
+        ## built-in default one with Tutorial day
+        persistent.custom_route_select = True
+        ## Whether the game plays in real-time or sequentially
+        ## YOU MAY WANT TO CHANGE THIS or provide a button to toggle it
+        ## If you provide a button toggle, you MUST remove this line to prevent
+        ## modifying the player's preferences every launch
+        persistent.real_time = False
+
 init offset = -1
 
 ########################################
@@ -256,7 +296,7 @@ init python:
         """
 
         if phonecall.voicemail:
-            # It doesn't matter if the player hung up in the middle
+            # It doesn't matter if the player hung up in the middle of
             # a voicemail
             return
 
@@ -291,6 +331,24 @@ label ray_test_call_callback_phone():
     r "I hope you like this app! Please let me know if you run into any issues."
     r "Bye for now~"
     return
+
+########################################
+## PHONE EXPIRY DICTIONARY
+########################################
+# This is a dictionary where you can give more specific "availability timeouts"
+# to phone calls. To add a new entry, the format is just
+# name_of_phone_call_label=4
+# where `4` is the number of timeline items after which the phone call expires.
+# For example, tutorial_chat_outgoing_y=0 means that if the player doesn't call
+# yoosung right after the tutorial_chat chatroom, by the time the next timeline
+# item has appeared, the call will no longer be available. In contrast, the
+# player can call back the missed call from Zen up to 2 timeline items later.
+define phone_timeout_dict = dict(
+    # TUTORIAL DAY
+    tutorial_chat_incoming_z=2,
+    tutorial_chat_outgoing_y=0,
+    # Feel free to add more below
+)
 
 
 ########################################
@@ -589,6 +647,10 @@ define show_empty_menus = True
 init offset = -1
 default use_2_2_guest = False
 init offset = 0
+# This changes single newlines to become a space for emails, so you can split
+# them up for readability. Switch this to False if you want single newlines
+# to be preserved as-is.
+define email_newline_to_space = True
 
 # Add tips here to appear on the loading screen
 default loading_tips = [

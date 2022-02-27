@@ -1,7 +1,6 @@
-
 init python:
 
-    def spaceship_xalign_func(trans,st,at):
+    def spaceship_xalign_func(trans, st, at):
         """Make the spaceship float to a random location on the line."""
 
         global spaceship_xalign
@@ -15,6 +14,7 @@ init python:
         trans.xalign = spaceship_xalign
         return None
 
+
     def spaceship_get_xalign(new_num=False):
         """
         Return a random position along the spaceship line at the bottom
@@ -26,6 +26,7 @@ init python:
             spaceship_xalign = renpy.random.random()
             spaceship_xalign = spaceship_xalign * 0.8 + 0.04
         return spaceship_xalign
+
 
     class RandomBag(object):
         """
@@ -54,7 +55,7 @@ init python:
             if not self.bag:
                 # Replace it with a copy of choices,
                 self.bag = list(self.choices)
-                 # Then randomize those choices.
+                # Then randomize those choices.
                 renpy.random.shuffle(self.bag)
 
             # Return something from the bag.
@@ -78,6 +79,7 @@ init python:
                 self.bag.append(choices)
             # Shuffle the choices again
             renpy.random.shuffle(self.bag)
+
 
     class SpaceThought(renpy.store.object):
         """
@@ -114,7 +116,7 @@ screen spaceship_thoughts():
 
     button:
         background "choice_darken"
-        xysize (750, 1334)
+        xysize (config.screen_width, config.screen_height)
         activate_sound 'audio/sfx/UI/select_6.mp3'
         action Hide('spaceship_thoughts', Dissolve(0.5))
 
@@ -205,7 +207,7 @@ screen chip_cloud():
         action Show('chip_end')
 
     button at hide_dissolve:
-        xysize (750, 640)
+        xysize (config.screen_width, 640)
         xalign 0.5
         yalign 0.6
         add 'cloud_1' xpos 735 ypos 500 at cloud_shuffle1
@@ -227,7 +229,7 @@ screen chip_end():
 
     add "choice_darken"
 
-    add 'spotlight' xalign 0.5 yalign 0.0
+    add 'spotlight' xalign 0.5 yalign 0.6
 
     frame:
         xysize(481,598)

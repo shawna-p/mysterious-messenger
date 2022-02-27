@@ -22,7 +22,7 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
         xfill True
         if (not in_chat_creator) or is_main_menu_replay:
             yoffset -114
-            ysize 1080
+            ysize config.screen_height-113-165
         else:
             ysize creator_messenger_ysize-5
         if animate_down:
@@ -33,7 +33,7 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
             draggable True
             mousewheel True
             if (not in_chat_creator) or is_main_menu_replay:
-                ysize 1080
+                ysize config.screen_height-113-165
             else:
                 ysize creator_messenger_ysize-5
             xfill True
@@ -41,6 +41,8 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
             has vbox
             spacing 10
             xfill True
+            if len(chatlog) < 20 and (not in_chat_creator or is_main_menu_replay):
+                null height config.screen_height
             if not in_chat_creator or is_main_menu_replay:
                 for i index id(i) in chatlog[-bubbles_to_keep:]:
                     fixed:
@@ -65,6 +67,8 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
             else:
                 for ind, i index id(i) in enumerate(chatlog):
                     if ind == insert_msg_index:
+                        ## A helper "message" for the chat creator which
+                        ## indicates where messages will be inserted.
                         button:
                             padding (20, 20) background "#f003"
                             xfill True
@@ -181,9 +185,9 @@ screen chat_animation(i, anti=False, no_anim=False):
                 else: # it's a CG
                     imagebutton:
                         focus_mask True
-                        idle smallCG(cg_helper(i.what))
+                        idle smallCG(i.album_obj)
                         if not choosing:
-                            action [ShowCG(i.what)]
+                            action [ShowCG(i.album_obj)]
                         alt i.alt_text(anti)
 
 

@@ -135,6 +135,31 @@ init python:
 
         return allocate_screen(["text_msg_popup", "text_pop_2", "text_pop_3"])
 
+    def MMGoToText(c, hide_screen):
+        """Action which occurs when Go To is pressed on a text popup."""
+        return If(gamestate is None,
+            If ((c.real_time_text and c.text_msg.reply_label),
+                [Function(text_message_begin, text_person=c),
+                    Function(hide_all_popups),
+                    Hide('save_load'),
+                    Hide('menu'),
+                    Hide('chat_footer'),
+                    Hide('phone_overlay'),
+                    Hide('settings_screen'),
+                    Hide(hide_screen),
+                    Jump('play_text_message')],
+
+                [Function(text_message_begin, text_person=c),
+                    Function(hide_all_popups),
+                    Hide('save_load'),
+                    Hide('menu'),
+                    Hide('chat_footer'),
+                    Hide('phone_overlay'),
+                    Hide('settings_screen'),
+                    Hide(hide_screen),
+                    Show('text_message_screen', sender=c,
+                        animate=False)]))
+
 ########################################################
 ## This screen displays the popups that notify
 ## the user when there is a new text message
@@ -158,8 +183,7 @@ screen text_msg_popup(c, last_msg=False, hide_screen='text_msg_popup'):
             xoffset -20 yoffset -20
         imagebutton:
             align (1.0, 0.22)
-            idle 'input_close'
-            hover 'input_close_hover'
+            auto 'input_close_%s'
             if not randint(0,3) and send_next:
                 action [Hide(hide_screen), Function(deliver_next)]
             else:
@@ -183,32 +207,8 @@ screen text_msg_popup(c, last_msg=False, hide_screen='text_msg_popup'):
                         style_prefix 'text_popup_preview'
                         text text_popup_preview(last_msg)
 
-            if (not (renpy.get_screen('in_call')
-                    or renpy.get_screen('incoming_call')
-                    or renpy.get_screen('outgoing call')
-                    or renpy.get_screen('phone_overlay')
-                    or renpy.get_screen('vn_overlay'))):
-                textbutton _('Go to'):
-                    action If ((c.real_time_text and c.text_msg.reply_label),
-
-                        [Function(text_message_begin, text_person=c),
-                            Hide('save_load'),
-                            Hide('menu'),
-                            Hide('chat_footer'),
-                            Hide('phone_overlay'),
-                            Hide('settings_screen'),
-                            Hide(hide_screen),
-                            Jump('play_text_message')],
-
-                        [Function(text_message_begin, text_person=c),
-                            Hide('save_load'),
-                            Hide('menu'),
-                            Hide('chat_footer'),
-                            Hide('phone_overlay'),
-                            Hide('settings_screen'),
-                            Hide(hide_screen),
-                            Show('text_message_screen', sender=c,
-                                animate=False)])
+            if (gamestate is None):
+                textbutton _('Go to') action MMGoToText(c, hide_screen)
             else:
                 null height 70
     timer 3.25:
@@ -449,7 +449,7 @@ screen text_animation(i, animate=False, anti=False):
             if i.who.right_msgr:
                 xalign 1.0
                 box_reverse True
-            xmaximum 750
+            xmaximum config.screen_width
             style i.reg_text_style
             null width 18
             frame:

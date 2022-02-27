@@ -63,7 +63,7 @@ screen starry_night():
     add Transform("#000", alpha=persistent.starry_contrast)
 
 image starry_night_img = Composite(
-    (750, 1334),
+    (config.screen_width, config.screen_height),
     (0, 0), "#000",
     (0, 0), "bg starry_night",
     (renpy.random.random(), renpy.random.random()), 'small_star_2',
@@ -124,14 +124,6 @@ label before_main_menu():
         call screen profile_pic
     $ define_variables(unlock_pics=False)
     return
-
-# label quit:
-#     python:
-#         for key, value in persistent.__dict__.items():
-#             if key[0] != "_" or key in ['_changed',
-#                     '_update_last_checked']:
-#                 print_file(key, ":    ", value, sep="", end="\n\n")
-#     return
 
 screen loading_screen():
 

@@ -147,6 +147,10 @@ label extra_features_showcase():
             z "If you click the Developer button from the main menu, you'll also see a button called {b}Reset Albums{/b}."
             z "This will cause the program to forget all the images you've unlocked in the album."
             z "It can be good for testing to see if everything unlocks properly without erasing the rest of your progress."
+            z "And the very last thing to mention - if you click on the Developer button from the main menu,"
+            z happy "There's also a new Chatroom creator!"
+            z neutral "You can use it to put together a chatroom visually, without writing any code."
+            z "And then you can have it play out like it would in-game to record it, or even export it as code."
             z happy "And that's all! Is there anything else you want to know about?"
 
         "That's all I wanted to know." (paraphrased=False):
@@ -174,13 +178,7 @@ label bonus_pfp_showcase():
             z "If you're playing without Testing Mode turned on, unlocking a new profile picture to use will cost 1 hourglass."
             hide tut_player_pfp
             if not observing:
-                if not persistent.animated_icons:
-                    $ renpy.show_screen(allocate_notification_screen(),
-                        message="Hourglass +1")
-                else:
-                    $ renpy.show_screen(allocate_hg_screen())
-                $ renpy.music.play("audio/sfx/UI/select_4.mp3", channel='sound')
-                $ collected_hg += 1
+                $ award_hourglass(force=True)
                 z wink "I'll give you one now so you can try it out later~"
             z neutral "If you have Testing Mode turned on from the Developer settings, it won't cost you any hourglasses."
             z "You don't have to do anything to make sure profile pictures show up here;"

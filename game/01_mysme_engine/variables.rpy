@@ -19,6 +19,7 @@ init -6 python:
             super(CConfirm, self).__init__('confirm', None, *args, message=msg,
                 yes_action=yes, no_action=no, **kwargs)
 
+
     class Start(Action, DictEquality):
         """
         Causes Ren'Py to jump out of the menu context to the named
@@ -40,13 +41,16 @@ init -6 python:
             store.starter_story = self.label
             renpy.jump_out_of_context("begin_intro_mstmg")
 
+
     class ShowCG(ShowMenu):
         """A special Action for displaying a CG to the player."""
 
         def __init__(self, img, *args, **kwargs):
-            img = cg_helper(img)
+            if not isinstance(img, Album):
+                img = cg_helper(img)
             super(ShowCG, self).__init__('viewCG_fullsize', *args,
                 fullsizeCG=img, **kwargs)
+
 
     class JumpVN(Call):
         """
@@ -64,6 +68,7 @@ init -6 python:
 
             super(JumpVN, self).__init__('vn_during_chat', *args, vn_label=label,
                 from_link=True, **kwargs)
+
 
     class LinkJump(Call):
         """
@@ -97,7 +102,6 @@ init -6 python:
                     renpy.jump(self.label)
 
 
-
     class ContinueChat(Call):
         """A special action which continues the chat when called."""
 
@@ -109,6 +113,7 @@ init -6 python:
             store.chat_stopped = False
             # If observing?
             super(ContinueChat, self).__call__()
+
 
     def IfChatStopped(true_list, false_list=None):
         """
@@ -477,6 +482,7 @@ init -6 python:
         def __ne__(self, other):
             return not self.__eq__(other)
 
+
     def upTime(day=None, thetime=None):
         """
         Return a MyTime object with the current time, or a time based
@@ -509,6 +515,7 @@ init -6 python:
             return MyTime(day, thehour, themin)
         else:
             return MyTime()
+
 
     class MyTimeDelta(store.object):
         """
@@ -609,20 +616,23 @@ init -6 python:
         begin_timeline_item(generic_chatroom)
         return
 
+
     def hide_all_popups():
         """Hide all popup screens in-game."""
 
         renpy.hide_screen('text_msg_popup')
-        renpy.hide_screen('hide screen text_pop_2')
-        renpy.hide_screen('hide screen text_pop_3')
-        renpy.hide_screen('hide screen email_popup')
+        renpy.hide_screen('text_pop_2')
+        renpy.hide_screen('text_pop_3')
+        renpy.hide_screen('email_popup')
         hide_stackable_notifications()
         hide_heart_icons()
+
 
     def btn_hover_img(s):
         """A displayable prefix function to make button hover images."""
 
         return Fixed(s, Transform(s, alpha=0.5))
+
 
     def center_bg_img(s):
         """
@@ -630,7 +640,23 @@ init -6 python:
         their shake counterparts.
         """
 
-        return Fixed(Image(s, xalign=0.5, yalign=0.5), size=(750,1334))
+        return Fixed(Transform(s,
+            align=(0.5, 1.0), yoffset=-113,
+            ysize=config.screen_height-113-165, fit="cover"),
+            xysize=(config.screen_width, config.screen_height)
+        )
+
+    def center_full_img(s):
+        """
+        A displayable prefix function to display backgrounds and
+        their shake counterparts.
+        """
+
+        return Fixed(Transform(s,
+            align=(0.5, 1.0),
+            ysize=config.screen_height-113-165, fit="cover"),
+            xysize=(config.screen_width, config.screen_height)
+        )
 
     def center_crop_bg_img(s):
         """
@@ -638,17 +664,25 @@ init -6 python:
         image to display as 'shake'.
         """
 
-        return Fixed(Crop((0, (1334-1125)//2, 750, 1125), s,
-                    xalign=0.5, yalign=0.5), size=(750,1334))
+        s = Transform(s, crop=(0, (1334-1125)//2, config.screen_width, 1125))
+
+        return Fixed(
+            Transform(s, align=(0.5, 1.0), yoffset=-113,
+            ysize=config.screen_height-113-165, fit="cover"),
+            xysize=(config.screen_width, config.screen_height)
+        )
+
 
     ## Displayable prefix definitions
     config.displayable_prefix["btn_hover"] = btn_hover_img
     config.displayable_prefix["center_bg"] = center_bg_img
+    config.displayable_prefix["center_full"] = center_full_img
     config.displayable_prefix["center_crop_bg"] = center_crop_bg_img
 
     def get_text_width(the_text, the_style='default'):
         """Return the width of text with a certain style applied."""
         return int(Text(the_text, style=the_style).size()[0])
+
 
     def get_char_from_file_id(file_id):
         """
@@ -667,6 +701,7 @@ init -6 python:
                 if char.file_id == file_id:
                     return char
         return None
+
 
     def print_file(*args, **kwargs):
         """Print statements to a file or to the console for debugging."""
@@ -687,6 +722,7 @@ init -6 python:
             f.close()
         except:
             print("Print to file did not work:", args)
+
 
     def get_img_from_file():
         """
@@ -719,6 +755,7 @@ init -6 python:
             return thevar
         return None
 
+
     def set_pfp_from_file():
         """
         (Windows only) Set the player's profile picture from a file.
@@ -732,6 +769,7 @@ init -6 python:
         # Otherwise, we're good to go
         store.m.prof_pic = the_img
         return
+
 
     def can_pick_image():
         """Return True if a file-picker is available."""
@@ -818,7 +856,6 @@ init -6 python:
             link_text=link_text)
 
 
-
     def combine_lists(*args):
         """
         Combine args into one giant list and return it. Removes duplicates.
@@ -834,6 +871,7 @@ init -6 python:
                 if arg not in result:
                     result.append(arg)
         return result
+
 
     def handle_missing_image(img):
         """Give a generic image to use when an image cannot be found."""
@@ -987,79 +1025,60 @@ init -6 python:
             say_choice_caption(store.dialogue_picked,
                 store.dialogue_paraphrase, store.dialogue_pv)
 
-        # The scrolling hack effect should be shown
-        if ('hack' in name and 'effect' in name
-                and renpy.get_screen('messenger_screen')
-                and not at_list):
-            renpy.call('hack', reverse=('reverse' in name))
-            return
-        elif ((('redhack' in name) or ('red' in name and 'hack' in name))
-                and 'effect' in name
-                and renpy.get_screen('messenger_screen')
-                and not at_list):
-            renpy.call('redhack', reverse=('reverse' in name))
-            return
-        # The scrolling red static effect
-        elif ("red" in name and "static" in name and "effect" in name
-                and renpy.get_screen('messenger_screen')
-                and not at_list):
-            renpy.call('red_static', reverse=('reverse' in name))
-            return
-        ## Banners
-        elif ('lightning' in name and 'banner' in name
-                and renpy.get_screen('messenger_screen')
-                and not at_list):
-            renpy.call('banner', banner='lightning')
-            return
-        elif ('well' in name and 'banner' in name
-                and renpy.get_screen('messenger_screen')
-                and not at_list):
-            renpy.call('banner', banner='well')
-            return
-        elif ('annoy' in name and 'banner' in name
-                and renpy.get_screen('messenger_screen')
-                and not at_list):
-            renpy.call('banner', banner='annoy')
-            return
-        elif ('heart' in name and 'banner' in name
-                and renpy.get_screen('messenger_screen')
-                and not at_list):
-            renpy.call('banner', banner='heart')
-            return
-        ## The shake effect
-        elif ( name == ('shake',)
-                and renpy.get_screen('messenger_screen')
-                and not at_list):
-            renpy.call('shake')
-            return
-        ## The secure chat animation
-        elif ('secure' in name and 'anim' in name
-                and renpy.get_screen('messenger_screen')
-                and not at_list):
-            renpy.call('secure_anim')
-            return
-        ## The screen crack overlay
-        elif ('screen_crack' in name
-                and renpy.get_screen('messenger_screen')
-                and not at_list):
-            renpy.call('screen_crack_overlay')
-            return
-        ## Chatroom backgrounds
-        elif (not ('bg' in name and 'black' in name)
-                and renpy.get_screen('messenger_screen')
-                and not store.vn_choice
-                and not store.in_phone_call
-                and not at_list):
-            # The messenger screen is showing, therefore this statement is
-            # likely being used in conjunction with `scene` to display a
-            # chatroom background
-            if isinstance(name, tuple) and name[0] == 'bg':
-                set_chatroom_background(name[1])
-            elif isinstance(name, tuple):
-                set_chatroom_background(name[0])
-            else:
-                set_chatroom_background(name)
-            return
+        # Chatroom-specific statements
+        if gamestate == CHAT and not at_list:
+            # The scrolling hack effect should be shown
+            if ('hack' in name and 'effect' in name):
+                renpy.call('hack', reverse=('reverse' in name))
+                return
+            elif ((('redhack' in name) or ('red' in name and 'hack' in name))
+                    and 'effect' in name):
+                renpy.call('redhack', reverse=('reverse' in name))
+                return
+            # The scrolling red static effect
+            elif ("red" in name and "static" in name and "effect" in name):
+                renpy.call('red_static', reverse=('reverse' in name))
+                return
+            ## Banners
+            elif ('lightning' in name and 'banner' in name):
+                renpy.call('banner', banner='lightning')
+                return
+            elif ('well' in name and 'banner' in name):
+                renpy.call('banner', banner='well')
+                return
+            elif ('annoy' in name and 'banner' in name):
+                renpy.call('banner', banner='annoy')
+                return
+            elif ('heart' in name and 'banner' in name):
+                renpy.call('banner', banner='heart')
+                return
+            ## The shake effect
+            elif ( name == ('shake',)):
+                renpy.call('shake')
+                return
+            ## The secure chat animation
+            elif ('secure' in name and 'anim' in name):
+                renpy.call('secure_anim')
+                return
+            ## The screen crack overlay
+            elif ('screen_crack' in name):
+                renpy.call('screen_crack_overlay')
+                return
+            ## Chatroom backgrounds
+            elif (not ('bg' in name and 'black' in name)):
+                # The messenger screen is showing, therefore this statement is
+                # likely being used in conjunction with `scene` to display a
+                # chatroom background
+                if isinstance(name, tuple) and name[0] == 'bg':
+                    set_chatroom_background(name[1])
+                elif isinstance(name, tuple):
+                    set_chatroom_background(name[0])
+                else:
+                    set_chatroom_background(name)
+                return
+
+        elif gamestate == VNMODE and 'bg' in name:
+            at_list.insert(0, scale_vn_bg)
 
         at_list = at_list or []
         behind = behind or []
@@ -1203,6 +1222,26 @@ init -6 python:
         return None
 
 
+    def reorient_game():
+        """
+        A function which is called when the game can't reorient itself
+        on a load.
+        """
+
+        print("WARNING: Failed to recover when loading game.")
+
+        return 'reload_game_restart'
+
+    def align_to_pos(x, y, xsize, ysize):
+
+        anchorx = x*float(xsize)
+        anchory = y*float(ysize)
+
+        return (int(anchorx//2), int(anchory//2))
+
+    def align_new_dimensions(y):
+        return y*1334.0/float(config.screen_height)
+
 
     # Some colour names, mostly for testing
     WHITE = "#FFF"
@@ -1255,6 +1294,9 @@ default generic_storycall = StoryCall('Story Call', 'generic_storycall', '00:00'
 default generic_timeline_items = [generic_chatroom, generic_storycall, generic_storymode]
 init offset = 0
 
+## A label that's called when a load failed and Ren'Py can't recover
+define config.load_failed_label = reorient_game
+
 # Name of the currently played day, e.g. '1st'
 default current_day = False
 # Number of the day the player is currently
@@ -1304,16 +1346,13 @@ image bg night = "center_bg:Phone UI/bg-night.webp"
 image bg earlyMorn = "center_bg:Phone UI/bg-earlyMorn.webp"
 image bg noon = "center_bg:Phone UI/bg-noon.webp"
 image bg rainy_day = "center_bg:Phone UI/bg-rainy-day.webp"
-image bg snowy_day = "Phone UI/bg-snowy-day.webp"
-image bg morning_snow = "Phone UI/bg-snowy-day.webp"
+image bg snowy_day = "center_full:Phone UI/bg-snowy-day.webp"
+image bg morning_snow = "center_full:Phone UI/bg-morning-snow.webp"
 
-image bg hack = "Phone UI/bg-hack.webp"
-image bg redhack = "Phone UI/bg-redhack.webp"
-image bg redcrack = "Phone UI/bg-redhack-crack.webp"
-image bg secure = Composite((750, 1334),
-    (0, 0), Transform("#000", alpha=0.5),
-    (0, 120), "Phone UI/bg_secure.webp",
-    xysize=(750, 1334))
+image bg hack = "center_crop_bg:Phone UI/bg-hack.webp"
+image bg redhack = "center_crop_bg:Phone UI/bg-redhack.webp"
+image bg redcrack = "center_crop_bg:Phone UI/bg-redhack-crack.webp"
+image bg secure = "center_bg:Phone UI/bg_secure.webp"
 image black = "#000000"
 
 
@@ -1350,6 +1389,18 @@ image transparent_img = '#0000'
 # ********************************
 # Short forms/Startup Variables
 # ********************************
+
+# What state the game is in
+default gamestate = None
+define CHAT = 1
+# Replaces in_phone_call TODO: Set this during incoming/outgoing calls too
+define PHONE = 2
+# Replaces text_msg_reply
+define TEXTMSG = 3
+# Replaces vn_choice
+define VNMODE = 4
+# Replaces email_reply
+define EMAIL = 5
 
 # Displays all the messages in a chatroom
 default chatlog = []
@@ -1555,7 +1606,7 @@ image loading_circle_stationary = "Menu Screens/Main Menu/loading_circle.webp"
 image profile_outline = Frame('#fff', 5, 5)
 image profile_cover_photo = "Cover Photos/profile_cover_photo.webp"
 
-image input_close = "Menu Screens/Main Menu/main02_close_button.webp"
+image input_close_idle = "Menu Screens/Main Menu/main02_close_button.webp"
 image input_close_hover = "Menu Screens/Main Menu/main02_close_button_hover.webp"
 image input_square = Frame("Menu Screens/Main Menu/main02_text_input.webp",40,40)
 image input_popup_bkgr = Frame("Menu Screens/Main Menu/menu_popup_bkgrd.webp",70,70)

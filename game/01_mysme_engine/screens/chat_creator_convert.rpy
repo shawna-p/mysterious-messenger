@@ -100,8 +100,10 @@ init python:
         elif first == 'background':
             return 'scene ' + second
 
-        return '# Could not parse entry: ' + first + ' ' + second
+        elif first == 'banner':
+            return 'show banner ' + second
 
+        return '# Could not parse entry: ' + first + ' ' + second
 
 
     def get_dialogue_from_entry(entry):

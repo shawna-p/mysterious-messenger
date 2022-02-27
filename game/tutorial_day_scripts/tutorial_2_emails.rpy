@@ -1,7 +1,14 @@
 
 label example_email():
     $ z.prof_pic = 'Profile Pics/Zen/zen-6.webp'
-    scene evening
+    ## Note that if you don't include a line like "scene evening" here,
+    ## the game will set up a background based on what time the chatroom
+    ## is supposed to trigger at.
+    ## So, since this chatroom happens at 6:11AM, it will automatically
+    ## get the "morning" background.
+    ## You can un-comment this next line to change the background to 'evening'
+    ## instead.
+    # scene evening
     play music narcissistic_jazz
 
     z 'Hey, [name], I had an idea for a guest we should invite.'
@@ -23,9 +30,7 @@ label example_email():
         # guest to email you, it makes them reply more quickly.
         "I'd like to deliver my email replies more quickly." if email_list:
             z "Sure, I can take care of that."
-            python:
-                for email in email_list:
-                    email.send_sooner()
+            $ send_emails_sooner()
             z "So what this does is decreases both the timeout countdown by 5,"
             z "And also decreases the number of chatrooms you need to go through to deliver the next email by 5."
             z "They'll decrease by an additional 1 when you exit this chatroom."
@@ -44,7 +49,6 @@ label example_email():
 ## This is the 'expired' version of the chatroom
 label example_email_expired():
     $ z.prof_pic = 'Profile Pics/Zen/zen-6.webp'
-    scene evening
     play music narcissistic_jazz
     z "Hey, [name], I had an idea for a guest we should invite."
     z "Oh... [they_re] not here."  (bounce=True, specBubble="sigh_m")
@@ -53,6 +57,54 @@ label example_email_expired():
     z "I'll see you around~" (bounce=True, specBubble="flower_m")
     exit chatroom z
     return
+
+
+## A label which triggers an incoming call from 707 after
+## this chatroom completes.
+label example_email_incoming_s():
+    s "Hello [name]!"
+    s "I thought maybe you weren't awake yet and wouldn't pick up."
+    jump example_email_incoming_s_ending
+
+## A label which changes the dialogue for the incoming call if the player
+## missed the incoming call and is calling back.
+label example_email_incoming_s_callback():
+    s "[name]!!! You called me back, haha."
+    s "I figured you were sleeping in so I didn't wanna bother you."
+    s "But I'm glad you called."
+    jump example_email_incoming_s_ending
+
+## A label which contains the common dialogue between the "regular"
+## phone call and the "called back" phone call
+label example_email_incoming_s_ending():
+    s "Are you busy right now?"
+    menu:
+        extend ''
+        "No, not particularly.":
+            s "Great! So I had this idea for a cat cafe I wanted to bring up in the chatroom."
+            s "Don't tell Jaehee though, okay? She might get mad."
+            s "I need some input on what to call it."
+            s "Do you like the sound of \"Elly's Delightful Kitty Extravaganza\" or \"The A-meow-zing Cat Cafe\"?"
+            menu:
+                extend ''
+                "Uh... whatever one you like more?":
+                    s "Hmm.... that's no help though. I can't decide if I like the a-meow-zing pun more or if the word \"extravaganza!\" really has the oomph I need."
+                "\"Elly's Delightful Kitty Extravaganza\"!":
+                    s "I see~! An excellent choice."
+                "\"The A-meow-zing Cat Cafe\"!":
+                    s "I see~! An a-meow-zing choice."
+                "They're both kinda tacky lol":
+                    s "Hmm... maybe I'll go back to the drawing board, then."
+        "Yeah, I should probably get something done today.":
+            s "Aw... don't be like that..."
+            s "But, if you really have to leave, I'll understand."
+            s "Just call me back when you're free!"
+            s "Look at you being all responsible haha. Well, toodles!"
+            return
+    s "Oh... looks like I actually have to go already. I'm sorry for ditching you!"
+    s "Let's talk again later in the chatroom. Toodles!"
+    return
+
 
 ## This is how you will set up guests for the party. A template can be found
 ## in email_template.rpy along with more detailed explanations of the fields.
@@ -93,9 +145,9 @@ default rainbow = Guest(
 ## for readability and keep it within the character limit.
 """Hi [name]!
 
-Really excited to hear about this party you're holding! Can't wait to see
+Really excited to hear about this party you\'re holding! Can\'t wait to see
 how things will turn out for you. Zen told me to make sure your inbox is
-working, and well, if you're reading this, I guess it is! So that's good.
+working, and well, if you\'re reading this, I guess it is! So that\'s good.
 
 I did have one quick question though -- will the party be held inside or
 outside? Please let me know as soon as possible!
@@ -115,7 +167,7 @@ Rainbow Unicorn""", # don't forget the comma after the quotes
     ## The next argument is the message that the player will send to the guest
     """Dear Rainbow,
 
-    I'm pleased to inform you that the party will be indoors. No need for
+    I\'m pleased to inform you that the party will be indoors. No need for
     umbrellas or sunscreen!
 
     Hope to see you there,
@@ -140,8 +192,8 @@ Rainbow Unicorn""", # don't forget the comma after the quotes
 
         """Dear Rainbow,
 
-        We've got a wonderful playlist full of smooth jazz songs to
-        play at the party. We're also looking into the possibility of
+        We\'ve got a wonderful playlist full of smooth jazz songs to
+        play at the party. We\'re also looking into the possibility of
         a live band!
 
         Hope that answers your question.
@@ -152,11 +204,11 @@ Rainbow Unicorn""", # don't forget the comma after the quotes
 
         """Dear [name],
 
-        Oh, that's just fantastic news. Jazz is such a lovely music genre,
-        isn't it? Just between the two of us, I'm also quite partial to video
-        game soundtrack music. But I don't expect you to play that at the party!
+        Oh, that\'s just fantastic news. Jazz is such a lovely music genre,
+        isn\'t it? Just between the two of us, I\'m also quite partial to video
+        game soundtrack music. But I don\'t expect you to play that at the party!
 
-        You've been so kind with your answers, and if you don't mind, I had
+        You\'ve been so kind with your answers, and if you don\'t mind, I had
         one last question -- what sort of food will there be at the party?
         Please let me know when you can!
 
@@ -179,12 +231,12 @@ Rainbow Unicorn""", # don't forget the comma after the quotes
 
             """To [name],
 
-            Wow! I adore spicy foods; it's almost as though you read my mind!
-            I will most certainly have to come and sample the dishes you've
+            Wow! I adore spicy foods; it\'s almost as though you read my mind!
+            I will most certainly have to come and sample the dishes you\'ve
             described.
 
             Thank you very much for taking the time to answer my questions.
-            I'll see you at the party!
+            I\'ll see you at the party!
 
             Best,
 
@@ -200,7 +252,7 @@ Rainbow Unicorn""", # don't forget the comma after the quotes
 
             """To the lovely Rainbow,
 
-            We're planning to serve a variety of seafood at the party! There
+            We\'re planning to serve a variety of seafood at the party! There
             will be plenty of dishes to try, like fried octopus, shrimp
             tempura, and caviar. Hope you come with an appetite!
 
@@ -210,11 +262,11 @@ Rainbow Unicorn""", # don't forget the comma after the quotes
 
             """To [name],
 
-            That certainly sounds... interesting! I can't really consider
-            myself a fan of seafood, however, so you'll have to excuse me
+            That certainly sounds... interesting! I can\'t really consider
+            myself a fan of seafood, however, so you\'ll have to excuse me
             for my lack of enthusiasm.
 
-            That said, I do appreciate you taking the time to answer me. I'm
+            That said, I do appreciate you taking the time to answer me. I\'m
             a bit undecided on whether or not to attend, but wish you the
             best of luck with the preparations!
 
@@ -236,8 +288,8 @@ Rainbow Unicorn""", # don't forget the comma after the quotes
 
         """Hi Rainbow,
 
-        I've found some wonderful heavy metal music to play at the party!
-        Screaming vocals really set the mood, don't you think? I hope you'll
+        I\'ve found some wonderful heavy metal music to play at the party!
+        Screaming vocals really set the mood, don\'t you think? I hope you\'ll
         enjoy the music!
 
         Sincerely,
@@ -246,9 +298,9 @@ Rainbow Unicorn""", # don't forget the comma after the quotes
 
         """Hi again,
 
-        Oh dear, heavy metal? I can't say I enjoy that sort of music. I
-        appreciate the invitation, but now that I know you'll be playing
-        heavy metal music... I'll have to think more on it.
+        Oh dear, heavy metal? I can\'t say I enjoy that sort of music. I
+        appreciate the invitation, but now that I know you\'ll be playing
+        heavy metal music... I\'ll have to think more on it.
 
         Thank you for your help.
 
@@ -264,7 +316,7 @@ EmailReply(
 
     """Dear Rainbow,
 
-    We're planning for an outdoor party! There are gardens at the venue that
+    We\'re planning for an outdoor party! There are gardens at the venue that
     will be perfect for an elegant party. Hope to see you there!
 
     Sincerely,
@@ -273,8 +325,8 @@ EmailReply(
 
     """Hi again,
 
-    Oh dear, I'm afraid I have terrible allergies and that may not work out
-    well for me. I appreciate the time you've taken to email me but I may have
+    Oh dear, I\'m afraid I have terrible allergies and that may not work out
+    well for me. I appreciate the time you\'ve taken to email me but I may have
     to decline.
 
     Thank you for the invitation, and best of luck to you and the party.
@@ -303,6 +355,14 @@ z,
 ## This indicates the maximum number of emails the player can exchange with
 ## this guest. Getting every email correct will guarantee their presence at
 ## the party. By default this is 3 but you may change it here like so.
-num_emails=3
+num_emails=3,
+
+callback=example_email_callback
 
 ) # Don't forget a closing bracket at the end
+
+
+init python:
+    def example_email_callback(email):
+        print("The callback works")
+        return

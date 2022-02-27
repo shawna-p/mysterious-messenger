@@ -1,10 +1,7 @@
 #************************************
 # Heart Icons
 #************************************
-
 init python:
-
-
 
     def allocate_heart_screen():
         """Allocate a screen to display a heart icon."""
@@ -84,22 +81,11 @@ init python:
         this character.
         """
         try:
-            return im.MatrixColor("Heart Point/Unknown Heart Point.webp",
-                im.matrix.colorize("#000000", character.heart_color))
+            return Transform("Heart Point/Unknown Heart Point.webp",
+                matrixcolor=ColorizeMatrix("#000", character.heart_color))
         except:
             return "Heart Point/Unknown Heart Point.webp"
 
-    def heart_break_img(picture, character):
-        """
-        Dynamically recolour the heartbreak icon to the colour associated
-        with this character.
-        """
-
-        if character.heart_color:
-            return im.MatrixColor(picture,
-                    im.matrix.colorize("#000000", character.heart_color))
-        else:
-            return picture
 
 # Display the heart icon on-screen
 screen heart_icon_screen(character, hide_screen='heart_icon_screen'):
@@ -110,7 +96,7 @@ screen heart_icon_screen(character, hide_screen='heart_icon_screen'):
         xfit True
         add heart_icon(character)
 
-    timer 0.62 action [Hide('heart_icon_screen')]
+    timer 0.62 action [Hide(hide_screen)]
 
 # Additional screens for allocation
 screen hicon2(character):
@@ -160,31 +146,30 @@ transform stack_notify_appear:
     on hide:
         linear .5 alpha 0.0 yoffset -310
 
+image heart_break_anim:
+    "Heart Point/heartbreak_0.webp"
+    0.12
+    "Heart Point/heartbreak_1.webp"
+    0.12
+    "Heart Point/heartbreak_2.webp"
+    0.12
+    "Heart Point/heartbreak_3.webp"
+    0.12
+    "Heart Point/heartbreak_4.webp"
+    0.12
+    Null()
+
 
 # Display the heartbreak on-screen
 screen heart_break_screen(character):
     zorder 20
 
-    fixed at heartbreak(0.0):
-        yfit True
-        xfit True
-        add heart_break_img("Heart Point/heartbreak_0.webp", character)
-    fixed at heartbreak(0.12):
-        yfit True
-        xfit True
-        add heart_break_img("Heart Point/heartbreak_1.webp", character)
-    fixed at heartbreak(0.24):
-        yfit True
-        xfit True
-        add heart_break_img("Heart Point/heartbreak_2.webp", character)
-    fixed at heartbreak(0.36):
-        yfit True
-        xfit True
-        add heart_break_img("Heart Point/heartbreak_3.webp", character)
-    fixed at heartbreak(0.48):
-        yfit True
-        xfit True
-        add heart_break_img("Heart Point/heartbreak_4.webp", character)
+    fixed:
+        align (0.5, 0.5) xfit True yfit True
+        at transform:
+            zoom 2.0
+        add 'heart_break_anim':
+            matrixcolor ColorizeMatrix("#000", character.heart_color)
 
     timer 0.6 action [Hide('heart_break_screen')]
 
@@ -276,7 +261,7 @@ init python:
         # 5 = 0.8
         # So it goes 1.4, 1.25, 1.1, 0.95, 0.8, 0.65, 0.5, 0.35, 0.2
         speednum = str(int((round(9.0 - ((store.persistent.pv - 0.2)
-                                                     / 0.15), 1))))
+                                                    / 0.15), 1))))
 
         speedtxt = Text("SPEED", style='speednum_style', size=30)
         numtxt = Text(speednum, style='speednum_style', align=(.5,.5))
@@ -294,6 +279,8 @@ style speednum_style is text:
 image speed_num_img = DynamicDisplayable(speed_num_fn)
 
 screen speed_num():
+
+    zorder 200
 
     add 'speed_num_img' align(0.98, 0.2)
 
@@ -315,7 +302,7 @@ screen hack_screen(hack, flicker_anim=True, bg="black"):
     imagebutton:
         if flicker_anim:
             at flicker()
-        xysize (750,1334)
+        xysize (config.screen_width, config.screen_height)
         idle hack
         if observing and not _in_replay:
             action Hide('hack_screen')
@@ -325,7 +312,7 @@ screen hack_screen(hack, flicker_anim=True, bg="black"):
 
 label hack(reverse=False):
     if (not observing and not persistent.testing_mode
-            and not vn_choice):
+            and gamestate == CHAT):
         if reverse:
             $ hack_entry = ("hack", "reverse")
         else:
@@ -342,7 +329,7 @@ label hack(reverse=False):
 
 label redhack(reverse=False):
     if (not observing and not persistent.testing_mode
-            and not vn_choice):
+            and gamestate == CHAT):
         if reverse:
             $ hack_entry = ("hack", "red_reverse")
         else:
@@ -359,7 +346,7 @@ label redhack(reverse=False):
 
 label red_static(reverse=False):
     if (not observing and not persistent.testing_mode
-            and not vn_choice):
+            and gamestate == CHAT):
         if reverse:
             $ hack_entry = ("hack", "red_static_reverse")
         else:
@@ -378,7 +365,8 @@ label red_static(reverse=False):
 
 # Shows the "cracked" phone screen overlay
 label screen_crack_overlay():
-    if (not observing and not persistent.testing_mode):
+    if (not observing and not persistent.testing_mode
+            and gamestate == CHAT):
         $ entry = ("overlay", "screen_crack")
         $ current_timeline_item.replay_log.append(entry)
     $ renpy.show_screen('screen_crack_overlay_bg')
@@ -396,8 +384,7 @@ screen screen_crack_overlay_bg():
 # Call them using "call banner('well')" etc
 
 label banner(banner):
-    if (not observing and not persistent.testing_mode
-            and not vn_choice):
+    if (not observing and not persistent.testing_mode and gamestate == CHAT):
         $ banner_entry = ("banner", banner)
         $ current_timeline_item.replay_log.append(banner_entry)
     if persistent.banners:
@@ -408,7 +395,7 @@ label banner(banner):
 screen banner_screen(banner):
     zorder 10
     fixed:
-        xysize (750, 230)
+        xysize (config.screen_width, 230)
         align (.5, .5)
         add 'banner ' + banner align (0.5, 1.0)
 

@@ -59,8 +59,8 @@ image custom_pausebutton:
     repeat
 
 image pause_square = ConditionSwitch(
-    "persistent.custom_footers", "Phone UI/custom-pause-square.webp",
-    "True", "Phone UI/pause_square.webp"
+    "persistent.custom_footers", Frame("Phone UI/custom-pause-square.webp", 15, 15),
+    "True", Frame("Phone UI/pause_square.webp", 15, 15)
 )
 
 image phone_pause = ConditionSwitch(
@@ -80,10 +80,10 @@ image save_exit = ConditionSwitch(
 
 
 image fast_slow_button = "Phone UI/fast-slow-transparent.webp"
-image maxSpeed = Transform("Phone UI/max_speed_active.webp", zoom=1.1)
-image noMaxSpeed = Transform("Phone UI/max_speed_inactive.webp", zoom=1.1)
+image maxSpeed_selected_hover = Transform("max_speed_active", zoom=1.1)
+image maxSpeed_hover = Transform("max_speed_inactive", zoom=1.1)
 image speed_txt = ParameterizedText(style="speednum_style")
-image close_button = Transform(Solid("#00000066"), size=(750,99))
+image close_button = Transform(Solid("#00000066"), size=(config.screen_width,99))
 
 image signature = ConditionSwitch(
     "persistent.custom_footers", "Phone UI/signature01-dark.webp",
@@ -105,8 +105,8 @@ image phone_ui = ConditionSwitch(
     "True", "Phone UI/Phone-UI-old.webp"
 )
 
-image max_speed_active = "Phone UI/max_speed_active.webp"
-image max_speed_inactive = "Phone UI/max_speed_inactive.webp"
+image maxSpeed_selected_idle = "Phone UI/max_speed_active.webp"
+image maxSpeed_idle = "Phone UI/max_speed_inactive.webp"
 image back_arrow_btn = ConditionSwitch(
     "persistent.custom_footers", "Phone UI/back-arrow.webp",
     "True", "menu_back"
@@ -195,7 +195,7 @@ image red_static_reverse:
 image red_static_background = Fixed(
     Transform("center_bg:Phone UI/bg_red_static.webp", zoom=1.19, align=(0.5, 0.5)),
     "Phone UI/red_static_scroll.webp",
-    xysize=(750,1334)
+    xysize=(config.screen_width,1334)
 )
 
 image screen_crack = "center_bg:Phone UI/screen_crack.webp"

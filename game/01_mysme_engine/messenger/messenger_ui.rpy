@@ -5,16 +5,16 @@
 screen answer_button(act=None):
     zorder 4
     tag chat_footer
-    add 'pause_square' yalign 0.59
+    add 'pause_square' ysize config.screen_height-113-165 yalign 0.0 yoffset 165
     if persistent.custom_footers:
-        add 'custom_pausebutton' xalign 0.96 yalign 0.16
-        add 'custom_answerbutton' ypos 1220
+        add 'custom_pausebutton' xalign 0.96 yoffset 190
+        add 'custom_answerbutton' yalign 1.0
     else:
-        add "pausebutton" xalign 0.96 yalign 0.16
-        add "answerbutton" ypos 1220
+        add "pausebutton" xalign 0.96 yoffset 190
+        add "answerbutton" yalign 1.0
 
     imagebutton:
-        ypos 1220
+        yalign 1.0
         focus_mask None
         idle 'transparent_answer'
         activate_sound "audio/sfx/UI/answer_screen.mp3"
@@ -36,11 +36,11 @@ screen continue_button():
     zorder 4
     tag chat_footer
     if persistent.custom_footers:
-        add 'custom_darklight_continue_button' ypos 1220
+        add 'custom_darklight_continue_button' yalign 1.0
     else:
-        add 'darklight_continue_button' ypos 1220
+        add 'darklight_continue_button' yalign 1.0
     imagebutton:
-        ypos 1220
+        yalign 1.0
         focus_mask None
         idle 'transparent_answer'
         action Return()
@@ -63,16 +63,16 @@ screen pause_button():
             # can't click to mess up the timed answer timing.
             draggable True
             align (0.5, 1.0)
-            xysize (750, 113)
+            xysize (config.screen_width, 113)
             frame:
                 align (0.5, 1.0)
                 background "#282828"
-                xysize (750, 113)
+                xysize (config.screen_width, 113)
                 text "Choose a reply":
                     color "#fff" text_align 0.5 align (0.5, 0.5)
     else:
         imagebutton:
-            ypos 1220
+            yalign 1.0
             focus_mask True
             idle 'phone_pause'
             if (not choosing and not block_interrupts and
@@ -104,15 +104,14 @@ screen play_button_pause_chat():
     use messenger_screen(no_anim_list=chatlog[-bubbles_to_keep:])
     use phone_overlay(is_menu_pause=True)
     if persistent.custom_footers:
-        add 'custom_pausebutton' xalign 0.96 yalign 0.16
+        add 'custom_pausebutton' xalign 0.96 yoffset 190
     else:
-        add "pausebutton" xalign 0.96 yalign 0.16
-    add "pause_square" yalign 0.59
+        add "pausebutton" xalign 0.96 yoffset 190
+    add "pause_square" ysize config.screen_height-113-165 yalign 0.0 yoffset 165
     imagebutton:
         xanchor 0.0
-        yanchor 0.0
         xpos 0
-        ypos 1220
+        yalign 1.0
         focus_mask True
         idle 'phone_play'
         keysym "K_SPACE"
@@ -133,14 +132,14 @@ screen stop_chat_screen(wait_for_interact=False):
         # can't click to proceed without going through a link.
         draggable True
         align (0.5, 1.0)
-        xysize (750, 113)
+        xysize (config.screen_width, 113)
         if persistent.link_wait_pause:
             add 'phone_pause' align (0.5, 1.0)
         else:
             frame:
                 align (0.5, 1.0)
                 background "#282828"
-                xysize (750, 113)
+                xysize (config.screen_width, 113)
                 text wait_text:
                     color "#fff" text_align 0.5 align (0.5, 0.5)
 
@@ -149,7 +148,7 @@ screen fast_slow_buttons():
     # Fast button
     imagebutton:
         xalign 0.985
-        yalign 0.997
+        yalign 1.0 yoffset -12
         focus_mask None
         idle "fast_slow_button"
         keysym "K_RIGHT"
@@ -160,7 +159,7 @@ screen fast_slow_buttons():
     # Slow button
     imagebutton:
         xalign 0.015
-        yalign 0.997
+        yalign 1.0 yoffset -12
         focus_mask None
         idle "fast_slow_button"
         keysym "K_LEFT"
@@ -258,23 +257,21 @@ screen phone_overlay(is_menu_pause=False):
 
     fixed:
         xysize(150,80)
-        align (0.16, 0.055)
+        pos (105, 105)
+        yanchor 0.5
         if starter_story:
             xoffset -85
         imagebutton:
             align (0.5, 0.5)
+            auto 'maxSpeed_%s'
             focus_mask True
-            idle 'max_speed_inactive'
-            hover "noMaxSpeed"
             selected renpy.is_skipping()
-            selected_idle 'max_speed_active'
-            selected_hover "maxSpeed"
             if not choosing and not renpy.get_screen('no_modal_confirm'):
                 action Skip()
     if starter_story or persistent.testing_mode or persistent.unlock_all_story:
         fixed:
             xysize (150, 80)
-            align (0.99, 0.055)
+            pos (config.screen_width-15, 105) xanchor 1.0 yanchor 0.5
             imagebutton:
                 align (0.5, 0.5)
                 focus_mask True
@@ -286,7 +283,7 @@ screen phone_overlay(is_menu_pause=False):
                                 Function(renpy.pop_call), NullAction()),
                             SetField(persistent, 'first_boot', False),
                             SetField(persistent, 'on_route', True),
-                            SetVariable('vn_choice', True),
+                            SetVariable('gamestate', VNMODE),
                             Function(purge_temp_texts),
                             If(is_menu_pause,
                                 Function(renpy.jump_out_of_context,
@@ -309,7 +306,7 @@ screen phone_overlay(is_menu_pause=False):
                                         label='just_return')])
 
     frame:
-        yalign 0.04
+        ypos 105 yalign 0.5
         if starter_story:
             xalign 0.5
         else:
@@ -327,11 +324,13 @@ screen phone_overlay(is_menu_pause=False):
         spacing 15
         fixed:
             xysize (20, 48)
+            # Use the actual battery information
             if battery.state >= 1 and battery.state != 2:
                 bar:
                     value StaticValue(value=float(battery.percent)/100.0,
                         range=1.0)
                     style 'battery_bar'
+            # No battery information available; use 75%
             else:
                 bar:
                     value StaticValue(value=float(75)/100.0,
@@ -342,7 +341,8 @@ screen phone_overlay(is_menu_pause=False):
     if not starter_story:
         fixed:
             xysize (50,50)
-            align (0.045, 0.065)
+            yanchor 0.5
+            pos (25, 105)
             imagebutton:
                 align (0.5, 0.5)
                 idle 'back_arrow_btn'
@@ -352,13 +352,16 @@ screen phone_overlay(is_menu_pause=False):
                 # again while the non-modal confirm screen is showing.
                 if renpy.get_screen('no_modal_confirm'):
                     action None
+                # Back button during a history replay ends it
                 elif _in_replay:
                     action EndReplay(False)
+                # Back button during the chat creator jumps back to it
                 elif (is_main_menu_replay):
                     action If(is_menu_pause,
                         Function(renpy.jump_out_of_context,
                             label='chatroom_creator_setup'),
                         Jump('chatroom_creator_setup'))
+                # Back button when the chat is expired jumps out of it
                 elif (observing or current_timeline_item.currently_expired):
                     action If(is_menu_pause,
                         Function(renpy.jump_out_of_context,
@@ -377,6 +380,8 @@ screen phone_overlay(is_menu_pause=False):
                                         label='exit_item_early'),
                                     Jump('exit_item_early'))],
                             no_action=[Hide('no_modal_confirm')])
+                # Otherwise, the player is trying to exit the chat while
+                # it's still "active"
                 else:
                     action CConfirm(("Do you really want to "
                         + "exit this chatroom? Please note that you cannot "
@@ -477,12 +482,12 @@ screen continue_answer_button(themenu):
     zorder 4
     tag chat_footer
     if persistent.custom_footers:
-        add "custom_answerbutton" ypos 1220
+        add "custom_answerbutton" yalign 1.0
     else:
-        add "answerbutton" ypos 1220
+        add "answerbutton" yalign 1.0
 
     imagebutton:
-        ypos 1220
+        yalign 1.0
         focus_mask None
         idle "transparent_answer"
         activate_sound "audio/sfx/UI/answer_screen.mp3"
@@ -498,19 +503,18 @@ screen continue_answer_button(themenu):
     # they either forfeit the ability to pick an answer or
     # the program auto-selects the answer button for them
     if renpy.is_skipping() and not observing:
-        timer 0.01 action If(persistent.use_timed_menus,
+        timer 0.01:
+            action [
+                Hide('answer_countdown'),
+                Hide('continue_answer_button'),
+                Show('pause_button'),
+                If(persistent.use_timed_menus,
+                    [SetVariable('choosing', True),
+                    SetVariable('timed_choose', True),
+                    Jump(themenu)],
 
-                            [ Hide('answer_countdown'),
-                            Hide('continue_answer_button'),
-                            Show('pause_button'),
-                            SetVariable("timed_choose", False) ],
-
-                            [ Hide('answer_countdown'),
-                            Hide('continue_answer_button'),
-                            Show('pause_button'),
-                            SetVariable('choosing', True),
-                            SetVariable('timed_choose', True),
-                            Jump(themenu) ])
+                    SetVariable('timed_choose', False))
+            ]
 
 style answer_bar:
     bar_invert True

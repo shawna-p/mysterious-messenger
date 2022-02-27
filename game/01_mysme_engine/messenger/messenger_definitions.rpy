@@ -98,6 +98,48 @@ init -4 python:
             self.for_replay = for_replay
 
         @property
+        def album_obj(self):
+            """
+            If this message has an image relating to an in-game CG, return
+            the CG image.
+            """
+
+            if self.what.startswith("cg "):
+                # don't need to add cg to the start of this filepath
+                filepath = self.what
+            else:
+                filepath = "cg " + self.what
+
+            # Name of the album should be the letters before the first _
+            # e.g. "cg common_1" -> common
+            try:
+                album_name = filepath.split('_')[0].split(' ')[1] + '_album'
+                cg_list = getattr(store.persistent, album_name)
+            except:
+                ScriptError("Couldn't get album name from CG image \"", self.what, '"',
+                header="CG Albums",
+                subheader="Showing a CG in a Chatroom or Text Message")
+                return
+
+            alb_obj = None
+            for photo in cg_list:
+                if Album(filepath) == photo:
+                    alb_obj = photo
+                    photo.unlock()
+
+            # Ensure the album for this photo is visible in the album screen.
+            # Useful if you've hidden an album until an image in it is unlocked.
+            if filepath.split('_')[0].split(' ')[1] not in store.all_albums:
+                store.all_albums.append(filepath.split('_')[0].split(' ')[1])
+
+            if alb_obj:
+                return alb_obj
+
+            return filepath
+
+
+
+        @property
         def text_msg_what(self):
             """Return `what` with the font removed, for text messages."""
 
@@ -237,14 +279,14 @@ init -4 python:
 
             if self.link_action:
                 # Return yellow flashing version
-                return Fixed(Frame(im.MatrixColor('Bubble/link_bubble.webp',
-                            im.matrix.colorize('#000', c)), 25, 25),
-                    At(Frame(im.MatrixColor('Bubble/link_bubble.webp',
-                            im.matrix.colorize('#000', "#e2ca53")),
+                return Fixed(Frame(Transform('Bubble/link_bubble.webp',
+                        matrixcolor=ColorizeMatrix('#000', c)), 25, 25),
+                    At(Frame(Transform('Bubble/link_bubble.webp',
+                        matrixcolor=ColorizeMatrix('#000', "#e2ca53")),
                         25, 25), flash_yellow))
             else:
-                return Frame(im.MatrixColor('Bubble/link_bubble.webp',
-                            im.matrix.colorize('#000', c)), 25, 25)
+                return Frame(Transform('Bubble/link_bubble.webp',
+                    matrixcolor=ColorizeMatrix('#000', c)), 25, 25)
 
         @property
         def link_img(self):
@@ -812,7 +854,7 @@ init -4 python:
             show_msg_img(what, who)
 
         # Some special bubbles will award the player with a heart icon
-        award_hourglass(specBubble)
+        award_hourglass_auto(specBubble)
 
         # Add this entry to the chatlog
         chatlog.append(ChatEntry(who, what, upTime(),
@@ -878,7 +920,7 @@ init -4 python:
         if not renpy.is_skipping() and isinstance(length, (int, float)):
             renpy.pause(length)
 
-    def award_hourglass(specBubble):
+    def award_hourglass_auto(specBubble):
         """Show the hourglass icon and award the player a heart point."""
 
         if specBubble not in store.hourglass_bubbles:
@@ -907,6 +949,37 @@ init -4 python:
         if True not in store.hourglass_bag.bag:
             store.hourglass_bag.new_choices([ False for i in range(8) ]
                 + [True for i in range(2) ])
+
+    def award_hourglass(random=False, force=False):
+        """
+        Show the hourglass icon and award the player a heart point.
+        Triggered manually.
+        """
+
+        if force:
+            pass
+        elif (store.observing or store.current_timeline_item.currently_expired
+                or not store.persistent.receive_hg
+                or store.is_main_menu_replay):
+            return
+
+        if force or not random or store.hourglass_bag.draw():
+            # Give the hourglass
+            if not persistent.animated_icons:
+                renpy.show_screen(allocate_notification_screen(),
+                    message="Hourglass +1")
+            else:
+                renpy.show_screen(allocate_hg_screen())
+            renpy.music.play("audio/sfx/UI/select_4.mp3", channel='sound')
+            store.collected_hg += 1
+
+        # Refill the hourglass bag, if needed
+        if True not in store.hourglass_bag.bag:
+            store.hourglass_bag.new_choices([ False for i in range(8) ]
+                + [True for i in range(2) ])
+
+
+
 
 
     def chatbackup_posted():
@@ -966,7 +1039,7 @@ init -4 python:
         if chatbackup.img:
             show_msg_img(chatbackup.what, chatbackup.who)
 
-        award_hourglass(chatbackup.specBubble)
+        award_hourglass_auto(chatbackup.specBubble)
 
         chatlog.append(ChatEntry(chatbackup.who, chatbackup.what,
                                     upTime(), chatbackup.img,
@@ -1004,14 +1077,15 @@ init python:
     def glow_bubble_fn(glow_color='#000'):
         """Recolour a generic glowing bubble with the given colour."""
 
-        return im.MatrixColor('Bubble/Special/sa_glow2.webp',
-                            im.matrix.colorize(glow_color, '#fff'))
+        return Transform('Bubble/Special/sa_glow2.webp',
+            matrixcolor=ColorizeMatrix(glow_color, "#fff"))
 
     def reg_bubble_fn(bubble_color='#000'):
         """Recolour a generic message bubble with the given colour."""
 
-        return im.MatrixColor('Bubble/white-Bubble.webp',
-                            im.matrix.colorize('#000', bubble_color))
+        return Transform('Bubble/white-Bubble.webp',
+            matrixcolor=ColorizeMatrix("#000", bubble_color))
+
 
     def reset_participants(participants=None):
         if participants is None:

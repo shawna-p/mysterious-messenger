@@ -253,7 +253,8 @@ python early:
             if renpy.get_registered_image('greet ' + self.file_id):
                 return Transform('greet ' + self.file_id, zoom=scale)
             else:
-                return Transform(self.homepage_pic, size=(110*scale, 110*scale))
+                return Transform(self.homepage_pic, fit='contain',
+                    size=(110*scale, 110*scale))
 
 
         @property
@@ -503,7 +504,16 @@ python early:
             try:
                 return self.__prof_pic
             except:
+                pass
+            try:
                 return self.__dict__['prof_pic']
+            except:
+                pass
+            try:
+                return self.__dict__['_m1_character_definition__prof_pic']
+            except:
+                return 'rounded-rectangle-mask.webp'
+
 
         @prof_pic.setter
         def prof_pic(self, new_img):
@@ -606,7 +616,7 @@ python early:
                 the_pic = self.__bonus_pfp
             except AttributeError:
                 the_pic = False
-            if self.__prof_pic == "cannot_find_img":
+            if self.prof_pic == "cannot_find_img":
                 return Transform('cannot_find_img', size=(the_size, the_size))
 
             # Make sure MC's pic is up to date
@@ -615,44 +625,52 @@ python early:
 
             if the_pic and isinstance(the_pic, tuple):
                 return tuple_to_pic(the_pic, the_size)
-            elif isinstance(self.__prof_pic, tuple):
-                return tuple_to_pic(self.__prof_pic, the_size)
+            elif isinstance(self.prof_pic, tuple):
+                return tuple_to_pic(self.prof_pic, the_size)
 
             if the_pic and the_size <= max_small:
-                return Transform(the_pic, size=(the_size, the_size))
+                return Transform(Transform(the_pic, fit='cover',
+                    size=(the_size, the_size)), crop=(0, 0, the_size, the_size))
             elif the_pic:
                 # Check for a larger version of the bonus pfp.
                 try:
                     big_name = the_pic.split('.')
                 except:
-                    return Transform(self.__prof_pic, size=(the_size, the_size))
+                    return Transform(Transform(self.prof_pic, fit='cover',
+                        size=(the_size, the_size)),
+                        crop=(0, 0, the_size, the_size))
                 large_pfp = big_name[0] + '-b.' + big_name[1]
                 if renpy.loadable(large_pfp):
-                    return Transform(large_pfp, size=(the_size, the_size))
+                    return Transform(Transform(large_pfp, fit='cover',
+                        size=(the_size, the_size)),
+                        crop=(0, 0, the_size, the_size))
                 else:
-                    return Transform(the_pic, size=(the_size, the_size))
+                    return Transform(Transform(the_pic, fit='cover',
+                        size=(the_size, the_size)),
+                        crop=(0, 0, the_size, the_size))
+
 
 
             # Regular profile pic is 110x110
             # Big pfp is 314x314
-            if not self.__prof_pic:
-                ScriptError("Could not find the image \"", self.__prof_pic,
+            if not self.prof_pic:
+                ScriptError("Could not find the image \"", self.prof_pic,
                         "\" for use as a profile picture.",
                         header="Creating Characters",
                         subheader="Adding a New Character to Chatrooms")
                 self.prof_pic = "cannot_find_img"
 
             # Make sure the pfp is still loadable
-            if (isinstance(self.__prof_pic, basestring)
-                    and not renpy.loadable(self.__prof_pic)):
-                ScriptError("Could not load the image \"", self.__prof_pic,
+            if (isinstance(self.prof_pic, basestring)
+                    and not renpy.loadable(self.prof_pic)):
+                ScriptError("Could not load the image \"", self.prof_pic,
                     "\" for use as a profile picture.",
                     header="Creating Characters",
                     subheader="Adding a New Character to Chatrooms")
                 self.prof_pic = "cannot_find_img"
 
             if the_size <= max_small:
-                return Transform(self.__prof_pic,
+                return Transform(self.prof_pic,
                                 size=(the_size, the_size))
             else:
                 return Transform(self.__big_prof_pic,
@@ -791,10 +809,11 @@ python early:
             Allow this ChatCharacter object to act as a proxy for the
             VN and phone call Character objects.
             """
+            global gamestate
 
-            if store.in_phone_call:
+            if gamestate == PHONE:
                 self.phone_char.do_extend()
-            elif store.vn_choice:
+            elif gamestate == VNMODE:
                 self.vn_char.do_extend()
 
         def __call__(self, what, pauseVal=None, img=False,
@@ -864,11 +883,11 @@ python early:
 
             # Allows you to still use this object even in phone
             # calls and Story Mode
-            if store.in_phone_call:
+            if gamestate == PHONE:
                 # If in phone call, use the phone_call character
                 self.phone_char(what, **kwargs)
                 return
-            elif store.vn_choice:
+            elif gamestate == VNMODE:
                 # If in Story Mode, use VN character
                 self.vn_char(what, **kwargs)
                 return
@@ -883,7 +902,7 @@ python early:
             if store.text_person is not None:
                 # If they're on the text message screen, show the
                 # message real-time
-                if store.text_person.real_time_text and store.text_msg_reply:
+                if store.text_person.real_time_text and store.gamestate == TEXTMSG:
                     addtext_realtime(self, what, pauseVal=pauseVal, img=img)
                 # If they're not in the midst of a text conversation,
                 # this is "backlog"
@@ -1191,7 +1210,7 @@ init -5 python:
             img = [ i for i, cond in img ]
 
         for i in img:
-            add_img_to_set(store.unlocked_prof_pics, i)
+            add_img_to_set(store.persistent.unlocked_prof_pics, i)
             if unlocked:
                 add_img_to_set(store.persistent.mc_unlocked_pfps, i)
         return

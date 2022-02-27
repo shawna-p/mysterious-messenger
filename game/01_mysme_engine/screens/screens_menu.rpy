@@ -96,82 +96,52 @@ init python:
         Makes use of a DayGreeting class to find sound clips and
         corresponding translations.
         """
-        global greet_text_english, greet_text_korean
-        global greet_char, greet_list
-        greet_char = renpy.random.choice(greet_list)
 
-        # Test that this character is indeed in the greetings lists
-        while greet_list:
-            try:
-                morning_greeting[greet_char]
-                afternoon_greeting[greet_char]
-                evening_greeting[greet_char]
-                night_greeting[greet_char]
-                late_night_greeting[greet_char]
-                break
-            except KeyError:
-                # This means the character doesn't have a greeting available
-                print("WARNING: Character", greet_char,
-                    "does not have greetings, but is included in greet_list.")
-                renpy.show_screen('notify',
-                    "WARNING: Character " + greet_char + " does not have "
-                    + "greetings, but is included in greet_list.")
-                greet_list.remove(greet_char)
-                greet_char = renpy.random.choice(greet_list)
-
-
+        global greet_char, greet_text_english, greet_text_korean
         hour = int(time.strftime('%H', time.localtime()))
 
-        if hour >= 6 and hour < 12:  # morning
-            num_greetings = len(morning_greeting[greet_char])
-            the_greeting = renpy.random.randint(1, num_greetings) - 1
+        optional_text = ""
 
-            greet_text_english = ("Good morning! "
-                + morning_greeting[greet_char][the_greeting].english)
-            greet_text_korean = morning_greeting[greet_char][the_greeting].korean
-            renpy.play(morning_greeting[greet_char][the_greeting].sound_file,
-                channel="voice_sfx")
+        # Figure out the time
+        if hour < 2:
+            # Night
+            greet_dict = night_greeting
+            optional_text = "It's getting late! "
+        elif hour < 6:
+            # Early morning
+            greet_dict = late_night_greeting
+            optional_text = "You're up late! "
+        elif hour < 12:
+            # Morning
+            greet_dict = morning_greeting
+            optional_text = "Good morning! "
+        elif hour < 18:
+            # Afternoon
+            greet_dict = afternoon_greeting
+            optional_text = "Good afternoon! "
+        elif hour < 22:
+            # Evening
+            greet_dict = evening_greeting
+            optional_text = "Good evening! "
+        else:
+            # Night greeting
+            greet_dict = night_greeting
+            optional_text = "It's getting late! "
 
-        elif hour >=12 and hour < 18:    # afternoon
-            num_greetings = len(afternoon_greeting[greet_char])
-            the_greeting = renpy.random.randint(1, num_greetings) - 1
+        # Randomly pick a key from the list
+        greet_char = renpy.random.choice(greet_dict.keys())
 
-            greet_text_english = ("Good afternoon! "
-                + afternoon_greeting[greet_char][the_greeting].english)
-            greet_text_korean = afternoon_greeting[greet_char][the_greeting].korean
-            renpy.play(afternoon_greeting[greet_char][the_greeting].sound_file,
-                channel="voice_sfx")
+        # Randomly pick a greeting
+        the_greeting = renpy.random.choice(greet_dict[greet_char])
 
-        elif hour >= 18 and hour < 22:  # evening
-            num_greetings = len(evening_greeting[greet_char])
-            the_greeting = renpy.random.randint(1, num_greetings) - 1
+        if the_greeting.english == "Welcome to Mysterious Messenger!":
+            greet_text_english = optional_text + the_greeting.english
+        else:
+            greet_text_english = the_greeting.english
 
-            greet_text_english = ("Good evening! "
-                + evening_greeting[greet_char][the_greeting].english)
-            greet_text_korean = evening_greeting[greet_char][the_greeting].korean
-            renpy.play(evening_greeting[greet_char][the_greeting].sound_file,
-                channel="voice_sfx")
+        greet_text_korean = the_greeting.korean
 
-        elif hour >= 22 or hour < 2: # night
-            num_greetings = len(night_greeting[greet_char])
-            the_greeting = renpy.random.randint(1, num_greetings) - 1
-
-            greet_text_english = ("It's getting late! "
-                + night_greeting[greet_char][the_greeting].english)
-            greet_text_korean = night_greeting[greet_char][the_greeting].korean
-            renpy.play(night_greeting[greet_char][the_greeting].sound_file,
-                channel="voice_sfx")
-
-        else:   # late night/early morning
-            num_greetings = len(late_night_greeting[greet_char])
-            the_greeting = renpy.random.randint(1, num_greetings) - 1
-
-            greet_text_english = ("You're up late! "
-                + late_night_greeting[greet_char][the_greeting].english)
-            greet_text_korean = late_night_greeting[greet_char][the_greeting].korean
-            renpy.play(late_night_greeting[greet_char][
-                            the_greeting].sound_file, channel="voice_sfx")
-
+        renpy.play(the_greeting.sound_file, channel="voice_sfx")
 
 
     def set_name_pfp():
@@ -194,7 +164,7 @@ init python:
 ## Variable to help determine when there should be Honey Buddha
 ## Chips available
 default hbc_bag = RandomBag([ False, False, False,
-                              False, False, True, True ])
+                            False, False, True, True ])
 
 
 ## Main Menu screen ############################################################
@@ -203,25 +173,84 @@ default hbc_bag = RandomBag([ False, False, False,
 ## Also shows a greeting from a random character
 ##
 
+init python:
+    def MMOriginalStory():
+        """
+        Return the action to be used when clicking Original Story from
+        the main menu.
+        """
+        if persistent.on_route:
+            # This is the auto save that gets loaded every
+            # time you load the game
+            return [SetField(persistent, 'load_instr', 'Auto'),
+                    SetField(persistent, 'just_loaded', True),
+                    FileLoad(mm_auto)]
+        else:
+            # Note: this screen only has a placeholder
+            # but can easily be customized (see below)
+            return Show('route_select_screen')
+
+    def MMMainLoad():
+        """
+        Return the action used when clicking on the save/load button
+        from the main menu.
+        """
+        return [Hide('load'), Show("load")]
+
+    def MMSettings():
+        """
+        Return the action used when clicking Settings on the main menu.
+        """
+        return [Hide('preferences'), Show('preferences')]
+
+    def MMHistory():
+        """
+        Return the action used when clicking History from the main menu.
+        """
+        return Show('select_history', Dissolve(0.5))
+
+    def MMLoadAutoSave():
+        """Load the auto save, if available."""
+        return If(persistent.real_time,
+                [SetField(persistent, 'on_route', True),
+                SetField(persistent, 'load_instr', 'Auto'),
+                SetField(persistent, 'just_loaded', True),
+                FileAction(mm_auto),
+                renpy.restart_interaction],
+
+                [SetField(persistent, 'on_route', True),
+                SetField(persistent, 'just_loaded', True),
+                FileAction(mm_auto),
+                renpy.restart_interaction])
+
+    def MMSaveLoad(title, slot):
+        if title == "Save":
+            return [SetVariable('save_name', get_save_title()),
+                    FileAction(slot),
+                    Function(renpy.restart_interaction)]
+        else: # title == "Load"
+            return [Function(load_action,
+                    the_day=access_json(slot, 'today'),
+                    next_day=access_json(slot, 'tomorrow'),
+                    file_time=FileTime(slot, empty="00:00"),
+                    slot=slot)]
+
+    def MMMainMenuMusic():
+        if store.persistent.first_boot:
+            return [SetField(persistent, 'first_boot', False),
+                    Play('music', mystic_chat, if_changed=True),
+                    Show('route_select_screen')]
+        else:
+            return [Play('music', mystic_chat, if_changed=True),
+                    Function(chat_greet)]
+
+
 screen main_menu():
 
     tag menu
 
-    if persistent.first_boot:
-        on 'show' action [SetField(persistent, 'first_boot', False),
-                            Show('route_select_screen')]
-        on 'replace' action [SetField(persistent, 'first_boot', False),
-                            Show('route_select_screen')]
-    else:
-        # Greet the player, and play the title music if not already
-        on 'show' action [If(renpy.music.get_playing(channel='music')
-                            != mystic_chat,
-                            Queue('music', mystic_chat)),
-                            Function(chat_greet)]
-        on 'replace' action [If(renpy.music.get_playing(channel='music')
-                            != mystic_chat,
-                            Queue('music', mystic_chat)),
-                            Function(chat_greet)]
+    on 'show' action MMMainMenuMusic()
+    on 'replace' action MMMainMenuMusic()
 
     # This adds the 'starry night' background with a few animated stars
     # It is defined in 'screens_starry_night.rpy'
@@ -264,29 +293,19 @@ screen main_menu():
             button:
                 xysize(430,400)
                 style_prefix 'left_menu'
-                if persistent.on_route:
-                    # This is the auto save that gets loaded every
-                    # time you load the game
-                    action [SetField(persistent, 'load_instr', 'Auto'),
-                            SetField(persistent, 'just_loaded', True),
-                            FileLoad(mm_auto)]
-                else:
-                    # Note: this screen only has a placeholder
-                    # but can easily be customized (see below)
-                    action Show('route_select_screen')
-
+                action MMOriginalStory()
                 vbox:
                     add "menu_original_story" xpos 20
                     text "Original\nStory"
 
             vbox:
                 spacing 15
-                # Save and Load
+                # Save and Load (just load for main  menu)
                 # Top Right
                 button:
                     xysize(205, 195)
                     style_prefix 'right_menu'
-                    action [Hide('load'), Show("load")]
+                    action MMMainLoad()
                     vbox:
                         add "menu_save_load" xpos 25
                         text "Save & Load"
@@ -296,7 +315,7 @@ screen main_menu():
                 button:
                     xysize(205, 195)
                     style_prefix 'right_menu'
-                    action [Hide('preferences'), Show('preferences')]
+                    action MMSettings()
                     vbox:
                         add "menu_after_ending" align (0.5, 0.5)
                         text "Settings"
@@ -307,26 +326,31 @@ screen main_menu():
             button:
                 xysize(430,195)
                 style_prefix 'left_menu'
-                action Show('select_history', Dissolve(0.5))
+                action MMHistory()
                 vbox:
                     add "menu_history" align (0.5, 0.5)
                     text "History"
-
 
             # DLC
             # Bottom Right
             button:
                 xysize (205,195)
                 style_prefix 'right_menu'
-                action Show('developer_settings')
+                if config.developer:
+                    action [Hide('developer_settings'), Show('developer_settings')]
+                else:
+                    action Show('game_extras')
                 vbox:
                     add "menu_dlc" align (0.5, 0.5)
-                    text "Developer"
+                    if config.developer:
+                        text "Developer"
+                    else:
+                        text "Extras"
 
     # The update button. Only checks for and shows updates if this
     # is a developer version (not a full release).
     if config.developer:
-        on 'show' action Function(check_version)
+        on 'show' action Function(renpy.invoke_in_thread, fn=check_version)
         button:
             style 'update_button'
             selected persistent.available_update
@@ -336,6 +360,8 @@ screen main_menu():
                     and len(persistent.available_update) > 4),
                 Show('program_updates', update=persistent.available_update),
                 Show('update_preferences'))
+        if persistent.seen_new_gallery_popup is None and check_for_old_albums():
+            use gallery_popup()
 
 style update_button:
     selected_background 'Menu Screens/Main Menu/update_icon_new.webp'
@@ -488,7 +514,7 @@ screen save():
     tag save_load
     modal True
 
-    default current_page = 0
+    default current_page = persistent.reg_save_pg
     default num_pages = 5
     default slots_per_column = 7
     default begin_page = 0
@@ -506,7 +532,7 @@ screen load():
     tag save_load
     modal True
 
-    default current_page = 0
+    default current_page = persistent.reg_save_pg
     default num_pages = 5
     default slots_per_column = 7
     default begin_page = 0
@@ -551,7 +577,7 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
         # This ensures the input will get the enter event before any of the
         # buttons do.
         order_reverse True
-
+        ysize config.screen_height-172 yalign 1.0
         # Contains the save slots.
         vpgrid id 'save_load_vp':
             style_prefix "save_load"
@@ -560,49 +586,22 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
 
             # This adds the 'backup' save slot to the top when loading
             if title == "Load" and FileLoadable(mm_auto) and current_page == 0:
-                if '|' in FileSaveName(mm_auto):
-                    $ info = FileSaveName(mm_auto).split('|')
-                    $ rt = info[0]
-                    $ dn = info[1]
-                    $ cn = info[2]
-                    if len(info) > 3:
-                        $ dn2 = info[3]
-                    else:
-                        $ dn2 = dn
-                    if len(info) > 4:
-                        $ day_suffix = info[4]
-                    else:
-                        $ day_suffix = " DAY"
-                else:
-                    $ rt, dn, cn, dn2 = 'auto', '1st', 'Example Chatroom', '2nd'
-                    $ day_suffix = " DAY"
-
                 button:
                     background 'save_auto_idle'
                     hover_background 'save_auto_hover'
-                    action If(persistent.real_time,
-                                [SetField(persistent, 'on_route', True),
-                                SetField(persistent, 'load_instr', 'Auto'),
-                                SetField(persistent, 'just_loaded', True),
-                                FileAction(mm_auto),
-                                renpy.restart_interaction],
-
-                                [SetField(persistent, 'on_route', True),
-                                SetField(persistent, 'just_loaded', True),
-                                FileAction(mm_auto),
-                                renpy.restart_interaction])
+                    action MMLoadAutoSave()
                     hbox:
                         fixed:
                             add 'save_auto' align (0.5, 0.5)
                         frame:
                             style_prefix 'save_desc'
-
                             has vbox
                             fixed:
                                 text ("This is a backup file that"
                                         + " is auto-generated")
-                            text "Today: [dn]" + day_suffix yalign 1.0
-
+                            text ("Today: " + access_json(mm_auto, 'today')
+                                    + access_json(mm_auto, 'day_suffix')):
+                                yalign 1.0
                         frame:
                             style_prefix 'save_stamp'
                             has vbox
@@ -619,44 +618,18 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
             ## This displays all the regular save slots
             #for i in range(gui.file_slot_cols * gui.file_slot_rows):
             for i in range(begin_range, end_range):
-
                 python:
                     slot = i + 1
-                    if '|' in FileSaveName(slot):
-                        info = FileSaveName(slot).split('|')
-                        rt = info[0]
-                        dn = info[1]
-                        cn = info[2]
-                        if len(info) > 3:
-                            dn2 = info[3]
-                        else:
-                            dn2 = dn
-                        if len(info) > 4:
-                            day_suffix = info[4]
-                        else:
-                            day_suffix = " DAY"
-                    else:
-                        rt, dn, cn, dn2 = 'auto', '1st', 'Example', '2nd'
-                        day_suffix = " DAY"
-
                     file_time = FileTime(slot, empty="00:00")[-5:]
 
-
                 button:
-                    if title == "Save":
-                        action [SetVariable('save_name', get_save_title()),
-                                FileAction(slot),
-                                renpy.restart_interaction]
-                    else: # title == "Load"
-                        action [Function(load_action, the_day=dn, next_day=dn2,
-                                file_time=FileTime(slot, empty="00:00"),
-                                slot=slot)]
-
+                    action MMSaveLoad(title, slot)
                     hbox:
                         fixed:
                             # Adds the correct save image to the left
                             if FileLoadable(slot):
-                                add 'save_' + rt align (0.5, 0.5)
+                                add 'save_' + access_json(slot, 'save_icon'):
+                                    align (0.5, 0.5)
                             else:
                                 add 'save_empty' align (0.5, 0.5)
 
@@ -666,8 +639,10 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
                             # Displays the most recent chatroom title + day
                             if FileLoadable(slot):
                                 fixed:
-                                    text "[cn]"
-                                text "Today: [dn]" + day_suffix yalign 1.0
+                                    text access_json(slot, 'title')
+                                text ("Today: " + access_json(slot, 'today')
+                                    + access_json(slot, 'day_suffix')):
+                                    yalign 1.0
                             else:
                                 fixed:
                                     text "Empty Slot"
@@ -700,6 +675,8 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
                     align (0.5, 0.5)
                     action [SetScreenVariable('begin_page', begin_page-5)]
                     activate_sound 'audio/sfx/UI/email_next_arrow.mp3'
+            else:
+                null width 65 height 68
 
             for index in range(begin_page, end_page):
                 $ zoomval = 0.7
@@ -710,14 +687,20 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
                     selected_background Transform('blue_hex', zoom=zoomval)
                     text_size 38
                     text_align (0.5, 0.5)
-                    action [SetScreenVariable('current_page', index)]
+                    action [SetScreenVariable('current_page', index),
+                        SetField(persistent, 'reg_save_pg', index)]
             # Currently there are 10 pages.
-            if begin_page < 5:
+            if begin_page < 10:
                 imagebutton:
                     idle Transform("email_next", zoom=1.5)
                     align (0.5, 0.5)
                     action [SetScreenVariable('begin_page', begin_page+5)]
                     activate_sound 'audio/sfx/UI/email_next_arrow.mp3'
+            else:
+                null width 65 height 68
+
+# The current page number
+default persistent.reg_save_pg = 0
 
 init python:
 
@@ -726,10 +709,18 @@ init python:
 
         global most_recent_item
 
-        if most_recent_item and most_recent_item.parent:
-            save_title_item = most_recent_item.parent
-        else:
-            save_title_item = most_recent_item
+        try:
+            if most_recent_item and most_recent_item.parent:
+                save_title_item = most_recent_item.parent
+            else:
+                save_title_item = most_recent_item
+        except AttributeError:
+            save_title_item = most_recent_chat
+
+        if save_title_item is None:
+            # Error somewhere perhaps
+            return 'auto|1st|Example Chatroom|2nd|DAY'
+
         # Find today
         today = "1st"
         tomorrow = "2nd"
@@ -753,6 +744,64 @@ init python:
         if day_suffix:
             the_title += "|" + day_suffix
         return the_title
+
+    def save_game_info(d):
+        """
+        A callback which is given a dictionary that is used to create a JSON
+        file that is saved along with the game information. Used to save
+        information on the current game state.
+        """
+
+        old_title = get_save_title()
+        old_title_split = old_title.split('|')
+        d['save_icon'] = old_title_split[0]
+        d['today'] = old_title_split[1]
+        d['title'] = old_title_split[2]
+        d['tomorrow'] = old_title_split[3]
+
+        if len(old_title_split) > 4:
+            d['day_suffix'] = old_title_split[4]
+        else:
+            d['day_suffix'] = " DAY"
+
+        return
+
+    def access_json(slot_name, key):
+        """
+        Return information about the save game using either the save json
+        or the old save_name method.
+        """
+
+        # First, try getting this information from the json
+        result = FileJson(slot_name, key)
+        if result is not None:
+            return result
+
+        # Otherwise, we're back to the old method
+        result = dict()
+        # Get the save name
+        if '|' in FileSaveName(slot_name):
+            info = FileSaveName(slot_name).split('|')
+            result['save_icon'] = info[0]
+            result['today'] = info[1]
+            result['title'] = info[2]
+            if len(info) > 3:
+                result['tomorrow'] = info[3]
+            else:
+                result['tomorrow'] = result['today']
+            if len(info) > 4:
+                result['day_suffix'] = info[4]
+            else:
+                result['day_suffix'] = " DAY"
+        else:
+            result['save_icon'] = 'auto' # rt
+            result['today'] = '1st' # dn
+            result['title'] = 'Example Chatroom' # cn
+            result['tomorrow'] = '2nd' # dn2
+            result['day_suffix'] = " DAY"
+
+        return result[key]
+
 
 
 
@@ -825,12 +874,12 @@ init python:
             super(AutoSave, self).__call__()
             renpy.retain_after_load()
 
-
+define config.save_json_callbacks = [ save_game_info ]
 
 
 style save_load_vpgrid:
     is slot_vpgrid
-    yalign 1.0
+    yalign 0.0
 
 style save_load_side:
     spacing 12
@@ -922,8 +971,8 @@ screen menu_header(title, return_action=NullAction,
                             Show('chat_home')]
         on 'replace' action [SetField(persistent, 'just_loaded', False),
                             Show('chat_home')]
-    # # If the game is running on real-time, check once a minute
-    # # if it's time for the next chatroom
+    ## If the game is running on real-time, check once a minute
+    ## if it's time for the next chatroom
     if persistent.real_time and not main_menu and not starter_story:
         timer 60 action Function(check_and_unlock_story) repeat True
         on 'show' action Function(check_and_unlock_story)
@@ -1059,9 +1108,9 @@ screen menu_header(title, return_action=NullAction,
     else:
         frame:
             if title != "Original Story" and title != "In Call":
-                xysize (750, 1180)
+                xysize (config.screen_width, config.screen_height-172)
             else:
-                xysize (750, 1180+80)
+                xysize (config.screen_width, config.screen_height-172+80)
             yalign 1.0
             has vbox
             align (0.5, 0.0)
@@ -1120,31 +1169,58 @@ image exit_hex = "Menu Screens/Chat Hub/exit-pixel-perfect.webp"
 image new_profile_update = Frame("Menu Screens/Chat Hub/main_profile_new_update.webp", 0, 0)
 image no_profile_update = Frame("Menu Screens/Chat Hub/main_profile_normal.webp", 0, 0)
 
+init python:
+    def MMMainChatroom():
+        """Return the action used when clicking Main Chatroom on the chat hub."""
+        if persistent.real_time:
+            return [Function(check_and_unlock_story),
+                    Function(deliver_all_texts),
+                    If(not story_archive
+                        or not story_archive[0].archive_list,
+                        Show('script_error', message="There is no content for this route"),
+                    Show('day_select'))]
+        else:
+            return [Function(deliver_all_texts), If(not story_archive
+                        or not story_archive[0].archive_list,
+                        Show('script_error', message="There is no content for this route"),
+                    Show('day_select'))]
+
+    def MMRefreshHome():
+        """
+        Return the action used to refresh the home screen. Performs several
+        actions such as auto-saving and checking for Honey Buddha chips.
+        """
+        return If(renpy.get_screen('chip_tap')
+                    or renpy.get_screen('chip_cloud')
+                    or renpy.get_screen('chip_end'),
+                SetField(persistent, 'just_loaded', False),
+                [SetField(persistent, 'just_loaded', False),
+                SetVariable('text_person', None),
+                Hide('chip_end'), Function(renpy.retain_after_load),
+                AutoSave()])
+
+    def MMGallery():
+        """Return the action used to open the gallery."""
+        return [Function(check_for_CGs, all_albums=all_albums),
+                Show('photo_album', Dissolve(0.5))]
+
+    def MMPhoneCalls():
+        """Return the action used to view phone calls."""
+        return [SetVariable('unseen_calls', 0), Show('phone_calls')]
+
+    def MMViewProfile(person):
+        """Return the action used to view a character's profile."""
+        return [SetField(person, 'seen_updates', True),
+                Show('chara_profile', who=person)]
+
 screen chat_home(reshow=False):
 
     tag menu
     modal True
 
     # Every time you go back to this screen, the game will auto-save
-    on 'show':
-        action If(renpy.get_screen('chip_tap')
-                    or renpy.get_screen('chip_cloud')
-                    or renpy.get_screen('chip_end'),
-                SetField(persistent, 'just_loaded', False),
-                [SetField(persistent, 'just_loaded', False),
-                SetVariable('text_person', None),
-                Hide('chip_end'), renpy.retain_after_load,
-                AutoSave()])
-
-    on 'replace':
-        action If(renpy.get_screen('chip_tap')
-                    or renpy.get_screen('chip_cloud')
-                    or renpy.get_screen('chip_end'),
-                SetField(persistent, 'just_loaded', False),
-                [SetField(persistent, 'just_loaded', False),
-                SetVariable('text_person', None),
-                Hide('chip_end'), renpy.retain_after_load,
-                AutoSave()])
+    on 'show' action MMRefreshHome()
+    on 'replace' action MMRefreshHome()
 
     use menu_header("Original Story"):
         # Note that only characters in the list 'character_list' will
@@ -1161,13 +1237,12 @@ screen chat_home(reshow=False):
                 pfp_size = 105
             else:
                 pfp_size = 115
-            num_col = (741-8-16-pfp_size) // pfp_size
+            num_col = (config.screen_width-9-8-16-pfp_size) // pfp_size
             num_row = -(-(len(character_list)-sub_num) // num_col)
-            extra_space = (741-8-8-pfp_size) - (num_col * pfp_size)
-
+            extra_space = (config.screen_width-9-8-8-pfp_size) - (num_col * pfp_size)
 
         frame:
-            xysize(741, 206)
+            xysize(config.screen_width-9, 206)
             xalign 0.5
             yalign 0.08
             xoffset 8
@@ -1187,8 +1262,7 @@ screen chat_home(reshow=False):
                             selected_background Transform('new_profile_update',
                                     size=(pfp_size, pfp_size))
                             selected not person.seen_updates
-                            action [SetField(person, 'seen_updates', True),
-                                Show('chara_profile', who=person)]
+                            action MMViewProfile(person)
                             activate_sound 'audio/sfx/UI/profile_screen_select.mp3'
                 for x in range(num_col*num_row - len(character_list) + sub_num):
                     null
@@ -1204,193 +1278,187 @@ screen chat_home(reshow=False):
                 xoffset -8
                 yalign 0.0
 
-        frame:
-            xysize (750, 1170)
-            yoffset -140
-            # Text Messages
-            button:
-                style_prefix 'small_menu_circle'
-                xalign 0.62
-                if char_list_len > 10:
-                    yalign 0.2
-                else:
-                    yalign 0.1
-                selected new_message_count() > 0
-                action Show('text_message_hub', Dissolve(0.5))
-                if new_message_count() > 0:
-                    add 'blue_maincircle' xalign 0.5 yalign 0.5
-                    frame:
-                        text str(new_message_count())
-                else:
-                    add "gray_maincircle" xalign 0.5 yalign 0.5
-                add "msg_mainicon" xalign 0.5 yalign 0.5
-                text "MESSAGE" style 'hex_text' yalign 0.85
-
-
-            # Calls
-            button:
-                style_prefix 'small_menu_circle'
-                xalign 0.91
-                if char_list_len > 10:
-                    yalign 0.4
-                else:
-                    yalign 0.3
-                selected unseen_calls > 0
-                action [SetVariable('unseen_calls', 0), Show('phone_calls')]
-                if unseen_calls > 0:
-                    add "blue_maincircle" xalign 0.5 yalign 0.5
-                    frame:
-                        text str(unseen_calls)
-                else:
-                    add "gray_maincircle" xalign 0.5 yalign 0.5
-
-                add "call_mainicon" xalign 0.5 yalign 0.5
-                text "CALL" style 'hex_text' yalign 0.85
-
-            # Emails
-            button:
-                style_prefix 'small_menu_circle'
-                xalign 0.342
-                if char_list_len > 10:
-                    yalign 0.4
-                else:
-                    yalign 0.3
-                selected unread_emails() > 0
-                action Show('email_hub', Dissolve(0.5))
-                if unread_emails() > 0:
-                    add "blue_maincircle" xalign 0.5 yalign 0.5
-                    frame:
-                        text str(unread_emails())
-                else:
-                    add "gray_maincircle" xalign 0.5 yalign 0.5
-                add "email_mainicon" xalign 0.5 yalign 0.5
-                text "EMAIL" style 'hex_text' yalign 0.85
-
-            # Main Chatroom
-            button:
-                style 'big_menu_circle'
-                if persistent.real_time:
-                    action [Function(check_and_unlock_story),
-                            Function(deliver_all_texts),
-                            If(not story_archive
-                                or not story_archive[0].archive_list,
-                                Show('script_error', message="There is no content for this route"),
-                            Show('day_select'))]
-                else:
-                    action [Function(deliver_all_texts), If(not story_archive
-                                or not story_archive[0].archive_list,
-                                Show('script_error', message="There is no content for this route"),
-                            Show('day_select'))]
-                add "rfa_chatcircle" yalign 0.5 xalign 0.5
-                add "blue_chatcircle" xalign 0.5 yalign 0.5
-                add "chat_icon" xalign 0.5 yalign 0.5
-                text "CHATROOM" style 'hex_text' size 34
-
-
-            # Links/etc on the left side of the screen
-            vbox:
-                style_prefix 'hex'
-                # Album
-                button:
-                    if new_cg > 0:
-                        add 'new_text' align (1.0, 0.1) xoffset 15
-                    selected new_cg > 0
-                    action [Function(check_for_CGs, all_albums=all_albums),
-                            Show('photo_album', Dissolve(0.5))]
-                    add "album_icon" xalign 0.5 yalign 0.35
-                    text "ALBUM"
-
-                # Guest
-                button:
-                    selected None
-                    action Show('guestbook')
-                    add "guest_icon" xalign 0.5 yalign 0.3
-                    text "GUEST"
-
-                # Developer Settings ("Shop")
-                button:
-                    background "red_hex"
-                    hover_background "red_hex_hover"
-                    selected None
-                    action Show('developer_settings')
-                    add "developer_settings" xalign 0.55 yalign 0.35
-                    text "DEVELOPER" size 18
-
-                # Link ("Notice")
-                button:
-                    selected None
-                    action Show('links')
-                    add 'link_hex' align (0.5, 0.35)
-                    text "LINKS"
-
-                # Exit to main menu ("Link")
-                button:
-                    selected None
-                    action [Function(renpy.full_restart)]
-                    add 'exit_hex' align (0.6, 0.38)
-                    text "MAIN MENU" size 18
-
-            ## Spaceship
-            add "dot_line" xalign 0.5 yalign .97
-
-            if chips_available:
-
-                if not reshow:
-                    fixed at chip_anim:
-                        xysize(90,70)
-                        xalign 0.93
-                        yalign 0.942
-                        add "space_chip_explode"
-
-                    add "space_chip_active" xalign 0.92 yalign 0.98
-
-                    fixed at spaceship_chips(1.0):
-                        xysize (100,110)
-                        xalign 0.96
-                        yalign 1.0
-                        add "space_flame" xalign 0.5 yalign 1.0
-                        add "spaceship" xalign 0.5 yalign 0.0
-                        imagebutton:
-                            idle "space_transparent_btn"
-                            focus_mask None
-                            activate_sound 'audio/sfx/UI/select_6.mp3'
-                            action Show('chip_tap')
-
-                else:
-                    fixed at chip_anim(0):
-                        xysize(90,70)
-                        xalign 0.93
-                        yalign 0.942
-                        add "space_chip_explode"
-
-                    add "space_chip_active2" xalign 0.92 yalign 0.98
-
-                    fixed at spaceship_chips:
-                        xysize (100,110)
-                        xalign 0.96
-                        yalign 1.0
-                        add "space_flame" xalign 0.5 yalign 1.0
-                        add "spaceship" xalign 0.5 yalign 0.0
-                        imagebutton:
-                            idle "space_transparent_btn"
-                            focus_mask None
-                            activate_sound 'audio/sfx/UI/select_6.mp3'
-                            action Show('chip_tap')
-
+    frame:
+        xysize (config.screen_width, config.screen_height-172)
+        yalign 1.0
+        # Text Messages
+        button:
+            style_prefix 'small_menu_circle'
+            xalign 0.62
+            if char_list_len > 10:
+                yalign 0.2
             else:
-                add "space_chip_inactive" xalign 0.92 yalign 0.98
+                yalign 0.1
+            selected new_message_count() > 0
+            action Show('text_message_hub', Dissolve(0.5))
+            if new_message_count() > 0:
+                add 'blue_maincircle' xalign 0.5 yalign 0.5
+                frame:
+                    text str(new_message_count())
+            else:
+                add "gray_maincircle" xalign 0.5 yalign 0.5
+            add "msg_mainicon" xalign 0.5 yalign 0.5
+            text "MESSAGE" style 'hex_text' yalign 0.85
 
-                fixed at spaceship_flight:
+
+        # Calls
+        button:
+            style_prefix 'small_menu_circle'
+            xalign 0.91
+            if char_list_len > 10:
+                yalign 0.4
+            else:
+                yalign 0.3
+            selected unseen_calls > 0
+            action MMPhoneCalls()
+            if unseen_calls > 0:
+                add "blue_maincircle" xalign 0.5 yalign 0.5
+                frame:
+                    text str(unseen_calls)
+            else:
+                add "gray_maincircle" xalign 0.5 yalign 0.5
+
+            add "call_mainicon" xalign 0.5 yalign 0.5
+            text "CALL" style 'hex_text' yalign 0.85
+
+        # Emails
+        button:
+            style_prefix 'small_menu_circle'
+            xalign 0.342
+            if char_list_len > 10:
+                yalign 0.4
+            else:
+                yalign 0.3
+            selected unread_emails() > 0
+            action Show('email_hub', Dissolve(0.5))
+            if unread_emails() > 0:
+                add "blue_maincircle" xalign 0.5 yalign 0.5
+                frame:
+                    text str(unread_emails())
+            else:
+                add "gray_maincircle" xalign 0.5 yalign 0.5
+            add "email_mainicon" xalign 0.5 yalign 0.5
+            text "EMAIL" style 'hex_text' yalign 0.85
+
+        # Main Chatroom
+        button:
+            style 'big_menu_circle'
+            action MMMainChatroom()
+            add "rfa_chatcircle" yalign 0.5 xalign 0.5
+            add "blue_chatcircle" xalign 0.5 yalign 0.5
+            add "chat_icon" xalign 0.5 yalign 0.5
+            text "CHATROOM" style 'hex_text' size 34
+
+
+        # Links/etc on the left side of the screen
+        vbox:
+            style_prefix 'hex'
+            # Album
+            button:
+                if new_cg > 0:
+                    add 'new_text' align (1.0, 0.1) xoffset 15
+                selected new_cg > 0
+                action MMGallery()
+                add "album_icon" xalign 0.5 yalign 0.35
+                text "ALBUM"
+
+            # Guest
+            button:
+                selected None
+                action Show('guestbook')
+                add "guest_icon" xalign 0.5 yalign 0.3
+                text "GUEST"
+
+            # Developer Settings ("Shop")
+            button:
+                background "red_hex"
+                hover_background "red_hex_hover"
+                selected None
+                if config.developer:
+                    action [Hide('developer_settings'), Show('developer_settings')]
+                else:
+                    action Show('game_extras')
+                add "developer_settings" xalign 0.55 yalign 0.35
+                if config.developer:
+                    text "DEVELOPER" size 18
+                else:
+                    text "EXTRAS"
+
+            # Link ("Notice")
+            button:
+                selected None
+                action Show('links')
+                add 'link_hex' align (0.5, 0.35)
+                text "LINKS"
+
+            # Exit to main menu ("Link")
+            button:
+                selected None
+                action MainMenu()
+                add 'exit_hex' align (0.6, 0.38)
+                text "MAIN MENU" size 18
+
+        ## Spaceship
+        add "dot_line" xalign 0.5 yalign .97
+
+        if chips_available:
+
+            if not reshow:
+                fixed at chip_anim:
+                    xysize(90,70)
+                    xalign 0.93
+                    yalign 0.942
+                    add "space_chip_explode"
+
+                add "space_chip_active" xalign 0.92 yalign 0.98
+
+                fixed at spaceship_chips(1.0):
                     xysize (100,110)
-                    xalign 0.04
+                    xalign 0.96
                     yalign 1.0
                     add "space_flame" xalign 0.5 yalign 1.0
                     add "spaceship" xalign 0.5 yalign 0.0
                     imagebutton:
-                            idle "space_transparent_btn"
-                            focus_mask None
-                            activate_sound 'audio/sfx/UI/select_6.mp3'
-                            action Show('spaceship_thoughts', Dissolve(0.5))
+                        idle "space_transparent_btn"
+                        focus_mask None
+                        activate_sound 'audio/sfx/UI/select_6.mp3'
+                        action Show('chip_tap')
+
+            else:
+                fixed at chip_anim(0):
+                    xysize(90,70)
+                    xalign 0.93
+                    yalign 0.942
+                    add "space_chip_explode"
+
+                add "space_chip_active2" xalign 0.92 yalign 0.98
+
+                fixed at spaceship_chips:
+                    xysize (100,110)
+                    xalign 0.96
+                    yalign 1.0
+                    add "space_flame" xalign 0.5 yalign 1.0
+                    add "spaceship" xalign 0.5 yalign 0.0
+                    imagebutton:
+                        idle "space_transparent_btn"
+                        focus_mask None
+                        activate_sound 'audio/sfx/UI/select_6.mp3'
+                        action Show('chip_tap')
+
+        else:
+            add "space_chip_inactive" xalign 0.92 yalign 0.98
+
+            fixed at spaceship_flight:
+                xysize (100,110)
+                xalign 0.04
+                yalign 1.0
+                add "space_flame" xalign 0.5 yalign 1.0
+                add "spaceship" xalign 0.5 yalign 0.0
+                imagebutton:
+                        idle "space_transparent_btn"
+                        focus_mask None
+                        activate_sound 'audio/sfx/UI/select_6.mp3'
+                        action Show('spaceship_thoughts', Dissolve(0.5))
 
 
 style small_menu_circle_button:
@@ -1498,7 +1566,7 @@ style link_menu_frame:
     background "#000a"
 
 style link_menu_vbox:
-    xsize 750
+    xsize config.screen_width
     xalign 0.5
     spacing 20
     yalign 0.2
@@ -1535,10 +1603,11 @@ style link_btn_fixed:
 
 screen developer_settings():
     modal True
+    tag dev
     add "#000a"
 
     frame:
-        xysize (675, 700)
+        xysize (675, 780)
         background Fixed('menu_settings_panel_light',
             'menu_settings_panel_bright')
         align (0.5, 0.5)
@@ -1547,8 +1616,7 @@ screen developer_settings():
         imagebutton:
             align (1.0, 0.0)
             xoffset 3 yoffset -3
-            idle 'input_close'
-            hover 'input_close_hover'
+            auto 'input_close_%s'
             action Hide('developer_settings')
 
         text "Developer Settings" style "settings_style" xpos 55 ypos 5
@@ -1559,7 +1627,7 @@ screen developer_settings():
             null height 30
 
             frame:
-                xsize 680
+                xsize 680 xalign 0.5
                 background "menu_settings_panel"
                 has vbox
                 spacing 6
@@ -1587,6 +1655,8 @@ screen developer_settings():
                     action ToggleField(persistent, 'open_docs_locally')
                 textbutton _("Use pause footer for links"):
                     action ToggleField(persistent, 'link_wait_pause')
+                textbutton _("Available call indicator"):
+                    action ToggleField(persistent, 'available_call_indicator')
 
             hbox:
                 align (0.5, 0.5)
@@ -1642,19 +1712,102 @@ screen developer_settings():
                         ysize 80 xsize 285
                         text_size 28
                         align (0.5, 0.5)
-                        action CConfirm("The chatroom creator is coming soon "
-                            + "in a future release. Stay tuned!")
-                        # [Hide('developer_settings'),
-                        #     Show('chatroom_creator')]
+                        action [Hide('developer_settings'),
+                            Show('choose_chat_creator')]
+            else:
+                hbox:
+                    align (0.5, 0.5)
+                    spacing 40
+                    textbutton _("Test Emails"):
+                        style_prefix "other_settings_end"
+                        align (0.5, 0.5)
+                        xysize (285, 80)
+                        action Show('email_testing')
 
 default persistent.open_docs_locally = False
 default persistent.link_wait_pause = False
+default persistent.available_call_indicator = False
+
+##########################################################
+## Email Testing Screen
+##########################################################
+screen email_testing():
+    modal True
+    tag dev
+    add "#000a"
+
+    frame:
+        xysize (675, 780)
+        background Fixed('menu_settings_panel_light',
+            'menu_settings_panel_bright')
+        align (0.5, 0.5)
+        bottom_padding 20
+
+        imagebutton:
+            align (1.0, 0.0)
+            xoffset 3 yoffset -3
+            auto 'input_close_%s'
+            action Hide('email_testing')
+
+        text "Test Emails" style "settings_style" xpos 55 ypos 5
+
+        viewport:
+            xysize (630, 600) yoffset -100
+            yalign 1.0 xalign 0.5
+            has vbox
+            yalign 0.5
+            style_prefix "other_settings"
+            for guest in all_guests:
+                textbutton "Invite {} (@{})".format(guest.dialogue_name, guest.name):
+                    text_idle_color "#fff"
+                    action [Function(execute_invite_guest, guest),
+                        CConfirm("Invited guest {}".format(guest.name))]
+        vbox:
+            align (0.5, 1.0)
+            spacing 40
+            hbox:
+                spacing 40
+                textbutton "Force email replies":
+                    style_prefix "other_settings_end"
+                    align (0.5, 0.5)
+                    xysize (350, 80)
+                    action [Function(send_emails_now),
+                        CConfirm("Outstanding email replies delivered.")]
+                textbutton "Start Party":
+                    style_prefix 'other_settings_end'
+                    align (0.5, 0.5)
+                    xysize (270, 80)
+                    action [SetVariable('testing_emails', True),
+                            Jump('simulate_party')]
+            hbox:
+                spacing 40
+                textbutton "Invite all guests":
+                    style_prefix "other_settings_end"
+                    align (0.5, 0.5)
+                    xysize (350, 80)
+                    action NullAction()
+                textbutton "Indicate correct answer ({})".format("ON" if False else "OFF"):
+                    style_prefix 'other_settings_end'
+                    align (0.5, 0.5)
+                    xysize (270, 80)
+                    action NullAction()
+
+label simulate_party:
+    hide screen email_testing
+    $ begin_timeline_item(generic_storymode)
+    call guest_party_showcase
+    $ gamestate = None
+    $ testing_emails = False
+    call screen chat_home
+    return
+
+default testing_emails = False
 
 init python:
 
     import os.path
 
-    MM_WEB_DOC_URL = "https://mysterious-messenger.readthedocs.io/en/latest/"
+    MM_WEB_DOC_URL = "https://mysterious-messenger.readthedocs.io/en/stable/"
 
     # Get the game dir without "/game"
     mm_folder_dir = os.path.dirname(config.gamedir)
@@ -1718,8 +1871,7 @@ screen program_updates(update=None):
         # text 'Ignored: ' + ', '.join(persistent.ignored_versions)
 
         imagebutton:
-            idle 'input_close'
-            hover 'input_close_hover'
+            auto 'input_close_%s'
             action [If(clear_update,
                 [SetField(persistent, "available_update", [ ]),
                     Hide('program_updates')],
@@ -1829,8 +1981,7 @@ screen update_preferences():
         text "Your program version: v[config.version]"
 
         imagebutton:
-            idle 'input_close'
-            hover 'input_close_hover'
+            auto 'input_close_%s'
             action Hide('update_preferences')
 
         text "Update Preferences" style "settings_style" xpos 55 ypos 5
@@ -1888,7 +2039,7 @@ screen chara_profile(who):
 
     use menu_header("Profile", Hide('chara_profile', Dissolve(0.5))):
         frame:
-            xysize (750, 1170)
+            xysize (config.screen_width, 1170)
 
             add who.cover_pic yoffset -10
 
@@ -1900,11 +2051,13 @@ screen chara_profile(who):
                                 Transform('menu_pencil', align=(0.95, 0.05)))
                 padding (7, 5)
                 action Show('pick_chara_pfp', who=who)
-            fixed:
+            vbox:
                 xysize (350,75)
                 xalign 0.96
-                yalign 0.645
+                yalign 0.645 spacing 8
                 text who.name style "profile_header_text"
+                if persistent.available_call_indicator and call_available(who):
+                    text "Online" color "#fff" text_align 0.5 size 22 xalign 0.5
             fixed:
                 xysize (700, 260)
                 yalign 0.95
@@ -1933,8 +2086,7 @@ screen pick_chara_pfp(who):
     frame:
         style_prefix 'pick_pfp'
         imagebutton:
-            idle 'input_close'
-            hover 'input_close_hover'
+            auto 'input_close_%s'
             action [Hide('pick_chara_pfp')]
 
         text "Choose " + who.name + "'s profile picture"
@@ -1978,19 +2130,19 @@ screen pick_chara_pfp(who):
                             + "unlocked this profile picture."))
 
     if not in_chat_creator:
-    frame:
-        background "space_black_box"
-        padding (12, 5)
-        align (.5, 0.97)
-        has hbox
-        spacing 5
-        align (0.5, 0.5)
-        add who.greet_img(0.8) align (0.5, 0.5)
-        text str(persistent.spendable_hearts.get(who.file_id, 0)):
-            style "point_indicator"
+        frame:
+            background "space_black_box"
+            padding (12, 5)
+            align (.5, 0.97)
+            has hbox
+            spacing 5
             align (0.5, 0.5)
-        add 'header_heart':
-            align (0.5, 0.52)
+            add who.greet_img(0.8) align (0.5, 0.5)
+            text str(persistent.spendable_hearts.get(who.file_id, 0)):
+                style "point_indicator"
+                align (0.5, 0.5)
+            add 'header_heart':
+                align (0.5, 0.52)
 
 style pick_pfp_frame:
     xysize(675,1000)

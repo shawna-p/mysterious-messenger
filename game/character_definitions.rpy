@@ -395,7 +395,7 @@ layeredimage jaehee:
 
     group face:
         if_not "glasses"
-        align (0.298, 0.108)
+        align (0.298, align_new_dimensions(0.108))
         attribute happy "VN Mode/Jaehee/jaehee_face_1.webp"
         attribute sad "VN Mode/Jaehee/jaehee_face_3.webp"
         attribute neutral default "VN Mode/Jaehee/jaehee_face_5.webp"
@@ -404,7 +404,7 @@ layeredimage jaehee:
 
     group face:
         if_any "glasses"
-        align(0.299, 0.108)
+        align(0.299, align_new_dimensions(0.108))
         attribute happy "VN Mode/Jaehee/jaehee_face_0.webp"
         attribute angry "VN Mode/Jaehee/jaehee_face_2.webp"
         attribute sad "VN Mode/Jaehee/jaehee_face_4.webp"
@@ -433,7 +433,7 @@ layeredimage jumin front:
         attribute party "VN Mode/Jumin/jumin_body_2.webp"
 
     group face:
-        align(0.39, 0.121)
+        align(0.39, align_new_dimensions(0.121))
         attribute happy "VN Mode/Jumin/jumin_face_0.webp"
         attribute upset "VN Mode/Jumin/jumin_face_1.webp"
         attribute blush "VN Mode/Jumin/jumin_face_2.webp"
@@ -453,7 +453,7 @@ layeredimage jumin side:
         attribute suit "VN Mode/Jumin/jumin_sidebody_1.webp."
 
     group face:
-        align(0.633, 0.097)
+        align(0.633, align_new_dimensions(0.097))
         attribute happy "VN Mode/Jumin/jumin_sideface_0.webp"
         attribute upset "VN Mode/Jumin/jumin_sideface_1.webp"
         attribute blush "VN Mode/Jumin/jumin_sideface_2.webp"
@@ -480,7 +480,7 @@ layeredimage rika:
 
     group face:
         if_not ["blue_dress_front", "middle_school"]
-        align(0.666, 0.097)
+        align(0.666, align_new_dimensions(0.097))
         attribute happy "VN Mode/Rika/rika01_face_0.webp"
         attribute sad "VN Mode/Rika/rika01_face_1.webp"
         attribute neutral default "VN Mode/Rika/rika01_face_2.webp"
@@ -513,7 +513,7 @@ layeredimage rika:
 
     group head:
         if_not ["blue_dress_front", "middle_school"]
-        attribute mask "VN Mode/Rika/rika01_head_0.webp" align(0.715, 0.05)
+        attribute mask "VN Mode/Rika/rika01_head_0.webp" align(0.715, align_new_dimensions(0.05))
 
 
 
@@ -531,7 +531,7 @@ layeredimage seven front:
         attribute party "VN Mode/707/seven_party_0.webp"
 
     group face:
-        align(0.427, 0.139)
+        align(0.427, align_new_dimensions(0.134))
         attribute happy "VN Mode/707/seven_face_0.webp"
         attribute blush "VN Mode/707/seven_face_1.webp"
         attribute neutral default "VN Mode/707/seven_face_2.webp"
@@ -553,7 +553,7 @@ layeredimage seven side:
         attribute suit "VN Mode/707/seven_valentines_0.webp"
 
     group face:
-        align(0.435, 0.13)
+        align(0.435, align_new_dimensions(0.13))
         attribute happy "VN Mode/707/seven_sideface_0.webp"
         attribute concern "VN Mode/707/seven_sideface_1.webp"
         attribute surprised "VN Mode/707/seven_sideface_2.webp"
@@ -589,7 +589,7 @@ layeredimage saeran:
         attribute suit "VN Mode/Unknown/unknown_body_suit.webp"
 
     group face:
-        align(0.41, 0.142)
+        align (0.41, align_new_dimensions(0.142))
         if_not ["mask"]
         attribute happy "VN Mode/Unknown/unknown_face_0.webp"
         attribute smile "VN Mode/Unknown/unknown_face_1.webp"
@@ -608,7 +608,7 @@ layeredimage saeran:
         attribute distant "VN Mode/Unknown/unknown_face_21.webp"
 
     group face:
-        align(0.41, 0.142)
+        align(0.41, align_new_dimensions(0.142))
         if_any "mask"
         attribute happy "VN Mode/Unknown/unknown_face_8.webp"
         attribute smile "VN Mode/Unknown/unknown_face_9.webp"
@@ -656,7 +656,7 @@ layeredimage v front:
         attribute mint_eye "VN Mode/V/v02_body_4.webp"
 
     group face:
-        align(0.4343, 0.111)
+        align(0.4343, align_new_dimensions(0.111))
         attribute neutral default "VN Mode/V/v02_face_0.webp"
         attribute happy "VN Mode/V/v02_face_1.webp"
         attribute angry "VN Mode/V/v02_face_2.webp"
@@ -676,7 +676,7 @@ layeredimage v front:
     group head:
         if_any "mint_eye"
         attribute hood_up "VN Mode/V/v02_hood_1.webp" align(0.4, 0.0) yoffset -25
-        attribute hood_down default "VN Mode/V/v02_hood_1_1.webp" align(0.378, 0.2035)
+        attribute hood_down default "VN Mode/V/v02_hood_1_1.webp" align(0.378, align_new_dimensions(0.2035))
 
 layeredimage v side:
     yoffset 210
@@ -687,23 +687,24 @@ layeredimage v side:
         attribute long_hair "VN Mode/V/v_body_2.webp"
 
     group face:
+        xoffset 4
         ## No sunglasses
         if_not "glasses"
-        attribute happy "VN Mode/V/v_face_1.webp" align(0.411, 0.109)
-        attribute angry "VN Mode/V/v_face_3.webp" align(0.411, 0.108)
-        attribute neutral default "VN Mode/V/v_face_5.webp" align(0.411, 0.108)
-        attribute surprised "VN Mode/V/v_face_7.webp" align(0.411, 0.108)
-        attribute thinking "VN Mode/V/v_face_9.webp" align(0.411, 0.108)
-        attribute worried "VN Mode/V/v_face_11.webp" align(0.4, 0.108)
-        attribute sweat "VN Mode/V/v_face_13.webp" align(0.411, 0.108)
-        attribute shock "VN Mode/V/v_face_15.webp" align(0.411, 0.108)
-        attribute afraid "VN Mode/V/v_face_17.webp" align(0.411, 0.108)
-        attribute blush "VN Mode/V/v_face_19.webp" align(0.405, 0.108)
-        attribute sad "VN Mode/V/v_face_21.webp" align(0.411, 0.108)
-        attribute unsure "VN Mode/V/v_face_23.webp" align(0.411, 0.108)
+        attribute happy "VN Mode/V/v_face_1.webp" align(0.411, align_new_dimensions(0.109))
+        attribute angry "VN Mode/V/v_face_3.webp" align(0.411, align_new_dimensions(0.108))
+        attribute neutral default "VN Mode/V/v_face_5.webp" align(0.411, align_new_dimensions(0.108))
+        attribute surprised "VN Mode/V/v_face_7.webp" align(0.411, align_new_dimensions(0.108))
+        attribute thinking "VN Mode/V/v_face_9.webp" align(0.411, align_new_dimensions(0.108))
+        attribute worried "VN Mode/V/v_face_11.webp" align(0.4, align_new_dimensions(0.108))
+        attribute sweat "VN Mode/V/v_face_13.webp" align(0.411, align_new_dimensions(0.108))
+        attribute shock "VN Mode/V/v_face_15.webp" align(0.411, align_new_dimensions(0.108))
+        attribute afraid "VN Mode/V/v_face_17.webp" align(0.411, align_new_dimensions(0.108))
+        attribute blush "VN Mode/V/v_face_19.webp" align(0.405, align_new_dimensions(0.108))
+        attribute sad "VN Mode/V/v_face_21.webp" align(0.411, align_new_dimensions(0.108))
+        attribute unsure "VN Mode/V/v_face_23.webp" align(0.411, align_new_dimensions(0.108))
 
     group face:
-        align(0.411, 0.108)
+        align(0.412, align_new_dimensions(0.108))
         if_any "glasses"
         attribute happy "VN Mode/V/v_face_0.webp"
         attribute angry "VN Mode/V/v_face_2.webp"
@@ -736,7 +737,7 @@ layeredimage yoosung:
         attribute bandage "VN Mode/Yoosung/yoosung_body_4.webp"
 
     group face:
-        align(0.256, 0.111)
+        align(0.256, align_new_dimensions(0.111))
         if_not ["bandage", "glasses"]
         attribute happy "VN Mode/Yoosung/yoosung_face_0.webp"
         attribute angry "VN Mode/Yoosung/yoosung_face_2.webp"
@@ -751,14 +752,14 @@ layeredimage yoosung:
         attribute upset "VN Mode/Yoosung/yoosung_face_13.webp"
 
     group face:
-        align(0.256, 0.111)
+        align(0.256, align_new_dimensions(0.111))
         if_any "bandage"
         attribute happy  "VN Mode/Yoosung/yoosung_face_1.webp"
         attribute neutral default  "VN Mode/Yoosung/yoosung_face_3.webp"
         attribute thinking  "VN Mode/Yoosung/yoosung_face_5.webp"
 
     group face:
-        align(0.256, 0.111)
+        align(0.256, align_new_dimensions(0.111))
         if_any "glasses"
         attribute happy "VN Mode/Yoosung/yoosung_face_14.webp"
         attribute sparkle "VN Mode/Yoosung/yoosung_face_15.webp"
@@ -783,7 +784,8 @@ layeredimage zen front:
         attribute normal default "VN Mode/Zen/zen_body_pocket.webp"
 
     group face:
-        align(0.428, 0.121)
+        yoffset -4
+        align(0.428, align_new_dimensions(0.121))
         attribute happy "VN Mode/Zen/zen_face_0.webp"
         attribute angry "VN Mode/Zen/zen_face_1.webp"
         attribute blush "VN Mode/Zen/zen_face_2.webp"
@@ -802,15 +804,15 @@ layeredimage zen side:
         attribute suit "VN Mode/Zen/zen_sidebody_suit.webp"
 
     group face:
-        attribute happy "VN Mode/Zen/zen_sideface_0.webp" align(0.252, 0.118)
-        attribute angry "VN Mode/Zen/zen_sideface_1.webp" align(0.258, 0.120)
-        attribute blush "VN Mode/Zen/zen_sideface_2.webp" align(0.258, 0.120)
-        attribute wink "VN Mode/Zen/zen_sideface_3.webp" align(0.258, 0.120)
-        attribute neutral default "VN Mode/Zen/zen_sideface_4.webp" align(0.258, 0.120)
-        attribute surprised "VN Mode/Zen/zen_sideface_5.webp" align(0.258, 0.120)
-        attribute thinking "VN Mode/Zen/zen_sideface_6.webp" align(0.258, 0.120)
-        attribute worried "VN Mode/Zen/zen_sideface_7.webp" align(0.258, 0.120)
-        attribute upset "VN Mode/Zen/zen_sideface_8.webp" align(0.258, 0.120)
+        attribute happy "VN Mode/Zen/zen_sideface_0.webp" align(0.252, align_new_dimensions(0.118))
+        attribute angry "VN Mode/Zen/zen_sideface_1.webp" align(0.258, align_new_dimensions(0.120))
+        attribute blush "VN Mode/Zen/zen_sideface_2.webp" align(0.258, align_new_dimensions(0.120))
+        attribute wink "VN Mode/Zen/zen_sideface_3.webp" align(0.258, align_new_dimensions(0.120))
+        attribute neutral default "VN Mode/Zen/zen_sideface_4.webp" align(0.258, align_new_dimensions(0.120))
+        attribute surprised "VN Mode/Zen/zen_sideface_5.webp" align(0.258, align_new_dimensions(0.120))
+        attribute thinking "VN Mode/Zen/zen_sideface_6.webp" align(0.258, align_new_dimensions(0.120))
+        attribute worried "VN Mode/Zen/zen_sideface_7.webp" align(0.258, align_new_dimensions(0.120))
+        attribute upset "VN Mode/Zen/zen_sideface_8.webp" align(0.258, align_new_dimensions(0.120))
 
 
 ## ********* MINOR CHARACTERS *********
@@ -825,7 +827,7 @@ layeredimage bodyguard_front:
         attribute normal default "VN Mode/B01/b01_body_0.webp"
 
     group face:
-        align(0.397, 0.083)
+        align(0.397, align_new_dimensions(0.083))
         attribute neutral default "VN Mode/B01/b01_face_0.webp"
         attribute thinking "VN Mode/B01/b01_face_1.webp"
         attribute stressed "VN Mode/B01/b01_face_2.webp"
@@ -836,7 +838,7 @@ layeredimage bodyguard_side:
         attribute normal default "VN Mode/B02/b02_body_0.webp"
 
     group face:
-        align(0.239, 0.105)
+        align(0.239, align_new_dimensions(0.105))
         attribute neutral default "VN Mode/B02/b02_face_0.webp"
         attribute thinking "VN Mode/B02/b02_face_1.webp"
         attribute stressed "VN Mode/B02/b02_face_2.webp"
@@ -850,7 +852,7 @@ layeredimage chairman_han:
     always "VN Mode/Mr Chairman/han_body_0.webp"
 
     group face:
-        align(0.263, 0.088)
+        align(0.263, align_new_dimensions(0.088))
         attribute happy "VN Mode/Mr Chairman/han_face_0.webp"
         attribute thinking "VN Mode/Mr Chairman/han_face_1.webp"
         attribute neutral default "VN Mode/Mr Chairman/han_face_2.webp"
@@ -865,7 +867,8 @@ layeredimage echo_girl:
     always "VN Mode/Echo girl/eco_body_0.webp"
 
     group face:
-        align(0.508, 0.09)
+        yoffset -3
+        align(0.508, align_new_dimensions(0.09))
         attribute neutral default "VN Mode/Echo girl/eco_face_0.webp"
         attribute happy "VN Mode/Echo girl/eco_face_1.webp"
         attribute angry "VN Mode/Echo girl/eco_face_2.webp"
@@ -882,7 +885,7 @@ layeredimage glam_choi:
     always "VN Mode/Glam Choi/glam_body_0.webp"
 
     group face:
-        align(0.4585, 0.099)
+        align(0.4585, align_new_dimensions(0.099))
         attribute happy "VN Mode/Glam Choi/glam_face_0.webp"
         attribute smirk "VN Mode/Glam Choi/glam_face_1.webp"
         attribute thinking "VN Mode/Glam Choi/glam_face_2.webp"
@@ -908,7 +911,8 @@ layeredimage sarah:
     always "VN Mode/Sarah Choi/sarah_body_0.webp"
 
     group face:
-        align(0.233, 0.097)
+        yoffset -3
+        align(0.233, align_new_dimensions(0.097))
         attribute happy "VN Mode/Sarah Choi/sara_face_0.webp"
         attribute excited "VN Mode/Sarah Choi/sara_face_1.webp"
         attribute smirk "VN Mode/Sarah Choi/sara_face_2.webp"
@@ -925,7 +929,7 @@ layeredimage vanderwood:
     always "VN Mode/Vanderwood/van_body_0.webp"
 
     group face:
-        align(0.57, 0.112)
+        align(0.57, align_new_dimensions(0.112))
         attribute neutral default "VN Mode/Vanderwood/ven_face_0.webp"
         attribute unamused "VN Mode/Vanderwood/ven_face_1.webp"
         attribute unsure "VN Mode/Vanderwood/ven_face_2.webp"

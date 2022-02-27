@@ -105,7 +105,7 @@ transform NullTransform:
 screen say(who, what):
 
     # In Story Mode
-    if not in_phone_call and not text_person and vn_choice:
+    if gamestate == VNMODE:
         style_prefix "vn_mode"
         if _in_replay and not viewing_guest:
             textbutton _("End Replay"):
@@ -141,7 +141,7 @@ screen say(who, what):
             # that shows the Auto/Skip/Log buttons
             hbox:
                 if persistent.vn_window_alpha < 0.1:
-                    yoffset 20
+                    yoffset -275+20
                 imagebutton:
                     idle Text("Auto", style="vn_button_hover")
                     hover Text("Auto", style="vn_button")
@@ -189,7 +189,7 @@ style namebox_label is say_label
 
 
 style window:
-    xysize (750,324)
+    xysize (config.screen_width,324)
     align (0.5, 1.0)
 
 style namebox:
@@ -216,7 +216,7 @@ style vn_mode_button:
     align (0.98, 0.01)
 
 style vn_mode_window:
-    xysize (750,324)
+    xysize (config.screen_width,324)
     align (0.5, 1.0)
 
 style vn_mode_button_text:
@@ -225,8 +225,8 @@ style vn_mode_button_text:
     hover_color "#999999"
 
 style vn_mode_hbox:
-    yalign 0.785
-    xalign 0.90
+    xalign 1.0 xoffset -25
+    yalign 1.0 yoffset -275
     spacing 20
 
 style call_window:
@@ -332,10 +332,10 @@ init python:
 
         # First, this item gets saved to the timelineitem's choices,
         # if applicable
-        if save_choices and (not store.in_phone_call
+        if save_choices and (gamestate != PHONE
                 or isinstance(store.current_call, TimelineItem)):
             store.current_timeline_item.add_to_choices(store.dialogue_picked)
-        elif save_choices and store.in_phone_call:
+        elif save_choices and gamestate == PHONE:
             # This is a regular phone call
             store.current_call.add_to_choices(store.dialogue_picked)
 
@@ -366,15 +366,12 @@ init python:
     def menu_args_callback(*args, **kwargs):
 
         # Check if we're in a chatroom
-        if not (store.text_msg_reply or store.in_phone_call
-                or store.vn_choice or store.email_reply
-                or store.answer_shown):
+        if gamestate == CHAT and not store.answer_shown:
             screen_dict = {'screen' : 'answer_choice'}
             kwargs.update(screen_dict)
         if (store.text_person and store.text_person.real_time_text
-                and not (store.in_phone_call
-                or store.vn_choice or store.email_reply
-                or store.answer_shown)):
+                and not (gamestate in (PHONE, VNMODE)
+                    or store.email_reply or store.answer_shown)):
             screen_dict = {'screen' : 'answer_choice_text'}
             kwargs.update(screen_dict)
         #elif store.answer_shown:
@@ -442,7 +439,7 @@ screen choice(items, paraphrased=None):
     add "choice_darken"
 
     # For text messages
-    if text_msg_reply:
+    if gamestate == TEXTMSG:
         if not text_person or not text_person.real_time_text:
             use text_message_screen(text_person)
             add "choice_darken"
@@ -475,7 +472,7 @@ screen choice(items, paraphrased=None):
                             ])
 
     # For Story Mode and phone calls
-    elif in_phone_call or vn_choice:
+    elif gamestate in (PHONE, VNMODE):
         vbox:
             style_prefix 'phone_vn_choice'
             for num, i in enumerate(items):
@@ -570,8 +567,7 @@ define config.narrator_menu = True
 
 style choice_vbox:
     xalign 0.5
-    ypos 600
-    yanchor 0.40
+    yalign 0.5
     spacing gui.choice_spacing
 
 style choice_button is default:

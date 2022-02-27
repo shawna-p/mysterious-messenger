@@ -40,14 +40,18 @@ init python:
                 large_pfp = big_name[0] + '-b.' + big_name[1]
                 other_large_pfp = big_name[0] + '-b.webp'
                 if renpy.loadable(large_pfp):
-                    return Transform(large_pfp, size=(363, 363)), None
+                    return Transform(Transform(large_pfp, size=(363, 363),
+                        fit='cover'), crop=(0, 0, 363, 363)), None
                 elif renpy.loadable(other_large_pfp):
-                    return Transform(other_large_pfp, size=(363, 363)), None
+                    return Transform(Transform(other_large_pfp, size=(363, 363),
+                        fit='cover'), crop=(0, 0, 363, 363)), None
         except TypeError:
             if not isinstance(store.persistent.MC_pic, renpy.display.transform.Transform):
                 store.persistent.MC_pic = "Drop Your Profile Picture Here/MC-1.webp"
-                return Transform(store.persistent.MC_pic, size=(363,363)), None
-        return Transform(store.persistent.MC_pic, size=(363,363)), None
+                return Transform(Transform(store.persistent.MC_pic, size=(363,363),
+                    fit='cover'), crop=(0, 0, 363, 363)), None
+        return Transform(Transform(store.persistent.MC_pic, size=(363,363),
+            fit='cover'), crop=(0, 0, 363, 363)), None
 
     def MC_name_display(st, at):
         """Ensure the MC's name is always up-to-date."""
@@ -197,8 +201,9 @@ screen profile_pic():
                 action [Return()]
 
     else:
-        use menu_header("Profile", [Function(change_mc_pfp_callback),
-                Show('chat_home', Dissolve(0.5))]):
+        on 'replaced' action Function(change_mc_pfp_callback)
+        on 'hide' action Function(change_mc_pfp_callback)
+        use menu_header("Profile", [Show('chat_home', Dissolve(0.5))]):
             use pic_and_pronouns()
             if not in_chat_creator:
                 use points_and_saveload()
@@ -342,8 +347,7 @@ screen pick_mc_pfp():
     frame:
         style_prefix 'pick_pfp'
         imagebutton:
-            idle 'input_close'
-            hover 'input_close_hover'
+            auto 'input_close_%s'
             action [Hide('pick_mc_pfp')]
 
         text "Choose your profile picture"
@@ -476,7 +480,7 @@ init python:
 # is ja, for example
 screen points_and_saveload():
     hbox:
-        xsize 750
+        xsize config.screen_width
         frame:
             xysize (375, 570)
             yalign 1.0
@@ -630,8 +634,7 @@ screen input_popup(prompt=''):
     frame:
         imagebutton:
             align (1.0, 0.0)
-            idle 'input_close'
-            hover 'input_close_hover'
+            auto 'input_close_%s'
             action [SetField(m, 'name', old_name),
                     SetVariable('name', old_name),
                     SetField(persistent, 'name', old_name),
@@ -653,14 +656,14 @@ label get_input(the_var, prompt='', default='', length=20,
     ## Ensure any missed dialogue is posted before the input comes up
     if (not dialogue_paraphrase and dialogue_picked != ""):
         $ say_choice_caption(dialogue_picked, dialogue_paraphrase, dialogue_pv)
-    if show_answer and not vn_choice and not in_phone_call and not email_reply:
+    if show_answer and gamestate not in (PHONE, VNMODE) and not email_reply:
         $ choosing = True
-        if text_msg_reply:
+        if gamestate == TEXTMSG:
             call screen text_answer
         else:
             call screen answer_button
         $ choosing = False
-        if text_msg_reply:
+        if gamestate == TEXTMSG:
             show screen text_pause_button
         else:
             show screen pause_button
@@ -672,17 +675,26 @@ label get_input(the_var, prompt='', default='', length=20,
         exclude, accept_blank, can_close)
     return
 
+init python:
+    def fetch_var(the_var):
+        if the_var.startswith('persistent.'):
+            return getattr(store.persistent, the_var[11:])
+        else:
+            return getattr(store, the_var)
+
 screen input_template(the_var, prompt='', default='', length=20,
         allow=None, exclude=None, accept_blank=True,
         can_close=False, copypaste=False):
 
-    if 'persistent.' in the_var:
+    if the_var.startswith('persistent.'):
         default old_var = getattr(persistent, the_var[11:], None)
     else:
         default old_var = getattr(store, the_var, None)
 
-    default the_input = VariableInputValue(the_var, returnable=(not can_close
-        and accept_blank))
+    default the_input = FieldInputValue(persistent, the_var[11:],
+        returnable=(not can_close and accept_blank)) if the_var.startswith(
+            'persistent.') else VariableInputValue(the_var,
+                returnable=(not can_close and accept_blank))
     # For whatever reason the default property on input isn't
     # working, so we just set the variable here
     # default x = setattr(store, the_var, default)
@@ -693,9 +705,9 @@ screen input_template(the_var, prompt='', default='', length=20,
     add "#0005"
 
     if can_close:
-        key 'K_RETURN' action [SetVariable(the_var, getattr(store, the_var)),
+        key 'K_RETURN' action [SetVariable(the_var, fetch_var(the_var)),
                         Hide('input_template')]
-        key 'K_KP_ENTER' action [SetVariable(the_var, getattr(store, the_var)),
+        key 'K_KP_ENTER' action [SetVariable(the_var, fetch_var(the_var)),
                         Hide('input_template')]
 
     style_prefix "my_input"
@@ -703,8 +715,7 @@ screen input_template(the_var, prompt='', default='', length=20,
         if can_close:
             imagebutton:
                 align (1.0, 0.0)
-                idle 'input_close'
-                hover 'input_close_hover'
+                auto 'input_close_%s'
                 action [SetVariable(the_var, old_var),
                         Function(renpy.retain_after_load),
                         Hide('input_template')]
@@ -729,9 +740,9 @@ screen input_template(the_var, prompt='', default='', length=20,
             textbutton _('Confirm'):
                 text_style 'mode_select'
                 style 'my_input_textbutton'
-                sensitive (accept_blank or getattr(store, the_var))
+                sensitive (accept_blank or fetch_var(the_var))
                 action If(can_close,
-                    [SetVariable(the_var, getattr(store, the_var)),
+                    [SetVariable(the_var, fetch_var(the_var)),
                         Hide('input_template')],
                     Return())
 
@@ -813,27 +824,27 @@ screen other_settings():
                         + " start over? You'll be unable to return to this"
                         + " point except through a save file."),
                         [Jump("restart_game")])
-        null height 459
-        hbox:
-            spacing 20
-            xalign 1.0
-            xysize (161*2, 70)
-            # Save / Load
-            imagebutton:
-                style_prefix None
-                xysize (161, 70)
-                align (.5, .5)
-                idle Transform("save_btn", align=(0.5, 0.5))
-                hover Transform("save_btn", zoom=1.1)
-                action Show("save", Dissolve(0.5))
+        # null height 459
+    hbox:
+        spacing 20
+        xalign 1.0 yalign 1.0 yoffset -25
+        xysize (161*2, 70)
+        # Save / Load
+        imagebutton:
+            style_prefix None
+            xysize (161, 70)
+            align (.5, .5)
+            idle Transform("save_btn", align=(0.5, 0.5))
+            hover Transform("save_btn", zoom=1.1)
+            action Show("save", Dissolve(0.5))
 
-            imagebutton:
-                style_prefix None
-                xysize (161, 70)
-                align (.5, .5)
-                idle Transform("load_btn", align=(0.5, 0.5))
-                hover Transform("load_btn", zoom=1.1)
-                action Show("load", Dissolve(0.5))
+        imagebutton:
+            style_prefix None
+            xysize (161, 70)
+            align (.5, .5)
+            idle Transform("load_btn", align=(0.5, 0.5))
+            hover Transform("load_btn", zoom=1.1)
+            action Show("load", Dissolve(0.5))
 
 style bubble_select_frame:
     is tone_selection_frame
@@ -1094,7 +1105,8 @@ style toggle_panel_hbox:
 
 style other_settings_viewport:
     is empty
-    xysize(700, 1110)
+    xsize config.screen_width-50
+    ysize config.screen_height-172-60
     xalign 0.5
     yalign 1.0
 
@@ -1104,6 +1116,7 @@ style vscrollbar:
 style other_settings_vbox:
     spacing 30
     xalign 0.5
+    xsize config.screen_width-50
 
 style other_settings_frame is default
 style other_settings_window is default
@@ -1438,10 +1451,9 @@ screen ringtone_dropdown(title):
         align (0.5, 0.5)
 
         imagebutton:
+            auto 'input_close_%s'
             align (1.0, 0.0)
             xoffset 3 yoffset -3
-            idle 'input_close'
-            hover 'input_close_hover'
             action [Stop('sound'), Hide('ringtone_dropdown')]
 
         text title style "settings_style" xpos 55 ypos 5

@@ -65,8 +65,7 @@ screen adjust_fonts():
         imagebutton:
             align (1.0, 0.0)
             xoffset 3 yoffset -3
-            idle 'input_close'
-            hover 'input_close_hover'
+            auto 'input_close_%s'
             action Hide('adjust_fonts')
 
         text "Adjust Fonts" style "settings_style" xpos 55 ypos 5
