@@ -4,7 +4,7 @@
 # each item to the user and will unlock them in the History.
 default tutorial_good_end = ["Good End",
     RouteDay('Tutorial',
-        [ChatRoom('Example Chatroom', 'day_1_chatroom_1', '00:01'),
+        [ChatRoom('Example Chatroom', 'example_chat', '00:01'),
         ChatRoom('Inviting Guests','example_email', '06:11', [z]),
         ChatRoom('Text Message Example', 'example_text', '06:53', [r]),
         StoryCall("Example Story Call", 'example_solo_story_call', '09:30', ja),
