@@ -9,8 +9,37 @@ init offset = -20
 ## Calling gui.init resets the styles to sensible default values, and sets the
 ## width and height of the game.
 init python:
-    gui.init(750, 1334)
 
+    allow_ui_scaling = True#(9, 19)
+
+    if isinstance(allow_ui_scaling, tuple):
+        mult0 = float(allow_ui_scaling[0])
+        mult1 = float(allow_ui_scaling[1])
+        gui.init(750, int(750.0/mult0*mult1))
+    elif allow_ui_scaling:
+        # Get different screen resolutions
+        res = (9, 16)
+        inf = renpy.display.get_info()
+        # actual screen width
+        ww = inf.current_w
+        # actual screen height
+        hh = inf.current_h
+
+        # height if it was 9:16 for the game width
+        vh = float(ww) / 9.0 * 16.0
+        # The screen is within the 9:16 ratio
+        if hh-10 <= vh <= hh+10:
+            gui.init(750, 1334)
+        else:
+            # What the height should be instead of 9:16
+            new_h = (float(hh) / float(ww)) * 750.0
+            new_h = int(new_h)
+            if new_h < 1334:
+                gui.init(750, 1334)
+            else:
+                gui.init(750, new_h)
+    else:
+        gui.init(750, 1334)
 
 
 ################################################################################

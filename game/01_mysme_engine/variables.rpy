@@ -1079,6 +1079,11 @@ init -6 python:
 
         elif gamestate == VNMODE and 'bg' in name:
             at_list.insert(0, scale_vn_bg)
+        elif gamestate == VNMODE and name == ('shake',):
+            if persistent.screenshake:
+                #renpy.show_layer_at(shake, 'master')
+                renpy.with_statement(hpunch)
+                return
 
         at_list = at_list or []
         behind = behind or []
