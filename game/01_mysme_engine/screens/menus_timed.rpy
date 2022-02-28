@@ -418,11 +418,11 @@ screen timed_choice(items, paraphrased=None):
         at wait_fade()
         draggable True
         align (0.5, 1.0)
-        xysize (750, 113)
+        xysize (config.screen_width, 113)
         frame:
             align (0.5, 1.0)
             background "#282828"
-            xysize (750, 113)
+            xysize (config.screen_width, 113)
             text "Choose a reply":
                 color "#fff" text_align 0.5 align (0.5, 0.5)
 
@@ -432,7 +432,7 @@ screen timed_choice(items, paraphrased=None):
 style choice_common_frame:
     yalign 1.0
     top_padding 20
-    xsize 750
+    xsize config.screen_width
     ysize 220
 
 style choice_common_hbox:
@@ -475,43 +475,43 @@ style old_two_frame:
 
 style new_three_button:
     is phone_vn_choice_button
-    xmaximum (750 // 3) - 10
+    xmaximum (config.screen_width // 3) - 10
 
 style new_three_button_text:
     is phone_vn_choice_button_text
     text_align 0.5
     size 28
     align (0.5, 0.5)
-    xmaximum (750 // 3) - 10 - 50
+    xmaximum (config.screen_width // 3) - 10 - 50
 
 style old_three_button:
     is choice_button
-    xmaximum (750 // 3) - 4
+    xmaximum (config.screen_width // 3) - 4
 
 style old_three_button_text:
     is choice_button_text
     text_align 0.5
     size 28
     align (0.5, 0.5)
-    xmaximum (750 // 3) - 4 - 40
+    xmaximum (config.screen_width // 3) - 4 - 40
 
 style new_two_button:
     is phone_vn_choice_button
-    xmaximum (750 // 2) - 20
+    xmaximum (config.screen_width // 2) - 20
 
 style new_two_button_text:
     is new_three_button_text
     size 33
-    xmaximum (750 // 2) - 20 - 50
+    xmaximum (config.screen_width // 2) - 20 - 50
 
 style old_two_button:
     is choice_button
-    xmaximum (750 // 2) - 20
+    xmaximum (config.screen_width // 2) - 20
 
 style old_two_button_text:
     is old_three_button_text
     size 33
-    xmaximum (750 // 2) - 20 - 40
+    xmaximum (config.screen_width // 2) - 20 - 40
 
 
 
