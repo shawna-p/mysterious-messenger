@@ -23,6 +23,8 @@ Major New Features
       - **Description**
     * - Automatic chatroom backgrounds
       - The game will automatically set up chatroom backgrounds based on the time of day the chatroom occurs at. You can override this automatic background by providing your own e.g. ``scene morning``.
+    * - Adaptable screen size
+      - The game can adapt to screen sizes taller than the original 9:16 ratio e.g. 9:19
 
 .. _minor-3-3-0:
 
