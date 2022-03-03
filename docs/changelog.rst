@@ -45,6 +45,8 @@ Minor New Features
       - A convenience dictionary to easily customize how long phone calls should be availlable for.
     * - Email testing hub
       - An email testing hub from the Developer settings in-game allows you to quickly invite guests, send replies, and test the party.
+    * - VN Screen shake
+      - You can use ``show shake`` during Story Mode (VN mode) to shake the screen. Takes into account the player's accessibility preferences.
 
 
 .. _fixes-3-3-0:
