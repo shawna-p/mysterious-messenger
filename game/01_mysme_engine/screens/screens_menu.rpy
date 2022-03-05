@@ -1714,6 +1714,13 @@ screen developer_settings():
                         align (0.5, 0.5)
                         action [Hide('developer_settings'),
                             Show('choose_chat_creator')]
+                hbox:
+                    align (0.5, 0.5)
+                    spacing 40
+                    textbutton _('Choose Screen Ratio'):
+                        style_prefix "other_settings_end"
+                        action Show('choose_screen_ratio')
+
             else:
                 hbox:
                     align (0.5, 0.5)
@@ -1727,6 +1734,63 @@ screen developer_settings():
 default persistent.open_docs_locally = False
 default persistent.link_wait_pause = False
 default persistent.available_call_indicator = False
+
+##########################################################
+## Choose screen ratio screen
+##########################################################
+default persistent.virt_screen_width = 9
+default persistent.virt_screen_height = 16
+screen choose_screen_ratio():
+    modal True
+    tag dev
+    add "#000a"
+
+    default vwidth = 9
+    default vheight = 9
+
+    frame:
+        xysize (675, 580)
+        background Fixed('menu_settings_panel_light',
+            'menu_settings_panel_bright')
+        align (0.5, 0.5)
+        bottom_padding 20
+
+        imagebutton:
+            align (1.0, 0.0)
+            xoffset 3 yoffset -3
+            auto 'input_close_%s'
+            action Hide('choose_screen_ratio')
+
+        text "Choose a screen ratio" style "settings_style" xpos 55 ypos 5
+
+        vbox:
+            style_prefix "other_settings"
+            yalign 0.5
+            null height 30
+
+            frame:
+                xsize 680 xalign 0.5
+                background "menu_settings_panel"
+                has vbox
+                spacing 6
+                style_prefix "check"
+                textbutton _("9:16 (Default)"):
+                    action SetScreenVariable('vheight', 16)
+                textbutton _("9:19"):
+                    action SetScreenVariable('vheight', 19)
+
+            hbox:
+                align (0.5, 0.5)
+                spacing 40
+                textbutton _("Confirm"):
+                    style_prefix "other_settings_end"
+                    align (0.5, 0.5)
+                    xysize (285, 80)
+                    action CConfirm("Are you sure? The game will restart to apply your changes.",
+                        [SetField(persistent, 'virt_screen_height', vheight),
+                        Function(renpy.quit, relaunch=True)])
+
+
 
 ##########################################################
 ## Email Testing Screen
