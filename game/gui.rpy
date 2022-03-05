@@ -10,11 +10,22 @@ init offset = -20
 ## width and height of the game.
 init python:
 
+    if not config.developer:
+        persistent.virt_screen_width = None
+        persistent.virt_screen_height = None
+
     allow_ui_scaling = True#(9, 19)
 
-    if isinstance(allow_ui_scaling, tuple):
-        mult0 = float(allow_ui_scaling[0])
-        mult1 = float(allow_ui_scaling[1])
+    if (isinstance(allow_ui_scaling, tuple)
+            or (persistent.virt_screen_height
+                and persistent.virt_screen_width
+                and persistent.virt_screen_height != 16)):
+        if persistent.virt_screen_width and persistent.virt_screen_height:
+            mult0 = float(persistent.virt_screen_width)
+            mult1 = float(persistent.virt_screen_height)
+        else:
+            mult0 = float(allow_ui_scaling[0])
+            mult1 = float(allow_ui_scaling[1])
         gui.init(750, int(750.0/mult0*mult1))
     elif allow_ui_scaling:
         # Get different screen resolutions
@@ -40,6 +51,8 @@ init python:
                 gui.init(750, new_h)
     else:
         gui.init(750, 1334)
+
+
 
 
 ################################################################################
