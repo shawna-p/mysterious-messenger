@@ -1746,7 +1746,7 @@ screen choose_screen_ratio():
     add "#000a"
 
     default vwidth = 9
-    default vheight = 9
+    default vheight = persistent.virt_screen_height
 
     frame:
         xysize (675, 580)
@@ -1786,9 +1786,11 @@ screen choose_screen_ratio():
                     style_prefix "other_settings_end"
                     align (0.5, 0.5)
                     xysize (285, 80)
-                    action CConfirm("Are you sure? The game will restart to apply your changes.",
+                    action If(vheight == persistent.virt_screen_height,
+                        Hide('choose_screen_ratio'),
+                        CConfirm("Are you sure? The game will restart to apply your changes.",
                         [SetField(persistent, 'virt_screen_height', vheight),
-                        Function(renpy.quit, relaunch=True)])
+                        Function(renpy.quit, relaunch=True)]))
 
 
 
