@@ -1607,7 +1607,7 @@ screen developer_settings():
     add "#000a"
 
     frame:
-        xysize (675, 780)
+        xysize (675, 920)
         background Fixed('menu_settings_panel_light',
             'menu_settings_panel_bright')
         align (0.5, 0.5)
@@ -1769,8 +1769,8 @@ screen choose_screen_ratio():
             null height 30
 
             frame:
-                xsize 680 xalign 0.5
-                background "menu_settings_panel"
+                xsize 640 xalign 0.5
+                background 'menu_tab_inactive'
                 has vbox
                 spacing 6
                 style_prefix "check"
