@@ -1607,7 +1607,7 @@ screen developer_settings():
     add "#000a"
 
     frame:
-        xysize (675, 780)
+        xysize (675, 920)
         background Fixed('menu_settings_panel_light',
             'menu_settings_panel_bright')
         align (0.5, 0.5)
@@ -1746,7 +1746,7 @@ screen choose_screen_ratio():
     add "#000a"
 
     default vwidth = 9
-    default vheight = 9
+    default vheight = persistent.virt_screen_height
 
     frame:
         xysize (675, 580)
@@ -1769,8 +1769,8 @@ screen choose_screen_ratio():
             null height 30
 
             frame:
-                xsize 680 xalign 0.5
-                background "menu_settings_panel"
+                xsize 640 xalign 0.5
+                background 'menu_tab_inactive'
                 has vbox
                 spacing 6
                 style_prefix "check"
@@ -1786,9 +1786,11 @@ screen choose_screen_ratio():
                     style_prefix "other_settings_end"
                     align (0.5, 0.5)
                     xysize (285, 80)
-                    action CConfirm("Are you sure? The game will restart to apply your changes.",
+                    action If(vheight == persistent.virt_screen_height,
+                        Hide('choose_screen_ratio'),
+                        CConfirm("Are you sure? The game will restart to apply your changes.",
                         [SetField(persistent, 'virt_screen_height', vheight),
-                        Function(renpy.quit, relaunch=True)])
+                        Function(renpy.quit, relaunch=True)]))
 
 
 
