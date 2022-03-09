@@ -12,7 +12,7 @@ screen text_message_hub():
 
         viewport:
             xsize 725
-            ysize 1150
+            ysize config.screen_height-184
             draggable True
             mousewheel True
             side_spacing 5
@@ -391,7 +391,7 @@ screen text_message_screen(sender, animate=True):
         yadjustment yadj
         draggable True
         mousewheel True
-        ysize 1040
+        ysize config.screen_height-311
         yalign 1.0
         yoffset -144
 
@@ -424,7 +424,7 @@ screen text_message_screen(sender, animate=True):
         frame:
             xalign 0.5
             ymaximum 40
-            yalign 0.905
+            yalign 1.0 yoffset -125
             background 'text_msg_line'
 
 
