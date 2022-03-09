@@ -606,7 +606,7 @@ style call_display_viewport:
     xalign 0.5
     yalign 0.95
     xsize 725
-    ysize 1070
+    ysize config.screen_width-264
 
 style call_display_vbox:
     spacing 10
