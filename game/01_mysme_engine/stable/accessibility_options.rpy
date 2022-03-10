@@ -47,7 +47,7 @@ init python:
         else:
             persistent.vn_window_alpha = 1.0
             persistent.vn_window_dark = float((persistent.window_darken_pct
-                                                         - 50) / 50.0)
+                                                        - 50) / 50.0)
 
 
 ## An in-progress screen that allows the player to change
@@ -58,7 +58,7 @@ screen adjust_fonts():
     add "#000a"
 
     frame:
-        xysize (675, 1000)
+        xysize (675, config.screen_height-334)
         background 'menu_settings_panel_bright'
         align (0.5, 0.5)
 
@@ -71,7 +71,7 @@ screen adjust_fonts():
         text "Adjust Fonts" style "settings_style" xpos 55 ypos 5
 
         viewport:
-            xysize(600, 940)
+            xysize(600, config.screen_height-394)
             xalign 0.5
             yalign 0.85
             draggable True
