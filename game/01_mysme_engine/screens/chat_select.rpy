@@ -17,7 +17,7 @@ screen day_select(days=story_archive):
 
     use menu_header("Day List", return_action):
         viewport:
-            xysize (720, 1100)
+            xysize (720, config.screen_height-234)
             yalign 0.85
             xalign 0.5
             xadjustment day_select_xadj
