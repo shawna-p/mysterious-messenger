@@ -1446,7 +1446,7 @@ screen ringtone_dropdown(title):
 
     add "#000a"
     frame:
-        xysize(675,1000)
+        xysize(675, config.screen_height-334)
         background "menu_settings_panel_bright"
         align (0.5, 0.5)
 
@@ -1459,7 +1459,7 @@ screen ringtone_dropdown(title):
         text title style "settings_style" xpos 55 ypos 5
 
         viewport:
-            xysize(600, 940)
+            xysize(600, config.screen_height-394)
             align (0.5, 0.85)
             draggable True
             mousewheel True
