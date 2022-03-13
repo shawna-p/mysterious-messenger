@@ -127,7 +127,7 @@ screen timed_menu_messages(no_anim_list=None):
             yadjustment yadj
             draggable True
             mousewheel True
-            ysize 1080
+            ysize config.screen_height-254
             xfill True
             has vbox
             spacing 10
