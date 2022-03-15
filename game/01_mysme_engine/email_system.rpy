@@ -848,7 +848,7 @@ screen open_email(e):
                     text e.msg size 28 color "#000"
 
 style open_email_frame:
-    maximum(685, 800)
+    maximum(685, config.screen_height-534)
     background 'left_corner_menu_dark' padding(20,20)
     align (0.5, 0.5)
 
@@ -888,12 +888,12 @@ style open_email_button_text:
 style open_email_frame2:
     background 'email_open_transparent'
     padding(20,20)
-    xysize (625, 585)
+    xysize (625, config.screen_height-789+40)
     align (0.5,0.5)
 
 style open_email_viewport:
     align (0.5, 0.5)
-    xysize (585, 545)
+    xysize (585, config.screen_height-789)
 
 
 screen email_choice(items, email):
