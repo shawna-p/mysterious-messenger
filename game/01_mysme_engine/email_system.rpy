@@ -947,7 +947,7 @@ screen guestbook():
     $ num_rows = -(-len(persistent.guestbook) // 4)
     use menu_header("Guest", return_action):
         vpgrid id 'guest_vp':
-            xysize (740, 1200)
+            xysize (740, config.screen_height-134)
             yfill True
             rows num_rows
             cols 4
