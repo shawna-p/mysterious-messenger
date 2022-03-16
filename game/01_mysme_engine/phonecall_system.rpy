@@ -661,7 +661,7 @@ style call_display_vpgrid:
     align (0.5, 0.3)
     xspacing 55
     yspacing 100
-    xysize (705, 1070)
+    xysize (705, config.screen_height-264)
     xalign 0.4
 
 style phone_contacts_frame:
