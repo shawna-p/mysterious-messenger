@@ -545,7 +545,7 @@ default new_cg = 0
 image cg_frame = 'CGs/photo_frame.webp'
 image cg_frame_dark = 'CGs/photo_frame_dark.webp'
 
-image translucent_img = 'translucent.webp'
+image translucent_img = Frame('translucent.webp', 0, 0)
 
 ## This screen shows all of the various characters/folders
 ## available in the photo gallery.
@@ -610,7 +610,7 @@ screen photo_album():
                 mousewheel True
                 scrollbars "vertical"
                 align (0.5, 0.5)
-                xysize(config.screen_width, 1170)
+                xysize(config.screen_width, config.screen_height-164)
                 if null_height > 0:
                     yoffset null_height
                 # Negative xspacing allows the program to center
@@ -706,7 +706,7 @@ screen character_gallery(album, caption, name):
 
         vbox:
             align (0.5, 1.0)
-            xysize (745, 1170)
+            xysize (745, config.screen_height-164)
             spacing 5
             frame:
                 xysize (241, 64)
@@ -720,7 +720,7 @@ screen character_gallery(album, caption, name):
                         style 'album_text_short'
 
             vpgrid id 'gallery_vp':
-                xysize (740, 1100)
+                xysize (740, config.screen_height-234)
                 yfill True
                 rows num_rows
                 cols 4
@@ -797,13 +797,13 @@ screen viewCG_fullsize_album(album, caption, name):
     draggroup:
         drag:
             drag_name "Left"
-            child Transform('translucent_img', size=(70,config.screen_height))
+            child Transform('translucent_img', xysize=(70,config.screen_height))
             draggable False
             xalign 0.0
         drag:
             drag_name "Right"
             draggable False
-            child Transform('translucent_img', size=(70, config.screen_height))
+            child Transform('translucent_img', xysize=(70, config.screen_height))
             xalign 1.0
         drag:
             drag_name "the_CG"
