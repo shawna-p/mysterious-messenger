@@ -59,22 +59,28 @@ default persistent.y_album = []
 default persistent.z_album = []
 default persistent.common_album = []
 
+init offset = 1000
+
+
 ## In order to allow for albums to be easily expanded,
 ## these variables are used. This is where you actually
 ## declare all of the Album objects you need.
-default ja_album = []
-default ju_album = [ Album("cg ju_1") ]
-default r_album = [ Album("cg r_1") ]
-default s_album = [ Album("cg s_1") ]
-default u_album = []
-default v_album = []
-default y_album = []
-default z_album = []
-default common_album = [
-    Album("cg common_1"),
-    Album("cg common_2"),
-    Album("cg common_3")
+define ja_album = [ ]
+define ju_album = [ ]
+define r_album = [ GalleryImage("cg r_1") ]
+define s_album = [ GalleryImage("cg s_1") ]
+define u_album = []
+define v_album = []
+define y_album = []
+define z_album = []
+define common_album = [
+    GalleryImage("cg common_1"),
+    GalleryImage("cg common_2"),
+    GalleryImage("cg common_3")
 ]
+
+
+init offset = 0
 
 # This list allows the program to automatically merge the persistent
 # and regular albums each time the game is started.

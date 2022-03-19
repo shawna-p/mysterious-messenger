@@ -35,7 +35,7 @@ init python:
             if img is None:
                 self.img = name
             else:
-            self.img = img
+                self.img = img
             self.locked_img = locked_img
 
             if thumbnail:
@@ -250,16 +250,16 @@ init python:
             for p in p_album:
                 if p.unlocked:
                     img = p.img
-                try:
-                    if isinstance(img, Transform):
-                        print("WARNING: Could not add gallery image to unlocked list.")
-                    elif isinstance(img, str):
+                    try:
+                        if isinstance(img, Transform):
+                            print("WARNING: Could not add gallery image to unlocked list.")
+                        elif isinstance(img, str):
                             persistent.gallery_unlocked.add(p.img)
-                    else:
-                        print("Could not identify type of image", img)
+                        else:
+                            print("Could not identify type of image", img)
                         print_file("Successfully updated", img)
-                except Exception as e:
-                    print("WARNING: Error in processing album image:", e)
+                    except Exception as e:
+                        print("WARNING: Error in processing album image:", e)
                 else:
                     print_file("Image", p.img, "was not unlocked")
 
@@ -290,3 +290,4 @@ default persistent.seen_new_gallery_popup = None
 default persistent.gallery_unlocked = set()
 # Set of images which have been viewed in the gallery
 default persistent.seen_in_gallery = set()
+
