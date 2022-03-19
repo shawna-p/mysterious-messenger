@@ -28,6 +28,7 @@ init python:
         def __init__(self, name, img=None, thumbnail=None,
                 locked_img="CGs/album_unlock.webp", chat_img=None,
                 chat_preview=None):
+            """Create a GalleryImage object."""
 
             self.name = name
             # The image name and image itself are the same
