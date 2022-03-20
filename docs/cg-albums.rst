@@ -11,7 +11,10 @@ Albums Associated a Character
 
 For this tutorial, this example shows how to add a character named Emma to the game. You can view Emma's character definition and more in :ref:`Adding a New Character to Chatrooms`.
 
-Albums are defined in ``gallery_album_definitions.rpy``. There are two images to define and two album variables.
+Albums are defined in ``gallery_album_definitions.rpy``. There are two images to define and one album variables.
+
+.. note::
+    Prior to v3.3.0, the game required two album definitions, a variable and a persistent version. The current version combines both of these into one. If you were using the previous version, your album images should automatically update on game launch, and then you can switch over to the current way of defining albums.
 
 First, under the heading **Album Cover Images**, you will see images that look like ``cg_label_ja``. This is the background of the small label that contains the name of the album. For Emma, you will define an image like::
 
