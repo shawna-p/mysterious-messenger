@@ -28,19 +28,11 @@ Below that is a set of images like ``ja_album_cover``. This is the image that wi
 
 The important part is that it's called ``em_album_cover`` where ``em`` is the character's file_id.
 
-Next, you need to define two album variables. The first one, at the top, is persistent. In most cases, it will begin empty. These variables are used to keep track of which images the player has unlocked across all playthroughs.
+Next, you need to define the album::
 
-::
+    define em_album = []
 
-    default persistent.em_album = []
-
-The album should be the character's file_id + album, so in this case it's ``persistent.em_album``.
-
-Similarly, Emma's regular album definition will look like::
-
-    default em_album = []
-
-Again, this is the character's file_id + album.
+The album should be the character's file_id + album, so in this case it's ``em_album``.
 
 At the bottom of the file, you will also see a definition for the variable ``all_albums``. You need to add Emma's file_id here so that her album shows up in the Album screen::
 
@@ -81,12 +73,11 @@ The program uses a specific naming scheme to process strings into file and varia
 2. Apostrophes are removed (e.g. "valentine's day -> "valentines_day")
 3. Entire word is in lowercase (e.g. "RFA Bonus" -> "rfa_bonus")
 
-So, using the rules above, "new year's" in the ``all_albums`` definition will become "new_years". You can then define the two images and two album definitions like you did for Emma above::
+So, using the rules above, "new year's" in the ``all_albums`` definition will become "new_years". You can then define the two images and album definition like you did for Emma above::
 
     image cg_label_new_years = "Image for your label.png"
     image new_years_album_cover = "Image for your album cover.png"
-    default persistent.new_years_album = []
-    default new_years_album = []
+    define new_years_album = []
 
 
 Adding a CG After Starting the Game
