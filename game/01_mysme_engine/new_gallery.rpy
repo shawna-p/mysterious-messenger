@@ -23,11 +23,15 @@ init python:
         chat_preview : Displayable
             A displayable containing the image to show as a small preview
             in the chatroom (as opposed to in the gallery).
+        condition : string
+            A string representing a condition which, if checked, should
+            indicate whether this image should be shown in the gallery
+            or not. Usually a persistent variable e.g. "persistent.dlc1"
         """
 
         def __init__(self, name, img=None, thumbnail=None,
                 locked_img="CGs/album_unlock.webp", chat_img=None,
-                chat_preview=None):
+                chat_preview=None, condition=None):
             """Create a GalleryImage object."""
 
             self.name = name
@@ -56,7 +60,16 @@ init python:
                                             size=(155,155))
             self.p_chat_img = chat_img
             self.p_chat_preview = chat_preview
-
+            
+            self.condition = condition or "True"
+            
+        def evaluate_condition(self):
+            """Evaluate whether this image should be shown in the gallery."""
+            try:
+                return eval(self.condition)
+            except:
+                return True
+                
         @property
         def filename(self):
             """Return the file name (including extension) for this image."""
