@@ -83,6 +83,23 @@ So, using the rules above, "new year's" in the ``all_albums`` definition will be
 Adding a CG After Starting the Game
 ------------------------------------
 
+In some cases, you may not want a CG to appear in a character's album unless some condition is met, such as a particular DLC being unlocked. In such a case, you can make use of the ``condition`` property of a ``GalleryImage`` object.
+
+For example, say you have a variable, ``persistent.new_years_dlc``, which tracks whether the player has the New Year's DLC or not. You only want to show "missing" New Year's DLC images in their album if they already have the DLC. In such a case, you can do::
+
+    image ja_ny1 = "CGs/Jaehee/ny1.webp"
+    define ja_album = [ GalleryImage(
+            "ja_ny1",
+            locked_img="CGs/new_years_locked.webp",
+            condition="persistent.new_years_dlc"
+        )
+    ]
+
+This will define a gallery image named "ja_ny1" with the locked thumbnail at "CGs/new_years_locked.webp" and the condition of ``"persistent.new_years_dlc"``. The fact that ``persistent.new_years_dlc`` is in quotes is important - the program uses this to evaluate the condition when it's going to show the gallery (as opposed to right at the start of the game).
+
+.. warning::
+    The following code *will only* work if you use the old definition format for albums (namely, the one with a ``default`` album and a ``persistent`` version). The updated version of this code (as of v3.3.0) can be found above.
+
 While in most cases you should define your CGs in ``gallery_album_definitions.rpy``, you can also add new CGs to an album after the game has already started with the function ``add_to_album``. This function takes two parameters:
 
 `album`
