@@ -97,6 +97,13 @@ For example, say you have a variable, ``persistent.new_years_dlc``, which tracks
 
 This will define a gallery image named "ja_ny1" with the locked thumbnail at "CGs/new_years_locked.webp" and the condition of ``"persistent.new_years_dlc"``. The fact that ``persistent.new_years_dlc`` is in quotes is important - the program uses this to evaluate the condition when it's going to show the gallery (as opposed to right at the start of the game).
 
+You can use this for more complex conditions as well, so long as they are enclosed in quotes. Some examples::
+
+    "'jaehee' in persistent.new_years_dlc_endings"
+    "persistent.new_years_dlc_endings >= 1 and persistent.new_years_dlc and 'jaehee' in persistent.new_years_dlc"
+
+Typically you should use persistent variables for the conditions, because the player can view their album from the main menu as well so any save file-specific values won't necessarily be used.
+
 .. warning::
     The following code *will only* work if you use the old definition format for albums (namely, the one with a ``default`` album and a ``persistent`` version). The updated version of this code (as of v3.3.0) can be found above.
 
