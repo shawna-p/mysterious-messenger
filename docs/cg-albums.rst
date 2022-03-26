@@ -188,24 +188,31 @@ After defining your image, you must add it to the correct album. See :ref:`Addin
 ::
 
     default common_album = [
-        Album("cg common_1"),
-        Album("cg common_2"),
-        Album("cg common_3"),
-        Album("cg common_4")
+        GalleryImage("cg common_1"),
+        GalleryImage("cg common_2"),
+        GalleryImage("cg common_3"),
+        GalleryImage("cg common_4")
     ]
 
 In this example, no unique thumbnail was specified. If the program can find an image with the suffix ``-thumb`` before the file extension, it will use that as the thumbnail. So, since the image is found at "CGs/common_album/cg-4.webp", the program will look for a thumbnail image at "CGs/common_album/cg-4-thumb.webp".
 
-Otherwise, you can also manually specify a thumbnail as the second argument to Album::
+Otherwise, you can also manually specify a thumbnail as the third argument to GalleryImage or just by specifying it::
 
-    Album("cg common_4", "CGs/thumbnails/common_4_thumbnail.webp")
+    GalleryImage("cg common_4", thumbnail="CGs/thumbnails/common_4_thumbnail.webp")
 
 Typically thumbnails are 150x150 px. If one is not provided, the given CG is cropped and resized to the appropriate size.
 
-The full list of arguments to the Album definition is below:
+The full list of arguments to the GalleryImage definition is below:
 
 `img`
     A Displayable, typically a string with the name of the image for this CG as it should appear in the album.
+
+`name`
+    A string. Typically this ends up being the same as ``img`` if you define your CGs as described above, but you could also do something like::
+
+        GalleryImage("CGs/Common/special.webp", "cg common_5")
+
+    This would have the same effect as if you'd defined ``cg common_5`` using the ``image`` declaration.
 
 `thumbnail`
     Optional. An image path or displayable for the thumbnail as it should appear in the Gallery. Should be 155x155 pixels.
