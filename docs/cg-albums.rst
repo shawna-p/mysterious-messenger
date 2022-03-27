@@ -204,18 +204,18 @@ Typically thumbnails are 150x150 px. If one is not provided, the given CG is cro
 
 The full list of arguments to the GalleryImage definition is below:
 
-`img`
-    A Displayable, typically a string with the name of the image for this CG as it should appear in the album.
-
 `name`
-    A string. Typically this ends up being the same as ``img`` if you define your CGs as described above, but you could also do something like::
+    A string. Typically this ends up being the same as ``img`` below if you define your CGs as described above, but you could also do something like::
 
         GalleryImage("CGs/Common/special.webp", "cg common_5")
 
     This would have the same effect as if you'd defined ``cg common_5`` using the ``image`` declaration.
 
+`img`
+    A Displayable, typically a string with the name of the image for this CG as it should appear in the album. Can be omitted if it is the same as ``name``.
+
 `thumbnail`
-    Optional. An image path or displayable for the thumbnail as it should appear in the Gallery. Should be 155x155 pixels.
+    Optional. An image path or displayable for the thumbnail as it should appear in the Gallery. Should be 155x155 pixels. If not provided, the CG is scaled and cropped to fit the thumbnail size.
 
 `locked_img`
     Optional. The file path to the image that will be used as the "locked" thumbnail icon in the gallery. Should be 155x155 pixels. Typically has a "?" or a locked symbol somewhere to indicate this gallery image hasn't been unlocked yet.
