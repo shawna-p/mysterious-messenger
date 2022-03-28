@@ -220,8 +220,10 @@ The full list of arguments to the GalleryImage definition is below:
 `locked_img`
     Optional. The file path to the image that will be used as the "locked" thumbnail icon in the gallery. Should be 155x155 pixels. Typically has a "?" or a locked symbol somewhere to indicate this gallery image hasn't been unlocked yet.
 
+    This is often used to indicate, for example, that an image comes from a particular DLC.
+
 `chat_img`
-    Optional. A Displayable (typically an image path or string containing the name of a defined image) which will be shown to the player at full-size in the chatroom only. The supplied `img` field will be used when viewing this image full-size in the gallery instead.
+    Optional. A Displayable (typically an image path or string containing the name of a defined image) which will be shown to the player at full-size in the chatroom only. The supplied ``img`` field will be used when viewing this image full-size in the gallery instead.
 
     Use this to do things like supply blurry or edited CGs in the chatroom, but provide their regular unedited version in the gallery.
 
