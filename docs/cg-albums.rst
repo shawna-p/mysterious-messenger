@@ -227,15 +227,21 @@ The full list of arguments to the GalleryImage definition is below:
 
     Use this to do things like supply blurry or edited CGs in the chatroom, but provide their regular unedited version in the gallery.
 
-`chat_thumb`
+`chat_preview`
     Optional. A Displayable (typically an image path or string containing the name of a defined image) which will be shown to the player in the chatroom only. Clicking this image will show either ``chat_img`` (if available) or ``img`` (if not) full-screen. Typically this is about 35% of the full screen size, or 263x467 pixels, but can be whatever dimensions you like.
 
     Use this to customize the image preview in the chatroom, such as blurring the thumbnail for "spoilers" or to put the thumbnail focus on a particular part of the image.
 
-So, for example, you could define an Album object like so::
+    .. note::
+        The equivalent property was called ``chat_thumb`` in the ``Album`` object prior to v3.3.0.
 
-    Album("cg common_1", thumbnail="common_1_thumb",
-          chat_img="cg common_1_edit", chat_thumb="CGs/spoiler_img.png")
+So, for example, you could define a GalleryImage object like so::
+
+    GalleryImage("cg common_1",
+        thumbnail="common_1_thumb",
+        chat_img="cg common_1_edit",
+        chat_preview="CGs/spoiler_img.png"
+    )
 
 (Note that this assumes you have ``image cg common_1 = "..."``, ``image common_1_thumb = "..."``, ``image cg common_1_edit = "..."`` etc.)
 
