@@ -250,9 +250,13 @@ You would then still be able to use the CG in the usual manner described below t
 Large Thumbnails
 -----------------
 
-For better compatibility with the new profile picture system, you may also want to provide a "larger" version of a thumbnail for use in profile pictures on the profile screen. The program will search for an image with the name of the thumbnail + the suffix ``-b`` before the file extension. So, if our "cg common_4" isn't given a different thumbnail, it will look for the large version of the thumbnail at "CGs/common_album/cg-4-thumb-b.webp".
+Recall our additional CG image::
 
-If you provided a different thumbnail, as in ``Album("cg common_4", "CGs/thumbnails/common_4_thumbnail.webp")``, then the large version is expected to be called "CGs/thumbnails/common_4_thumbnail-b.webp".
+    image cg common_4 = "CGs/common_album/cg-4.webp"
+
+For better compatibility with the new profile picture system, you may also want to provide a "larger" version of a thumbnail for use in profile pictures on the profile screen. The program will search for an image with the name of the thumbnail + the suffix ``-b`` before the file extension. So, if "cg common_4" isn't given a different thumbnail, it will look for the large version of the thumbnail at "CGs/common_album/cg-4-thumb-b.webp".
+
+If you provided a different thumbnail, as in ``GalleryImage("cg common_4", thumbnail="CGs/thumbnails/common_4_thumbnail.webp")``, then the large version is expected to be called "CGs/thumbnails/common_4_thumbnail-b.webp".
 
 
 Showing a CG in a Chatroom or Text Message
