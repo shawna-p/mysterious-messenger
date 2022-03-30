@@ -430,47 +430,53 @@ python early:
                 print("ERROR: Couldn't sync Saeran and Ray's heart points")
             self.__bad_heart = points
 
-        def increase_heart(self, bad=False):
+        def increase_heart(self, bad=False, amount=1):
             """
             Add a heart point to this character's total. Good heart points
             count towards good ends and bad points towards bad ends.
             """
 
+            # This number has to be positive
+            amount = abs(amount)
+
             if self == store.sa:
                 try:
-                    store.r.increase_heart(bad)
+                    store.r.increase_heart(bad, amount)
                     return
                 except:
                     print("ERROR: Couldn't sync Saeran and Ray's heart points")
 
-            self.heart_points += 1
+            self.heart_points += amount
             if not bad:
-                self.good_heart += 1
+                self.good_heart += amount
             else:
-                self.bad_heart += 1
+                self.bad_heart += amount
 
             # All hearts count towards spendable hearts
             if self.file_id not in store.persistent.spendable_hearts:
-                store.persistent.spendable_hearts[self.file_id] = 1
+                store.persistent.spendable_hearts[self.file_id] = amount
             else:
-                store.persistent.spendable_hearts[self.file_id] += 1
+                store.persistent.spendable_hearts[self.file_id] += amount
 
 
-        def decrease_heart(self):
+        def decrease_heart(self, amount=1):
             """Decrement the good heart points for this character."""
+
+            # This number has to be positive
+            amount = abs(amount)
 
             if self == store.sa:
                 # Try to sync Saeran and Ray's heart points
                 try:
                     if self == store.sa:
-                        store.r.decrease_heart()
+                        store.r.decrease_heart(amount)
                         return
                 except:
                     print_file("Couldn't sync Saeran and Ray's heart points.")
 
 
-            self.heart_points -= 1
-            self.good_heart -= 1
+            self.heart_points -= amount
+            self.good_heart -= amount
 
         def reset_heart(self):
             """Reset all heart points for this character."""
