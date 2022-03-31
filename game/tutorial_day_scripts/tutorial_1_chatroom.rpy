@@ -429,8 +429,9 @@ label heart_icons():
 
     break heart z
     z "{=sser2}But you don't really want to hurt any of our feelings, right?{/=sser2}" (bounce=True)
+    z "You can provide a number, too, for the number of heart points to award or remove."
     z "{image=zen_happy}" (img=True)
-    award heart z
+    award heart z 10
     z "{=ser1}The program automatically tallies the heart points you've earned during a chatroom and displays the total after you hit Save & Exit.{/=ser1}"
     z "It keeps track of both the total points earned during a chatroom,"
     z "as well as how many points you have with each individual character"

@@ -1633,22 +1633,23 @@ init python:
     def get_collected_hp():
         """Return the total number of heart points earned in a chatroom."""
 
-        return (len(store.collected_hp['good'])
-                    + len(store.collected_hp['bad'])
-                    - len(store.collected_hp['break']))
+        good = sum([ amt for who, amt in store.collected_hp['good'] ])
+        bad = sum([ amt for who, amt in store.collected_hp['bad'] ])
+        breakh = sum([ amt for who, amt in store.collected_hp['break'] ])
+        return (good + bad + breakh)
 
     def rescind_collected_hp():
         """Resets the heart points earned during this chatroom."""
 
         global collected_hp
 
-        for chara in collected_hp['good']:
-            chara.decrease_heart()
-        for chara in collected_hp['bad']:
-            chara.heart_points -= 1
-            chara.bad_heart -= 1
-        for chara in collected_hp['break']:
-            chara.increase_heart()
+        for chara, amount in collected_hp['good']:
+            chara.decrease_heart(amount=amount)
+        for chara, amount in collected_hp['bad']:
+            chara.heart_points -= amount
+            chara.bad_heart -= amount
+        for chara, amount in collected_hp['break']:
+            chara.increase_heart(amount=amount)
 
         # Remove points from persistent.HP
         store.persistent.HP -= get_collected_hp()

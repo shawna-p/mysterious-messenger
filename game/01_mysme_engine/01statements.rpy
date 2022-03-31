@@ -1207,6 +1207,7 @@ python early:
             renpy.error("award heart requires a person to award the heart to.")
 
         bad = False
+        amount = "1"
 
         while True:
             if l.eol():
@@ -1214,10 +1215,14 @@ python early:
             if l.keyword('bad'):
                 bad = True
                 continue
+            x = l.integer()
+            if x:
+                amount = x
+                continue
 
             renpy.error("Could not parse statement.")
 
-        return dict(who=who, bad=bad)
+        return dict(who=who, bad=bad, amount=amount)
 
     def execute_award_heart(p):
 
@@ -1233,7 +1238,19 @@ python early:
                 subheader="Awarding a heart point")
             return
 
+        try:
+            amount = eval(p.get("amount", "1"))
+            amount = abs(amount)
+        except Exception as e:
+            print_file("Award heart Exception:", e)
+            print_file("p is", p, "amount is", p["amount"])
+            ScriptError("Couldn't recognize argument given to award heart",
+                header="Chatrooms",
+                subheader="Awarding a heart point")
+            return
+
         bad = p["bad"]
+
 
         # This ensures pending dialogue is posted before awarding a heart.
         # Fixes some issues with text message heart points.
@@ -1245,21 +1262,22 @@ python early:
         if store.text_person is None or store.text_person.real_time_text:
             try:
                 if not store.observing:
-                    who.increase_heart(bad)
+                    who.increase_heart(bad, amount)
                     if store.text_person is None:
                         # store.collected_hp += 1
                         if bad:
-                            store.collected_hp['bad'].append(who)
+                            store.collected_hp['bad'].append((who, amount))
                         else:
-                            store.collected_hp['good'].append(who)
-                    store.persistent.HP += 1
+                            store.collected_hp['good'].append((who, amount))
+                    store.persistent.HP += amount
 
                     if store.persistent.animated_icons:
                         renpy.show_screen(allocate_heart_screen(), character=who)
                     else:
-                        msg = who.name + " +1"
+                        msg = "{} +{}".format(who.name, amount)
                         renpy.show_screen(allocate_notification_screen(), msg)
-            except Exception:
+            except Exception as e:
+                print_file("Excption awarding heart:", e)
                 ScriptError("Heart could not be awarded for \"", p["who"], '"',
                     header="Chatrooms",
                     subheader="Awarding a heart point")
@@ -1309,7 +1327,8 @@ python early:
 
     def parse_break_heart(l):
         who = l.simple_expression()
-        return dict(who=who)
+        amount = l.integer() or "1"
+        return dict(who=who, amount=amount)
 
     def execute_break_heart(p):
         if p["who"] is not None:
@@ -1324,17 +1343,26 @@ python early:
                 subheader="Removing a heart point")
             return
 
+        try:
+            amount = eval(p.get("amount", "1"))
+            amount = abs(amount)
+        except:
+            ScriptError("Couldn't recognize argument given to break heart",
+                header="Chatrooms",
+                subheader="Removing a heart point")
+            return
+
         if not store.observing:
-            who.decrease_heart()
+            who.decrease_heart(amount)
 
             if store.text_person is None:
-                store.collected_hp['break'].append(who)
-            store.persistent.HP -= 1
+                store.collected_hp['break'].append((who, amount))
+            store.persistent.HP -= amount
 
             if store.persistent.animated_icons:
                 renpy.show_screen('heart_break_screen', character=who)
             else:
-                msg = who.name + " -1"
+                msg = "{} -{}".format(who.name, amount)
                 renpy.show_screen(allocate_notification_screen(), msg)
         return
 
