@@ -111,11 +111,6 @@ image load_tip = "Menu Screens/Main Menu/loading_tip.webp"
 image load_close = "Menu Screens/Main Menu/loading_close.webp"
 image load_tip_panel = Frame("Menu Screens/Main Menu/loading_tip_panel.webp", 300,100,80,80)
 
-label splashscreen():
-    show screen loading_screen
-    pause 1.0
-    hide screen loading_screen
-    return
 
 ## This ensures that the player has to set up their profile
 ## the very first time they open the game
