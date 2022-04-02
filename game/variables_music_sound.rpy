@@ -6,6 +6,7 @@
 define mystic_chat = "audio/music/03 Mystic Chat.ogg"
 define mystic_chat2 = "audio/music/04 Mystic Chat Ver.2.ogg"
 define mystic_chat_hacked = "audio/music/Mystic Chat (ver. hacked).ogg"
+define mystic_op_instrumental = "audio/music/Mystic_Messenger_Opening_Instrumental_Version.ogg"
 define mysterious_clues = "audio/music/05 Mysterious Clues.ogg"
 define mysterious_clues_v2 = "audio/music/Mysterious Clues ver 2.ogg"
 define urban_night_cityscape = "audio/music/06 Urban Night Cityscape.ogg"
@@ -60,6 +61,7 @@ define xmas_urban_night_cityscape = "audio/music/Urban Night Cityscape (ver. X-M
 define music_dictionary = {
     mystic_chat : "Upbeat saxophone music",
     mystic_chat2 : "Upbeat saxophone music with electric guitar",
+    mystic_op_instrumental : "Upbeat pop instrumental with percussion",
     mysterious_clues : "Sinister bell music",
     urban_night_cityscape : "Sophisticated orchestral music",
     urban_night_cityscape_v2 : "Melancholy orchestral music",

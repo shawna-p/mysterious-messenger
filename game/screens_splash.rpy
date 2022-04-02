@@ -11,7 +11,9 @@ transform fade_in_out():
 
 
 screen splash_image():
-    add persistent.main_menu_image align (0.5, 0.5)
+    add persistent.main_menu_image:
+        align (0.5, 0.5) xysize (config.screen_width, config.screen_height)
+        fit "cover"
     add 'touch_to_start' yalign 1.0 yoffset -90
     button:
         xysize (config.screen_width, config.screen_height)
@@ -22,7 +24,7 @@ default persistent.main_menu_image = None
 
 label splashscreen():
     if persistent.main_menu_image:
-        play music mystic_chat
+        play music mystic_op_instrumental
         call screen splash_image()
     show screen loading_screen
     pause 1.0
