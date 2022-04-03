@@ -10,47 +10,105 @@ init offset = -20
 ## width and height of the game.
 init python:
 
+    ## EDITABLE
+    # Turn this off if you don't want screen scaling
+    allow_ui_scaling = True
+
+    # The width/height of your original game UI
+    original_width = 750
+    original_height = 1334
+
+    # The original dimensions (ratio) of your original UI
+    original_width_ratio = 9
+    original_height_ratio = 16
+
+    # Whether the UI can get wider (keeping its original height)
+    ui_allow_wider = False
+    # Whether the UI can get taller (keeping its original width)
+    ui_allow_taller = True
+    ## END OF EDITABLE
+
+    # Don't allow regular players to mess with the screen dimensions
     if not config.developer:
         persistent.virt_screen_width = None
         persistent.virt_screen_height = None
 
-    allow_ui_scaling = True#(9, 19)
+    # Are we doing this wider, or taller? e.g. 9/16=0.5625
+    original_ratio = float(original_width_ratio) / float(original_height_ratio)
 
-    if (isinstance(allow_ui_scaling, tuple)
-            or (persistent.virt_screen_height
-                and persistent.virt_screen_width
-                and persistent.virt_screen_height != 16)):
-        if persistent.virt_screen_width and persistent.virt_screen_height:
+    # Developer options to manually change the dimensions for testing
+    if (persistent.virt_screen_height
+            and persistent.virt_screen_width
+            and (persistent.virt_screen_height != original_height_ratio
+                or persistent.virt_screen_width != original_width_ratio)):
+
+        if persistent.virt_screen_width:
             mult0 = float(persistent.virt_screen_width)
+        else:
+            mult0 = float(original_width_ratio)
+
+        if persistent.virt_screen_height:
             mult1 = float(persistent.virt_screen_height)
         else:
-            mult0 = float(allow_ui_scaling[0])
-            mult1 = float(allow_ui_scaling[1])
-        gui.init(750, int(750.0/mult0*mult1))
+            mult1 = float(original_height_ratio)
+
+        if (mult0 / mult1) < original_ratio:
+            # Taller
+            gui.init(original_width, int(float(original_width)/mult0*mult1))
+        else:
+            # Wider
+            gui.init(int(float(original_height)/mult1*mult0), original_height)
+
+    elif (persistent.virt_screen_height == original_height_ratio
+                and persistent.virt_screen_width == original_width_ratio):
+        # Same dimensions as original UI
+        gui.init(original_width, original_height)
+
     elif allow_ui_scaling:
         # Get different screen resolutions
-        res = (9, 16)
+
         inf = renpy.display.get_info()
         # actual screen width
         ww = inf.current_w
         # actual screen height
         hh = inf.current_h
+        if renpy.android:
+            # Fetch the width/height from Java
+            ww = PythonSDLActivity.getScreenWidth()
+            ww = max(ww, inf.current_w)
+            hh = PythonSDLActivity.getScreenHeight()
+            hh = min(hh, inf.current_h)
+            # Shave a few pixels off the screen height to account for the top
+            # bar and/or navigation bar
+            hh -= 120
 
-        # height if it was 9:16 for the game width
-        vh = float(ww) / 9.0 * 16.0
-        # The screen is within the 9:16 ratio
+
+        # height if it was the original ratio for the game width
+        vh = float(ww) / float(original_width_ratio) * float(original_height_ratio)
+        # The screen is within the original ratio
         if hh-10 <= vh <= hh+10:
-            gui.init(750, 1334)
+            gui.init(original_width, original_height)
         else:
-            # What the height should be instead of 9:16
-            new_h = (float(hh) / float(ww)) * 750.0
+            # What the height should be instead of the original ratio
+            new_h = (float(hh) / float(ww)) * float(original_width)
             new_h = int(new_h)
-            if new_h < 1334:
-                gui.init(750, 1334)
+            # What the width should be instead of the original ratio
+            new_w = (float(ww) / float(hh) * float(original_height))
+            new_w = int(new_w)
+            if new_h < original_height:
+                # Wider
+                if ui_allow_wider:
+                    gui.init(new_w, original_height)
+                else:
+                    gui.init(original_width, original_height)
             else:
-                gui.init(750, new_h)
+                # Taller
+                if ui.allow_taller:
+                    gui.init(original_width, new_h)
+                else:
+                    gui.init(original_width, original_height)
     else:
-        gui.init(750, 1334)
+        gui.init(original_width, original_height)
 
 
 
