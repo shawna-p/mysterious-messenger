@@ -73,14 +73,18 @@ init python:
         # actual screen height
         hh = inf.current_h
         if renpy.android:
-            # Fetch the width/height from Java
-            ww = PythonSDLActivity.getScreenWidth()
-            ww = max(ww, inf.current_w)
-            hh = PythonSDLActivity.getScreenHeight()
-            hh = min(hh, inf.current_h)
-            # Shave a few pixels off the screen height to account for the top
-            # bar and/or navigation bar
-            hh -= 120
+            try:
+                # Fetch the width/height from Java
+                ww = PythonSDLActivity.getScreenWidth()
+                ww = max(ww, inf.current_w)
+                hh = PythonSDLActivity.getScreenHeight()
+                hh = min(hh, inf.current_h)
+                # Shave a few pixels off the screen height to account for the top
+                # bar and/or navigation bar
+                hh -= 120
+            except Exception as e:
+                # This functionality wasn't implemented for Android
+                pass
 
 
         # height if it was the original ratio for the game width
@@ -103,7 +107,7 @@ init python:
                     gui.init(original_width, original_height)
             else:
                 # Taller
-                if ui.allow_taller:
+                if ui_allow_taller:
                     gui.init(original_width, new_h)
                 else:
                     gui.init(original_width, original_height)
