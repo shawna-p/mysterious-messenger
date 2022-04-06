@@ -47,6 +47,8 @@ Minor New Features
       - An email testing hub from the Developer settings in-game allows you to quickly invite guests, send replies, and test the party.
     * - VN Screen shake
       - You can use ``show shake`` during Story Mode (VN mode) to shake the screen. Takes into account the player's accessibility preferences.
+    * - Splash screen
+      - The splash screen has been relocated and updated to make it easy to add your own image and "Tap to Start" before entering the main menu.
 
 
 .. _fixes-3-3-0:
@@ -78,6 +80,8 @@ Fixes
       - Fix an issue with branch VNs that would cause a script error dialogue for trigger times.
     * - Background shake
       - Improve how background shake is set up. Backgrounds without an animated version still shake.
+    * - Timeline display
+      - The timeline now correctly displays the "5th DAY" with the suffix when opening a particular day's timeline list.
 
 
 .. _qol-3-3-0:
