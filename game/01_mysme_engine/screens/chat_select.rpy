@@ -225,7 +225,7 @@ screen timeline(day, day_num):
         $ return_action = Show('day_select', Dissolve(0.5),
                             days=which_history_route)
 
-    use menu_header(day.day, return_action):
+    use menu_header(day.day_title, return_action):
         fixed:
             style_prefix 'timeline2'
             add 'day_vlink' size (15, config.screen_height-144-10) xalign 0.15
