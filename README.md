@@ -1,6 +1,6 @@
 # mysterious messenger
 
-A messenger program with many features such as phone calls, text messages, chatrooms, emails, and Visual Novel sections. This is an ongoing project intended to give me practice experimenting with the Ren'Py engine and its capabilities. I maintain a [Mysterious Messenger Discord](https://discord.gg/BPbPcpk) to facilitate discussion, bug reports, and update announcements.
+A messenger program with many features such as phone calls, text messages, chatrooms, emails, and Visual Novel sections. This is an ongoing project intended to give me practice experimenting with the Ren'Py engine and its capabilities. I maintain a [Mysterious Messenger Discord](https://discord.gg/BPbPcpk) to facilitate discussion, bug reports, and update announcements. You can also find extensive documentation on the program hosted on [Read the Docs](https://mysterious-messenger.readthedocs.io/en/stable/).
 
 ## Getting Started
 
