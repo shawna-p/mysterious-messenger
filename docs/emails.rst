@@ -260,7 +260,7 @@ The odds of a guest attending the party are calculated after the email is answer
 A guest will be unlocked in the guest book as soon as the player invites them to the party, but further information will only be unlocked if the guest actually attends the party.
 
 Checking in-game if a Guest Will Attend
---------------------------------
+----------------------------------------
 
 Once an email chain is completed, you can check whether or not a particular guest is attending via the ``attending`` field e.g.
 
@@ -321,5 +321,22 @@ There are several fields when defining a Guest which correspond to text which wi
 The player will also receive 1 hourglass the first time they view a guest's entry in the guestbook after successfully inviting them to the party. The ``short_desc`` field's contents are shown to the player in the guestbook after they first invite the guest, and the ``personal_info`` field is revealed in the guestbook only after the guest has successfully attended the party.
 
 
+Testing Emails
+===============
 
+While you are writing a route, you might want to test email chains and party comments without going through the whole game just to invite the guest. To do that, load up a save file and then click the Developer button from the home screen. Next, click on **Test Emails**.
+
+Here you will find a list of all the guests the game could find to invite. Simply click the guest's name to invite them to the party. Some other buttons are available at the bottom of the screen:
+
+`Force email replies`
+    Causes all undelivered emails to be delivered at once. (For example, if you sent a reply to a guest, then clicking **Force email replies** would immediately deliver the guest's response to your inbox).
+
+`Invite all guests`
+    Invites every possible guest. All their emails will appear in your inbox. Note that it is possible to invite the same guest more than once with this method.
+
+`Start Party`
+    Begins the guest showcase part of the party. Guests only attend if their email chains have been successfully completed as described in :ref:`Calculating if a Guest Will Attend`.
+
+`Indicate correct answers`
+    If turned on, the "correct" email answer will be highlighted when replying to emails.
 
