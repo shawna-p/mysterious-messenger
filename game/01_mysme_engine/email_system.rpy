@@ -173,6 +173,21 @@ init python:
             return choices
             # renpy.show_screen('email_choice', items=choices, email=self)
 
+        def is_correct_choice(self, reply_index):
+            """Return whether this is a/the correct answer to the email."""
+            # Get the reply
+            player_choice = self.current_replies[reply_index]
+
+            # Check if the email's success is explicitly recorded
+            if (player_choice.email_success is not None):
+                return player_choice.email_success
+            # Otherwise, assume success if the list continues
+            # and failure otherwise
+            elif self.current_replies:
+                return True
+            else:
+                return False
+
         def finish_choice(self, reply_index):
             """Deliver the appropriate reply based on the user's choice."""
 
@@ -568,6 +583,11 @@ init python:
                 SetVariable('config.enter_replay_transition', None),
                 SetVariable('config.exit_replay_transition', None)]
 
+    def invite_all_guests():
+        """Invites all the guests to the party."""
+        for guest in store.all_guests:
+            execute_invite_guest(guest)
+
 default email_list = []
 default email_reply = False
 # List of all the guests the player has successfully
@@ -911,6 +931,8 @@ screen email_choice(items, email):
         for num, i in enumerate(items):
             $ fnum = float(num*0.2)
             textbutton i[0] at the_anim(fnum):
+                if show_email_answers and email.is_correct_choice(i[1]):
+                    foreground 'seen_choice_check'
                 action [Function(email.finish_choice, i[1]),
                     Hide('email_choice')]
 

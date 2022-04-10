@@ -1843,23 +1843,25 @@ screen email_testing():
                     style_prefix 'other_settings_end'
                     align (0.5, 0.5)
                     xysize (270, 80)
-                    action [SetVariable('testing_emails', True),
-                            Jump('simulate_party')]
+                    action Jump('simulate_party')
             hbox:
                 spacing 40
                 textbutton "Invite all guests":
                     style_prefix "other_settings_end"
                     align (0.5, 0.5)
                     xysize (350, 80)
-                    action NullAction()
-                textbutton "Indicate correct answer ({})".format("ON" if False else "OFF"):
+                    action CConfirm("Are you sure you want to invite all the guests at once?",
+                        Function(invite_all_guests))
+                textbutton "Indicate correct answer ({})".format("ON" if show_email_answers else "OFF"):
                     style_prefix 'other_settings_end'
                     align (0.5, 0.5)
                     xysize (270, 80)
-                    action NullAction()
+                    text_size 28 text_line_spacing -10
+                    action ToggleVariable('show_email_answers')
 
 label simulate_party:
     hide screen email_testing
+    $ testing_emails = True
     $ begin_timeline_item(generic_storymode)
     call guest_party_showcase
     $ gamestate = None
@@ -1868,6 +1870,7 @@ label simulate_party:
     return
 
 default testing_emails = False
+default show_email_answers = False
 
 init python:
 
