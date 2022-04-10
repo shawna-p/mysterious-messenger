@@ -338,5 +338,5 @@ Here you will find a list of all the guests the game could find to invite. Simpl
     Begins the guest showcase part of the party. Guests only attend if their email chains have been successfully completed as described in :ref:`Calculating if a Guest Will Attend`.
 
 `Indicate correct answers`
-    If turned on, the "correct" email answer will be highlighted when replying to emails.
+    If turned on, the "correct" email answer will be have a checkmark in the corner when replying to emails.
 
