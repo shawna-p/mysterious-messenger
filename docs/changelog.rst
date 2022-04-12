@@ -21,7 +21,7 @@ Major New Features
 
     * - **Feature**
       - **Description**
-    * - Automatic chatroom backgrounds
+    * - :ref:`Automatic chatroom backgrounds<Creating a Chatroom>``
       - The game will automatically set up chatroom backgrounds based on the time of day the chatroom occurs at. You can override this automatic background by providing your own e.g. ``scene morning``.
     * - Adaptable screen size
       - The game can adapt to screen sizes taller than the original 9:16 ratio e.g. 9:19
@@ -43,7 +43,7 @@ Minor New Features
       - Show a different image in chatrooms than in the gallery when sending CGs.
     * - :ref:`Phone call expiry dict<Phone Call Expiry>`
       - A convenience dictionary to easily customize how long phone calls should be availlable for.
-    * - Email testing hub
+    * - :ref:`Email testing hub<Testing Emails>``
       - An email testing hub from the Developer settings in-game allows you to quickly invite guests, send replies, and test the party.
     * - VN Screen shake
       - You can use ``show shake`` during Story Mode (VN mode) to shake the screen. Takes into account the player's accessibility preferences.
@@ -79,7 +79,7 @@ Fixes
     * - Branch VNs
       - Fix an issue with branch VNs that would cause a script error dialogue for trigger times.
     * - Background shake
-      - Improve how background shake is set up. Backgrounds without an animated version still shake.
+      - Improve how background shake is set up. Backgrounds without an animated version still shake when animated backgrounds are turned on.
     * - Timeline display
       - The timeline now correctly displays the "5th DAY" with the suffix when opening a particular day's timeline list.
 
@@ -105,11 +105,11 @@ QoL Improvements
       - Whether the program is in a chatroom, phone call, VN/Story Mode, or text message is now tracked via a consistent `gamestate` variable.
     * - Available call indicator
       - A new dev option will add a "NEW" sign under a contact's icon when there is a call available for them and add an ``Online`` indicator on their profile screen.
-    * - ``get_terms``
+    * - :ref:`get_terms<Using Gendered Terms>`
       - Convenience function for using gendered terms to refer to the player.
     * - Developer Release Options
       - Added a section to ``variables_editable.rpy`` which can be customized for sharing a program distribution with others.
-    * - Email newlines
+    * - :ref:`Email newlines<Writing an Email Chain>`
       - You can now turn off the parser that turns email single newlines into a space.
     * - Gallery update
       - The gallery has been redone to cause fewer headaches overall and requires one definition instead of two.
