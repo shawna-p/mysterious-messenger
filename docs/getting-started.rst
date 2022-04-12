@@ -267,6 +267,8 @@ Finally, below is an overview of the various features available within Mysteriou
     * Character greetings on the main menu
     * Real-time and sequential mode
     * Get input from the player for more detailed information
+    * Support for multiple screen sizes
+    * Custom splash screen
 
 
 
