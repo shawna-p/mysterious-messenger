@@ -340,3 +340,42 @@ Here you will find a list of all the guests the game could find to invite. Simpl
 `Indicate correct answers`
     If turned on, the "correct" email answer will be have a checkmark in the corner when replying to emails.
 
+
+
+Email Callbacks
+===============
+
+You can also optionally specify a callback for a guest's email chain. This callback will be called run each time the email is marked as "read".
+
+As an example, say you would like to set a variable to True in the specific case that the player has seen the guest's second email reply (not including the initial "introductory" email).
+
+First, you need to set up a Guest and specify that they have a callback. For this example, we'll use the Long Cat guest from earlier. In particular, to keep this short, the EmailReply objects are **omitted**::
+
+    default longcat = Guest(
+    "longcat",
+    "Long Cat",
+    "Email/Thumbnails/longcat.webp",
+    "Email/Guest Images/longcat.webp",
+    "Long Cat, the longest cat in the world.",
+    "Meow? Mrrrow... meow meow.",
+    """To [name]:
+
+    Meow? Meow meow.
+
+    From, Long Cat""",
+
+    ## EMAIL REPLIES OMITTED FROM EARLIER EXAMPLE FOR BREVITY
+    [ EmailReply(...)],
+
+    "Meow meow! Purr....",
+    s,
+    "Omg it's Long Cat!!! I need to find and pet them...",
+    "seven front party happy",
+    num_emails=2,
+    callback=longcat_email_callback
+    )
+
+Here you can see at the very end that the argument ``callback=longcat_email_callback`` was added. This is the name of a function that must be defined. Typically it is a good idea to define it above your Guest definition.
+
+An email callback takes one parameter, the email object associated with the callback. You can then access the various email fields to get information about the guest or email in progress. An example email callback for longcat might look like::
+
