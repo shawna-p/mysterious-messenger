@@ -388,4 +388,16 @@ An email callback takes one parameter, the email object associated with the call
 
     default saw_longcat_email2 = False
 
-This sets the variable ``saw_longcat_email2`` to True when the player reads Long Cat's second reply (not counting Long Cat's initial email message).
+This sets the variable ``saw_longcat_email2`` to True when the player reads Long Cat's second reply (not counting Long Cat's initial email message). There are many other email fields you can access to determine what the program should do.
+
+.. note::
+    This callback will be triggered every time the player opens the email chain. Thus, the callback generally should not have what are called "side effects", things that you wouldn't want to happen every time the player opened the email. For example, if you want to increase a counter, you should have a flag to ensure you only increase the counter once, on the first viewing of an email e.g.
+
+    ::
+        def longcat_email_callback(email):
+            global saw_longcat_email2, my_email_counter
+            if email.msg_num >= 2 and not saw_longcat_email2:
+                saw_longcat_email2 = True
+                my_email_counter += 1
+
+    The check ``and not saw_longcat_email2`` ensures that the code ``my_email_counter += 1`` only happens once, the first time the Long Cat email chain is marked as read.
