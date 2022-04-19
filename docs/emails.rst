@@ -379,3 +379,13 @@ Here you can see at the very end that the argument ``callback=longcat_email_call
 
 An email callback takes one parameter, the email object associated with the callback. You can then access the various email fields to get information about the guest or email in progress. An example email callback for longcat might look like::
 
+    init python:
+        def longcat_email_callback(email):
+            global saw_longcat_email2
+            if email.msg_num >= 2:
+                saw_longcat_email2 = True
+            return
+
+    default saw_longcat_email2 = False
+
+This sets the variable ``saw_longcat_email2`` to True when the player reads Long Cat's second reply (not counting Long Cat's initial email message).
