@@ -186,7 +186,11 @@ init python:
 
         # add special bubble
         if entry.specBubble:
-            line += ' ' + entry.specBubble
+            # Is it a known bubble?
+            if entry.specBubble in all_bubbles_list:
+                line += ' ' + entry.specBubble
+            else:
+                line += ' bubble ' + entry.specBubble
         if style_dict['img']:
             line += ' img'
 
