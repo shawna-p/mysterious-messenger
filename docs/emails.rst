@@ -400,4 +400,4 @@ This sets the variable ``saw_longcat_email2`` to True when the player reads Long
                 saw_longcat_email2 = True
                 my_email_counter += 1
 
-    The check ``and not saw_longcat_email2`` ensures that the code ``my_email_counter += 1`` only happens once, the first time the Long Cat email chain is marked as read.
+    The check ``and not saw_longcat_email2`` ensures that the code ``my_email_counter += 1`` only happens once, the first time the Long Cat email chain is marked as read. Without it, ``my_email_counter`` will increase by 1 every time the player views the email (which is probably not what you intended).
