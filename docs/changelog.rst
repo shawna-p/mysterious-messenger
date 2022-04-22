@@ -82,6 +82,8 @@ Fixes
       - Improve how background shake is set up. Backgrounds without an animated version still shake when animated backgrounds are turned on.
     * - Timeline display
       - The timeline now correctly displays the "5th DAY" with the suffix when opening a particular day's timeline list.
+    * - Chat Creator
+      - Fix an issue where the chat creator didn't correctly export other characters' special bubbles.
 
 
 .. _qol-3-3-0:
