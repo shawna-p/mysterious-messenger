@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Full Changelog &mdash; Mysterious Messenger Wiki v3.2.0 documentation</title>
+  <title>Full Changelog &mdash; Mysterious Messenger Wiki v3.3.0 documentation</title>
   
 
   
@@ -277,8 +277,11 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>Automatic chatroom backgrounds</p></td>
+<tr class="row-even"><td><p><span class="xref std std-ref">Automatic chatroom backgrounds&lt;Creating a Chatroom&gt;`</span></p></td>
 <td><p>The game will automatically set up chatroom backgrounds based on the time of day the chatroom occurs at. You can override this automatic background by providing your own e.g. <code class="docutils literal notranslate"><span class="pre">scene</span> <span class="pre">morning</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Adaptable screen size</p></td>
+<td><p>The game can adapt to screen sizes taller than the original 9:16 ratio e.g. 9:19</p></td>
 </tr>
 </tbody>
 </table>
@@ -304,6 +307,15 @@
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="phone-calls.html#phone-call-expiry"><span class="std std-ref">Phone call expiry dict</span></a></p></td>
 <td><p>A convenience dictionary to easily customize how long phone calls should be availlable for.</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="xref std std-ref">Email testing hub&lt;Testing Emails&gt;`</span></p></td>
+<td><p>An email testing hub from the Developer settings in-game allows you to quickly invite guests, send replies, and test the party.</p></td>
+</tr>
+<tr class="row-even"><td><p>VN Screen shake</p></td>
+<td><p>You can use <code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">shake</span></code> during Story Mode (VN mode) to shake the screen. Takes into account the player’s accessibility preferences.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Splash screen</p></td>
+<td><p>The splash screen has been relocated and updated to make it easy to add your own image and “Tap to Start” before entering the main menu.</p></td>
 </tr>
 </tbody>
 </table>
@@ -342,6 +354,18 @@
 <tr class="row-even"><td><p>Guest Hourglasses</p></td>
 <td><p>Fixed an issue where players weren’t awarded an hourglass upon first viewing a guest’s information in the guestbook.</p></td>
 </tr>
+<tr class="row-odd"><td><p>Branch VNs</p></td>
+<td><p>Fix an issue with branch VNs that would cause a script error dialogue for trigger times.</p></td>
+</tr>
+<tr class="row-even"><td><p>Background shake</p></td>
+<td><p>Improve how background shake is set up. Backgrounds without an animated version still shake when animated backgrounds are turned on.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Timeline display</p></td>
+<td><p>The timeline now correctly displays the “5th DAY” with the suffix when opening a particular day’s timeline list.</p></td>
+</tr>
+<tr class="row-even"><td><p>Chat Creator</p></td>
+<td><p>Fix an issue where the chat creator didn’t correctly export other characters’ special bubbles.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -373,13 +397,13 @@
 <tr class="row-even"><td><p>Available call indicator</p></td>
 <td><p>A new dev option will add a “NEW” sign under a contact’s icon when there is a call available for them and add an <code class="docutils literal notranslate"><span class="pre">Online</span></code> indicator on their profile screen.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">get_terms</span></code></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="miscellaneous.html#using-gendered-terms"><span class="std std-ref">get_terms</span></a></p></td>
 <td><p>Convenience function for using gendered terms to refer to the player.</p></td>
 </tr>
 <tr class="row-even"><td><p>Developer Release Options</p></td>
 <td><p>Added a section to <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> which can be customized for sharing a program distribution with others.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Email newlines</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="emails.html#writing-an-email-chain"><span class="std std-ref">Email newlines</span></a></p></td>
 <td><p>You can now turn off the parser that turns email single newlines into a space.</p></td>
 </tr>
 <tr class="row-even"><td><p>Gallery update</p></td>

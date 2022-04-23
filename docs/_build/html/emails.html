@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Emails &mdash; Mysterious Messenger Wiki v3.2.0 documentation</title>
+  <title>Emails &mdash; Mysterious Messenger Wiki v3.3.0 documentation</title>
   
 
   
@@ -108,6 +108,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#inviting-a-guest">Inviting a Guest</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#how-emails-are-sent">How Emails are Sent</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-guestbook">The Guestbook</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#testing-emails">Testing Emails</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#email-callbacks">Email Callbacks</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="route-setup.html">Setting up a Route</a></li>
@@ -196,6 +198,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#inviting-a-guest">Inviting a Guest</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#how-emails-are-sent">How Emails are Sent</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-guestbook">The Guestbook</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#testing-emails">Testing Emails</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#email-callbacks">Email Callbacks</a></li>
 </ul>
 </li>
 </ul>
@@ -493,6 +497,82 @@
 </dd>
 </dl>
 <p>The player will also receive 1 hourglass the first time they view a guest’s entry in the guestbook after successfully inviting them to the party. The <code class="docutils literal notranslate"><span class="pre">short_desc</span></code> field’s contents are shown to the player in the guestbook after they first invite the guest, and the <code class="docutils literal notranslate"><span class="pre">personal_info</span></code> field is revealed in the guestbook only after the guest has successfully attended the party.</p>
+</div>
+<div class="section" id="testing-emails">
+<h2>Testing Emails<a class="headerlink" href="#testing-emails" title="Permalink to this headline">¶</a></h2>
+<p>While you are writing a route, you might want to test email chains and party comments without going through the whole game just to invite the guest. To do that, load up a save file and then click the Developer button from the home screen. Next, click on <strong>Test Emails</strong>.</p>
+<p>Here you will find a list of all the guests the game could find to invite. Simply click the guest’s name to invite them to the party. Some other buttons are available at the bottom of the screen:</p>
+<dl class="simple">
+<dt><cite>Force email replies</cite></dt><dd><p>Causes all undelivered emails to be delivered at once. (For example, if you sent a reply to a guest, then clicking <strong>Force email replies</strong> would immediately deliver the guest’s response to your inbox).</p>
+</dd>
+<dt><cite>Invite all guests</cite></dt><dd><p>Invites every possible guest. All their emails will appear in your inbox. Note that it is possible to invite the same guest more than once with this method.</p>
+</dd>
+<dt><cite>Start Party</cite></dt><dd><p>Begins the guest showcase part of the party. Guests only attend if their email chains have been successfully completed as described in <a class="reference internal" href="#calculating-if-a-guest-will-attend"><span class="std std-ref">Calculating if a Guest Will Attend</span></a>.</p>
+</dd>
+<dt><cite>Indicate correct answers</cite></dt><dd><p>If turned on, the “correct” email answer will be have a checkmark in the corner when replying to emails.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="email-callbacks">
+<h2>Email Callbacks<a class="headerlink" href="#email-callbacks" title="Permalink to this headline">¶</a></h2>
+<p>You can also optionally specify a callback for a guest’s email chain. This callback will be called run each time the email is marked as “read”.</p>
+<p>As an example, say you would like to set a variable to True in the specific case that the player has seen the guest’s second email reply (not including the initial “introductory” email).</p>
+<p>First, you need to set up a Guest and specify that they have a callback. For this example, we’ll use the Long Cat guest from earlier. In particular, to keep this short, the EmailReply objects are <strong>omitted</strong>:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">longcat</span> <span class="o">=</span> <span class="n">Guest</span><span class="p">(</span>
+<span class="s2">&quot;longcat&quot;</span><span class="p">,</span>
+<span class="s2">&quot;Long Cat&quot;</span><span class="p">,</span>
+<span class="s2">&quot;Email/Thumbnails/longcat.webp&quot;</span><span class="p">,</span>
+<span class="s2">&quot;Email/Guest Images/longcat.webp&quot;</span><span class="p">,</span>
+<span class="s2">&quot;Long Cat, the longest cat in the world.&quot;</span><span class="p">,</span>
+<span class="s2">&quot;Meow? Mrrrow... meow meow.&quot;</span><span class="p">,</span>
+<span class="sd">&quot;&quot;&quot;To [name]:</span>
+
+<span class="sd">Meow? Meow meow.</span>
+
+<span class="sd">From, Long Cat&quot;&quot;&quot;</span><span class="p">,</span>
+
+<span class="c1">## EMAIL REPLIES OMITTED FROM EARLIER EXAMPLE FOR BREVITY</span>
+<span class="p">[</span> <span class="n">EmailReply</span><span class="p">(</span><span class="o">...</span><span class="p">)],</span>
+
+<span class="s2">&quot;Meow meow! Purr....&quot;</span><span class="p">,</span>
+<span class="n">s</span><span class="p">,</span>
+<span class="s2">&quot;Omg it&#39;s Long Cat!!! I need to find and pet them...&quot;</span><span class="p">,</span>
+<span class="s2">&quot;seven front party happy&quot;</span><span class="p">,</span>
+<span class="n">num_emails</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="n">callback</span><span class="o">=</span><span class="n">longcat_email_callback</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Here you can see at the very end that the argument <code class="docutils literal notranslate"><span class="pre">callback=longcat_email_callback</span></code> was added. This is the name of a function that must be defined. Typically it is a good idea to define it above your Guest definition.</p>
+<p>An email callback takes one parameter, the email object associated with the callback. You can then access the various email fields to get information about the guest or email in progress. An example email callback for longcat might look like:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">init</span> <span class="k">python</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">longcat_email_callback</span><span class="p">(</span><span class="n">email</span><span class="p">):</span>
+        <span class="k">global</span> <span class="n">saw_longcat_email2</span>
+        <span class="k">if</span> <span class="n">email</span><span class="o">.</span><span class="n">msg_num</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">saw_longcat_email2</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span>
+
+<span class="k">default</span> <span class="n">saw_longcat_email2</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+</div>
+<p>This sets the variable <code class="docutils literal notranslate"><span class="pre">saw_longcat_email2</span></code> to True when the player reads Long Cat’s second reply (not counting Long Cat’s initial email message). There are many other email fields you can access to determine what the program should do.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This callback will be triggered every time the player opens the email chain. Thus, the callback generally should not have what are called “side effects”, things that you wouldn’t want to happen every time the player opened the email. For example, if you want to increase a counter, you should have a flag to ensure you only increase the counter once, on the first viewing of an email e.g.</p>
+<dl>
+<dt>::</dt><dd><dl>
+<dt>def longcat_email_callback(email):</dt><dd><p>global saw_longcat_email2, my_email_counter
+if email.msg_num &gt;= 2 and not saw_longcat_email2:</p>
+<blockquote>
+<div><p>saw_longcat_email2 = True
+my_email_counter += 1</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>The check <code class="docutils literal notranslate"><span class="pre">and</span> <span class="pre">not</span> <span class="pre">saw_longcat_email2</span></code> ensures that the code <code class="docutils literal notranslate"><span class="pre">my_email_counter</span> <span class="pre">+=</span> <span class="pre">1</span></code> only happens once, the first time the Long Cat email chain is marked as read. Without it, <code class="docutils literal notranslate"><span class="pre">my_email_counter</span></code> will increase by 1 every time the player views the email (which is probably not what you intended).</p>
+</div>
 </div>
 </div>
 

@@ -198,7 +198,7 @@ Uncategorized
 This section is for tips or program features that don't have a particular category, but may be useful to players.
 
 * The space bar will activate most of the main buttons in a chatroom. It will switch between play/pause, click the Answer button when it is available, activate the Save & Close button, and click "Sign" on the signature screen.
-* The left/right arrows will decrease/increase the chat speed during a chatroom.
+* The left/right keyboard keys will decrease/increase the chat speed during a chatroom.
 * You can swipe photos in a CG album to view the next or previous image without returning to the selection screen. It will automatically skip locked photos.
 * You can see the heart points you've earned with each character on your character's profile screen
 * If you are on Windows, there is a file called ``file_picker.exe`` which is included in the assets. This will allow the game to display a file picker and let the player choose an image from their computer to use as a profile picture. It does not currently work for other platforms.
@@ -245,7 +245,7 @@ Finally, below is an overview of the various features available within Mysteriou
 
     * Automatically unlock guests in the guestbook when you first invite them and when they attend the party
     * Flexible email chains of any length
-    * Allows for "recovery" emails where the player made the wrong choice but can continue to email the guestbook
+    * Allows for "recovery" emails where the player made the wrong choice but can continue to email the guest to improve their chances of attending
     * Successfully invited guests are showcased before the party
     * Receive an hourglass for viewing a character in the guestbook for the first time
 
@@ -267,6 +267,8 @@ Finally, below is an overview of the various features available within Mysteriou
     * Character greetings on the main menu
     * Real-time and sequential mode
     * Get input from the player for more detailed information
+    * Support for multiple screen sizes
+    * Custom splash screen
 
 
 

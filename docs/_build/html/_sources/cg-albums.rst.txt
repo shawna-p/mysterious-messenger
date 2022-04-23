@@ -11,7 +11,10 @@ Albums Associated a Character
 
 For this tutorial, this example shows how to add a character named Emma to the game. You can view Emma's character definition and more in :ref:`Adding a New Character to Chatrooms`.
 
-Albums are defined in ``gallery_album_definitions.rpy``. There are two images to define and two album variables.
+Albums are defined in ``gallery_album_definitions.rpy``. There are two images to define and one album variables.
+
+.. note::
+    Prior to v3.3.0, the game required two album definitions, a variable and a persistent version. The current version combines both of these into one. If you were using the previous version, your album images should automatically update on game launch, and then you can switch over to the current way of defining albums.
 
 First, under the heading **Album Cover Images**, you will see images that look like ``cg_label_ja``. This is the background of the small label that contains the name of the album. For Emma, you will define an image like::
 
@@ -25,19 +28,11 @@ Below that is a set of images like ``ja_album_cover``. This is the image that wi
 
 The important part is that it's called ``em_album_cover`` where ``em`` is the character's file_id.
 
-Next, you need to define two album variables. The first one, at the top, is persistent. In most cases, it will begin empty. These variables are used to keep track of which images the player has unlocked across all playthroughs.
+Next, you need to define the album::
 
-::
+    define em_album = []
 
-    default persistent.em_album = []
-
-The album should be the character's file_id + album, so in this case it's ``persistent.em_album``.
-
-Similarly, Emma's regular album definition will look like::
-
-    default em_album = []
-
-Again, this is the character's file_id + album.
+The album should be the character's file_id + album, so in this case it's ``em_album``.
 
 At the bottom of the file, you will also see a definition for the variable ``all_albums``. You need to add Emma's file_id here so that her album shows up in the Album screen::
 
@@ -78,16 +73,39 @@ The program uses a specific naming scheme to process strings into file and varia
 2. Apostrophes are removed (e.g. "valentine's day -> "valentines_day")
 3. Entire word is in lowercase (e.g. "RFA Bonus" -> "rfa_bonus")
 
-So, using the rules above, "new year's" in the ``all_albums`` definition will become "new_years". You can then define the two images and two album definitions like you did for Emma above::
+So, using the rules above, "new year's" in the ``all_albums`` definition will become "new_years". You can then define the two images and album definition like you did for Emma above::
 
     image cg_label_new_years = "Image for your label.png"
     image new_years_album_cover = "Image for your album cover.png"
-    default persistent.new_years_album = []
-    default new_years_album = []
+    define new_years_album = []
 
 
 Adding a CG After Starting the Game
 ------------------------------------
+
+In some cases, you may not want a CG to appear in a character's album unless some condition is met, such as a particular DLC being unlocked. In such a case, you can make use of the ``condition`` property of a ``GalleryImage`` object.
+
+For example, say you have a variable, ``persistent.new_years_dlc``, which tracks whether the player has the New Year's DLC or not. You only want to show "missing" New Year's DLC images in their album if they already have the DLC. In such a case, you can do::
+
+    image ja_ny1 = "CGs/Jaehee/ny1.webp"
+    define ja_album = [ GalleryImage(
+            "ja_ny1",
+            locked_img="CGs/new_years_locked.webp",
+            condition="persistent.new_years_dlc"
+        )
+    ]
+
+This will define a gallery image named "ja_ny1" with the locked thumbnail at "CGs/new_years_locked.webp" and the condition of ``"persistent.new_years_dlc"``. The fact that ``persistent.new_years_dlc`` is in quotes is important - the program uses this to evaluate the condition when it's going to show the gallery (as opposed to right at the start of the game).
+
+You can use this for more complex conditions as well, so long as they are enclosed in quotes. Some examples::
+
+    "'jaehee' in persistent.new_years_dlc_endings"
+    "persistent.new_years_dlc_endings >= 1 and persistent.new_years_dlc and 'jaehee' in persistent.new_years_dlc"
+
+Typically you should use persistent variables for the conditions, because the player can view their album from the main menu as well so any save file-specific values won't necessarily be used.
+
+.. warning::
+    The following code *will only* work if you use the old definition format for albums (namely, the one with a ``default`` album and a ``persistent`` version). The updated version of this code (as of v3.3.0) can be found above.
 
 While in most cases you should define your CGs in ``gallery_album_definitions.rpy``, you can also add new CGs to an album after the game has already started with the function ``add_to_album``. This function takes two parameters:
 
@@ -170,45 +188,60 @@ After defining your image, you must add it to the correct album. See :ref:`Addin
 ::
 
     default common_album = [
-        Album("cg common_1"),
-        Album("cg common_2"),
-        Album("cg common_3"),
-        Album("cg common_4")
+        GalleryImage("cg common_1"),
+        GalleryImage("cg common_2"),
+        GalleryImage("cg common_3"),
+        GalleryImage("cg common_4")
     ]
 
 In this example, no unique thumbnail was specified. If the program can find an image with the suffix ``-thumb`` before the file extension, it will use that as the thumbnail. So, since the image is found at "CGs/common_album/cg-4.webp", the program will look for a thumbnail image at "CGs/common_album/cg-4-thumb.webp".
 
-Otherwise, you can also manually specify a thumbnail as the second argument to Album::
+Otherwise, you can also manually specify a thumbnail as the third argument to GalleryImage or just by specifying it::
 
-    Album("cg common_4", "CGs/thumbnails/common_4_thumbnail.webp")
+    GalleryImage("cg common_4", thumbnail="CGs/thumbnails/common_4_thumbnail.webp")
 
 Typically thumbnails are 150x150 px. If one is not provided, the given CG is cropped and resized to the appropriate size.
 
-The full list of arguments to the Album definition is below:
+The full list of arguments to the GalleryImage definition is below:
+
+`name`
+    A string. Typically this ends up being the same as ``img`` below if you define your CGs as described above, but you could also do something like::
+
+        GalleryImage("CGs/Common/special.webp", "cg common_5")
+
+    This would have the same effect as if you'd defined ``cg common_5`` using the ``image`` declaration.
 
 `img`
-    A Displayable, typically a string with the name of the image for this CG as it should appear in the album.
+    A Displayable, typically a string with the name of the image for this CG as it should appear in the album. Can be omitted if it is the same as ``name``.
 
 `thumbnail`
-    Optional. An image path or displayable for the thumbnail as it should appear in the Gallery. Should be 155x155 pixels.
+    Optional. An image path or displayable for the thumbnail as it should appear in the Gallery. Should be 155x155 pixels. If not provided, the CG is scaled and cropped to fit the thumbnail size.
 
 `locked_img`
     Optional. The file path to the image that will be used as the "locked" thumbnail icon in the gallery. Should be 155x155 pixels. Typically has a "?" or a locked symbol somewhere to indicate this gallery image hasn't been unlocked yet.
 
+    This is often used to indicate, for example, that an image comes from a particular DLC.
+
 `chat_img`
-    Optional. A Displayable (typically an image path or string containing the name of a defined image) which will be shown to the player at full-size in the chatroom only. The supplied `img` field will be used when viewing this image full-size in the gallery instead.
+    Optional. A Displayable (typically an image path or string containing the name of a defined image) which will be shown to the player at full-size in the chatroom only. The supplied ``img`` field will be used when viewing this image full-size in the gallery instead.
 
     Use this to do things like supply blurry or edited CGs in the chatroom, but provide their regular unedited version in the gallery.
 
-`chat_thumb`
+`chat_preview`
     Optional. A Displayable (typically an image path or string containing the name of a defined image) which will be shown to the player in the chatroom only. Clicking this image will show either ``chat_img`` (if available) or ``img`` (if not) full-screen. Typically this is about 35% of the full screen size, or 263x467 pixels, but can be whatever dimensions you like.
 
     Use this to customize the image preview in the chatroom, such as blurring the thumbnail for "spoilers" or to put the thumbnail focus on a particular part of the image.
 
-So, for example, you could define an Album object like so::
+    .. note::
+        The equivalent property was called ``chat_thumb`` in the ``Album`` object prior to v3.3.0.
 
-    Album("cg common_1", thumbnail="common_1_thumb",
-          chat_img="cg common_1_edit", chat_thumb="CGs/spoiler_img.png")
+So, for example, you could define a GalleryImage object like so::
+
+    GalleryImage("cg common_1",
+        thumbnail="common_1_thumb",
+        chat_img="cg common_1_edit",
+        chat_preview="CGs/spoiler_img.png"
+    )
 
 (Note that this assumes you have ``image cg common_1 = "..."``, ``image common_1_thumb = "..."``, ``image cg common_1_edit = "..."`` etc.)
 
@@ -217,9 +250,13 @@ You would then still be able to use the CG in the usual manner described below t
 Large Thumbnails
 -----------------
 
-For better compatibility with the new profile picture system, you may also want to provide a "larger" version of a thumbnail for use in profile pictures on the profile screen. The program will search for an image with the name of the thumbnail + the suffix ``-b`` before the file extension. So, if our "cg common_4" isn't given a different thumbnail, it will look for the large version of the thumbnail at "CGs/common_album/cg-4-thumb-b.webp".
+Recall our additional CG image::
 
-If you provided a different thumbnail, as in ``Album("cg common_4", "CGs/thumbnails/common_4_thumbnail.webp")``, then the large version is expected to be called "CGs/thumbnails/common_4_thumbnail-b.webp".
+    image cg common_4 = "CGs/common_album/cg-4.webp"
+
+For better compatibility with the new profile picture system, you may also want to provide a "larger" version of a thumbnail for use in profile pictures on the profile screen. The program will search for an image with the name of the thumbnail + the suffix ``-b`` before the file extension. So, if "cg common_4" isn't given a different thumbnail, it will look for the large version of the thumbnail at "CGs/common_album/cg-4-thumb-b.webp".
+
+If you provided a different thumbnail, as in ``GalleryImage("cg common_4", thumbnail="CGs/thumbnails/common_4_thumbnail.webp")``, then the large version is expected to be called "CGs/thumbnails/common_4_thumbnail-b.webp".
 
 
 Showing a CG in a Chatroom or Text Message

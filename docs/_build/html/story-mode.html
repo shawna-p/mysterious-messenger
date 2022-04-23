@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Story Mode (VN) &mdash; Mysterious Messenger Wiki v3.2.0 documentation</title>
+  <title>Story Mode (VN) &mdash; Mysterious Messenger Wiki v3.3.0 documentation</title>
   
 
   
@@ -101,6 +101,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Story Mode (VN)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#writing-a-story-mode">Writing a Story Mode</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#adding-music-and-sfx">Adding Music and SFX</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#shaking-the-screen">Shaking the Screen</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#providing-choices">Providing Choices</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#awarding-heart-points">Awarding Heart Points</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#positioning-characters">Positioning Characters</a></li>
@@ -198,6 +199,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Story Mode (VN)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#writing-a-story-mode">Writing a Story Mode</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#adding-music-and-sfx">Adding Music and SFX</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#shaking-the-screen">Shaking the Screen</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#providing-choices">Providing Choices</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#awarding-heart-points">Awarding Heart Points</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#positioning-characters">Positioning Characters</a></li>
@@ -300,6 +302,22 @@
 <p>For accessibility purposes, most audio should have a caption, so this option should be used sparingly.</p>
 </div>
 <p>Previously defined audio captions can be found in <code class="docutils literal notranslate"><span class="pre">variables_music_sound.rpy</span></code>. To learn about adding your own audio, see <a class="reference internal" href="miscellaneous.html#adding-new-audio"><span class="std std-ref">Adding New Audio</span></a>.</p>
+</div>
+<div class="section" id="shaking-the-screen">
+<h2>Shaking the Screen<a class="headerlink" href="#shaking-the-screen" title="Permalink to this headline">¶</a></h2>
+<p>You can shake the screen during Story Mode the same way as you do in chatrooms with <code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">shake</span></code>. However, for Story Mode, the screen will shake <em>on the line after the ``show shake`` line</em>. So, for example:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="s2">&quot;Hmm? What are you doing here?&quot;</span>
+<span class="n">u</span> <span class="s2">&quot;I told you not to come...!&quot;</span>
+<span class="k">show</span> <span class="n">shake</span>
+<span class="s2">&quot;(...!)&quot;</span>
+<span class="n">u</span> <span class="s2">&quot;Stop!&quot;</span>
+</pre></div>
+</div>
+<p>The screen will shake on the “(…!)” line.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The screen will not shake if the player has screen shake turned off in the accessibility options.</p>
+</div>
 </div>
 <div class="section" id="providing-choices">
 <h2>Providing Choices<a class="headerlink" href="#providing-choices" title="Permalink to this headline">¶</a></h2>
