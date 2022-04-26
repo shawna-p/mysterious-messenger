@@ -1,20 +1,29 @@
+# This is the image at the bottom of the screen that
+# gently fades in and out
 image touch_to_start = Fixed(
     "#0005",
-    At(Text("Touch to Start", color="#fff", align=(0.5, 0.5)), fade_in_out),
+    At(Text(_("Touch to Start"), color="#fff", align=(0.5, 0.5)), fade_in_out),
     xysize=(config.screen_width, 50)
 )
+# This is the transform that fades images in and out
 transform fade_in_out():
     alpha 1.0
     easein 1.2 alpha 0.0
     easeout 1.2 alpha 1.0
     repeat
 
-
+# The screen which displays the splash screen image and prompts
+# the player to tap the screen to begin
 screen splash_image():
     add persistent.main_menu_image:
-        align (0.5, 0.5) xysize (config.screen_width, config.screen_height)
+        align (0.5, 0.5)
+        # Ensure the image fits the screen
+        xysize (config.screen_width, config.screen_height)
         fit "cover"
+    # Feel free to adjust the yoffset to move the text higher/lower
     add 'touch_to_start' yalign 1.0 yoffset -90
+    # This is a full-screen button that allows the user to tap
+    # anywhere to return
     button:
         xysize (config.screen_width, config.screen_height)
         activate_sound "audio/sfx/UI/digi_chime_echo.wav"
@@ -26,6 +35,7 @@ screen splash_image():
 default persistent.main_menu_image = None
 
 label splashscreen():
+
     # If there's an image to show, display the splash
     # screen and wait for a click, then go to the main menu.
     if persistent.main_menu_image:
