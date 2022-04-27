@@ -110,6 +110,22 @@ If you would like to play a sound that does not have an audio caption, you can g
 Previously defined audio captions can be found in ``variables_music_sound.rpy``. To learn about adding your own audio, see :ref:`Adding New Audio`.
 
 
+Shaking the Screen
+==================
+
+You can shake the screen during Story Mode the same way as you do in chatrooms with ``show shake``. However, for Story Mode, the screen will shake *on the line after the ``show shake`` line*. So, for example::
+
+    u "Hmm? What are you doing here?"
+    u "I told you not to come...!"
+    show shake 
+    "(...!)"    
+    u "Stop!"
+    
+The screen will shake on the "(...!)" line.
+
+.. note::
+    The screen will not shake if the player has screen shake turned off in the accessibility options.
+
 Providing Choices
 =================
 

@@ -260,7 +260,7 @@ The odds of a guest attending the party are calculated after the email is answer
 A guest will be unlocked in the guest book as soon as the player invites them to the party, but further information will only be unlocked if the guest actually attends the party.
 
 Checking in-game if a Guest Will Attend
---------------------------------
+----------------------------------------
 
 Once an email chain is completed, you can check whether or not a particular guest is attending via the ``attending`` field e.g.
 
@@ -321,5 +321,83 @@ There are several fields when defining a Guest which correspond to text which wi
 The player will also receive 1 hourglass the first time they view a guest's entry in the guestbook after successfully inviting them to the party. The ``short_desc`` field's contents are shown to the player in the guestbook after they first invite the guest, and the ``personal_info`` field is revealed in the guestbook only after the guest has successfully attended the party.
 
 
+Testing Emails
+===============
+
+While you are writing a route, you might want to test email chains and party comments without going through the whole game just to invite the guest. To do that, load up a save file and then click the Developer button from the home screen. Next, click on **Test Emails**.
+
+Here you will find a list of all the guests the game could find to invite. Simply click the guest's name to invite them to the party. Some other buttons are available at the bottom of the screen:
+
+`Force email replies`
+    Causes all undelivered emails to be delivered at once. (For example, if you sent a reply to a guest, then clicking **Force email replies** would immediately deliver the guest's response to your inbox).
+
+`Invite all guests`
+    Invites every possible guest. All their emails will appear in your inbox. Note that it is possible to invite the same guest more than once with this method.
+
+`Start Party`
+    Begins the guest showcase part of the party. Guests only attend if their email chains have been successfully completed as described in :ref:`Calculating if a Guest Will Attend`.
+
+`Indicate correct answers`
+    If turned on, the "correct" email answer will be have a checkmark in the corner when replying to emails.
 
 
+
+Email Callbacks
+===============
+
+You can also optionally specify a callback for a guest's email chain. This callback will be called run each time the email is marked as "read".
+
+As an example, say you would like to set a variable to True in the specific case that the player has seen the guest's second email reply (not including the initial "introductory" email).
+
+First, you need to set up a Guest and specify that they have a callback. For this example, we'll use the Long Cat guest from earlier. In particular, to keep this short, the EmailReply objects are **omitted**::
+
+    default longcat = Guest(
+    "longcat",
+    "Long Cat",
+    "Email/Thumbnails/longcat.webp",
+    "Email/Guest Images/longcat.webp",
+    "Long Cat, the longest cat in the world.",
+    "Meow? Mrrrow... meow meow.",
+    """To [name]:
+
+    Meow? Meow meow.
+
+    From, Long Cat""",
+
+    ## EMAIL REPLIES OMITTED FROM EARLIER EXAMPLE FOR BREVITY
+    [ EmailReply(...)],
+
+    "Meow meow! Purr....",
+    s,
+    "Omg it's Long Cat!!! I need to find and pet them...",
+    "seven front party happy",
+    num_emails=2,
+    callback=longcat_email_callback
+    )
+
+Here you can see at the very end that the argument ``callback=longcat_email_callback`` was added. This is the name of a function that must be defined. Typically it is a good idea to define it above your Guest definition.
+
+An email callback takes one parameter, the email object associated with the callback. You can then access the various email fields to get information about the guest or email in progress. An example email callback for longcat might look like::
+
+    init python:
+        def longcat_email_callback(email):
+            global saw_longcat_email2
+            if email.msg_num >= 2:
+                saw_longcat_email2 = True
+            return
+
+    default saw_longcat_email2 = False
+
+This sets the variable ``saw_longcat_email2`` to True when the player reads Long Cat's second reply (not counting Long Cat's initial email message). There are many other email fields you can access to determine what the program should do.
+
+.. note::
+    This callback will be triggered every time the player opens the email chain. Thus, the callback generally should not have what are called "side effects", things that you wouldn't want to happen every time the player opened the email. For example, if you want to increase a counter, you should have a flag to ensure you only increase the counter once, on the first viewing of an email e.g.
+
+    ::
+        def longcat_email_callback(email):
+            global saw_longcat_email2, my_email_counter
+            if email.msg_num >= 2 and not saw_longcat_email2:
+                saw_longcat_email2 = True
+                my_email_counter += 1
+
+    The check ``and not saw_longcat_email2`` ensures that the code ``my_email_counter += 1`` only happens once, the first time the Long Cat email chain is marked as read. Without it, ``my_email_counter`` will increase by 1 every time the player views the email (which is probably not what you intended).

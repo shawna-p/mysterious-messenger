@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Distributions &mdash; Mysterious Messenger Wiki v3.2.0 documentation</title>
+  <title>Distributions &mdash; Mysterious Messenger Wiki v3.3.0 documentation</title>
   
 
   
@@ -174,9 +174,34 @@
 <h1>Distributions<a class="headerlink" href="#distributions" title="Permalink to this headline">¶</a></h1>
 <p>If you would like to package up the engine to distribute to personal acquaintances, there are some options for developers that you may want to turn off or modify.</p>
 <p>In <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code>, there is a section near the top with the header <code class="docutils literal notranslate"><span class="pre">##</span> <span class="pre">FOR</span> <span class="pre">RELEASE</span></code>. Here, several values are set before the game starts.</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">persistent.testing_mode</span></code> - Typically, for a release, you will want this to be False. This variable toggles on some options which are useful for testing, such as allowing you to skip to the end of a chatroom, and also makes it so that chatrooms can be endlessly replayed and never expire.</p></li>
-</ul>
+<dl class="simple">
+<dt><cite>persistent.testing_mode</cite></dt><dd><p>Typically, for a release, this should be False. This variable toggles on some options which are useful for testing, such as allowing you to skip to the end of a chatroom, and also makes it so that chatrooms can be endlessly replayed and never expire.</p>
+</dd>
+<dt><cite>persistent.unlock_all_story</cite></dt><dd><p>Similarly, this should usually be False for a release. It removes restrictions on play order of chats and unlocks all story items from the beginning of the game.</p>
+</dd>
+<dt><cite>persistent.receive_hg</cite></dt><dd><p>If True, then players can randomly receive hourglasses in chatrooms. If False, then they will not receive hourglasses. In most cases this will be True.</p>
+</dd>
+<dt><cite>persistent.available_call_indicator</cite></dt><dd><p>This adds an online indicator next to characters when they are available for a phone call. Setting this to True or False is up to developer preference.</p>
+</dd>
+<dt><cite>persistent.link_wait_pause</cite></dt><dd><p>When the chat stops (usually to wait for the player to press a link message), by default the footer directs the player to click the link to proceed (This message can be customized). If <code class="docutils literal notranslate"><span class="pre">persistent.link_wait_pause</span></code> is True, then it will instead show the pause button footer at the bottom of the screen. In most cases you should leave this as False to improve usability.</p>
+</dd>
+<dt><cite>persistent.custom_route_select</cite></dt><dd><p>If False, the game will use the default route select screen, which has options to play Tutorial Day or a basic Casual Story route. In most cases, you will have a custom route select screen that leads to your own route, and so this variable should be True.</p>
+</dd>
+<dt><cite>persistent.real_time</cite></dt><dd><p>If True, the game will wait in real-time to unlock story items like chats and phone calls. If False, completing a story item will unlock the next one in sequence. You may also want to provide a toggle for the player to turn this on and off as they like. <strong>If you provide a toggle, you MUST remove this line</strong>, otherwise you will reset the player’s preference on every launch of the program.</p>
+</dd>
+</dl>
+<div class="section" id="additional-considerations">
+<h2>Additional Considerations<a class="headerlink" href="#additional-considerations" title="Permalink to this headline">¶</a></h2>
+<p>When distributing a version of Mysterious Messenger, you may want to ensure that save files for your copy don’t conflict with the main engine. To do this, you must change the save directory.</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">options.rpy</span></code> you will find the line:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">config</span><span class="o">.</span><span class="n">save_directory</span> <span class="o">=</span> <span class="s2">&quot;MysteriousMessenger-1520899129&quot;</span>
+</pre></div>
+</div>
+<p>You should change this to have a new name for your own version, e.g.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">config</span><span class="o">.</span><span class="n">save_directory</span> <span class="o">=</span> <span class="s2">&quot;MyMysteriousMessenger-1591663287&quot;</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 
