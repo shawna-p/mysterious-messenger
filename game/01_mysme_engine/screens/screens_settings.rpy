@@ -1110,9 +1110,6 @@ style other_settings_viewport:
     xalign 0.5
     yalign 1.0
 
-style vscrollbar:
-    unscrollable "hide"
-
 style other_settings_vbox:
     spacing 30
     xalign 0.5
