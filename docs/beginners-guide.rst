@@ -255,6 +255,15 @@ Playing Your Route
 
 To play your new route, close the program if open and re-launch it after saving all your open ``.rpy`` files. Select "Settings" from the main menu and then navigate to the "Others" tab and select "Start Over". Then ensure you have the option titled "Use custom route select screen" checked off in the **Developer** settings button in the bottom right corner. Now you can press "Original Story" and click on your new route to play it!
 
+Tips For Testing and Debugging
+===============================
+
+When writing a new route, you might run into some error screens from time to time. There are a few steps you can take to help identify the problem:
+
+1) Take a look at the error message. It goes back in what's called "reverse stack order", so the lines at the top are typically less related to the problem than the ones lower down. In particular, you should look at the line just before it says "Full Traceback".
+2) Usually you will see an error that reads something like ``NameError: name "something" is not defined``. The first part is the type of error - in this case, a ``NameError``. There are other kinds of errors, like ``ScriptError``, ``AttributeError``, and more. The next part tells you a bit about the error itself. Sometimes this will be immediately obvious -
+
+
 Next Steps
 ===========
 
