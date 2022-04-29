@@ -266,6 +266,8 @@ When writing a new route, you might run into some error screens from time to tim
 .. tip::
     One of the most common sources of errors is missing commas or incorrect parentheses. If you see an error that looks like ``TypeError: string indices must be integers``, be on the lookout for missing commas or parentheses!
 
+3) If the error message isn't particularly clear, the first thing you should usually try is just to close the game and re-open it. If you've been making lots of script changes with the game open, particularly if the game is set to Reload or Auto-Reload, occasionally Ren'Py can't figure out how to update the script while the game is still open and it crashes. In particular, if you see an error message that looks like ``Exception: Couldn't find a place to stop rolling back. Perhaps the script changed in an incompatible way?``, this is a very common cause of that error. Closing and re-launching the game from scratch will often fix this.
+4)
 
 Next Steps
 ===========
