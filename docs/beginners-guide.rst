@@ -261,7 +261,10 @@ Tips For Testing and Debugging
 When writing a new route, you might run into some error screens from time to time. There are a few steps you can take to help identify the problem:
 
 1) Take a look at the error message. It goes back in what's called "reverse stack order", so the lines at the top are typically less related to the problem than the ones lower down. In particular, you should look at the line just before it says "Full Traceback".
-2) Usually you will see an error that reads something like ``NameError: name "something" is not defined``. The first part is the type of error - in this case, a ``NameError``. There are other kinds of errors, like ``ScriptError``, ``AttributeError``, and more. The next part tells you a bit about the error itself. Sometimes this will be immediately obvious -
+2) Usually you will see an error that reads something like ``NameError: name "something" is not defined``. The first part is the type of error - in this case, a ``NameError``. There are other kinds of errors, like ``ScriptError``, ``AttributeError``, and more. The next part tells you a bit about the error itself. Sometimes this will be immediately obvious - for example, ``ScriptError: could not find label 'myroute_day3_3'`` means that the program can't find the label ``myroute_day3_3``, so either you've made a typo somewhere, failed to save the file with the label on it in the right place, or haven't created the label yet. Other times the error is a bit more obtuse.
+
+.. tip::
+    One of the most common sources of errors is missing commas or incorrect parentheses. If you see an error that looks like ``TypeError: string indices must be integers``, be on the lookout for missing commas or parentheses!
 
 
 Next Steps
