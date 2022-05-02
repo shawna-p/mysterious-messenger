@@ -953,6 +953,3 @@ style cg_full_text:
                 font gui.sans_serif_1b
 
 
-init python:
-
-    import pygame
