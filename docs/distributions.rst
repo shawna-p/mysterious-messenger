@@ -42,3 +42,5 @@ You should change this to have a new name for your own version, e.g.
 ::
 
     define config.save_directory = "MyMysteriousMessenger-1591663287"
+
+You may also wish to repurpose the "Developer" buttons on both the main menu and the home screen.
