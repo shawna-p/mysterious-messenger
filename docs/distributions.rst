@@ -29,7 +29,7 @@ In ``variables_editable.rpy``, there is a section near the top with the header `
 
 
 Additional Considerations
---------------------------
+==========================
 
 When distributing a version of Mysterious Messenger, you may want to ensure that save files for your copy don't conflict with the main engine. To do this, you must change the save directory.
 
@@ -42,3 +42,9 @@ You should change this to have a new name for your own version, e.g.
 ::
 
     define config.save_directory = "MyMysteriousMessenger-1591663287"
+
+
+Splash Screen
+--------------
+
+If you would like to change the splash screen that displays before the player begins the game, you can go to ``screens_splash.rpy`` and change ``persistent.main_menu_image`` to the image you would like to use for the splash screen image. Note that you will need to clear your persistent data to see
