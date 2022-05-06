@@ -64,7 +64,6 @@ init python:
 default main_menu_image = None
 
 label splashscreen():
-
     # If there's an image to show, display the splash
     # screen and wait for a click, then go to the main menu.
     $ main_menu_image = get_main_menu_image()
