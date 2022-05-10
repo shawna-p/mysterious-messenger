@@ -80,4 +80,15 @@ You can get as complicated with it as you would like, however. The example at th
             "CGs/ju_album/cg-1.webp",
         ])
 
-You might also check ``persistent`` variables to track the player's progress and add images that can be selected for the main menu image.
+You might also check ``persistent`` variables to track the player's progress and add images that can be selected for the main menu image, or only use CGs which the player has seen before. A short example of the latter uses the special function ``get_all_gallery_images``::
+
+    def get_main_menu_image():
+        """
+        A callback which returns an image that can be used for the
+        splash screen before proceeding to the main menu.
+        """
+
+        return renpy.random.choice(get_all_gallery_images(if_unlocked=True, obj=False))
+
+This function takes two optional parameters: ``if_unlocked`` will only return images which the player has unlocked if True, (or all the gallery images if False), and ``obj`` will return the Album/GalleryImg objects themselves if True, or just the image field if False. So, in the example above, it returns a list of the file paths to the gallery images the player has unlocked. We then use ``renpy.random.choice`` to pick a random image from this list and return it to display.
+
