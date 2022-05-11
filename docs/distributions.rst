@@ -92,3 +92,13 @@ You might also check ``persistent`` variables to track the player's progress and
 
 This function takes two optional parameters: ``if_unlocked`` will only return images which the player has unlocked if True, (or all the gallery images if False), and ``obj`` will return the Album/GalleryImg objects themselves if True, or just the image field if False. So, in the example above, it returns a list of the file paths to the gallery images the player has unlocked. We then use ``renpy.random.choice`` to pick a random image from this list and return it to display.
 
+If you don't want any main menu images and would rather the game skip directly to the main menu itself, simply have the function return None e.g.
+
+::
+    def get_main_menu_image():
+        """
+        A callback which returns an image that can be used for the
+        splash screen before proceeding to the main menu.
+        """
+        return None
+
