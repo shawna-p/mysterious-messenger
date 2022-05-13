@@ -60,16 +60,16 @@ init python:
                                             size=(155,155))
             self.p_chat_img = chat_img
             self.p_chat_preview = chat_preview
-            
+
             self.condition = condition or "True"
-            
+
         def evaluate_condition(self):
             """Evaluate whether this image should be shown in the gallery."""
             try:
                 return eval(self.condition)
             except:
                 return True
-                
+
         @property
         def filename(self):
             """Return the file name (including extension) for this image."""
@@ -275,6 +275,46 @@ init python:
                         print("WARNING: Error in processing album image:", e)
                 else:
                     print_file("Image", p.img, "was not unlocked")
+
+    def get_all_gallery_images(if_unlocked=False, obj=False):
+        """
+        Return a list of all the declared gallery images in the game, optionally
+        only if they've been unlocked.
+
+        Parameters:
+        -----------
+        if_unlocked : bool
+            If True, only unlocked album images will be returned.
+        obj : bool
+            If True, the function will return the Album/GalleryImg objects.
+            If False, the function will return the full-size image path.
+        """
+        # Get the albums
+        if isinstance(all_albums[0], list) or isinstance(all_albums[0], tuple):
+            albums = [ getattr(persistent, convert_to_file_name("{}_album".format(a)) for a, b in store.all_albums ]
+        else:
+            albums = [ getattr(store, convert_to_file_name("{}_album".format(a)) for a in store.all_albums ]
+
+        # Remove empty albums
+        albums = [ a for a in albums if a ]
+
+        # Put all the Album or GalleryImage items together
+        all_imgs = [ ]
+        for a in albums:
+            all_imgs.extend(a)
+
+        if if_unlocked:
+            # Filter out locked images
+            if obj:
+                return [ a for a in all_imgs if not a.locked ]
+            else:
+                return [ a.img for a in all_imgs if not a.locked ]
+        else:
+            if obj:
+                return all_imgs
+            else:
+                return [ a.img for a in all_imgs ]
+
 
 
 screen gallery_popup():

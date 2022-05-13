@@ -48,4 +48,57 @@ You may also wish to repurpose the "Developer" buttons on both the main menu and
 Splash Screen
 --------------
 
-If you would like to change the splash screen that displays before the player begins the game, you can go to ``screens_splash.rpy`` and change ``persistent.main_menu_image`` to the image you would like to use for the splash screen image. Note that you will need to clear your persistent data to see
+If you would like to change the splash screen that displays before the player begins the game, you can go to ``screens_splash.rpy`` and find the function ``get_splash_image``. The game will call this function to set the splash screen each time it is shown. There are several ways you can use it; the easiest is to simply have it return the image you would like to show e.g.
+
+::
+    def get_splash_image():
+        """
+        A callback which returns an image that can be used for the
+        splash screen before proceeding to the main menu.
+        """
+
+        ## The most basic version is just returning the path to an image
+        return "CGs/s_album/cg-1.webp"
+
+You can get as complicated with it as you would like, however. The example at the bottom will randomly select an image from a list to display::
+
+    def get_splash_image():
+        """
+        A callback which returns an image that can be used for the
+        splash screen before proceeding to the main menu.
+        """
+
+        ## At the moment, this function simply returns a random
+        ## image every time the player reaches this screen
+        return renpy.random.choice([
+            # Here is a list of all the possible choices
+            "CGs/common_album/cg-1.webp",
+            "CGs/common_album/cg-2.webp",
+            "CGs/common_album/cg-3.webp",
+            "CGs/s_album/cg-1.webp",
+            "CGs/r_album/cg-1.webp",
+            "CGs/ju_album/cg-1.webp",
+        ])
+
+You might also check ``persistent`` variables to track the player's progress and add images that can be selected for the main menu image, or only use CGs which the player has seen before. A short example of the latter uses the special function ``get_all_gallery_images``::
+
+    def get_splash_image():
+        """
+        A callback which returns an image that can be used for the
+        splash screen before proceeding to the main menu.
+        """
+
+        return renpy.random.choice(get_all_gallery_images(if_unlocked=True, obj=False))
+
+This function takes two optional parameters: ``if_unlocked`` will only return images which the player has unlocked if True, (or all the gallery images if False), and ``obj`` will return the Album/GalleryImg objects themselves if True, or just the image field if False. So, in the example above, it returns a list of the file paths to the gallery images the player has unlocked. We then use ``renpy.random.choice`` to pick a random image from this list and return it to display.
+
+If you don't want any main menu images and would rather the game skip directly to the main menu itself, simply have the function return None e.g.
+
+::
+    def get_splash_image():
+        """
+        A callback which returns an image that can be used for the
+        splash screen before proceeding to the main menu.
+        """
+        return None
+

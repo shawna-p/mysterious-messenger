@@ -30,7 +30,7 @@ screen splash_image():
         action Return()
 
 init python:
-    def get_main_menu_image():
+    def get_splash_image():
         """
         A callback which returns an image that can be used for the
         splash screen before proceeding to the main menu.
@@ -61,13 +61,13 @@ init python:
 
 # This makes a call to a function to determine what image to use
 # for the splash before arriving at the main menu.
-default main_menu_image = None
+default splash_image = None
 
 label splashscreen():
     # If there's an image to show, display the splash
     # screen and wait for a click, then go to the main menu.
-    $ main_menu_image = get_main_menu_image()
-    if main_menu_image:
+    $ splash_image = get_splash_image()
+    if splash_image:
         play music mystic_op_instrumental
         call screen splash_image()
     show screen loading_screen

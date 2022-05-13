@@ -47,7 +47,7 @@ Minor New Features
       - An email testing hub from the Developer settings in-game allows you to quickly invite guests, send replies, and test the party.
     * - VN Screen shake
       - You can use ``show shake`` during Story Mode (VN mode) to shake the screen. Takes into account the player's accessibility preferences.
-    * - Splash screen
+    * - :ref:`Splash Screen`
       - The splash screen has been relocated and updated to make it easy to add your own image and "Tap to Start" before entering the main menu.
 
 
