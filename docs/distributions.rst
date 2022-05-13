@@ -48,10 +48,10 @@ You may also wish to repurpose the "Developer" buttons on both the main menu and
 Splash Screen
 --------------
 
-If you would like to change the splash screen that displays before the player begins the game, you can go to ``screens_splash.rpy`` and find the function ``get_main_menu_image``. The game will call this function to set the splash screen each time it is shown. There are several ways you can use it; the easiest is to simply have it return the image you would like to show e.g.
+If you would like to change the splash screen that displays before the player begins the game, you can go to ``screens_splash.rpy`` and find the function ``get_splash_image``. The game will call this function to set the splash screen each time it is shown. There are several ways you can use it; the easiest is to simply have it return the image you would like to show e.g.
 
 ::
-    def get_main_menu_image():
+    def get_splash_image():
         """
         A callback which returns an image that can be used for the
         splash screen before proceeding to the main menu.
@@ -62,7 +62,7 @@ If you would like to change the splash screen that displays before the player be
 
 You can get as complicated with it as you would like, however. The example at the bottom will randomly select an image from a list to display::
 
-    def get_main_menu_image():
+    def get_splash_image():
         """
         A callback which returns an image that can be used for the
         splash screen before proceeding to the main menu.
@@ -82,7 +82,7 @@ You can get as complicated with it as you would like, however. The example at th
 
 You might also check ``persistent`` variables to track the player's progress and add images that can be selected for the main menu image, or only use CGs which the player has seen before. A short example of the latter uses the special function ``get_all_gallery_images``::
 
-    def get_main_menu_image():
+    def get_splash_image():
         """
         A callback which returns an image that can be used for the
         splash screen before proceeding to the main menu.
@@ -95,7 +95,7 @@ This function takes two optional parameters: ``if_unlocked`` will only return im
 If you don't want any main menu images and would rather the game skip directly to the main menu itself, simply have the function return None e.g.
 
 ::
-    def get_main_menu_image():
+    def get_splash_image():
         """
         A callback which returns an image that can be used for the
         splash screen before proceeding to the main menu.
