@@ -291,9 +291,9 @@ init python:
         """
         # Get the albums
         if isinstance(all_albums[0], list) or isinstance(all_albums[0], tuple):
-            albums = [ getattr(persistent, convert_to_file_name("{}_album".format(a)) for a, b in store.all_albums ]
+            albums = [ getattr(persistent, convert_to_file_name("{}_album".format(a))) for a, b in store.all_albums ]
         else:
-            albums = [ getattr(store, convert_to_file_name("{}_album".format(a)) for a in store.all_albums ]
+            albums = [ getattr(store, convert_to_file_name("{}_album".format(a))) for a in store.all_albums ]
 
         # Remove empty albums
         albums = [ a for a in albums if a ]
