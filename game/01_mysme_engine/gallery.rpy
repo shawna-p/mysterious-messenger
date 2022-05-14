@@ -278,7 +278,7 @@ init python:
                 for p_photo in p_album:
                     if photo == p_photo:
                         try:
-                        p_photo.thumbnail = photo.get_thumb()
+                            p_photo.thumbnail = photo.get_thumb()
                         except:
                             pass
                         break
@@ -825,7 +825,7 @@ screen viewCG_fullsize_album(album, caption, name):
             add prev_cg_left at cg_swipe_left_hide:
                 if fullscreen_on:
                     xsize None ysize config.screen_height fit "cover"
-        else:
+                else:
                     xsize 750 ysize None fit "contain"
             add fullsizeCG at cg_swipe_left:
                 if fullscreen_on:
@@ -844,7 +844,7 @@ screen viewCG_fullsize_album(album, caption, name):
             add prev_cg_right at cg_swipe_right_hide:
                 if fullscreen_on:
                     xsize None ysize config.screen_height fit "cover"
-        else:
+                else:
                     xsize 750 ysize None fit "contain"
             add fullsizeCG at cg_swipe_right:
                 if fullscreen_on:
@@ -863,7 +863,7 @@ screen viewCG_fullsize_album(album, caption, name):
             add prev_cg_left at cg_swipe_left_hide:
                 if fullscreen_on:
                     xsize None ysize config.screen_height fit "cover"
-        else:
+                else:
                     xsize 750 ysize None fit "contain"
             add fullsizeCG at cg_swipe_left2:
                 if fullscreen_on:
@@ -882,12 +882,12 @@ screen viewCG_fullsize_album(album, caption, name):
             add prev_cg_right at cg_swipe_right_hide:
                 if fullscreen_on:
                     xsize None ysize config.screen_height fit "cover"
-        else:
+                else:
                     xsize 750 ysize None fit "contain"
             add fullsizeCG at cg_swipe_right2:
                 if fullscreen_on:
                     xsize None ysize config.screen_height fit "cover"
-    else:
+                else:
                     xsize 750 ysize None fit "contain"
         else:
             add fullsizeCG:
@@ -916,7 +916,7 @@ screen viewCG_fullsize_album(album, caption, name):
                     text_outlines [ (2, "#000",
                                 absolute(0), absolute(0)) ]
                     text_font gui.sans_serif_1b
-            action [SetVariable('prev_cg_left', False),
+                action [SetVariable('prev_cg_left', False),
                     SetVariable('prev_cg_right', False),
                     Show('character_gallery', album=album,
                         caption=caption, name=name)]
@@ -941,9 +941,9 @@ screen viewCG_fullsize_album(album, caption, name):
                                             absolute(0), absolute(0)) ]
                                 font gui.sans_serif_1xb
                     text "]" xalign 0.0:
-            if persistent.dialogue_outlines:
-                outlines [ (2, "#000",
-                            absolute(0), absolute(0)) ]
+                        if persistent.dialogue_outlines:
+                            outlines [ (2, "#000",
+                                        absolute(0), absolute(0)) ]
                             font gui.sans_serif_1xb
 
 style cg_full_text:
