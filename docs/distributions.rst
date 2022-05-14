@@ -60,7 +60,7 @@ If you would like to change the splash screen that displays before the player be
         ## The most basic version is just returning the path to an image
         return "CGs/s_album/cg-1.webp"
 
-You can get as complicated with it as you would like, however. The example at the bottom will randomly select an image from a list to display::
+You can get as complicated with it as you would like, however. This example will randomly select an image from a list to display::
 
     def get_splash_image():
         """
@@ -68,8 +68,8 @@ You can get as complicated with it as you would like, however. The example at th
         splash screen before proceeding to the main menu.
         """
 
-        ## At the moment, this function simply returns a random
-        ## image every time the player reaches this screen
+        ## This function simply returns a random image
+        ## every time the player reaches this screen
         return renpy.random.choice([
             # Here is a list of all the possible choices
             "CGs/common_album/cg-1.webp",
@@ -80,7 +80,7 @@ You can get as complicated with it as you would like, however. The example at th
             "CGs/ju_album/cg-1.webp",
         ])
 
-You might also check ``persistent`` variables to track the player's progress and add images that can be selected for the main menu image, or only use CGs which the player has seen before. A short example of the latter uses the special function ``get_all_gallery_images``::
+You might also check ``persistent`` variables to track the player's progress and add images that can be selected for the splash image, or only use CGs which the player has seen before. A short example of the latter uses the special function ``get_all_gallery_images``::
 
     def get_splash_image():
         """
