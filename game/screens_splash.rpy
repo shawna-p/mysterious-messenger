@@ -14,8 +14,8 @@ transform fade_in_out():
 
 # The screen which displays the splash screen image and prompts
 # the player to tap the screen to begin
-screen splash_image():
-    add main_menu_image:
+screen splash_image(img):
+    add img:
         align (0.5, 0.5)
         # Ensure the image fits the screen
         xysize (config.screen_width, config.screen_height)
@@ -47,17 +47,29 @@ init python:
         # if persistent.got_zen_good_ending:
         #    return "CGs/z_album/cg-20.webp"
 
-        ## At the moment, this function simply returns a random
-        ## image every time the player reaches this screen
-        return renpy.random.choice([
-            # Here is a list of all the possible choices
-            "CGs/common_album/cg-1.webp",
-            "CGs/common_album/cg-2.webp",
-            "CGs/common_album/cg-3.webp",
-            "CGs/s_album/cg-1.webp",
-            "CGs/r_album/cg-1.webp",
-            "CGs/ju_album/cg-1.webp",
-        ])
+        ## This simply returns a random image every
+        ## time the player reaches this screen
+        # return renpy.random.choice([
+        #     # Here is a list of all the possible choices
+        #     "CGs/common_album/cg-1.webp",
+        #     "CGs/common_album/cg-2.webp",
+        #     "CGs/common_album/cg-3.webp",
+        #     "CGs/s_album/cg-1.webp",
+        #     "CGs/r_album/cg-1.webp",
+        #     "CGs/ju_album/cg-1.webp",
+        # ])
+
+        ## And this will randomly select an image from the images
+        ## the player has unlocked in their gallery
+        options = get_all_gallery_images(if_unlocked=True, obj=False)
+
+        ## Check if the player has actually unlocked any gallery images
+        if options:
+            return renpy.random.choice(options)
+
+        ## Otherwise, there is no splash screen image
+        ## You could return a default image here instead of None
+        return None
 
 # This makes a call to a function to determine what image to use
 # for the splash before arriving at the main menu.
@@ -69,7 +81,7 @@ label splashscreen():
     $ splash_image = get_splash_image()
     if splash_image:
         play music mystic_op_instrumental
-        call screen splash_image()
+        call screen splash_image(splash_image)
     show screen loading_screen
     pause 1.0
     hide screen loading_screen
