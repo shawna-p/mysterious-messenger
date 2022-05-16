@@ -288,6 +288,13 @@ init python:
         obj : bool
             If True, the function will return the Album/GalleryImg objects.
             If False, the function will return the full-size image path.
+
+        Returns:
+        --------
+            GalleryImg[] or string[]
+        Returns a string of GalleryImg (or Album, for older versions) objects
+        or a list of strings corresponding to album images, depending on the
+        value of obj.
         """
         # Get the albums
         if isinstance(all_albums[0], list) or isinstance(all_albums[0], tuple):
