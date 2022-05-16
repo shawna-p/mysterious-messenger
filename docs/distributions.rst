@@ -88,7 +88,15 @@ You might also check ``persistent`` variables to track the player's progress and
         splash screen before proceeding to the main menu.
         """
 
-        return renpy.random.choice(get_all_gallery_images(if_unlocked=True, obj=False))
+        options = get_all_gallery_images(if_unlocked=True, obj=False)
+
+        ## Check if the player has actually unlocked any gallery images
+        if options:
+            return renpy.random.choice(options)
+
+        ## Otherwise, there is no splash screen image
+        ## You could return a default image here instead of None
+        return None
 
 This function takes two optional parameters: ``if_unlocked`` will only return images which the player has unlocked if True, (or all the gallery images if False), and ``obj`` will return the Album/GalleryImg objects themselves if True, or just the image field if False. So, in the example above, it returns a list of the file paths to the gallery images the player has unlocked. We then use ``renpy.random.choice`` to pick a random image from this list and return it to display.
 
