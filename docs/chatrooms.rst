@@ -555,6 +555,8 @@ where ``s`` is the variable of the character whose heart icon you'd like to show
 .. note::
     Ray (``r``) and Saeran (``sa``) share heart points. So, if you award a heart point for Saeran via ``award heart sa``, Ray will also receive 1 heart point.
 
+By default, each ``award heart`` statement gives one heart point to the specified character. You can award multiple at the same time, however, by providing a number e.g. ``award heart u 10`` would give Unknown 10 heart points.
+
 There is also a second optional argument to ``award heart``::
 
     award heart ju bad
@@ -575,6 +577,7 @@ where ``ju`` is the variable of the character whose heart break you'd like to sh
 .. tip::
     Both ``break heart ju`` and ``heart break ju`` will show the heart break animation for the character ``ju``. You can't switch the word order for ``award heart`` though!
 
+Like with awarding heart points, you can take away multiple heart points by adding a number at the end e.g. ``break heart s 4`` would remove 4 heart points from 707.
 
 
 Awarding an Hourglass

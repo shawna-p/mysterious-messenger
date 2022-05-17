@@ -49,6 +49,8 @@ Minor New Features
       - You can use ``show shake`` during Story Mode (VN mode) to shake the screen. Takes into account the player's accessibility preferences.
     * - :ref:`Splash Screen`
       - The splash screen has been relocated and updated to make it easy to add your own image and "Tap to Start" before entering the main menu.
+    * - Award Hearts
+      - You can provide a number to ``break heart`` or ``award heart`` to award/break multiple hearts at once.
 
 
 .. _fixes-3-3-0:
