@@ -103,11 +103,7 @@ init python:
         optional_text = ""
 
         # Figure out the time
-        if hour < 2:
-            # Night
-            greet_dict = night_greeting
-            optional_text = "It's getting late! "
-        elif hour < 6:
+        if hour < 7:
             # Early morning
             greet_dict = late_night_greeting
             optional_text = "You're up late! "
@@ -115,11 +111,11 @@ init python:
             # Morning
             greet_dict = morning_greeting
             optional_text = "Good morning! "
-        elif hour < 18:
+        elif hour < 17:
             # Afternoon
             greet_dict = afternoon_greeting
             optional_text = "Good afternoon! "
-        elif hour < 22:
+        elif hour < 21:
             # Evening
             greet_dict = evening_greeting
             optional_text = "Good evening! "
