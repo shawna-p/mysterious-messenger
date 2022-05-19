@@ -97,7 +97,7 @@ init python:
         corresponding translations.
         """
 
-        global greet_char, greet_text_english, greet_text_korean
+        global greet_char, greet_text_english, greet_text_korean, greet_eng_size, greet_kor_size
         hour = int(time.strftime('%H', time.localtime()))
 
         optional_text = ""
@@ -134,6 +134,24 @@ init python:
             greet_text_english = optional_text + the_greeting.english
         else:
             greet_text_english = the_greeting.english
+
+        # Check if the Korean text fits on one line
+        w = get_text_width(the_greeting.korean, the_style='greet_text')
+        kor_size = 25
+        while w > 450 and kor_size > 20:
+            kor_size -= 1
+            w = get_text_width(the_greeting.korean, the_style='greet_text', size=kor_size)
+
+        if w > 450:
+            # Couldn't get it onto one line
+            # Reduce the size of the English as well
+            greet_eng_size = 22
+            greet_kor_size = 20
+        elif kor_size < 25:
+            greet_kor_size = kor_size
+        else:
+            greet_eng_size = 27
+            greet_kor_size = 25
 
         greet_text_korean = the_greeting.korean
 
@@ -270,8 +288,8 @@ screen main_menu():
             xysize(500,120)
             background "greeting_bubble" padding (35, 5, 10, 5)
             has vbox
-            text "[greet_text_korean]" style "greet_text" size 25
-            text "[greet_text_english]" style "greet_text"
+            text "[greet_text_korean]" style "greet_text" size greet_kor_size
+            text "[greet_text_english]" style "greet_text" size greet_eng_size
 
     # The main menu buttons. Note that some currently don't take
     # you to the screen you'd want as those features have yet to
@@ -370,7 +388,6 @@ style update_button:
 
 style greet_text is text:
     color "#ffffff"
-    size 27
     text_align 0.0
     slow_cps 20
     font curlicue_font
