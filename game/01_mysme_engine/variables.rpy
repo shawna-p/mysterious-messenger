@@ -679,9 +679,12 @@ init -6 python:
     config.displayable_prefix["center_full"] = center_full_img
     config.displayable_prefix["center_crop_bg"] = center_crop_bg_img
 
-    def get_text_width(the_text, the_style='default'):
+    def get_text_width(the_text, the_style='default', size=None):
         """Return the width of text with a certain style applied."""
-        return int(Text(the_text, style=the_style).size()[0])
+        if size is None:
+            return int(Text(the_text, style=the_style).size()[0])
+        else:
+            return int(Text(the_text, style=the_style, size=size).size()[0])
 
 
     def get_char_from_file_id(file_id):
