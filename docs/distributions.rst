@@ -110,3 +110,6 @@ If you don't want any main menu images and would rather the game skip directly t
         """
         return None
 
+Reserved Names
+===============
+
