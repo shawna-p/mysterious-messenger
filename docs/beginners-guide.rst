@@ -112,13 +112,13 @@ The simplest way to modify this is to change the ``action Start()`` property for
 
 You can also change the image 'Menu Screens/Main Menu/route_select_tutorial.webp' to something else, though it's perfectly fine to leave it as-is for now.
 
-To see this new route select screen, on the main menu, click the **Developer** button in the bottom right corner, then check off the option titled "Use custom route select screen". Now when you start a new game and click Original Story, your custom route select screen will be displayed, though you haven't made an introduction yet so clicking on this button will cause an error.
+Now you can test out this code in-game. Open up the Ren'Py launcher again and hit **Launch** to start the game. To see your new route select screen, on the main menu, click the **Developer** button in the bottom right corner, then check off the option titled "Use custom route select screen". Now when you start a new game and click Original Story, your custom route select screen will be displayed, though you haven't made an introduction yet so clicking on this button will cause an error.
 
 
 Creating the Introduction
 ===========================
 
-Now that you've got a button to start your new route, you need to write an actual introduction for it. To keep things organized, create a new ``.rpy`` file like you did last time and put it inside your ``my_new_route`` folder. Call this file ``my_route_intro.rpy``.
+Now that you've got a button to start your new route, you need to write an actual introduction for it. You can close the program again while you're editing the code and return to your code editor. To keep things organized, create a new ``.rpy`` file like you did last time and put it inside your ``my_new_route`` folder. Call this file ``my_route_intro.rpy``.
 
 Now you need to create a label that the program will jump to when the player hits the button on the route select screen from earlier. The action on that button was ``action Start("my_route_introduction")``, so this label must be called ``my_route_introduction``::
 
@@ -200,7 +200,7 @@ Next, you need to define your new chatroom, similar to what you did for the intr
 Creating the First Chatroom
 ----------------------------
 
-There are two main ways of writing chatroom dialogue. The most flexible way is to write the script for the chatroom yourself in an ``.rpy`` file, described below. If you're more of a visual person, though, and some of this is going over your head, you might also try the **Chatroom Creator**, which you can access from the **Developer** button on the main menu. See :ref:`Chatroom Creator` for more detailed information on using this. While you will have fewer options to customize the chatroom using the creator as opposed to creating it yourself in code (for example, the chatroom creator cannot make choice menus), you can export your created chatroom as code and modify it further in the generated ``.rpy`` file to customize it to your needs. However, below we'll explore how you can create chatrooms just from code.
+There are two main ways of writing chatroom dialogue. The most flexible way is to write the script for the chatroom yourself in an ``.rpy`` file, described below. If you're more of a visual person, though, and some of this is going over your head, you might also try the **Chatroom Creator**, which you can access by launching the program and clicking on the **Developer** button on the main menu. See :ref:`Chatroom Creator` for more detailed information on using this. While you will have fewer options to customize the chatroom using the creator as opposed to creating it yourself in code (for example, the chatroom creator cannot make choice menus), you can export your created chatroom as code and modify it further in the generated ``.rpy`` file to customize it to your needs. However, below we'll explore how you can create chatrooms just from code.
 
 Like before, you should create a new ``.rpy`` file in order to keep things organized. Call this one ``day_1_chatroom_1.rpy``. It doesn't have to be named the same as the chatroom label, but noting the day and chatroom number of this chatroom will help you keep things organized.
 
@@ -253,7 +253,7 @@ This is the chatroom the player will see if it is expired. It can be as similar 
 Playing Your Route
 ===================
 
-To play your new route, close the program if open and re-launch it after saving all your open ``.rpy`` files. Select "Settings" from the main menu and then navigate to the "Others" tab and select "Start Over". Then ensure you have the option titled "Use custom route select screen" checked off in the **Developer** settings button in the bottom right corner. Now you can press "Original Story" and click on your new route to play it!
+To play your new route, close the program if open and re-launch it after saving all your open ``.rpy`` files. Select "Settings" from the main menu and then navigate to the "Others" tab and select "Start Over". Then ensure you have the option titled "Use custom route select screen" checked off in the **Developer** settings button in the bottom right corner of the main menu. Now you can press "Original Story" and click on your new route to play it!
 
 Tips For Testing and Debugging
 ===============================
