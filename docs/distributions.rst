@@ -203,3 +203,30 @@ tutorial_anim
 scale_vn_bg
 
 
+Variable names
+---------------
+
+.. note::
+
+    This list is not exhaustive! If you are running into an error you think may be caused by conflicting variable names, try searching for ``define var_name``, ``image var_name``, ``transform var_name``, ``default var_name``, or ``var_name =`` to see if you come across any unexpected matches.
+
+all_characters
+ja
+ju
+m
+r
+ri
+s
+sa
+u
+v
+va
+y
+z
+character_list
+heart_point_chars
+novoice_chars
+main_character
+
+example_guest
+rainbow2
