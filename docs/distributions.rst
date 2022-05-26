@@ -230,3 +230,20 @@ main_character
 
 example_guest
 rainbow2
+
+special_msg
+filler
+answer
+chat_pause
+email_list
+all_guests
+fullsizeCG
+new_cg
+unseen_calls
+in_phone_call
+call_countdown
+available_calls
+call_history
+incoming_call
+current_call
+
