@@ -113,6 +113,8 @@ If you don't want any main menu images and would rather the game skip directly t
 Reserved Names
 ===============
 
+Mysterious Messenger uses several variables, transforms, class names, and other features in order to work. As a result, you can run into errors if you accidentally use the same name as something already in the engine. If you're getting mysterious errors, you might try checking if you've accidentally replaced one of these reserved names.
+
 Transform Names
 ---------------
 album_tilt
