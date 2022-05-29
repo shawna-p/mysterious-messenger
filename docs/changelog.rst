@@ -114,8 +114,8 @@ QoL Improvements
     * - Developer Release Options
       - Added a section to ``variables_editable.rpy`` which can be customized for sharing a program distribution with others.
     * - :ref:`Email newlines<Writing an Email Chain>`
-      - You can now turn off the parser that turns email single newlines into a space.
-    * - Gallery update
+      - You can turn off the parser that turns email single newlines into a space.
+    * - :ref:`Gallery update<CG Albums>``
       - The gallery has been redone to cause fewer headaches overall and requires one definition instead of two.
 
 
