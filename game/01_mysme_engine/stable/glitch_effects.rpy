@@ -27,7 +27,7 @@ init python:
         def __init__(self, delay=0.0, screenshot_delay=0.0):
             super(Invert, self).__init__()
             self.width, self.height = renpy.get_physical_size()
-            self.height = self.width * 16 / 9
+            self.height = int(self.width * 16 // 9)
             self.srf = invert()
             self.delay = delay
 
@@ -82,9 +82,9 @@ init python:
             self.width, self.height = renpy.get_physical_size()
             # Force screen to 9:16 ratio
             if float(self.width) / float(self.height) > 9.0/16.0:
-                self.width = self.height * 9 / 16
+                self.width = int(self.height * 9 // 16)
             else:
-                self.height = self.width * 16 / 9
+                self.height = int(self.width * 16 // 9)
             self.number = number
             # Use a special image if specified, or tear
             # current screen by default
