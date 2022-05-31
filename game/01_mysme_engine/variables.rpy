@@ -124,7 +124,6 @@ init -6 python:
         return (true_list, false_list)
 
 
-
     from collections import namedtuple
     GameTone = namedtuple('GameTone', ['title', 'file'])
 
@@ -616,7 +615,6 @@ init -6 python:
         begin_timeline_item(generic_chatroom)
         return
 
-
     def hide_all_popups():
         """Hide all popup screens in-game."""
 
@@ -627,12 +625,10 @@ init -6 python:
         hide_stackable_notifications()
         hide_heart_icons()
 
-
     def btn_hover_img(s):
         """A displayable prefix function to make button hover images."""
 
         return Fixed(s, Transform(s, alpha=0.5))
-
 
     def center_bg_img(s):
         """
@@ -679,13 +675,13 @@ init -6 python:
     config.displayable_prefix["center_full"] = center_full_img
     config.displayable_prefix["center_crop_bg"] = center_crop_bg_img
 
+
     def get_text_width(the_text, the_style='default', size=None):
         """Return the width of text with a certain style applied."""
         if size is None:
             return int(Text(the_text, style=the_style).size()[0])
         else:
             return int(Text(the_text, style=the_style, size=size).size()[0])
-
 
     def get_char_from_file_id(file_id):
         """
@@ -704,7 +700,6 @@ init -6 python:
                 if char.file_id == file_id:
                     return char
         return None
-
 
     def print_file(*args, **kwargs):
         """Print statements to a file or to the console for debugging."""
@@ -725,7 +720,6 @@ init -6 python:
             f.close()
         except:
             print("Print to file did not work:", args)
-
 
     def get_img_from_file():
         """
@@ -758,7 +752,6 @@ init -6 python:
             return thevar
         return None
 
-
     def set_pfp_from_file():
         """
         (Windows only) Set the player's profile picture from a file.
@@ -772,7 +765,6 @@ init -6 python:
         # Otherwise, we're good to go
         store.m.prof_pic = the_img
         return
-
 
     def can_pick_image():
         """Return True if a file-picker is available."""
@@ -788,7 +780,6 @@ init -6 python:
             return False
 
         return True
-
 
     def ScriptError(*args, **kwargs):
         """
@@ -858,7 +849,6 @@ init -6 python:
         renpy.show_screen('script_error', message=sentence, link=link,
             link_text=link_text)
 
-
     def combine_lists(*args):
         """
         Combine args into one giant list and return it. Removes duplicates.
@@ -874,7 +864,6 @@ init -6 python:
                 if arg not in result:
                     result.append(arg)
         return result
-
 
     def handle_missing_image(img):
         """Give a generic image to use when an image cannot be found."""
@@ -911,7 +900,6 @@ init -6 python:
             pass
         # Otherwise, assume the image couldn't be found.
         return None
-
 
     def handle_missing_label(lbl):
         """
@@ -1203,7 +1191,6 @@ init -6 python:
             pretty_time, prerelease_yn, download_link ]
         renpy.show_screen('program_updates', store.persistent.available_update)
 
-
     def return_version_info(stable=False):
         """
         Return information for the stable version of Mysterious Messenger,
@@ -1228,7 +1215,6 @@ init -6 python:
             if ver_tag not in store.persistent.ignored_versions:
                 return rel
         return None
-
 
     def reorient_game():
         """

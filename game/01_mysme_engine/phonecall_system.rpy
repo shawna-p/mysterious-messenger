@@ -245,7 +245,6 @@ init -6 python:
                 renpy.call_in_new_context(lbl)
         return
 
-
     def call_available(who):
         """
         Check if a character has any available calls. Return the call if
@@ -397,6 +396,7 @@ init -6 python:
         return [SetVariable('observing', True),
                 SetVariable('current_call', phonecall),
                 Jump('play_phone_call')]
+
     def MMOutgoingCall(phonecall=None, caller=None):
         """Return the action for making an outgoing phonecall."""
 
@@ -424,10 +424,12 @@ init -6 python:
         return [Stop('music'),
                 SetVariable('gamestate', PHONE),
                 Preference('auto-forward after click', 'enable')]
+
     def MMEndCall():
         """Return the action for ending a phone call (on hide)."""
         return [SetVariable('gamestate', None),
                 Preference('auto-forward after click', 'disable')]
+
     def MMHangupCall(story=False, incoming=False):
         """Return the action for hanging up the phone."""
         if incoming:
@@ -452,6 +454,7 @@ init -6 python:
                 + "You may not be able to have this conversation "
                 + "again if you hang up."),
                         [Hide('phone_say'), Jump('hang_up')])
+
     def MMIncomingCall(phonecall, starter=False):
         """Return the action for an incoming call."""
         if starter:
@@ -487,7 +490,6 @@ init -6 python:
             return [SetScreenVariable('show_timer', True),
                     PauseAudio('voice', value=False),
                     Function(toggle_afm)]
-
 
 
 init offset = -5

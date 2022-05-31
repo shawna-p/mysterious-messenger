@@ -137,8 +137,6 @@ init -4 python:
 
             return filepath
 
-
-
         @property
         def text_msg_what(self):
             """Return `what` with the font removed, for text messages."""
@@ -386,7 +384,6 @@ init -4 python:
             except:
                 return False
 
-
         @property
         def bubble_style(self):
             """Return the style used for regular bubbles."""
@@ -472,8 +469,6 @@ init -4 python:
                     subheader="Custom Bubbles")
             self.saved_bubble_style = 'default'
             return 'default'
-
-
 
         @property
         def spec_bubble_offset(self):
@@ -575,7 +570,6 @@ init -4 python:
                 pass
             return (0, 0)
 
-
         @property
         def img_style(self):
             """Return the style used for images."""
@@ -673,8 +667,6 @@ init -4 python:
             """Return the width of this dialogue."""
 
             return int(Text(self.what).size()[0])
-
-
 
 
     class ReplayEntry(renpy.store.object):
@@ -896,8 +888,6 @@ init -4 python:
             cg_helper(what, who, True)
         return
 
-
-
     def calculate_type_time(what):
         """Return the length of time to pause for 'what'."""
 
@@ -978,10 +968,6 @@ init -4 python:
             store.hourglass_bag.new_choices([ False for i in range(8) ]
                 + [True for i in range(2) ])
 
-
-
-
-
     def chatbackup_posted():
         """Return True if the chatbackup was posted successfully."""
 
@@ -1011,7 +997,6 @@ init -4 python:
             # the last entry was successfully added; return
             return True
         return False
-
 
     def pauseFailsafe(wait=True):
         """
@@ -1085,7 +1070,6 @@ init python:
 
         return Transform('Bubble/white-Bubble.webp',
             matrixcolor=ColorizeMatrix("#000", bubble_color))
-
 
     def reset_participants(participants=None):
         if participants is None:
