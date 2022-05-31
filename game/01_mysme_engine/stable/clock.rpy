@@ -1,5 +1,5 @@
 ## This code is heavily modified from trooper6's clock code
-## found on the Lemma Soft forums at 
+## found on the Lemma Soft forums at
 ## https://lemmasoft.renai.us/forums/viewtopic.php?t=21978
 init -2:
     style digi_clock:
@@ -70,26 +70,26 @@ init -1 python:
             # the size defined for the box
             font_height = self.height # 44
             div = Text(":", style="digi_clock", size=font_height, yalign=0.5)
-            the_time = list(Text("{0:02d}".format(item), style="digi_clock", 
+            the_time = list(Text("{0:02d}".format(item), style="digi_clock",
                 size=font_height)
                 for item in self.get_time())
             font_xsize = (self.width) // 4 # -10, -65
 
-            
-            am_pm_txt = Text(str(self.am_pm), style='digi_clock', 
+
+            am_pm_txt = Text(str(self.am_pm), style='digi_clock',
                             size=font_height)
 
             # Display everything in an hbox
             if not self.military:
-                digi_text = HBox(Fixed(the_time[0], xsize=font_xsize+3), 
-                    Fixed(div, xsize=10, yalign=0.5, xalign=0.5), 
+                digi_text = HBox(Fixed(the_time[0], xsize=font_xsize+3),
+                    Fixed(div, xsize=10, yalign=0.5, xalign=0.5),
                     Fixed(the_time[1], xsize=font_xsize),
                     Null(width=self.width//20),
                     Fixed(am_pm_txt, xsize=font_xsize),
                     xalign=0.5)
             else:
-                digi_text = HBox(Fixed(the_time[0], xsize=font_xsize+3), 
-                    Fixed(div, xsize=10, yalign=0.5, xalign=0.5), 
+                digi_text = HBox(Fixed(the_time[0], xsize=font_xsize+3),
+                    Fixed(div, xsize=10, yalign=0.5, xalign=0.5),
                     Fixed(the_time[1], xsize=font_xsize),
                     xalign=0.5)
 
@@ -135,7 +135,7 @@ init -1 python:
                 if h > 23:
                     h = h%24
             else:
-                if h is 0:
+                if h == 0:
                     h = 12
                 elif h > 12:
                     h = h % 12
