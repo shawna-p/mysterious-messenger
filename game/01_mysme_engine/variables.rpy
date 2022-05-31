@@ -668,6 +668,19 @@ init -6 python:
             xysize=(config.screen_width, config.screen_height)
         )
 
+    def big_tag(tag, argument, contents):
+        """
+        A custom text tag designed to work similarly to the msg CDS "big"
+        argument.
+        """
+
+        return [
+                (renpy.TEXT_TAG, u"size=+10"),
+            ] + contents + [
+                (renpy.TEXT_TAG, u"/size"),
+            ]
+
+    config.custom_text_tags["big"] = big_tag
 
     ## Displayable prefix definitions
     config.displayable_prefix["btn_hover"] = btn_hover_img
