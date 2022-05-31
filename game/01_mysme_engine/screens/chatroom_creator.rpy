@@ -1516,7 +1516,7 @@ screen other_cc_tab():
 init python:
     def get_readable_music():
         """Return a human-readable music list, sorted."""
-        the_list = store.music_dictionary.keys()
+        the_list = get_dict_keys(store.music_dictionary)
         new_list = [ ]
         for item in the_list:
             new_item = item.split('audio/music/')[-1]

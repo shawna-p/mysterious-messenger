@@ -551,7 +551,7 @@ python early hide:
 
         # If a choice doesn't have a pair, it ends when the menu does.
         beginning_indices = [b.begin for b in choices]
-        no_end = [b for b in choice_id_from_index.keys()
+        no_end = [b for b in get_dict_keys(choice_id_from_index)
             if b not in beginning_indices]
 
         for i in no_end:

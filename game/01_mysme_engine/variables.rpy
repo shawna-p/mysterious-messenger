@@ -1236,6 +1236,14 @@ init -6 python:
     def align_new_dimensions(y):
         return y*1334.0/float(config.screen_height)
 
+    def get_dict_keys(d):
+        # Get the keys from a dictionary. Used to retain compatibility
+        # between Ren'Py 7.4+ and 8.0+
+        if renpy.version_only.startswith("7"):
+            return d.keys()
+        else:
+            return list(d.keys())
+
 
     # Some colour names, mostly for testing
     WHITE = "#FFF"

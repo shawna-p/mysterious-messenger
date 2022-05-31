@@ -125,7 +125,7 @@ init python:
             optional_text = "It's getting late! "
 
         # Randomly pick a key from the list
-        greet_char = renpy.random.choice(greet_dict.keys())
+        greet_char = renpy.random.choice(get_dict_keys(greet_dict))
 
         # Randomly pick a greeting
         the_greeting = renpy.random.choice(greet_dict[greet_char])

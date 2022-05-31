@@ -93,7 +93,7 @@ init python:
                 store.chatroom_hg = None
             if store.persistent.completed_chatrooms:
                 store.persistent.completed_story = set(
-                    store.persistent.completed_chatrooms.keys())
+                    get_dict_keys(store.persistent.completed_chatrooms))
                 store.persistent.completed_chatrooms = None
 
             store.use_2_2_guest = True
