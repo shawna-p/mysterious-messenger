@@ -117,6 +117,8 @@ QoL Improvements
       - You can turn off the parser that turns email single newlines into a space.
     * - :ref:`Gallery update<CG Albums>``
       - The gallery has been redone to cause fewer headaches overall and requires one definition instead of two.
+    * - ```big`` text tag
+      - There is now a ``{big}`` text tag which can be used similarly to how ``big`` is used for the msg CDS.
 
 
 
