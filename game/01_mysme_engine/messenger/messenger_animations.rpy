@@ -173,7 +173,6 @@ screen heart_break_screen(character):
 
     timer 0.6 action [Hide('heart_break_screen')]
 
-
 image hg_1 = "Heart Point/hourglass_1.webp"
 image hg_2 = "Heart Point/hourglass_2.webp"
 
@@ -199,7 +198,6 @@ screen hg_icon2():
 screen hg_icon3():
     zorder 20
     use hourglass_animation('hg_icon3')
-
 
 transform hourglass_anim(delay=0.0):
     zoom 1.0
@@ -236,7 +234,6 @@ transform hourglass_anim_2(delay=0.0, proportion=1.0):
         linear arbitrary_delay+smallzoom
         linear zoomouttime-0.3 alpha 0.0
 
-
 define firstbouncein = 0.23 # 1.0
 define firstbounceout = 0.23 # 0.8
 define secbouncein = 0.2 # 0.5
@@ -245,7 +242,6 @@ define bigzoom = 1.2 # 2.0
 define arbitrary_delay = 0.1 # 0.3
 define zoomouttime = 0.8 # 1.6
 define fadeinout = 0.6
-
 
 #####################################
 # Chat Speed Modifiers
@@ -308,7 +304,6 @@ screen hack_screen(hack, flicker_anim=True, bg="black"):
             action Hide('hack_screen')
 
     timer 3.0 action Hide('hack_screen')
-
 
 label hack(reverse=False):
     if (not observing and not persistent.testing_mode
