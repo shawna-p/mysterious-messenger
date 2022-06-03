@@ -314,8 +314,11 @@
 <tr class="row-even"><td><p>VN Screen shake</p></td>
 <td><p>You can use <code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">shake</span></code> during Story Mode (VN mode) to shake the screen. Takes into account the player’s accessibility preferences.</p></td>
 </tr>
-<tr class="row-odd"><td><p>Splash screen</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="distributions.html#splash-screen"><span class="std std-ref">Splash Screen</span></a></p></td>
 <td><p>The splash screen has been relocated and updated to make it easy to add your own image and “Tap to Start” before entering the main menu.</p></td>
+</tr>
+<tr class="row-even"><td><p>Award Hearts</p></td>
+<td><p>You can provide a number to <code class="docutils literal notranslate"><span class="pre">break</span> <span class="pre">heart</span></code> or <code class="docutils literal notranslate"><span class="pre">award</span> <span class="pre">heart</span></code> to award/break multiple hearts at once.</p></td>
 </tr>
 </tbody>
 </table>
@@ -389,10 +392,10 @@
 <td><p>Common actions for buttons on the main menu and home screen have been turned into functions for easier UI modification.</p></td>
 </tr>
 <tr class="row-even"><td><p>Check for updates in thread</p></td>
-<td><p>The updater now launches a separate thread to check for updates so the UI is not paused/frozen while waiting for the results of the check.</p></td>
+<td><p>The updater launches a separate thread to check for updates so the UI is not paused/frozen while waiting for the results of the check.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">gamestate</span></code></p></td>
-<td><p>Whether the program is in a chatroom, phone call, VN/Story Mode, or text message is now tracked via a consistent <cite>gamestate</cite> variable.</p></td>
+<td><p>Whether the program is in a chatroom, phone call, VN/Story Mode, or text message is tracked via a consistent <cite>gamestate</cite> variable.</p></td>
 </tr>
 <tr class="row-even"><td><p>Available call indicator</p></td>
 <td><p>A new dev option will add a “NEW” sign under a contact’s icon when there is a call available for them and add an <code class="docutils literal notranslate"><span class="pre">Online</span></code> indicator on their profile screen.</p></td>
@@ -404,10 +407,13 @@
 <td><p>Added a section to <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> which can be customized for sharing a program distribution with others.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="emails.html#writing-an-email-chain"><span class="std std-ref">Email newlines</span></a></p></td>
-<td><p>You can now turn off the parser that turns email single newlines into a space.</p></td>
+<td><p>You can turn off the parser that turns email single newlines into a space.</p></td>
 </tr>
-<tr class="row-even"><td><p>Gallery update</p></td>
+<tr class="row-even"><td><p><span class="xref std std-ref">Gallery update&lt;CG Albums&gt;`</span></p></td>
 <td><p>The gallery has been redone to cause fewer headaches overall and requires one definition instead of two.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">`big</span></code> text tag</p></td>
+<td><p>There is now a <code class="docutils literal notranslate"><span class="pre">{big}</span></code> text tag which can be used similarly to how <code class="docutils literal notranslate"><span class="pre">big</span></code> is used for the msg CDS.</p></td>
 </tr>
 </tbody>
 </table>

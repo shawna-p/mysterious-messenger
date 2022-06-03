@@ -149,6 +149,11 @@
 <li class="toctree-l3"><a class="reference internal" href="#changing-the-main-character">Changing the Main Character</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#reserved-names">Reserved Names</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#transform-names">Transform Names</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#variable-names">Variable Names</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -267,6 +272,11 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#paraphrased-choices">Paraphrased Choices</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#changing-the-main-character">Changing the Main Character</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#reserved-names">Reserved Names</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#transform-names">Transform Names</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#variable-names">Variable Names</a></li>
 </ul>
 </li>
 </ul>
@@ -1050,6 +1060,141 @@
 </pre></div>
 </div>
 <p>If you set this variable equal to a different character (e.g. <code class="docutils literal notranslate"><span class="pre">em</span></code> from the character examples), then <code class="docutils literal notranslate"><span class="pre">em</span></code> will say non-paraphrased choice dialogue instead of <code class="docutils literal notranslate"><span class="pre">m</span></code>. <code class="docutils literal notranslate"><span class="pre">em</span></code> will also appear on the right side of the screen when saying dialogue in chatrooms or text messages.</p>
+</div>
+</div>
+<div class="section" id="reserved-names">
+<h2>Reserved Names<a class="headerlink" href="#reserved-names" title="Permalink to this headline">¶</a></h2>
+<p>Mysterious Messenger uses several variables, transforms, class names, and other features in order to work. As a result, you can run into errors if you accidentally use the same name as something already in the engine. If you’re getting mysterious errors, you might try checking if you’ve accidentally replaced one of these reserved names.</p>
+<div class="section" id="transform-names">
+<h3>Transform Names<a class="headerlink" href="#transform-names" title="Permalink to this headline">¶</a></h3>
+<p>album_tilt
+alpha_dissolve
+cg_swipe_left
+cg_swipe_left2
+cg_swipe_left_hide
+cg_swipe_right
+cg_swipe_right2
+cg_swipe_right_hide
+chat_title_scroll
+chip_anim
+chip_wobble
+chip_wobble2
+choice_anim
+choice_disappear_hourglass
+cloud_shuffle1
+cloud_shuffle2
+cloud_shuffle3
+cloud_shuffle4
+cloud_shuffle5
+continue_appear_disappear
+continue_appear_disappear_first
+delayed_blink
+delayed_blink2
+dropdown_horizontal
+dropdown_menu
+fadein_out
+fade_in_out
+flash_yellow
+flicker
+guest_enter
+hacked_anim
+heart
+heartbreak
+hide_dissolve
+hourglass_anim
+hourglass_anim_2
+incoming_message
+incoming_message_bounce
+invisible
+invisible_bounce
+large_tap
+lightning_cloud_flash
+lock_spin
+med_tap
+moon_pan
+move_clouds
+new_fade
+notify_appear
+NullTransform
+null_anim
+participant_scroll
+reverse_topbottom_pan
+scale_vn_bg
+shake
+shooting_star
+shrink_away
+slide_in_out
+slide_up_down
+slide_up_down
+slow_fade
+slow_pan
+small_tap
+spaceship_chips
+spaceship_flight
+speed_msg
+stack_notify_appear
+star_fade_in
+star_place_randomly
+star_rotate
+star_twinkle_in
+star_twinkle_out
+star_twinkle_randomly
+text_footer_disappear
+toggle_btn_transform
+topbottom_pan
+topbottom_pan2
+tutorial_anim
+vn_center
+vn_farleft
+vn_farright
+vn_left
+vn_midleft
+vn_midright
+vn_right
+wait_fade
+yzoom_in</p>
+</div>
+<div class="section" id="variable-names">
+<h3>Variable Names<a class="headerlink" href="#variable-names" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This list is not exhaustive! If you are running into an error you think may be caused by conflicting variable names, try searching for <code class="docutils literal notranslate"><span class="pre">define</span> <span class="pre">var_name</span></code>, <code class="docutils literal notranslate"><span class="pre">image</span> <span class="pre">var_name</span></code>, <code class="docutils literal notranslate"><span class="pre">transform</span> <span class="pre">var_name</span></code>, <code class="docutils literal notranslate"><span class="pre">default</span> <span class="pre">var_name</span></code>, or <code class="docutils literal notranslate"><span class="pre">var_name</span> <span class="pre">=</span></code> to see if you come across any unexpected matches.</p>
+</div>
+<p>all_characters
+all_guests
+answer
+available_calls
+bubble_list
+call_countdown
+call_history
+character_list
+chat_pause
+current_call
+email_list
+example_guest
+filler
+fullsizeCG
+heart_point_chars
+incoming_call
+in_phone_call
+ja
+ju
+m
+main_character
+new_cg
+novoice_chars
+r
+rainbow2
+ri
+s
+sa
+special_msg
+u
+unseen_calls
+v
+va
+y
+z</p>
 </div>
 </div>
 </div>

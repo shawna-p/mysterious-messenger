@@ -524,6 +524,14 @@
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">msg</span> <span class="n">s</span> <span class="s2">&quot;VERY IMPORTANT MESSAGE!!&quot;</span> <span class="n">sser2</span> <span class="n">big</span> <span class="n">xbold</span>
 </pre></div>
 </div>
+<p>To apply these styles only to parts of a word, you can use the <code class="docutils literal notranslate"><span class="pre">{b}</span></code> text tag for bolded text:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">msg</span> <span class="n">y</span> <span class="s2">&quot;I can&#39;t believe you </span><span class="si">{b}</span><span class="s2">left{/b} me...&quot;</span>
+</pre></div>
+</div>
+<p>And the custom <code class="docutils literal notranslate"><span class="pre">{big}</span></code> text tag for larger text:</p>
+<blockquote>
+<div><p>msg z “I can’t believe you think it’s {big}not a big deal!{/big}”</p>
+</div></blockquote>
 </div>
 <div class="section" id="underline">
 <h4>Underline<a class="headerlink" href="#underline" title="Permalink to this headline">¶</a></h4>
@@ -872,6 +880,7 @@
 <p class="admonition-title">Note</p>
 <p>Ray (<code class="docutils literal notranslate"><span class="pre">r</span></code>) and Saeran (<code class="docutils literal notranslate"><span class="pre">sa</span></code>) share heart points. So, if you award a heart point for Saeran via <code class="docutils literal notranslate"><span class="pre">award</span> <span class="pre">heart</span> <span class="pre">sa</span></code>, Ray will also receive 1 heart point.</p>
 </div>
+<p>By default, each <code class="docutils literal notranslate"><span class="pre">award</span> <span class="pre">heart</span></code> statement gives one heart point to the specified character. You can award multiple at the same time, however, by providing a number e.g. <code class="docutils literal notranslate"><span class="pre">award</span> <span class="pre">heart</span> <span class="pre">u</span> <span class="pre">10</span></code> would give Unknown 10 heart points.</p>
 <p>There is also a second optional argument to <code class="docutils literal notranslate"><span class="pre">award</span> <span class="pre">heart</span></code>:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">award</span> <span class="n">heart</span> <span class="n">ju</span> <span class="n">bad</span>
 </pre></div>
@@ -889,6 +898,7 @@
 <p class="admonition-title">Tip</p>
 <p>Both <code class="docutils literal notranslate"><span class="pre">break</span> <span class="pre">heart</span> <span class="pre">ju</span></code> and <code class="docutils literal notranslate"><span class="pre">heart</span> <span class="pre">break</span> <span class="pre">ju</span></code> will show the heart break animation for the character <code class="docutils literal notranslate"><span class="pre">ju</span></code>. You can’t switch the word order for <code class="docutils literal notranslate"><span class="pre">award</span> <span class="pre">heart</span></code> though!</p>
 </div>
+<p>Like with awarding heart points, you can take away multiple heart points by adding a number at the end e.g. <code class="docutils literal notranslate"><span class="pre">break</span> <span class="pre">heart</span> <span class="pre">s</span> <span class="pre">4</span></code> would remove 4 heart points from 707.</p>
 </div>
 </div>
 <div class="section" id="awarding-an-hourglass">

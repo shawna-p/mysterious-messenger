@@ -201,6 +201,74 @@
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">config</span><span class="o">.</span><span class="n">save_directory</span> <span class="o">=</span> <span class="s2">&quot;MyMysteriousMessenger-1591663287&quot;</span>
 </pre></div>
 </div>
+<p>You may also wish to repurpose the “Developer” buttons on both the main menu and the home screen.</p>
+<div class="section" id="splash-screen">
+<h3>Splash Screen<a class="headerlink" href="#splash-screen" title="Permalink to this headline">¶</a></h3>
+<p>If you would like to change the splash screen that displays before the player begins the game, you can go to <code class="docutils literal notranslate"><span class="pre">screens_splash.rpy</span></code> and find the function <code class="docutils literal notranslate"><span class="pre">get_splash_image</span></code>. The game will call this function to set the splash screen each time it is shown. There are several ways you can use it; the easiest is to simply have it return the image you would like to show e.g.</p>
+<dl>
+<dt>::</dt><dd><dl>
+<dt>def get_splash_image():</dt><dd><p>“””
+A callback which returns an image that can be used for the
+splash screen before proceeding to the main menu.
+“””</p>
+<p>## The most basic version is just returning the path to an image
+return “CGs/s_album/cg-1.webp”</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>You can get as complicated with it as you would like, however. This example will randomly select an image from a list to display:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_splash_image</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A callback which returns an image that can be used for the</span>
+<span class="sd">    splash screen before proceeding to the main menu.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">## This function simply returns a random image</span>
+    <span class="c1">## every time the player reaches this screen</span>
+    <span class="k">return</span> <span class="n">renpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="k">choice</span><span class="p">([</span>
+        <span class="c1"># Here is a list of all the possible choices</span>
+        <span class="s2">&quot;CGs/common_album/cg-1.webp&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;CGs/common_album/cg-2.webp&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;CGs/common_album/cg-3.webp&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;CGs/s_album/cg-1.webp&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;CGs/r_album/cg-1.webp&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;CGs/ju_album/cg-1.webp&quot;</span><span class="p">,</span>
+    <span class="p">])</span>
+</pre></div>
+</div>
+<p>You might also check <code class="docutils literal notranslate"><span class="pre">persistent</span></code> variables to track the player’s progress and add images that can be selected for the splash image, or only use CGs which the player has seen before. A short example of the latter uses the special function <code class="docutils literal notranslate"><span class="pre">get_all_gallery_images</span></code>:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_splash_image</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A callback which returns an image that can be used for the</span>
+<span class="sd">    splash screen before proceeding to the main menu.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">options</span> <span class="o">=</span> <span class="n">get_all_gallery_images</span><span class="p">(</span><span class="n">if_unlocked</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1">## Check if the player has actually unlocked any gallery images</span>
+    <span class="k">if</span> <span class="n">options</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">renpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="k">choice</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+
+    <span class="c1">## Otherwise, there is no splash screen image</span>
+    <span class="c1">## You could return a default image here instead of None</span>
+    <span class="k">return</span> <span class="kc">None</span>
+</pre></div>
+</div>
+<p>This function takes two optional parameters: <code class="docutils literal notranslate"><span class="pre">if_unlocked</span></code> will only return images which the player has unlocked if True, (or all the gallery images if False), and <code class="docutils literal notranslate"><span class="pre">obj</span></code> will return the Album/GalleryImg objects themselves if True, or just the image field if False. So, in the example above, it returns a list of the file paths to the gallery images the player has unlocked. We then use <code class="docutils literal notranslate"><span class="pre">renpy.random.choice</span></code> to pick a random image from this list and return it to display.</p>
+<p>If you don’t want any main menu images and would rather the game skip directly to the main menu itself, simply have the function return None e.g.</p>
+<dl class="simple">
+<dt>::</dt><dd><dl class="simple">
+<dt>def get_splash_image():</dt><dd><p>“””
+A callback which returns an image that can be used for the
+splash screen before proceeding to the main menu.
+“””
+return None</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</div>
 </div>
 </div>
 

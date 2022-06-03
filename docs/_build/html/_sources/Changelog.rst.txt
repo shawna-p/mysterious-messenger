@@ -47,8 +47,10 @@ Minor New Features
       - An email testing hub from the Developer settings in-game allows you to quickly invite guests, send replies, and test the party.
     * - VN Screen shake
       - You can use ``show shake`` during Story Mode (VN mode) to shake the screen. Takes into account the player's accessibility preferences.
-    * - Splash screen
+    * - :ref:`Splash Screen`
       - The splash screen has been relocated and updated to make it easy to add your own image and "Tap to Start" before entering the main menu.
+    * - Award Hearts
+      - You can provide a number to ``break heart`` or ``award heart`` to award/break multiple hearts at once.
 
 
 .. _fixes-3-3-0:
@@ -102,9 +104,9 @@ QoL Improvements
     * - Main Menu Screen Actions
       - Common actions for buttons on the main menu and home screen have been turned into functions for easier UI modification.
     * - Check for updates in thread
-      - The updater now launches a separate thread to check for updates so the UI is not paused/frozen while waiting for the results of the check.
+      - The updater launches a separate thread to check for updates so the UI is not paused/frozen while waiting for the results of the check.
     * - ``gamestate``
-      - Whether the program is in a chatroom, phone call, VN/Story Mode, or text message is now tracked via a consistent `gamestate` variable.
+      - Whether the program is in a chatroom, phone call, VN/Story Mode, or text message is tracked via a consistent `gamestate` variable.
     * - Available call indicator
       - A new dev option will add a "NEW" sign under a contact's icon when there is a call available for them and add an ``Online`` indicator on their profile screen.
     * - :ref:`get_terms<Using Gendered Terms>`
@@ -112,9 +114,11 @@ QoL Improvements
     * - Developer Release Options
       - Added a section to ``variables_editable.rpy`` which can be customized for sharing a program distribution with others.
     * - :ref:`Email newlines<Writing an Email Chain>`
-      - You can now turn off the parser that turns email single newlines into a space.
-    * - Gallery update
+      - You can turn off the parser that turns email single newlines into a space.
+    * - :ref:`Gallery update<CG Albums>``
       - The gallery has been redone to cause fewer headaches overall and requires one definition instead of two.
+    * - ```big`` text tag
+      - There is now a ``{big}`` text tag which can be used similarly to how ``big`` is used for the msg CDS.
 
 
 
