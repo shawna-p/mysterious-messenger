@@ -176,6 +176,14 @@ You can also combine ``big`` and ``bold`` or ``xbold`` for additional emphasis.
 
     msg s "VERY IMPORTANT MESSAGE!!" sser2 big xbold
 
+To apply these styles only to parts of a word, you can use the ``{b}`` text tag for bolded text::
+
+    msg y "I can't believe you {b}left{/b} me..."
+
+And the custom ``{big}`` text tag for larger text:
+
+    msg z "I can't believe you think it's {big}not a big deal!{/big}"
+
 Underline
 ^^^^^^^^^^
 
