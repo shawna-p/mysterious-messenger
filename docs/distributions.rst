@@ -43,7 +43,7 @@ You should change this to have a new name for your own version, e.g.
 
     define config.save_directory = "MyMysteriousMessenger-1591663287"
 
-You may also wish to repurpose the "Developer" buttons on both the main menu and the home screen.
+You may also wish to repurpose the "Developer" buttons on both the main menu and the home screen. These can be found in ``01_mysme_engine/screens/screens_menu.rpy``, in ``screen chat_home`` and ``screen main_menu``.
 
 Splash Screen
 --------------
