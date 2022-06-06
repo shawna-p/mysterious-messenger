@@ -28,6 +28,13 @@ In ``variables_editable.rpy``, there is a section near the top with the header `
     If True, the game will wait in real-time to unlock story items like chats and phone calls. If False, completing a story item will unlock the next one in sequence. You may also want to provide a toggle for the player to turn this on and off as they like. **If you provide a toggle, you MUST remove this line**, otherwise you will reset the player's preference on every launch of the program.
 
 
+Game Extras
+============
+
+Instead of a "Developer" button on the main menu and chat home screens, Mysterious Messenger will take you to a "game extras" screen, which can be found in ``screens_custom_extras.rpy``. By default, it's set up so that the player can toggle real-time mode on and off. **Note that if you want the player to be able to do this in a distribution build, you MUST remove the line in ``variables_editable.rpy`` which sets ``persistent.real_time``**. If you don't do this, the player's preferences will be reset each time they launch the game.
+
+You can add more settings inside the provided ``vbox`` area to give players more control over their game experience.
+
 Additional Considerations
 ==========================
 
