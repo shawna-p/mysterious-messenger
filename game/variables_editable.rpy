@@ -84,10 +84,12 @@ init 100 python:
         ## built-in default one with Tutorial day
         persistent.custom_route_select = True
         ## Whether the game plays in real-time or sequentially
-        ## YOU MAY WANT TO CHANGE THIS or provide a button to toggle it
-        ## If you provide a button toggle, you MUST remove this line to prevent
-        ## modifying the player's preferences every launch
-        persistent.real_time = False
+        ## By default, there is a setting on the Game Extras screen
+        ## (which replaces the Developer settings in a released build)
+        ## which allows the player to toggle this. IF THE PLAYER CAN
+        ## TOGGLE THIS SETTING, IT SHOULD NOT BE DECLARED HERE.
+        # persistent.real_time = False
+
 
 init offset = -1
 
