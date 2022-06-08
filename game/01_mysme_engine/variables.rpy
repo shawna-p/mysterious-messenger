@@ -726,11 +726,9 @@ init -6 python:
             return
         # Otherwise, print this to a file for debugging
         try:
-            out_gamedir = renpy.config.gamedir[:-5]
-            filepath = os.path.join( out_gamedir, "email_bug.txt")
-            f = open(filepath, "a")
-            print(*args, file=f, **kwargs)
-            f.close()
+            with open(os.path.join(renpy.config.basedir,
+                    "game_output.txt"), 'a') as f:
+                print(*args, file=f, **kwargs)
         except:
             print("Print to file did not work:", args)
 
