@@ -190,6 +190,11 @@
 <dt><cite>persistent.real_time</cite></dt><dd><p>If True, the game will wait in real-time to unlock story items like chats and phone calls. If False, completing a story item will unlock the next one in sequence. You may also want to provide a toggle for the player to turn this on and off as they like. <strong>If you provide a toggle, you MUST remove this line</strong>, otherwise you will reset the player’s preference on every launch of the program.</p>
 </dd>
 </dl>
+<div class="section" id="game-extras">
+<h2>Game Extras<a class="headerlink" href="#game-extras" title="Permalink to this headline">¶</a></h2>
+<p>Instead of a “Developer” button on the main menu and chat home screens, Mysterious Messenger will take you to a “game extras” screen, which can be found in <code class="docutils literal notranslate"><span class="pre">screens_custom_extras.rpy</span></code>. By default, it’s set up so that the player can toggle real-time mode on and off. <strong>Note that if you want the player to be able to do this in a distribution build, you MUST remove the line in ``variables_editable.rpy`` which sets ``persistent.real_time``</strong>. If you don’t do this, the player’s preferences will be reset each time they launch the game.</p>
+<p>You can add more settings inside the provided <code class="docutils literal notranslate"><span class="pre">vbox</span></code> area to give players more control over their game experience.</p>
+</div>
 <div class="section" id="additional-considerations">
 <h2>Additional Considerations<a class="headerlink" href="#additional-considerations" title="Permalink to this headline">¶</a></h2>
 <p>When distributing a version of Mysterious Messenger, you may want to ensure that save files for your copy don’t conflict with the main engine. To do this, you must change the save directory.</p>
@@ -201,7 +206,7 @@
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">config</span><span class="o">.</span><span class="n">save_directory</span> <span class="o">=</span> <span class="s2">&quot;MyMysteriousMessenger-1591663287&quot;</span>
 </pre></div>
 </div>
-<p>You may also wish to repurpose the “Developer” buttons on both the main menu and the home screen.</p>
+<p>You may also wish to repurpose the “Developer” buttons on both the main menu and the home screen. These can be found in <code class="docutils literal notranslate"><span class="pre">01_mysme_engine/screens/screens_menu.rpy</span></code>, in <code class="docutils literal notranslate"><span class="pre">screen</span> <span class="pre">chat_home</span></code> and <code class="docutils literal notranslate"><span class="pre">screen</span> <span class="pre">main_menu</span></code>.</p>
 <div class="section" id="splash-screen">
 <h3>Splash Screen<a class="headerlink" href="#splash-screen" title="Permalink to this headline">¶</a></h3>
 <p>If you would like to change the splash screen that displays before the player begins the game, you can go to <code class="docutils literal notranslate"><span class="pre">screens_splash.rpy</span></code> and find the function <code class="docutils literal notranslate"><span class="pre">get_splash_image</span></code>. The game will call this function to set the splash screen each time it is shown. There are several ways you can use it; the easiest is to simply have it return the image you would like to show e.g.</p>
