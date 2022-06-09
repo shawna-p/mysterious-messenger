@@ -25,7 +25,7 @@ In ``variables_editable.rpy``, there is a section near the top with the header `
     If False, the game will use the default route select screen, which has options to play Tutorial Day or a basic Casual Story route. In most cases, you will have a custom route select screen that leads to your own route, and so this variable should be True.
 
 `persistent.real_time`
-    If True, the game will wait in real-time to unlock story items like chats and phone calls. If False, completing a story item will unlock the next one in sequence. You may also want to provide a toggle for the player to turn this on and off as they like. **If you provide a toggle, you MUST remove this line**, otherwise you will reset the player's preference on every launch of the program.
+    If True, the game will wait in real-time to unlock story items like chats and phone calls. If False, completing a story item will unlock the next one in sequence. You may also want to provide a toggle for the player to turn this on and off as they like. **If you provide a toggle, you MUST remove this line**, otherwise you will reset the player's preference on every launch of the program. See :ref:`Game Extras` below for an example of an existing toggle for the player.
 
 
 Game Extras
