@@ -15,6 +15,10 @@ If you want to create your own route and some of the technicalities are going ov
 Getting Started
 ===============
 
+If you're absolutely new to Ren'Py, I have a tutorial on my website you can follow to get set up with the engine and a code editor: `Getting Started With Ren'Py<https://feniksdev.com/getting-started-with-renpy/>`_
+
+You may also consider looking through the `Ren'Py Quickstart<https://www.renpy.org/doc/html/quickstart.html>`_
+
 If you've downloaded the program and assets (or created your own replacement assets), the first thing you should do is hit ``Launch`` from the Ren'Py launcher and play through the Tutorial Day to get a feel for what the program is capable of. If you tried to launch the game before obtaining or creating the assets, be sure to use **Delete Persistent** in the Ren'Py launcher under the **Actions** header.
 
 Opening the code in a code editor
