@@ -2,6 +2,11 @@
 Distributions
 ==============
 
+.. toctree::
+    :caption: Navigation
+
+    distributions
+
 If you would like to package up the engine to distribute to personal acquaintances, there are some options for developers that you may want to turn off or modify.
 
 In ``variables_editable.rpy``, there is a section near the top with the header ``## FOR RELEASE``. Here, several values are set before the game starts.
