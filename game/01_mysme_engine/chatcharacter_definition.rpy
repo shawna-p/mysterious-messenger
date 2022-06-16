@@ -256,7 +256,6 @@ python early:
                 return Transform(self.homepage_pic, fit='contain',
                     size=(110*scale, 110*scale))
 
-
         @property
         def reg_bubble_img(self):
 
@@ -458,7 +457,6 @@ python early:
             else:
                 store.persistent.spendable_hearts[self.file_id] += amount
 
-
         def decrease_heart(self, amount=1):
             """Decrement the good heart points for this character."""
 
@@ -519,7 +517,6 @@ python early:
                 return self.__dict__['_m1_character_definition__prof_pic']
             except:
                 return 'rounded-rectangle-mask.webp'
-
 
         @prof_pic.setter
         def prof_pic(self, new_img):
@@ -607,8 +604,6 @@ python early:
             if not self.__prof_pic in store.persistent.unlocked_prof_pics:
                 add_img_to_set(store.persistent.unlocked_prof_pics,
                         self.__prof_pic)
-
-
 
         def get_pfp(self, the_size):
             """
@@ -946,6 +941,7 @@ python early:
                 return True
             return self.file_id != other.file_id
 
+
 init -5 python:
 
     def register_pfp(files=None, condition='seen', folder="", ext="",
@@ -1047,7 +1043,6 @@ init -5 python:
             return img[0]
         else:
             return img
-
 
     def change_mc_pfp_callback():
         """
@@ -1198,7 +1193,6 @@ init -5 python:
 
         set.add(img)
         return
-
 
     def add_mc_pfp(img, unlocked=False):
         """
