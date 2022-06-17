@@ -21,7 +21,10 @@ You may also consider looking through the `Ren'Py Quickstart<https://www.renpy.o
 
 There are instructions in the ``#information`` channel of the Mysterious Messenger Discord server on how to download the program and assets to get it up and running.
 
-Once you've downloaded the program and assets (or created your own replacement assets), the first thing you should do is hit ``Launch`` from the Ren'Py launcher and play through the Tutorial Day to get a feel for what the program is capable of. If you tried to launch the game before obtaining or creating the assets, be sure to use **Delete Persistent** in the Ren'Py launcher under the **Actions** header.
+Once you've downloaded the program and assets (or created your own replacement assets), the first thing you should do is hit ``Launch`` from the Ren'Py launcher and play through the Tutorial Day to get a feel for what the program is capable of.
+
+.. warning::
+    If you tried to launch the game before obtaining or creating the assets, be sure to use **Delete Persistent** in the Ren'Py launcher under the **Actions** header.
 
 Opening the code in a code editor
 ---------------------------------
