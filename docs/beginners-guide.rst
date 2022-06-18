@@ -67,7 +67,9 @@ Inside your new ``.rpy`` file, copy and paste the following code::
         RouteDay('10th'),
         RouteDay('Final')]
 
-This defines a variable which is going to contain the information the program needs to understand how to display the route to the player. In particular, this defines the "Good End" of a route. In the history screen, when the player reaches the end of this route the final timeline item will show up under the title "Good End". This guide only covers how to add one ending, but if you want to learn more you can refer to :ref:`Plot Branches`.
+This sets up a variable which is going to contain the information the program needs to understand how to display the route to the player. In particular, this defines the "Good End" of a route. In the history screen, when the player reaches the end of this route the final timeline item will show up under the title "Good End". This guide only covers how to add one ending, but if you want to learn more you can refer to :ref:`Plot Branches`.
+
+You can learn more about variables in this series on my website: `A Quick Primer on Variables in Ren'Py<https://feniksdev.com/a-quick-primer-on-variables-in-renpy/>`_
 
 Ensuring the route shows up in History
 ---------------------------------------
