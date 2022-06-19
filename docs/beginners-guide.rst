@@ -123,7 +123,7 @@ The simplest way to modify this is to change the ``action Start()`` property for
 
 You can also change the image 'Menu Screens/Main Menu/route_select_tutorial.webp' to something else, though it's perfectly fine to leave it as-is for now.
 
-Now you can test out this code in-game. Open up the Ren'Py launcher again and hit **Launch** to start the game. To see your new route select screen, on the main menu, click the **Developer** button in the bottom right corner, then check off the option titled "Use custom route select screen". Now when you start a new game and click Original Story, your custom route select screen will be displayed, though you haven't made an introduction yet so clicking on this button will cause an error.
+Now you can test out this code in-game. Make sure you've saved your file, then open up the Ren'Py launcher again and hit **Launch** to start the game. To see your new route select screen, on the main menu, click the **Developer** button in the bottom right corner, then check off the option titled "Use custom route select screen". Now when you start a new game and click Original Story, your custom route select screen will be displayed, though you haven't made an introduction yet so clicking on this button will cause an error.
 
 
 Creating the Introduction
