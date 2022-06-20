@@ -240,7 +240,7 @@ This defines a very basic chatroom with the character "Unknown" (``u``). In this
 Creating an Expired Chatroom
 -----------------------------
 
-There's one last thing you should do before finishing your first chatroom. If the player is playing in real-time, or chooses to back out of a chatroom before they've finished viewing it, the chatroom may "expire". Typically this means the player will then see a version of the chatroom where they don't get to participate in the conversation.
+There's one last thing you should do before finishing your first chatroom. If the player is playing in real-time, or chooses to exit a chatroom with the back button before they've finished viewing it, the chatroom may "expire". Typically this means the player will then see a version of the chatroom where they don't get to participate in the conversation.
 
 The program automatically looks for this "expired chatroom" using the name of the original chatroom + the suffix ``_expired``. So you should define your expired chatroom label beneath the regular chatroom like so::
 
@@ -275,10 +275,10 @@ When writing a new route, you might run into some error screens from time to tim
 2) Usually you will see an error that reads something like ``NameError: name "something" is not defined``. The first part is the type of error - in this case, a ``NameError``. There are other kinds of errors, like ``ScriptError``, ``AttributeError``, and more. The next part tells you a bit about the error itself. Sometimes this will be immediately obvious - for example, ``ScriptError: could not find label 'myroute_day3_3'`` means that the program can't find the label ``myroute_day3_3``, so either you've made a typo somewhere, failed to save the file with the label on it in the right place, or haven't created the label yet. Other times the error is a bit more obtuse.
 
 .. tip::
-    One of the most common sources of errors is missing commas or incorrect parentheses. If you see an error that looks like ``TypeError: string indices must be integers``, be on the lookout for missing commas or parentheses!
+    One of the most common sources of errors is missing commas or incorrect parentheses. If you see an error that looks like ``TypeError: string indices must be integers``, be on the lookout for missing commas or parentheses! Unfortunately the error messages for these sorts of mistakes tend to seem unrelated to the missing commas/parentheses, but make sure you take a good look around the lines of code near where the error is detected to rule it out.
 
 3) If the error message isn't particularly clear, the first thing you should usually try is just to close the game and re-open it. If you've been making lots of script changes with the game open, particularly if the game is set to Reload or Auto-Reload, occasionally Ren'Py can't figure out how to update the script while the game is still open and it crashes. In particular, if you see an error message that looks like ``Exception: Couldn't find a place to stop rolling back. Perhaps the script changed in an incompatible way?``, this is a very common cause of that error. Closing and re-launching the game from scratch will often fix this.
-4) Another common source of errors is old save games. If you aren't seeing changes you've made, try starting a new game from the settings rather than loading an old save or hitting "Original Story" (which automatically loads a save).
+4) Another common source of errors is old save games. If you aren't seeing changes you've made, try starting a new game from the settings rather than loading an old save or hitting "Original Story" (which automatically loads a save). You can do this by going to the settings -> Other -> Start Over.
 
 If you're still having trouble, feel free to send a message in the Mysterious Messenger Discord to report a bug!
 
