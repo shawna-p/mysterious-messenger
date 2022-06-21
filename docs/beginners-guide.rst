@@ -286,6 +286,8 @@ If you're still having trouble, feel free to send a message in the Mysterious Me
 Next Steps
 ===========
 
+If you'd just like to play around with some of the features available in chatrooms, you can check out the Chatroom Creator from the Developer options on the main menu. There is an option to export created chatrooms to code which you can then add into your route like the code used earlier.
+
 Since many things in the game build off of chatrooms, you should look at the documentation on :ref:`Chatrooms Topic`. You should also look at the code for some of the chatrooms and other features included on Tutorial Day, such as ``tutorial_5_coffee.rpy`` and ``tutorial_6_meeting.rpy``, as they have many notes included explaining the various features you will see when you play through those chatrooms.
 
 Once you're comfortable writing and modifying chatrooms, you can look into adding :ref:`Text Messages`, then :ref:`Phone Calls`, and finally :ref:`Emails`. You should also look at :ref:`Setting up a Route` for more information on setting up a full route with plot branches and a party. Good luck!
