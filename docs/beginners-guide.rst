@@ -286,7 +286,7 @@ If you're still having trouble, feel free to send a message in the Mysterious Me
 Next Steps
 ===========
 
-If you'd just like to play around with some of the features available in chatrooms, you can check out the Chatroom Creator from the Developer options on the main menu. There is an option to export created chatrooms to code which you can then add into your route like the code used earlier.
+If you'd just like to play around with some of the features available in chatrooms, you can check out the Chatroom Creator from the Developer options on the main menu. There is an option to export created chatrooms to code which you can then add into your route like the code used earlier. If you'd like to take advantage of the full set of features Mysterious Messenger offers, this may help you see how to write the code for particular chatroom features.
 
 Since many things in the game build off of chatrooms, you should look at the documentation on :ref:`Chatrooms Topic`. You should also look at the code for some of the chatrooms and other features included on Tutorial Day, such as ``tutorial_5_coffee.rpy`` and ``tutorial_6_meeting.rpy``, as they have many notes included explaining the various features you will see when you play through those chatrooms.
 
