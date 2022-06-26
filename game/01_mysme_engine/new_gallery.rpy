@@ -194,6 +194,7 @@ init python:
             else:
                 return False
 
+
     def check_for_old_albums(set_popup=True):
         """Check if we need to update old albums to the new style."""
 

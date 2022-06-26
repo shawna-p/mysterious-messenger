@@ -393,7 +393,6 @@ init python:
             print("WARNING: Received non-string file_id for file name:", file_id)
             return str(file_id)
 
-
     def hide_albums(album_list):
         """Hide the albums in album_list unless they have an unlocked photo."""
 
@@ -429,7 +428,6 @@ init python:
             if album in all_albums:
                 all_albums.remove(album)
 
-
     def reset_albums():
         """
         Reset the persistent albums to lock all images and re-sync with
@@ -460,7 +458,6 @@ init python:
         # Reset seen images
         store.persistent._seen_images.clear()
         renpy.reload_script()
-
 
     def drag_box(drags, drop):
         """
@@ -534,7 +531,6 @@ init python:
 
         store.close_visible = not close_visible
         renpy.restart_interaction()
-
 
 
 

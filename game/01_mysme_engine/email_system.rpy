@@ -57,7 +57,6 @@ init python:
             except AttributeError:
                 self.callback = None
 
-
         def __eq__(self, other):
             """
             Check for equality between two Email objects.
@@ -100,7 +99,6 @@ init python:
                     self.callback(self)
             except AttributeError:
                 pass
-
 
         @property
         def can_reply(self):
@@ -324,7 +322,6 @@ init python:
             else:
                 return 'email_completed_1'
 
-
         @property
         def email_status_list(self):
             """Return a list of icons to use for each email reply."""
@@ -361,6 +358,7 @@ init python:
 
             if self.deliver_reply is not None:
                 self.deliver_reply = 0
+
 
     def send_emails_sooner():
         for email in store.email_list:
