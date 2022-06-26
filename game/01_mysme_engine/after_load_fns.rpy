@@ -141,7 +141,8 @@ init python:
             for chara in store.all_characters:
                 if not hasattr(chara.text_msg, 'temp_msg_queue'):
                     chara.text_msg.temp_msg_queue = [ ]
-
+            store.myClock = Clock(30)
+            store.my_menu_clock = Clock()
 
         # Update to most recent version
         store._version = (3, 3, 0)

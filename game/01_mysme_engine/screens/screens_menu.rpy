@@ -955,7 +955,7 @@ style vscroll_bar:
 ## put in a separate screen for less repeating code
 ########################################################
 
-default my_menu_clock = Clock()
+define my_menu_clock = Clock()
 
 screen menu_header(title, return_action=NullAction,
                     envelope=False, hide_bkgr=False):
@@ -1000,7 +1000,7 @@ screen menu_header(title, return_action=NullAction,
 
     hbox:
         style_prefix "hg_hp"
-        add my_menu_clock xalign 0.0 yalign 0.0 xpos -5
+        add my_menu_clock xalign 0.0 yalign 0.0 xpos 5
 
         fixed:
             if not persistent.first_boot:
