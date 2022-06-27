@@ -638,7 +638,8 @@ init -6 python:
 
         return Fixed(Transform(s,
             align=(0.5, 1.0), yoffset=-113,
-            ysize=config.screen_height-113-165, fit="cover"),
+            ysize=config.screen_height-113-165,
+            xsize=config.screen_width, fit="cover"),
             xysize=(config.screen_width, config.screen_height)
         )
 
@@ -650,7 +651,8 @@ init -6 python:
 
         return Fixed(Transform(s,
             align=(0.5, 1.0),
-            ysize=config.screen_height-113-165, fit="cover"),
+            ysize=config.screen_height-113-165,
+            xsize=config.screen_width, fit="cover"),
             xysize=(config.screen_width, config.screen_height)
         )
 
@@ -660,11 +662,12 @@ init -6 python:
         image to display as 'shake'.
         """
 
-        s = Transform(s, crop=(0, (1334-1125)//2, config.screen_width, 1125))
+        s = Transform(s, crop=(0, (1334-1125)//2, 750, 1125))
 
         return Fixed(
             Transform(s, align=(0.5, 1.0), yoffset=-113,
-            ysize=config.screen_height-113-165, fit="cover"),
+            ysize=config.screen_height-113-165, xsize=config.screen_width,
+            fit="cover"),
             xysize=(config.screen_width, config.screen_height)
         )
 
