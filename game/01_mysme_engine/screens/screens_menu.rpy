@@ -1000,8 +1000,8 @@ screen menu_header(title, return_action=NullAction,
 
     hbox:
         style_prefix "hg_hp"
-        add my_menu_clock xalign 0.0 yalign 0.0 xpos 5
-
+        add my_menu_clock xalign 0.0 yalign 0.0 xpos 8
+        null width 55
         fixed:
             if not persistent.first_boot:
                 hbox:
