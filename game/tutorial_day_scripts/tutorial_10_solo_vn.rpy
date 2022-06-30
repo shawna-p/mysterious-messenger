@@ -61,7 +61,7 @@ label extra_features_showcase():
             hide tut_arrow_vert
             z "Or, if you're just testing text messages, phone calls, or plot branches, you can also right-click any item on the timeline and it will be instantly marked as played."
             z thinking "Note that this will {b}not{/b} execute any of the code inside the story item itself, so you won't get any heart points, for example."
-            z neutral "It {b}will{/b}, however, mark the item as played/participated and execute its {b}_after{/b} label."
+            z neutral "It {b}will{/b}, however, mark the item as played/participated and execute its {b}after_{/b} label."
             z happy "It's good for quickly testing program flow."
             z neutral "It also prevents a lot of confirm-style windows from appearing; for example, you won't be asked to confirm if you want to buy back an expired chatroom."
             z "And you won't receive notifications like {b}You have 1 missed call{/b} on the home screen."
