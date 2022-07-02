@@ -80,6 +80,8 @@ init python:
                         offsetMin, offsetMax, srf=None):
             super(Tear, self).__init__()
             self.width, self.height = renpy.get_physical_size()
+            self.width = int(self.width)
+            self.height = int(self.height)
             # Force screen to 9:16 ratio
             if float(self.width) / float(self.height) > 9.0/16.0:
                 self.width = int(self.height * 9 // 16)
