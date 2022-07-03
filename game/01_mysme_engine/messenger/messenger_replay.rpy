@@ -80,6 +80,8 @@ label hack_rectangle_screen(t=0, p=0):
 label tear_screen(number=40, offtimeMult=0.4, ontimeMult=0.2,
                         offsetMin=-10, offsetMax=30, w_timer=0.2,
                         p=0):
+    # Temporarily restrict number to prevent crashes
+    $ number = min(number, 40)
     if persistent.hacking_effects:
         show screen tear(number=number, offtimeMult=offtimeMult,
                         ontimeMult=ontimeMult, offsetMin=offsetMin,
