@@ -26,7 +26,7 @@ init -1 python:
             "AM" or "PM" based on the current time.
         """
         def __init__(self, size=48, military=False, **kwargs):
-            super().__init__(**kwargs)
+            super(Clock, self).__init__(**kwargs)
             self.size = size
             self.military = military
 
