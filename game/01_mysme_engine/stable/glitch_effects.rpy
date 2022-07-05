@@ -52,23 +52,126 @@ screen invert(w_timer=False):
 
 ## Define some python stuff
 init python:
+
+    class BasicScreenshot(renpy.Displayable):
+        """
+        A class which takes a screenshot of the current screen and
+        returns it as a render.
+
+        Attributes:
+        -----------
+        screenshot : Surface or Displayable
+            A screenshot of the currently displaying screen.
+        width : int
+            The width of the screenshot.
+        height : int
+            The height of the screenshot.
+        pieces : TearPiece[]
+            A list of TearPiece objects representing tears in this screenshot.
+            Optional.
+        """
+
+        def __init__(self, img=None, width=None, height=None,
+                create_tears=False, *args, **kwargs):
+            super(BasicScreenshot, self).__init__()
+
+            if img is None:
+                # Take a screenshot
+                self.screenshot = renpy.display.draw.screenshot(None)
+                s_w, s_h = renpy.get_physical_size()
+                self.width = int(s_w)
+                self.height = int(s_h)
+                self.has_screenshot = True
+            else:
+                self.screenshot = renpy.easy.displayable(img)
+                self.width = width or config.screen_width
+                self.height = height or config.screen_height
+                self.has_screenshot = False
+
+            if create_tears:
+                self.create_tears(*args, **kwargs)
+            else:
+                self.pieces = [ ]
+
+        def render(self, width, height, st, at):
+            render = renpy.Render(self.width, self.height)
+            if self.has_screenshot:
+                render.blit(self.screenshot, (0, 0))
+            else:
+                r = renpy.render(self.screenshot, self.width, self.height, st, at)
+                render.blit(r, (0, 0))
+            return render
+
+        def create_tears(self, num_pieces=10, xoffset_min=-10, xoffset_max=10,
+                idle_len_multiplier=1.0, move_len_multiplier=1.0):
+            """
+            Parameters:
+            -----------
+            num_pieces : int
+                The number of pieces the screen should be torn into.
+            xoffset_min : int
+                The leftmost offset an offset piece can have.
+            xoffset_max : int
+                The rightmost offset an offset piece can have.
+            idle_len_multiplier : float
+                A multiplier for the length of time the image stays in its "idle"
+                state, where the piece is not offset from its original position.
+            move_len_multiplier : float
+                A multiplier for the length of time the image is moving around
+                the screen offset from its original position for.
+            """
+
+            self.pieces = []
+            tear_points = [0, self.height]
+
+            for i in range(num_pieces):
+                tear_points.append(random.randint(10, self.height - 10))
+            tear_points.sort()
+            for i in range(num_pieces+1):
+                self.pieces.append(TearPiece(tear_points[i], tear_points[i+1],
+                                idle_len_multiplier, move_len_multiplier,
+                                xoffset_min, xoffset_max))
+
+        def update_pieces(self, st):
+            """Update the position of all tear pieces."""
+            for piece in self.pieces:
+                piece.update(st)
+
+        def get_composite(self):
+            """
+            Return a composite image of this screenshot along with
+            all its tear pieces.
+            """
+            comp = [ (self.width, self.height) ]
+            for piece in self.pieces:
+                comp.extend(piece.get_piece(self))
+            return Composite(*comp)
+
+    def create_torn_screen(st, at, screenshot):
+        screenshot.update_pieces(st)
+        return screenshot.get_composite(), 0.0
+
     ## This class defines the little blinking pieces of the screen tear effect
-    class TearPiece:
-        def __init__(self, startY, endY, offtimeMult, ontimeMult,
-                        offsetMin, offsetMax):
-            self.startY = startY
-            self.endY = endY
-            self.offTime = (random.random() * 0.2 + 0.2) * offtimeMult
-            self.onTime = (random.random() * 0.2 + 0.2) * ontimeMult
+    class TearPiece():
+        """
+        A class which defines the coordinates of a torn image.
+        """
+        def __init__(self, start_y, end_y, idle_len_multiplier,
+                    move_len_multiplier, xoffset_min, xoffset_max):
+            self.start_y = start_y
+            self.end_y = end_y
+            self.idle_time = (random.random() * 0.2 + 0.2) * idle_len_multiplier
+            self.move_time = (random.random() * 0.2 + 0.2) * move_len_multiplier
             self.offset = 0
-            self.offsetMin = offsetMin
-            self.offsetMax = offsetMax
+            self.xoffset_min = offsetMin
+            self.xoffset_max = offsetMax
 
         def update(self, st):
-            st = st % (self.offTime + self.onTime)
-            if st > self.offTime and self.offset == 0:
-                self.offset = random.randint(self.offsetMin, self.offsetMax)
-            elif st <= self.offTime and self.offset != 0:
+            """Update the offset of this piece."""
+            st = st % (self.idle_time + self.move_time)
+            if st > self.idle_time and self.offset == 0:
+                self.offset = random.randint(self.xoffset_min, self.xoffset_max)
+            elif st <= self.idle_time and self.offset != 0:
                 self.offset = 0
 
     ## This class defines a renpy displayable made up of `number`
@@ -82,34 +185,43 @@ init python:
             self.width, self.height = renpy.get_physical_size()
             self.width = int(self.width)
             self.height = int(self.height)
+            print_file("1")
             # Force screen to 9:16 ratio
             if float(self.width) / float(self.height) > 9.0/16.0:
                 self.width = int(self.height * 9 // 16)
             else:
                 self.height = int(self.width * 16 // 9)
+            print_file("2")
             self.number = number
             # Use a special image if specified, or tear
             # current screen by default
             if not srf: self.srf = screenshot_srf()
             else: self.srf = srf
+            print_file("3")
 
             # Rip the screen into `number` pieces
             self.pieces = []
             tearpoints = [0, self.height]
+            print_file("4")
             for i in range(number):
                 tearpoints.append(random.randint(10, self.height - 10))
+            print_file("5")
             tearpoints.sort()
             for i in range(number+1):
                 self.pieces.append(TearPiece(tearpoints[i],
                                     tearpoints[i+1], offtimeMult,
                                     ontimeMult, offsetMin, offsetMax))
+            print_file("6")
 
         ## Render the displayable
         def render(self, width, height, st, at):
             render = renpy.Render(self.width, self.height)
+            print_file("7")
             render.blit(self.srf, (0,0))
+            print_file("8")
             # Render each piece
             for piece in self.pieces:
+                print_file("9")
                 piece.update(st)
                 subsrf = (self.srf.subsurface((0,
                             max(0, piece.startY - 1),
@@ -117,17 +229,37 @@ init python:
                             max(0, piece.endY - piece.startY))))
                             #.pygame_surface()
                 render.blit(subsrf, (piece.offset, piece.startY))
-            renpy.redraw(self, 0)
+            print_file("10")
+            renpy.redraw(self, 10)
+            print_file("11")
             return render
 
 ## Define the screen for Ren'Py; by default, tear the screen into 10 pieces
 screen tear(number=10, offtimeMult=1, ontimeMult=1, offsetMin=0,
                             offsetMax=50, w_timer=False, srf=None):
     zorder 150 #Screen tear appears above pretty much everything
+
     add Tear(number, offtimeMult, ontimeMult, offsetMin,
                                 offsetMax, srf) size (config.screen_width,config.screen_height)
     if w_timer:
         timer w_timer action Hide('tear')
+
+screen tear2(num_pieces=10, xoffset_min=-10, xoffset_max=10,
+            idle_len_multiplier=1.0, move_len_multiplier=1.0,
+            img=None, width=None, height=None, w_timer=False):
+    zorder 150
+
+    default screen_sh = BasicScreenshot(img, width, height, create_tears=True,
+            num_pieces=num_pieces, xoffset_min=xoffset_min,
+            xoffset_max=xoffset_max, idle_len_multiplier=idle_len_multiplier,
+            move_len_multiplier=move_len_multiplier)
+
+    add DynamicDisplayable(create_torn_screen, screenshot=screen_sh):
+        xysize (width or config.screen_width, height or config.screen_height)
+        align (0.5, 0.5)
+
+    if w_timer:
+        timer w_timer action Hide('tear2')
 
 ## This screen provides additional "hacking" white lines
 ## across the screen
