@@ -163,8 +163,8 @@ init python:
             self.idle_time = (random.random() * 0.2 + 0.2) * idle_len_multiplier
             self.move_time = (random.random() * 0.2 + 0.2) * move_len_multiplier
             self.offset = 0
-            self.xoffset_min = offsetMin
-            self.xoffset_max = offsetMax
+            self.xoffset_min = xoffset_min
+            self.xoffset_max = xoffset_max
 
         def update(self, st):
             """Update the offset of this piece."""
@@ -173,6 +173,15 @@ init python:
                 self.offset = random.randint(self.xoffset_min, self.xoffset_max)
             elif st <= self.idle_time and self.offset != 0:
                 self.offset = 0
+
+        def get_piece(self, img):
+            the_crop = Crop(
+                (0, max(0, self.start_y - 1),
+                config.screen_width, max(0, self.end_y - self.start_y)),
+                img)
+
+            the_pos = (self.offset, self.start_y)
+            return [the_pos, the_crop]
 
     ## This class defines a renpy displayable made up of `number`
     ## of screen tear sections, that bounce back and forth, based
@@ -224,11 +233,11 @@ init python:
                 print_file("9")
                 piece.update(st)
                 subsrf = (self.srf.subsurface((0,
-                            max(0, piece.startY - 1),
+                            max(0, piece.start_y - 1),
                             self.width,
-                            max(0, piece.endY - piece.startY))))
+                            max(0, piece.end_y - piece.start_y))))
                             #.pygame_surface()
-                render.blit(subsrf, (piece.offset, piece.startY))
+                render.blit(subsrf, (piece.offset, piece.start_y))
             print_file("10")
             renpy.redraw(self, 10)
             print_file("11")
