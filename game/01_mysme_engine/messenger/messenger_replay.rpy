@@ -77,20 +77,37 @@ label hack_rectangle_screen(t=0, p=0):
         pause p
     return
 
+label show_tear_screen(num_pieces=10, xoffset_min=-10, xoffset_max=10,
+            idle_len_multiplier=1.0, move_len_multiplier=1.0,
+            img=None, width=None, height=None, w_timer=False, p=0):
+    if persistent.hacking_effects:
+        show screen tear2(num_pieces, xoffset_min, xoffset_max,
+            idle_len_multiplier, move_len_multiplier, img, width,
+            height, w_timer)
+
+    if (not observing and not persistent.testing_mode and gamestate == CHAT):
+        # Add this to the replay_log
+        $ effect_entry = ("tear2", [num_pieces, xoffset_min, xoffset_max,
+                idle_len_multiplier, move_len_multiplier, img, width,
+                height, w_timer])
+        $ current_timeline_item.replay_log.append(effect_entry)
+        if p != 0:
+            $ current_timeline_item.replay_log.append(("pause", p))
+    if p != 0 and persistent.hacking_effects:
+        pause p
+    return
+
 label tear_screen(number=40, offtimeMult=0.4, ontimeMult=0.2,
                         offsetMin=-10, offsetMax=30, w_timer=0.2,
                         p=0):
-    # Temporarily restrict number to prevent crashes
-    $ number = min(number, 40)
     if persistent.hacking_effects:
-        show screen tear(number=number, offtimeMult=offtimeMult,
-                        ontimeMult=ontimeMult, offsetMin=offsetMin,
-                        offsetMax=offsetMax, w_timer=w_timer)
+        show screen tear2(number, offsetMin, offsetMax, offtimeMult,
+            ontimeMult, w_timer=w_timer)
 
     if (not observing and not persistent.testing_mode and gamestate == CHAT):
         # Add this to the replay_log
         $ effect_entry = ("tear", [number, offtimeMult, ontimeMult, offsetMin,
-                                    offsetMax, w_timer])
+            offsetMax, w_timer])
         $ current_timeline_item.replay_log.append(effect_entry)
         if p != 0:
             $ current_timeline_item.replay_log.append(("pause", p))
@@ -297,10 +314,15 @@ label chatroom_replay():
                         renpy.show_screen('hack_rectangle', w_timer=second)
                 elif first == "tear":
                     if persistent.hacking_effects:
-                        renpy.show_screen('tear', number=second[0],
-                            offtimeMult=second[1], ontimeMult=second[2],
-                            offsetMin=second[3], offsetMax=second[4],
+                        renpy.show_screen('tear2', second[0],
+                            second[3], second[4], second[1], second[2],
                             w_timer=second[5])
+                elif first == "tear2":
+                    if persistent.hacking_effects:
+                        renpy.show_screen('tear2',
+                            second[0], second[1], second[2], second[3],
+                            second[4], second[5], second[6], second[7],
+                            second[8])
                 elif first == "remove":
                     del chatlog[second:]
 
