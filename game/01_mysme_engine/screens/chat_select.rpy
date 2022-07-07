@@ -263,13 +263,10 @@ screen timeline(day, day_num):
     # on and if applicable.
     if hacked_effect and persistent.hacking_effects:
         timer 10:
-            action [Show('tear', number=10, offtimeMult=0.4,
-                    ontimeMult=0.2, offsetMin=-10, offsetMax=30, w_timer=0.3),
+            action [Show('tear2', None, 10, -10, 30, 0.4, 0.2, w_timer=0.3),
                     Show('white_squares', w_timer=1.0)] repeat True
 
-        timer 3.0 action [Show('tear', number=10, offtimeMult=0.4,
-                            ontimeMult=0.2, offsetMin=-10, offsetMax=30,
-                            w_timer=0.3),
+        timer 3.0 action [Show('tear2', None, 10, -10, 30, 0.4, 0.2, w_timer=0.3),
                         Show('white_squares', w_timer=1.0)] repeat False
 
 style timeline2_fixed:
