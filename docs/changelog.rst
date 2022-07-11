@@ -86,6 +86,8 @@ Fixes
       - The timeline now correctly displays the "5th DAY" with the suffix when opening a particular day's timeline list.
     * - Chat Creator
       - Fix an issue where the chat creator didn't correctly export other characters' special bubbles.
+    * - Hack tear screen update
+      - The hacking "tear" effect was updated for Ren'Py 8 and functions better with large numbers of sections.
 
 
 .. _qol-3-3-0:
