@@ -7,10 +7,10 @@ init python:
 
     ## Screen cap the current screen; used by multiple functions
     def screenshot_srf():
-        srf = renpy.display.draw.screenshot(None)#, False)
+        srf = renpy.display.draw.screenshot(None)
         s_w, s_h = renpy.get_physical_size()
-        if srf.get_width != s_w: srf = renpy.display.scale.smoothscale(srf,
-                                                                (s_w, s_h))
+        if srf.get_width != s_w:
+            srf = renpy.display.scale.smoothscale(srf, (s_w, s_h))
         return srf
 
     ## Invert the colors of the current screen.
@@ -43,14 +43,6 @@ screen invert(w_timer=False):
     if w_timer:
         timer w_timer action Hide("invert")
 
-## tear(number=10, offtimeMult=1, ontimeMult=1,
-##      offsetMin=0, offsetMax=50, srf=None)
-## This screen is called using a statement like
-## `show screen tear(20, 0.1, 0.1, 0, 40)`
-## Cut the screen up into some number of pieces and
-## make them offset from each other at random.
-
-## Define some python stuff
 init python:
 
     class BasicScreenshot(renpy.Displayable):
@@ -148,6 +140,9 @@ init python:
             return Composite(*comp)
 
     def create_torn_screen(st, at, screenshot):
+        """
+        A DynamicDisplayable function which returns an animated torn screenshot.
+        """
         screenshot.update_pieces(st)
         return screenshot.get_composite(), 0.0
 
@@ -175,6 +170,10 @@ init python:
                 self.offset = 0
 
         def get_piece(self, img):
+            """
+            Return a position, image tuple corresponding to the position and
+            image slice of this particular torn piece.
+            """
             the_crop = Crop(
                 (0, max(0, self.start_y - 1),
                 config.screen_width, max(0, self.end_y - self.start_y)),
@@ -183,90 +182,25 @@ init python:
             the_pos = (self.offset, self.start_y)
             return [the_pos, the_crop]
 
-    ## This class defines a renpy displayable made up of `number`
-    ## of screen tear sections, that bounce back and forth, based
-    ## on ontimeMult & offtimeMult and each piece is randomly offset
-    ## by an amount between offsetMin & offsetMax
-    class Tear(renpy.Displayable):
-        def __init__(self, number, offtimeMult, ontimeMult,
-                        offsetMin, offsetMax, srf=None):
-            super(Tear, self).__init__()
-            self.width, self.height = renpy.get_physical_size()
-            self.width = int(self.width)
-            self.height = int(self.height)
-            print_file("1")
-            # Force screen to 9:16 ratio
-            if float(self.width) / float(self.height) > 9.0/16.0:
-                self.width = int(self.height * 9 // 16)
-            else:
-                self.height = int(self.width * 16 // 9)
-            print_file("2")
-            self.number = number
-            # Use a special image if specified, or tear
-            # current screen by default
-            if not srf: self.srf = screenshot_srf()
-            else: self.srf = srf
-            print_file("3")
 
-            # Rip the screen into `number` pieces
-            self.pieces = []
-            tearpoints = [0, self.height]
-            print_file("4")
-            for i in range(number):
-                tearpoints.append(random.randint(10, self.height - 10))
-            print_file("5")
-            tearpoints.sort()
-            for i in range(number+1):
-                self.pieces.append(TearPiece(tearpoints[i],
-                                    tearpoints[i+1], offtimeMult,
-                                    ontimeMult, offsetMin, offsetMax))
-            print_file("6")
-
-        ## Render the displayable
-        def render(self, width, height, st, at):
-            render = renpy.Render(self.width, self.height)
-            print_file("7")
-            render.blit(self.srf, (0,0))
-            print_file("8")
-            # Render each piece
-            for piece in self.pieces:
-                print_file("9")
-                piece.update(st)
-                subsrf = (self.srf.subsurface((0,
-                            max(0, piece.start_y - 1),
-                            self.width,
-                            max(0, piece.end_y - piece.start_y))))
-                            #.pygame_surface()
-                render.blit(subsrf, (piece.offset, piece.start_y))
-            print_file("10")
-            renpy.redraw(self, 10)
-            print_file("11")
-            return render
-
-## Define the screen for Ren'Py; by default, tear the screen into 10 pieces
-screen tear(number=10, offtimeMult=1, ontimeMult=1, offsetMin=0,
-                            offsetMax=50, w_timer=False, srf=None):
-    zorder 150 #Screen tear appears above pretty much everything
-
-    add Tear(number, offtimeMult, ontimeMult, offsetMin,
-                                offsetMax, srf) size (config.screen_width,config.screen_height)
-    if w_timer:
-        timer w_timer action Hide('tear')
-
+## Screen to display the torn screenshot/image
 screen tear2(num_pieces=10, xoffset_min=-10, xoffset_max=10,
             idle_len_multiplier=1.0, move_len_multiplier=1.0,
             img=None, width=None, height=None, w_timer=False):
     zorder 150
 
+    # Declare a screenshot
     default screen_sh = BasicScreenshot(img, width, height, create_tears=True,
             num_pieces=num_pieces, xoffset_min=xoffset_min,
             xoffset_max=xoffset_max, idle_len_multiplier=idle_len_multiplier,
             move_len_multiplier=move_len_multiplier)
 
+    # Add the torn screenshot to the screen
     add DynamicDisplayable(create_torn_screen, screenshot=screen_sh):
         xysize (width or config.screen_width, height or config.screen_height)
         align (0.5, 0.5)
 
+    # Hide the screen after the specified number of seconds
     if w_timer:
         timer w_timer action Hide('tear2')
 

@@ -75,6 +75,78 @@ init python:
         # m.prof_pic = persistent.MC_pic
         renpy.retain_after_load()
 
+    ## Replaced by BasicScreenshot
+    ## This class defines a renpy displayable made up of `number`
+    ## of screen tear sections, that bounce back and forth, based
+    ## on ontimeMult & offtimeMult and each piece is randomly offset
+    ## by an amount between offsetMin & offsetMax
+    class Tear(renpy.Displayable):
+        def __init__(self, number, offtimeMult, ontimeMult,
+                        offsetMin, offsetMax, srf=None):
+            super(Tear, self).__init__()
+            self.width, self.height = renpy.get_physical_size()
+            self.width = int(self.width)
+            self.height = int(self.height)
+            print_file("1")
+            # Force screen to 9:16 ratio
+            if float(self.width) / float(self.height) > 9.0/16.0:
+                self.width = int(self.height * 9 // 16)
+            else:
+                self.height = int(self.width * 16 // 9)
+            print_file("2")
+            self.number = number
+            # Use a special image if specified, or tear
+            # current screen by default
+            if not srf: self.srf = screenshot_srf()
+            else: self.srf = srf
+            print_file("3")
+
+            # Rip the screen into `number` pieces
+            self.pieces = []
+            tearpoints = [0, self.height]
+            print_file("4")
+            for i in range(number):
+                tearpoints.append(random.randint(10, self.height - 10))
+            print_file("5")
+            tearpoints.sort()
+            for i in range(number+1):
+                self.pieces.append(TearPiece(tearpoints[i],
+                                    tearpoints[i+1], offtimeMult,
+                                    ontimeMult, offsetMin, offsetMax))
+            print_file("6")
+
+        ## Render the displayable
+        def render(self, width, height, st, at):
+            render = renpy.Render(self.width, self.height)
+            print_file("7")
+            render.blit(self.srf, (0,0))
+            print_file("8")
+            # Render each piece
+            for piece in self.pieces:
+                print_file("9")
+                piece.update(st)
+                subsrf = (self.srf.subsurface((0,
+                            max(0, piece.start_y - 1),
+                            self.width,
+                            max(0, piece.end_y - piece.start_y))))
+                            #.pygame_surface()
+                render.blit(subsrf, (piece.offset, piece.start_y))
+            print_file("10")
+            renpy.redraw(self, 10)
+            print_file("11")
+            return render
+
+## Replaced by the tear2 screen which uses BasicScreenshot
+## Define the screen for Ren'Py; by default, tear the screen into 10 pieces
+screen tear(number=10, offtimeMult=1, ontimeMult=1, offsetMin=0,
+                            offsetMax=50, w_timer=False, srf=None):
+    zorder 150 #Screen tear appears above pretty much everything
+
+    add Tear(number, offtimeMult, ontimeMult, offsetMin,
+                                offsetMax, srf) size (config.screen_width,config.screen_height)
+    if w_timer:
+        timer w_timer action Hide('tear')
+
 # Displays notifications instead of heart icons
 # Replaced with persistent.animated_icons
 default persistent.heart_notifications = False
