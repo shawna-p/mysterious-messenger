@@ -372,9 +372,32 @@ The tear screen
 
 There is a special screen called the ``tear`` screen which will cause the screen to be split into several smaller pieces that are offset a little from their original position. It's used to create the hacked effect in the chatroom timeline screen, but can also be shown in the middle of any ordinary chatroom/phone call/Story Mode/etc. You can call it like so::
 
-    call tear_screen(number=10, offtimeMult=0.4, ontimeMult=0.4,
-        offsetMin=-10, offsetMax=30, w_timer=0.18, p=0.5)
+    call show_tear_screen(num_pieces=25, xoffset_min=-10, xoffset_max=30,
+                    idle_len_multiplier=0.4, move_len_multiplier=0.2,
+                    w_timer=0.2, p=0.5)
 
+The arguments are as follows:
+
+`num_pieces`
+    An integer. The number of horizontal slices the screen will be split up into.
+
+`xoffset_min`
+    An integer. The minimum number of pixels the piece can be moved from its original starting position. Negative numbers move the piece to the left of its starting position.
+
+`xoffset_max`
+    An integer. The maximum number of pixels the piece can be moved from its original starting position. Positive numbers move the piece to the right of its starting position. This, along with ``xoffset_min``, are used to generate a random number for the xoffset of the torn piece.
+
+`idle_len_multiplier`
+    A float. A multiplier for how long the piece stays in an "idle" state (that is, it appears normally as opposed to being offset). Larger values mean the piece spends more time in its original position.
+
+`move_len_multiplier`
+    A float. A multiplier for how long the piece stays in its offset position. Larger values mean the piece spends more time away from its original position.
+
+`w_timer`
+    A float. How long the program should display the torn image for, in seconds, before it is automatically hidden. If this is not provided, the screen must be hidden manually.
+
+`p`
+    A float. The number of seconds the program should pause for after showing the torn screen. This is provided as an argument to the call so that it can be reproduced in replays. You should not write a pause after showing the torn screen.
 
 where ``10`` is the number of pieces to tear; ``0.4`` is the value for both ``offtimeMult`` and ``ontimeMult`` respectively -- this controls how much the pieces bounce back and forth; ``-10`` is the minimum offset for the pieces (this can be negative, positive, or zero); ``30`` is the maximum offset for the pieces (can also be negative, positive, or zero; offset just means how far the pieces will move away from their origin point, in pixels); and ``0.5`` is how long the program should display the tear screen for before hiding.
 
