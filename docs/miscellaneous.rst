@@ -399,7 +399,7 @@ The arguments are as follows:
 `p`
     A float. The number of seconds the program should pause for after showing the torn screen. This is provided as an argument to the call so that it can be reproduced in replays. You should not write a pause after showing the torn screen.
 
-where ``10`` is the number of pieces to tear; ``0.4`` is the value for both ``offtimeMult`` and ``ontimeMult`` respectively -- this controls how much the pieces bounce back and forth; ``-10`` is the minimum offset for the pieces (this can be negative, positive, or zero); ``30`` is the maximum offset for the pieces (can also be negative, positive, or zero; offset just means how far the pieces will move away from their origin point, in pixels); and ``0.5`` is how long the program should display the tear screen for before hiding.
+The tear screen also takes an image argument and width and height arguments to size it.
 
 You can also briefly show an image on-screen before showing the tear screen in order to have that image "torn" as well. For this, you can use the special screen `display_img`::
 
