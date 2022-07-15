@@ -79,7 +79,7 @@ label hack_rectangle_screen(t=0, p=0):
 
 label show_tear_screen(num_pieces=10, xoffset_min=-10, xoffset_max=10,
             idle_len_multiplier=1.0, move_len_multiplier=1.0,
-            img=None, width=None, height=None, w_timer=False, p=0):
+            w_timer=False, p=0, img=None, width=None, height=None):
     if persistent.hacking_effects:
         show screen tear2(num_pieces, xoffset_min, xoffset_max,
             idle_len_multiplier, move_len_multiplier, img, width,
