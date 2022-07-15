@@ -401,6 +401,17 @@ The arguments are as follows:
 
 The tear screen also takes an image argument and width and height arguments to size it.
 
+`img`
+    A displayable, usually the file path to an image or the name of a defined image. This is the image that will be torn into horizontal slices for the tearing effect, rather than a screenshot of the current screen.
+
+`width`
+    An integer. The width, in pixels, of the provided image above.
+
+`height`
+    An integer. The height, in pixels, of the provided image above.
+
+If the ``img``, ``width``, and ``height`` arguments are given to ``show_tear_screen``, then instead of tearing the current screenshot into vertical slices, the provided image will be torn. It is displayed in the center of the screen. Otherwise, the rest of the arguments (``num_pieces``, etc) all apply identically to the provided image when tearing it.
+
 You can also briefly show an image on-screen before showing the tear screen in order to have that image "torn" as well. For this, you can use the special screen `display_img`::
 
     show screen display_img([ ['vn_party', 200, 400] ])
