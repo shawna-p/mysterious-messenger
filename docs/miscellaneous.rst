@@ -412,16 +412,19 @@ The tear screen also takes an image argument and width and height arguments to s
 
 If the ``img``, ``width``, and ``height`` arguments are given to ``show_tear_screen``, then instead of tearing the current screenshot into vertical slices, the provided image will be torn. It is displayed in the center of the screen. Otherwise, the rest of the arguments (``num_pieces``, etc) all apply identically to the provided image when tearing it.
 
-You can also briefly show an image on-screen before showing the tear screen in order to have that image "torn" as well. For this, you can use the special screen `display_img`::
+You can also briefly show an image on-screen before showing the tear screen in order to have that image "torn" along with the rest of the screen. For this, you can use the special screen `display_img`::
 
     show screen display_img([ ['vn_party', 200, 400] ])
     pause 0.0001
-    call tear_screen(40, 0.4, 0.2, -100, 100, 0.3, 0.3)
+    call show_tear_screen(40, 0.4, -100, 100, 0.2, 0.3, 0.3)
     hide screen display_img
 
 The ``display_img`` screen will show an image in the specified position. It takes a lists of lists as its sole parameter. Each item in the list should be a list of three items: the image to display (which can be the name of a previously declared image, as above, a string with a path to the file name, or a Transform with the image, among other things), then the xpos, and then the ypos. So, in this case, the program displays the image ``'vn_party'`` at an xpos of 200 and a ypos of 400.
 
 The short pause after showing the ``display_img`` screen gives the program enough time to register the images before it takes a screenshot for the tear screen. Call the tear screen as normal. Be sure to hide the `display_img` screen at the end.
+
+.. note::
+    Prior to v3.3.0, a different label and screen were used to tear the screen into pieces. This label, ``tear_screen``, still exists in the program and can be used with its original arguments (aka you don't have to update it to work on 3.3.0). However, for new torn screen sections, you should use the new label call and arguments as described above.
 
 The hack_rectangle screen
 -------------------------
