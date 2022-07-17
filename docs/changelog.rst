@@ -189,8 +189,10 @@ Fixes
       - Save file names are more reliably saved using json files instead of string separators.
     * - Fix Persistent button
       - Fix persistent now works with user-defined albums
-      - Animated background screen shake
-    * - Animated backgrounds now get black bars offscreen to the left and right to improve the appearance of screenshake while animated backgrounds are active.
+    * - Animated background screen shake
+      - Animated backgrounds now get black bars offscreen to the left and right to improve the appearance of screenshake while animated backgrounds are active.
+    * - Tear screen fix
+      - The tear screen feature has been updated for Ren'Py 8.0
 
 
 .. _qol-3-2-0:
