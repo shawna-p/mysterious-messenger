@@ -426,6 +426,8 @@ The short pause after showing the ``display_img`` screen gives the program enoug
 .. note::
     Prior to v3.3.0, a different label and screen were used to tear the screen into pieces. This label, ``tear_screen``, still exists in the program and can be used with its original arguments (aka you don't have to update it to work on 3.3.0). However, for new torn screen sections, you should use the new label call and arguments as described above.
 
+    The argument names have also been changed for the new label, but remain unchanged for the old method. ``number`` is now ``num_pieces``, ``offsetMin``/``offsetMax`` is now ``xoffset_min``/``xoffset_max``, ``offtimeMult``/``ontimeMult`` is now ``idle_len_multiplier``/``move_len_multiplier``. ``w_timer`` and ``p`` remain unchanged.
+
 The hack_rectangle screen
 -------------------------
 
