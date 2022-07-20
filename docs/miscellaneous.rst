@@ -379,7 +379,7 @@ There is a special screen called the ``tear`` screen which will cause the screen
 The arguments are as follows:
 
 `num_pieces`
-    An integer. The number of horizontal slices the screen will be split up into. More pieces increase the distortion, but are also more taxing. Typically it is good to keep this number under 50 or so.
+    An integer. The number of horizontal slices the screen will be split up into. More pieces increase the distortion, but are also more taxing. Typically it is good to keep this number under 50 or so for a full-screen image (like a screenshot, the default), and even less for images which are smaller. More pieces are generally more taxing.
 
 `xoffset_min`
     An integer. The minimum number of pixels the piece can be moved from its original starting position. Negative numbers move the piece to the left of its starting position.
