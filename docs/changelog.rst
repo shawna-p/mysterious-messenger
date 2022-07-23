@@ -73,17 +73,17 @@ Fixes
     * - MC Profile Picture bug
       - Fix a bug with the ``add_mc_pfp`` function to properly unlock profile pictures as seen.
     * - Animated Backgrounds
-      - Animated backgrounds now move more smoothly and don't have any stuttering lines when looping.
+      - Animated backgrounds move more smoothly and don't have any stuttering lines when looping.
     * - Guest Comment Interpolation
-      - Guest comments in the guestbook can now properly interpolate variables like ``[name]`` or pronouns like ``[they]``. There is also a dissolve transition in/out of viewing the comment.
+      - Guest comments in the guestbook properly interpolate variables like ``[name]`` or pronouns like ``[they]``. There is also a dissolve transition in/out of viewing the comment.
     * - Guest Hourglasses
       - Fixed an issue where players weren't awarded an hourglass upon first viewing a guest's information in the guestbook.
     * - Branch VNs
       - Fix an issue with branch VNs that would cause a script error dialogue for trigger times.
     * - Background shake
-      - Improve how background shake is set up. Backgrounds without an animated version still shake when animated backgrounds are turned on.
+      - Improved how background shake is set up. Backgrounds without an animated version still shake when animated backgrounds are turned on.
     * - Timeline display
-      - The timeline now correctly displays the "5th DAY" with the suffix when opening a particular day's timeline list.
+      - The timeline correctly displays the "5th DAY" with the suffix when opening a particular day's timeline list.
     * - Chat Creator
       - Fix an issue where the chat creator didn't correctly export other characters' special bubbles.
     * - Hack tear screen update
