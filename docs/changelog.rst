@@ -10,6 +10,8 @@ Full Changelog
 3.3.0
 =====
 
+It should be noted that this new release supports Ren'Py 8.0+, which uses Python 3. It is suggested you move to Ren'Py 8+ with new games, as Python 3 offers greater flexibility.
+
 .. _major-3-3-0:
 
 Major New Features
