@@ -88,8 +88,8 @@ label show_tear_screen(num_pieces=10, xoffset_min=-10, xoffset_max=10,
     if (not observing and not persistent.testing_mode and gamestate == CHAT):
         # Add this to the replay_log
         $ effect_entry = ("tear2", [num_pieces, xoffset_min, xoffset_max,
-                idle_len_multiplier, move_len_multiplier, img, width,
-                height, w_timer])
+                idle_len_multiplier, move_len_multiplier, w_timer,
+                img, width, height])
         $ current_timeline_item.replay_log.append(effect_entry)
         if p != 0:
             $ current_timeline_item.replay_log.append(("pause", p))
@@ -321,7 +321,7 @@ label chatroom_replay():
                     if persistent.hacking_effects:
                         renpy.show_screen('tear2',
                             second[0], second[1], second[2], second[3],
-                            second[4], second[5], second[6], second[7],
+                            second[4], second[5], 0, second[6], second[7],
                             second[8])
                 elif first == "remove":
                     del chatlog[second:]
