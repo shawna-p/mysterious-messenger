@@ -3,6 +3,21 @@
 #************************************
 init python:
 
+    TAG_ALPHABET = "abcdefghijklmnopqrstuvwxyz"
+    def get_random_screen_tag(k=4):
+        """Generate a random k-letter word out of alphabet letters."""
+
+        # Used to retain compatibility between Ren'Py 7.4+ and 8.0+
+        if renpy.version_only.startswith("7"):
+            # Shuffle the list and pop k items from the front
+            alphabet = list(store.TAG_ALPHABET)
+            random.shuffle(alphabet)
+            return ''.join(alphabet[:k])
+        else:
+            # Sample k letters from the alphabet. Repeats allowed.
+            return ''.join(random.choices(list(store.TAG_ALPHABET), k=k))
+
+
     def allocate_heart_screen():
         """Allocate a screen to display a heart icon."""
 
