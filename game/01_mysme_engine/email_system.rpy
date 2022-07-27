@@ -1075,9 +1075,9 @@ label guest_info():
     if persistent.guestbook[guest_replay_info.name] == 'attended':
         $ persistent.guestbook[guest_replay_info.name] = 'viewed'
         if not persistent.animated_icons:
-            $ renpy.show_screen(allocate_notification_screen(), message="Hourglass +1")
+            $ renpy.show_screen('stackable_notifications', message="Hourglass +1", _tag=get_random_screen_tag())
         else:
-            $ renpy.show_screen(allocate_hg_screen())
+            $ renpy.show_screen('hourglass_animation', _tag=get_random_screen_tag())
         $ renpy.music.play("audio/sfx/UI/select_4.mp3", channel='sound')
         $ persistent.HG += 1
 
