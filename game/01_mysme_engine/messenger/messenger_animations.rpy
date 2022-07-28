@@ -7,15 +7,23 @@ init python:
     def get_random_screen_tag(k=4):
         """Generate a random k-letter word out of alphabet letters."""
 
-        # Used to retain compatibility between Ren'Py 7.4+ and 8.0+
-        if renpy.version_only.startswith("7"):
-            # Shuffle the list and pop k items from the front
-            alphabet = list(store.TAG_ALPHABET)
-            random.shuffle(alphabet)
-            return ''.join(alphabet[:k])
-        else:
-            # Sample k letters from the alphabet. Repeats allowed.
-            return ''.join(random.choices(list(store.TAG_ALPHABET), k=k))
+        while True:
+            # Used to retain compatibility between Ren'Py 7.4+ and 8.0+
+            if renpy.version_only.startswith("7"):
+                # Shuffle the list and pop k items from the front
+                alphabet = list(store.TAG_ALPHABET)
+                random.shuffle(alphabet)
+                tag = ''.join(alphabet[:k])
+            else:
+                # Sample k letters from the alphabet. Repeats allowed.
+                tag = ''.join(random.choices(list(store.TAG_ALPHABET), k=k))
+
+            if tag not in store.screen_tags:
+                break
+
+        # Add the tag to a set so we can be sure to hide it
+        store.screen_tags.add(tag)
+        return tag
 
 
     def allocate_heart_screen():
@@ -71,6 +79,11 @@ init python:
     def hide_stackable_notifications():
         """Hide all notification screens."""
 
+        for tag in store.screen_tags:
+            renpy.hide_screen(tag)
+        store.screen_tags = set()
+        return
+
         renpy.hide_screen('hourglass_animation')
         renpy.hide_screen('hg_icon2')
         renpy.hide_screen('hg_icon3')
@@ -101,6 +114,8 @@ init python:
         except:
             return "Heart Point/Unknown Heart Point.webp"
 
+# A set of tags which have been used for currently showing tags
+default screen_tags = set()
 
 # Display the heart icon on-screen
 screen heart_icon_screen(character, hide_screen='heart_icon_screen'):
