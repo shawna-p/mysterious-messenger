@@ -4,7 +4,7 @@
 init python:
 
     TAG_ALPHABET = "abcdefghijklmnopqrstuvwxyz"
-    def get_random_screen_tag(k=4):
+    def get_random_screen_tag(k=4, text_msg=False):
         """Generate a random k-letter word out of alphabet letters."""
 
         while True:
@@ -18,11 +18,16 @@ init python:
                 # Sample k letters from the alphabet. Repeats allowed.
                 tag = ''.join(random.choices(list(store.TAG_ALPHABET), k=k))
 
-            if tag not in store.screen_tags:
+            if text_msg and tag not in store.text_screen_tags:
+                break
+            elif not text_msg and tag not in store.screen_tags:
                 break
 
         # Add the tag to a set so we can be sure to hide it
-        store.screen_tags.add(tag)
+        if text_msg:
+            store.text_screen_tags.add(tag)
+        else:
+            store.screen_tags.add(tag)
         return tag
 
 
@@ -116,6 +121,8 @@ init python:
 
 # A set of tags which have been used for currently showing tags
 default screen_tags = set()
+default text_screen_tags = set()
+default showing_text_screens = dict()
 
 # Display the heart icon on-screen
 screen heart_icon_screen(character, hide_screen='heart_icon_screen'):

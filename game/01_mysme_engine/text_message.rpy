@@ -160,11 +160,29 @@ init python:
                     Show('text_message_screen', sender=c,
                         animate=False)]))
 
+    def get_text_popup_zorder(tag):
+        """Ensure each text popup has its own zorder."""
+        for i in range(10):
+            # Hopefully we don't have more than 10 popups at once
+            if store.showing_text_screens.get(i, None) is None:
+                # We can show at this zorder
+                store.showing_text_screens[i] = tag
+                store.showing_text_screens[tag] = i
+                return 100+i
+        return 100
+
+    def reset_text_popup(tag):
+        """Reset information saved on the text popup."""
+
+        i = store.showing_text_screens.pop(tag, None)
+        store.showing_text_screens.pop(i, None)
+
+
 ########################################################
 ## This screen displays the popups that notify
 ## the user when there is a new text message
 ########################################################
-screen text_msg_popup(c, last_msg=False, hide_screen='text_msg_popup'):
+screen text_msg_popup(c, last_msg=False, hide_screen='text_msg_popup', popup_tag=None):
 
     #modal True
     zorder 100
@@ -185,9 +203,12 @@ screen text_msg_popup(c, last_msg=False, hide_screen='text_msg_popup'):
             align (1.0, 0.22)
             auto 'input_close_%s'
             if not randint(0,3) and send_next:
-                action [Hide(hide_screen), Function(deliver_next)]
+                action [Hide(hide_screen),
+                        Function(reset_text_popup, popup_tag),
+                        Function(deliver_next)]
             else:
-                action [Hide(hide_screen)]
+                action [Hide(hide_screen),
+                        Function(reset_text_popup, popup_tag)]
 
         hbox:
             add 'new_text_envelope'
@@ -213,8 +234,12 @@ screen text_msg_popup(c, last_msg=False, hide_screen='text_msg_popup'):
                 null height 70
     timer 3.25:
         action If(randint(0,1) and send_next,
-            [Hide(hide_screen, Dissolve(0.25)), Function(deliver_next)],
-            [Hide(hide_screen, Dissolve(0.25))])
+            [Hide(hide_screen, Dissolve(0.25)),
+                Function(reset_text_popup, popup_tag),
+                Function(deliver_next)],
+            [Hide(hide_screen, Dissolve(0.25)),
+                Function(reset_text_popup, popup_tag)])
+
 
 
 style text_popup_frame:
@@ -348,7 +373,7 @@ init python:
                 character=who.text_msg.heart_person)
         else:
             msg = who.text_msg.heart_person.name + " +1"
-            renpy.show_screen(allocate_notification_screen(), msg)
+            renpy.show_screen('stackable_notifications', message=msg, _tag=get_random_screen_tag())
         who.text_msg.heart_person = None
         who.text_msg.bad_heart = False
         who.text_msg.heart = False
