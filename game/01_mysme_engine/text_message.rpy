@@ -182,7 +182,8 @@ init python:
 ## This screen displays the popups that notify
 ## the user when there is a new text message
 ########################################################
-screen text_msg_popup(c, last_msg=False, hide_screen='text_msg_popup', popup_tag=None):
+screen text_msg_popup(c, last_msg=False, hide_screen='text_msg_popup',
+        popup_tag=None, offset=(0, 0)):
 
     #modal True
     zorder 100
@@ -195,10 +196,7 @@ screen text_msg_popup(c, last_msg=False, hide_screen='text_msg_popup', popup_tag
 
     frame:
         style_prefix 'text_popup'
-        if hide_screen == 'text_pop_2':
-            xoffset -10 yoffset -10
-        elif hide_screen == 'text_pop_3':
-            xoffset -20 yoffset -20
+        offset offset
         imagebutton:
             align (1.0, 0.22)
             auto 'input_close_%s'
