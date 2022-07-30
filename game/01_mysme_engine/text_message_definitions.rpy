@@ -151,12 +151,18 @@ python early:
                 self.read = True
             if not self.read and not renpy.get_screen('text_message_screen'):
                 renpy.music.play(persistent.text_tone, 'sound')
-                popup_screen = allocate_text_popup()
+                #popup_screen = allocate_text_popup()
                 try:
                     sender = self.sender
                 except AttributeError:
                     sender = self.msg_list[-1].who
-                renpy.show_screen(popup_screen, c=sender)
+
+                screen_tag = get_random_screen_tag(text_msg=True)
+                offs = store.showing_text_screens.get(screen_tag, 0)*10
+                renpy.show_screen('text_msg_popup', c=sender,
+                    popup_tag=screen_tag, offset=(offs, offs),
+                    _tag=screen_tag)
+
                 self.notified = True
             renpy.retain_after_load()
             return True
