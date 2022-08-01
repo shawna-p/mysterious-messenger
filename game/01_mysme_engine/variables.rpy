@@ -683,6 +683,14 @@ init -6 python:
                 (renpy.TEXT_TAG, u"/size"),
             ]
 
+    def resize_center_bg(img):
+        return Transform(img,
+            align=(0.5, 1.0),
+            xsize=config.screen_width,
+            ysize=config.screen_height,
+            fit="cover"
+        )
+
     config.custom_text_tags["big"] = big_tag
 
     ## Displayable prefix definitions
@@ -690,6 +698,7 @@ init -6 python:
     config.displayable_prefix["center_bg"] = center_bg_img
     config.displayable_prefix["center_full"] = center_full_img
     config.displayable_prefix["center_crop_bg"] = center_crop_bg_img
+    config.displayable_prefix["resize"] = resize_center_bg
 
 
     def get_text_width(the_text, the_style='default', size=None):
