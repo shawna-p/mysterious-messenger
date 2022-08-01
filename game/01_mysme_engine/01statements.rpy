@@ -1180,8 +1180,9 @@ python early:
                 renpy.music.play(persistent.text_tone, 'sound')
                 popup_tag = get_random_screen_tag(text_msg=True)
                 zord = get_text_popup_zorder(popup_tag)
+                offs = store.showing_text_screens.get(popup_tag, 0)*10
                 renpy.show_screen('text_msg_popup',
-                    c=sender, last_msg=message_queue[-1],
+                    c=sender, last_msg=message_queue[-1], offset=(offs, offs),
                     popup_tag=popup_tag, _tag=popup_tag, _zorder=zord)
         store.text_person = None
         return

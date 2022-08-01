@@ -158,10 +158,11 @@ python early:
                     sender = self.msg_list[-1].who
 
                 screen_tag = get_random_screen_tag(text_msg=True)
+                zord = get_text_popup_zorder(screen_tag)
                 offs = store.showing_text_screens.get(screen_tag, 0)*10
                 renpy.show_screen('text_msg_popup', c=sender,
                     popup_tag=screen_tag, offset=(offs, offs),
-                    _tag=screen_tag)
+                    _tag=screen_tag, _zorder=zord)
 
                 self.notified = True
             renpy.retain_after_load()
