@@ -618,6 +618,14 @@ init -6 python:
     def hide_all_popups():
         """Hide all popup screens in-game."""
 
+        for i in range(10):
+            # Hopefully we don't have more than 10 popups at once
+            scr = store.showing_text_screens.get(i, None)
+            if scr is not None:
+                renpy.hide_screen(scr)
+        text_screen_tags = set()
+        showing_text_screens = dict()
+
         renpy.hide_screen('text_msg_popup')
         renpy.hide_screen('text_pop_2')
         renpy.hide_screen('text_pop_3')
