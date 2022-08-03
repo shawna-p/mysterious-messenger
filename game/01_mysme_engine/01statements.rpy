@@ -1183,7 +1183,8 @@ python early:
                 offs = store.showing_text_screens.get(popup_tag, 0)*10
                 renpy.show_screen('text_msg_popup',
                     c=sender, last_msg=message_queue[-1], offset=(offs, offs),
-                    popup_tag=popup_tag, _tag=popup_tag, _zorder=zord)
+                    popup_tag=popup_tag, hide_screen=popup_tag,
+                    _tag=popup_tag, _zorder=zord)
         store.text_person = None
         return
 
@@ -1275,10 +1276,15 @@ python early:
                     store.persistent.HP += amount
 
                     if store.persistent.animated_icons:
-                        renpy.show_screen('heart_icon_screen', character=who, _tag=get_random_screen_tag())
+                        popup_tag = get_random_screen_tag()
+                        renpy.show_screen('heart_icon_screen', character=who,
+                            hide_screen=popup_tag, _tag=popup_tag)
                     else:
                         msg = "{} +{}".format(who.name, amount)
-                        renpy.show_screen('stackable_notifications', message=msg, _tag=get_random_screen_tag())
+                        popup_tag = get_random_screen_tag()
+                        renpy.show_screen('stackable_notifications', message=msg,
+                            hide_screen=popup_tag,
+                            _tag=popup_tag)
             except Exception as e:
                 print_file("Exception awarding heart:", e)
                 ScriptError("Heart could not be awarded for \"", p["who"], '"',
@@ -1363,10 +1369,14 @@ python early:
             store.persistent.HP -= amount
 
             if store.persistent.animated_icons:
-                renpy.show_screen('heart_break_screen', character=who, _tag=get_random_screen_tag())
+                popup_tag = get_random_screen_tag()
+                renpy.show_screen('heart_break_screen', character=who,
+                    hide_screen=popup_tag, _tag=popup_tag)
             else:
                 msg = "{} -{}".format(who.name, amount)
-                renpy.show_screen('stackable_notifications', message=msg, _tag=get_random_screen_tag())
+                popup_tag = get_random_screen_tag()
+                renpy.show_screen('stackable_notifications', message=msg,
+                    hide_screen=popup_tag, _tag=popup_tag)
         return
 
     def predict_break_heart(p):
