@@ -135,7 +135,7 @@ init python:
 
         return allocate_screen(["text_msg_popup", "text_pop_2", "text_pop_3"])
 
-    def MMGoToText(c, hide_screen):
+    def MMGoToText(c, popup_tag):
         """Action which occurs when Go To is pressed on a text popup."""
         return If(gamestate is None,
             If ((c.real_time_text and c.text_msg.reply_label),
@@ -146,7 +146,8 @@ init python:
                     Hide('chat_footer'),
                     Hide('phone_overlay'),
                     Hide('settings_screen'),
-                    Hide(hide_screen),
+                    Function(reset_text_popup, popup_tag),
+                    Hide(popup_tag),
                     Jump('play_text_message')],
 
                 [Function(text_message_begin, text_person=c),
@@ -156,24 +157,34 @@ init python:
                     Hide('chat_footer'),
                     Hide('phone_overlay'),
                     Hide('settings_screen'),
-                    Hide(hide_screen),
+                    Function(reset_text_popup, popup_tag),
+                    Hide(popup_tag),
                     Show('text_message_screen', sender=c,
                         animate=False)]))
 
     def get_text_popup_zorder(tag):
         """Ensure each text popup has its own zorder."""
         for i in range(10):
+            scr = store.showing_text_screens.get(i, None)
+            if scr is not None:
+                if not renpy.get_screen(scr):
+                    # No longer showing this screen anyway
+                    reset_text_popup(scr)
+                    scr = None
+
             # Hopefully we don't have more than 10 popups at once
-            if store.showing_text_screens.get(i, None) is None:
+            if scr is None:
                 # We can show at this zorder
                 store.showing_text_screens[i] = tag
                 store.showing_text_screens[tag] = i
-                return 100+i
+                print("returning text message zorder of", 100-i)
+                return 100-i
         return 100
 
     def reset_text_popup(tag):
         """Reset information saved on the text popup."""
 
+        print("resetting text popup for", tag)
         i = store.showing_text_screens.pop(tag, None)
         store.showing_text_screens.pop(i, None)
 
@@ -227,10 +238,10 @@ screen text_msg_popup(c, last_msg=False, hide_screen='text_msg_popup',
                         text text_popup_preview(last_msg)
 
             if (gamestate is None):
-                textbutton _('Go to') action MMGoToText(c, hide_screen)
+                textbutton _('Go to') action MMGoToText(c, popup_tag)
             else:
                 null height 70
-    timer 3.25:
+    timer 13.25:
         action If(randint(0,1) and send_next,
             [Hide(hide_screen, Dissolve(0.25)),
                 Function(reset_text_popup, popup_tag),
@@ -238,7 +249,9 @@ screen text_msg_popup(c, last_msg=False, hide_screen='text_msg_popup',
             [Hide(hide_screen, Dissolve(0.25)),
                 Function(reset_text_popup, popup_tag)])
 
-
+    frame:
+        align (1.0, 1.0)
+        text "popup tag: [popup_tag] offset: [offset]" color "#fff"
 
 style text_popup_frame:
     xysize (621,373)
@@ -371,7 +384,9 @@ init python:
                 character=who.text_msg.heart_person)
         else:
             msg = who.text_msg.heart_person.name + " +1"
-            renpy.show_screen('stackable_notifications', message=msg, _tag=get_random_screen_tag())
+            popup_tag = get_random_screen_tag()
+            renpy.show_screen('stackable_notifications', message=msg,
+                hide_screen=popup_tag, _tag=popup_tag)
         who.text_msg.heart_person = None
         who.text_msg.bad_heart = False
         who.text_msg.heart = False
