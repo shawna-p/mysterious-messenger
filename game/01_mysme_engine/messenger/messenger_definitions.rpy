@@ -925,10 +925,14 @@ init -4 python:
 
         if store.hourglass_bag.draw():
             if not persistent.animated_icons:
+                popup_tag = get_random_screen_tag()
                 renpy.show_screen('stackable_notifications',
-                    message="Hourglass +1", _tag=get_random_screen_tag())
+                    hide_screen=popup_tag,
+                    message="Hourglass +1", _tag=popup_tag)
             else:
-                renpy.show_screen('hourglass_animation', _tag=get_random_screen_tag())
+                popup_tag = get_random_screen_tag()
+                renpy.show_screen('hourglass_animation', hide_screen=popup_tag,
+                    _tag=popup_tag)
             renpy.music.play("audio/sfx/UI/select_4.mp3", channel='sound')
             store.collected_hg += 1
 
@@ -956,10 +960,14 @@ init -4 python:
         if force or not random or store.hourglass_bag.draw():
             # Give the hourglass
             if not persistent.animated_icons:
+                popup_tag = get_random_screen_tag()
                 renpy.show_screen('stackable_notifications',
-                    message="Hourglass +1", _tag=get_random_screen_tag())
+                    hide_screen=popup_tag,
+                    message="Hourglass +1", _tag=popup_tag)
             else:
-                renpy.show_screen('hourglass_animation', _tag=get_random_screen_tag())
+                popup_tag = get_random_screen_tag()
+                renpy.show_screen('hourglass_animation', hide_screen=popup_tag,
+                    _tag=popup_tag)
             renpy.music.play("audio/sfx/UI/select_4.mp3", channel='sound')
             store.collected_hg += 1
 
