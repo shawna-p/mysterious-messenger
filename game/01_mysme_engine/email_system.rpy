@@ -342,7 +342,9 @@ init python:
 
             self.notified = True
             renpy.music.play(persistent.email_tone, 'sound')
-            renpy.show_screen('email_popup', e=self)
+            popup_tag = get_random_screen_tag()
+            renpy.show_screen('email_popup', e=self,
+                hide_screen=popup_tag, _tag=popup_tag)
             renpy.retain_after_load()
             renpy.restart_interaction()
 
@@ -547,11 +549,11 @@ init python:
                 num_guests += 1
         return num_guests
 
-    def MMGoToEmail():
+    def MMGoToEmail(hide_screen='email_popup'):
         """Return the action to Go To the email screen from a popup."""
 
         return If(gamestate is None,
-            [Hide('email_popup'),
+            [Hide(hide_screen),
                 Function(hide_all_popups),
                 Hide('save_load'),
                 Hide('menu'),
@@ -598,7 +600,7 @@ default current_email = None
 ## This screen shows a popup to notify you when you
 ## have a new email
 ########################################################
-screen email_popup(e):
+screen email_popup(e, hide_screen='email_popup'):
 
     #modal True
     zorder 100
@@ -608,7 +610,7 @@ screen email_popup(e):
         imagebutton:
             align (1.0, 0.0)
             auto 'input_close_%s'
-            action Hide('email_popup')
+            action Hide(hide_screen)
         hbox:
             add 'new_text_envelope'
             text 'NEW'
@@ -622,9 +624,9 @@ screen email_popup(e):
             # included so long as the email popup is not shown
             # during phone calls or chatrooms.
             if gamestate is None:
-                textbutton _('Go to') action MMGoToEmail()
+                textbutton _('Go to') action MMGoToEmail(hide_screen)
 
-    timer 3.25 action Hide('email_popup', Dissolve(0.25))
+    timer 3.25 action Hide(hide_screen, Dissolve(0.25))
 
 style email_popup_frame:
     xysize (510,300)
