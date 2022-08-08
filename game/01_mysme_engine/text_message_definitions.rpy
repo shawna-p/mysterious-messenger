@@ -151,7 +151,6 @@ python early:
                 self.read = True
             if not self.read and not renpy.get_screen('text_message_screen'):
                 renpy.music.play(persistent.text_tone, 'sound')
-                #popup_screen = allocate_text_popup()
                 try:
                     sender = self.sender
                 except AttributeError:

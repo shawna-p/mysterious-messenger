@@ -130,10 +130,6 @@ style text_timestamp_hbox:
 
 
 init python:
-    def allocate_text_popup():
-        """Allocate a screen for the text message popup."""
-
-        return allocate_screen(["text_msg_popup", "text_pop_2", "text_pop_3"])
 
     def MMGoToText(c, popup_tag):
         """Action which occurs when Go To is pressed on a text popup."""
@@ -305,13 +301,6 @@ style text_popup_button_text:
     is mode_select
     size 28
 
-## Additional screens to allow the program to display multiple popups
-screen text_pop_2(c, last_msg=False):
-    zorder 99
-    use text_msg_popup(c, last_msg, 'text_pop_2')
-screen text_pop_3(c, last_msg=False):
-    zorder 98
-    use text_msg_popup(c, last_msg, 'text_pop_3')
 ########################################################
 ## Includes the 'answer' button at the bottom
 ########################################################
