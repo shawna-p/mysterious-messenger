@@ -626,12 +626,10 @@ init -6 python:
         text_screen_tags = set()
         showing_text_screens = dict()
 
-        renpy.hide_screen('text_msg_popup')
-        renpy.hide_screen('text_pop_2')
-        renpy.hide_screen('text_pop_3')
-        renpy.hide_screen('email_popup')
-        hide_stackable_notifications()
-        hide_heart_icons()
+        for tag in store.screen_tags:
+            renpy.hide_screen(tag)
+        store.screen_tags = set()
+        return
 
     def btn_hover_img(s):
         """A displayable prefix function to make button hover images."""
