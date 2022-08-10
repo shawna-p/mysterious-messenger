@@ -123,6 +123,8 @@ QoL Improvements
       - The gallery has been redone to cause fewer headaches overall and requires one definition instead of two.
     * - ```big`` text tag
       - There is now a ``{big}`` text tag which can be used similarly to how ``big`` is used for the msg CDS.
+    * - Popup updates
+      - Popups have been updated to take advantage of screen tags. An infinite number of popups of any type can be on screen at any time (so, no more restrictions on how many text message popups, heart icons, or stackable notifications etc you can see at once).
 
 
 
