@@ -80,22 +80,6 @@ screen stackable_notifications(message, hide_screen='stackable_notifications'):
         action Hide(hide_screen)
     timer 5.25 action Hide(hide_screen)
 
-screen stackable_notifications_2(message):
-    zorder 101
-    use stackable_notifications(message, 'stackable_notifications_2')
-
-screen stackable_notifications_3(message):
-    zorder 102
-    use stackable_notifications(message, 'stackable_notifications_3')
-
-screen stackable_notifications_4(message):
-    zorder 103
-    use stackable_notifications(message, 'stackable_notifications_4')
-
-screen stackable_notifications_5(message):
-    zorder 104
-    use stackable_notifications(message, 'stackable_notifications_5')
-
 transform stack_notify_appear:
     yoffset 0
     on show:
@@ -120,7 +104,7 @@ image heart_break_anim:
 
 
 # Display the heartbreak on-screen
-screen heart_break_screen(character):
+screen heart_break_screen(character, hide_screen='heart_break_screen'):
     zorder 20
 
     fixed:
@@ -130,7 +114,7 @@ screen heart_break_screen(character):
         add 'heart_break_anim':
             matrixcolor ColorizeMatrix("#000", character.heart_color)
 
-    timer 0.6 action [Hide('heart_break_screen')]
+    timer 0.6 action [Hide(hide_screen)]
 
 image hg_1 = "Heart Point/hourglass_1.webp"
 image hg_2 = "Heart Point/hourglass_2.webp"
