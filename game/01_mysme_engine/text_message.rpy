@@ -237,7 +237,7 @@ screen text_msg_popup(c, last_msg=False, hide_screen='text_msg_popup',
                 textbutton _('Go to') action MMGoToText(c, popup_tag)
             else:
                 null height 70
-    timer 13.25:
+    timer 3.25:
         action If(randint(0,1) and send_next,
             [Hide(hide_screen, Dissolve(0.25)),
                 Function(reset_text_popup, popup_tag),
@@ -245,9 +245,6 @@ screen text_msg_popup(c, last_msg=False, hide_screen='text_msg_popup',
             [Hide(hide_screen, Dissolve(0.25)),
                 Function(reset_text_popup, popup_tag)])
 
-    frame:
-        align (1.0, 1.0)
-        text "popup tag: [popup_tag] offset: [offset]" color "#fff"
 
 style text_popup_frame:
     xysize (621,373)
