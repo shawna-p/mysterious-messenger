@@ -99,7 +99,7 @@ label hack_example_expired():
     sa "Oh so I'm not good enough for you to log in?"
     sa "I'm not good enough for you?"
     call white_square_screen(t=0.2, p=0.01)
-    call tear_screen(15, -30, 30, 0.4, 0.2, w_timer=0.2, p=0.5)
+    call show_tear_screen(15, -30, 30, 0.4, 0.2, w_timer=0.2, p=0.5)
     sa "{size=+10}Hmm? Is that what you think?{/size}"
     call invert_screen(t=0.2, p=0.01)
     call show_tear_screen(25, -70, 70, 0.7, 0.1, w_timer=0.2, p=0.5)
