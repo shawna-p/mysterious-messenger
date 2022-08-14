@@ -401,24 +401,15 @@ init -6 python:
                     return msg
 
         if "[" in last_msg.what:
-            # Do some cleanup to ensure variables aren't cut up
-            # First check if the variable is [name]
-            if "[name]" in last_msg.what:
-                msg = last_msg.what[:name_cut]
-            else:
-                msg = last_msg.what[:num_char]
-            n = msg.rfind(' ')
-            if n > 0:
-                msg = msg[:n]
-            if len(msg) < len(last_msg.what):
-                return msg + '...'
-            else:
-                return msg
-
-        if len(last_msg.what) > num_char:
-            return last_msg.what[:num_char] + '...'
+            # Perform substitution on the message
+            preview = renpy.substitute(last_msg.what)
         else:
-            return last_msg.what[:num_char]
+            preview = last_msg.what
+
+        if len(preview) > num_char:
+            return preview[:num_char] + '...'
+        else:
+            return preview[:num_char]
 
     def text_message_begin(text_person):
         """Set up variables needed to play a text message conversation."""
