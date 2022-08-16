@@ -396,7 +396,7 @@ init -6 python:
             else:
                 msg = last_msg.who.name + " sent an image."
                 if len(msg) > num_char:
-                    return msg[:num_char] + '...'
+                    return msg[:num_char].strip() + '...'
                 else:
                     return msg
 
@@ -407,7 +407,7 @@ init -6 python:
             preview = last_msg.what
 
         if len(preview) > num_char:
-            return preview[:num_char] + '...'
+            return preview[:num_char].strip() + '...'
         else:
             return preview[:num_char]
 
