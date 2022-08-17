@@ -90,6 +90,8 @@ Fixes
       - Fix an issue where the chat creator didn't correctly export other characters' special bubbles.
     * - Hack tear screen update
       - The hacking "tear" effect is updated for Ren'Py 8 and functions better with large numbers of sections.
+    * - Text message preview
+      - The text message preview can handle any number of interpolated variables, as needed.
 
 
 .. _qol-3-3-0:
