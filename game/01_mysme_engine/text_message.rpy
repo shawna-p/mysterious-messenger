@@ -173,14 +173,12 @@ init python:
                 # We can show at this zorder
                 store.showing_text_screens[i] = tag
                 store.showing_text_screens[tag] = i
-                print("returning text message zorder of", 100-i)
                 return 100-i
         return 100
 
     def reset_text_popup(tag):
         """Reset information saved on the text popup."""
 
-        print("resetting text popup for", tag)
         i = store.showing_text_screens.pop(tag, None)
         store.showing_text_screens.pop(i, None)
 
