@@ -322,6 +322,11 @@ label zen_pfp_callback_unknown1_incoming():
                     menu:
                         extend ''
                         "Yes, I want you to use he/him pronouns, please.":
+                            # When changing persistent variables, you should
+                            # generally check if the player is "observing",
+                            # which means they are viewing this from the history
+                            # screen. This isn't a concern for non-persistent
+                            # variables, since those don't control game settings.
                             if not observing:
                                 $ persistent.pronoun = "he/him"
                                 $ set_pronouns()
