@@ -46,24 +46,9 @@ image common_album_cover = 'CGs/common_album_cover.webp'
 #************************************
 # Album Declarations
 #************************************
-## These are the persistent photo album variables.
-## They let you keep unlocked photos available across
-## different playthroughs.
-default persistent.ja_album = []
-default persistent.ju_album = []
-default persistent.r_album = []
-default persistent.s_album = []
-default persistent.u_album = []
-default persistent.v_album = []
-default persistent.y_album = []
-default persistent.z_album = []
-default persistent.common_album = []
-
 init offset = 1000
-
-
 ## In order to allow for albums to be easily expanded,
-## these variables are used. This is where you actually
+## these constants are used. This is where you actually
 ## declare all of the Album objects you need.
 define ja_album = [ ]
 define ju_album = [ ]
@@ -82,8 +67,8 @@ define common_album = [
 
 init offset = 0
 
-# This list allows the program to automatically merge the persistent
-# and regular albums each time the game is started.
+# This list allows the program to automatically manage the albums available
+# in the album gallery.
 # It should contain the letter before _album in the album definition; if
 # the album is not associated with a particular character its title will
 # be whatever this string is (so 'common' shows as "Common" in the Album).

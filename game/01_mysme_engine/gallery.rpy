@@ -146,6 +146,11 @@ python early:
             renpy.retain_after_load()
 
         @property
+        def name(self):
+            """Retain compatibility with new gallery definitions."""
+            return self.img
+
+        @property
         def thumbnail_tuple(self):
             try:
                 return self.__thumbnail_tuple
@@ -299,12 +304,19 @@ init python:
         alb_s = convert_to_file_name(alb)
         try:
             reg_album = getattr(store, alb_s)
-            per_album = getattr(store.persistent, alb_s)
         except:
             ScriptError("Couldn't find variable \"", alb_s,
                 "\" to update albums.", header="CG Albums",
                 subheader="Adding a CG Album")
             return
+        # Set any non-existent persistent albums to an empty list
+        try:
+            per_album = getattr(store.persistent, alb_s)
+        except:
+            per_album = None
+        if per_album is None:
+            setattr(store.persistent, alb_s, [ ])
+
 
         merge_albums(per_album, reg_album)
 
@@ -645,7 +657,7 @@ screen char_album(caption, name=None, album=None, cover=None):
             file_id = caption
             caption = 'cg_label_' + convert_to_file_name(file_id)
             name = get_name_from_file_id(file_id)
-            album = getattr(store.persistent,
+            album = getattr(store,
                     convert_to_file_name(file_id) + "_album")
             cover = convert_to_file_name(file_id) + "_album_cover"
 
