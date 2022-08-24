@@ -26,8 +26,9 @@ init python:
         # Name of the album should be the letters before the first _
         # e.g. "cg common_1" -> common
         try:
-            album_name = filepath.split('_')[0].split(' ')[1] + '_album'
-            cg_list = getattr(store.persistent, album_name)
+            split_name = filepath.split('_')[0].split(' ')[1]
+            album_name = split_name + '_album'
+            cg_list = getattr(store, album_name)
         except:
             ScriptError("Couldn't get album name from CG image \"", what, '"',
             header="CG Albums",
@@ -36,7 +37,14 @@ init python:
 
         alb_obj = None
         for photo in cg_list:
-            if Album(filepath) == photo:
+            if photo.name == what or photo.name == filepath:
+                alb_obj = photo
+                if instant_unlock or not who or who.right_msgr:
+                    photo.unlock()
+                elif who:
+                    who.text_msg.cg_unlock_list.append([cg_list, photo])
+
+            elif Album(filepath) == photo:
                 alb_obj = photo
                 if instant_unlock or not who or who.right_msgr:
                     photo.unlock()
@@ -45,8 +53,9 @@ init python:
 
         # Ensure the album for this photo is visible in the album screen.
         # Useful if you've hidden an album until an image in it is unlocked.
-        if filepath.split('_')[0].split(' ')[1] not in store.all_albums:
-            store.all_albums.append(filepath.split('_')[0].split(' ')[1])
+
+        if split_name not in store.all_albums:
+            store.all_albums.append(split_name)
 
         if alb_obj:
             return alb_obj.chat_img
