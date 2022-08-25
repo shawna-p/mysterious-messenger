@@ -49,7 +49,7 @@ init python:
                     thumb_name = self.filename.split('.')
                     thumbnail = thumb_name[0] + '-thumb.' + thumb_name[1]
                     if renpy.loadable(thumbnail):
-                        self.__thumbnail = thumbnail
+                        self.thumb = thumbnail
                     else:
                         thumbnail = False
                 if not thumbnail:
