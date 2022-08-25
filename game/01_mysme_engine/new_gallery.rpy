@@ -55,7 +55,7 @@ init python:
                 if not thumbnail:
                     # If no thumbnail is provided, the program
                     # will automatically crop and scale the CG
-                    self.thumb = Transform(img, crop_relative=True,
+                    self.thumb = Transform(self.img, crop_relative=True,
                                             crop=(0.0, 0.15, 1.0, 0.5625),
                                             size=(155,155))
             self.p_chat_img = chat_img
