@@ -153,7 +153,7 @@ python early:
             renpy.error("The person entering or exiting the chatroom to cannot be None.")
 
         if not isinstance(eval_who, ChatCharacter):
-            renpy.error("%s is not recognized as a ChatCharacter object for entering or exiting chatrooms." % p["who"])
+            renpy.error("%s is not recognized as a ChatCharacter object for entering or exiting chatrooms." % eval_who)
         return
 
     def warp_enter_exit(p):
@@ -856,6 +856,7 @@ python early:
             spec_bubble = p["spec_bubble"]
         except Exception:
             renpy.error("Could not parse arguments of msg CDS")
+            return
 
         # Double-check 'who' is a ChatCharacter
         if not isinstance(who, ChatCharacter):
