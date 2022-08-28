@@ -561,11 +561,13 @@ python early:
             sender = eval(p['who'])
         except Exception:
             renpy.error("ChatCharacter not defined in backlog statement.")
+            sender = None
 
         try:
             day = eval(p['day'])
         except Exception:
             renpy.error("Could not determine day in backlog statement.")
+            day = None
 
         if not isinstance(sender, ChatCharacter):
             renpy.error("Sender of backlog is not recognized as a ChatCharacter.")
@@ -583,6 +585,7 @@ python early:
                     timestamp = d['timestamp']
                 except Exception:
                     renpy.error("Could not parse arguments of backlog CDS")
+                    what = ''
 
                 # Check text tags
                 tte = renpy.check_text_tags(what)
@@ -854,8 +857,8 @@ python early:
             img = p["img"]
             bounce = p["bounce"]
             spec_bubble = p["spec_bubble"]
-        except Exception:
-            renpy.error("Could not parse arguments of msg CDS")
+        except Exception as e:
+            renpy.error("Could not parse arguments of msg CDS %s" + str(e))
             return
 
         # Double-check 'who' is a ChatCharacter
