@@ -131,7 +131,7 @@ init python:
         def locked(self):
             """Return whether this image has been unlocked or not."""
 
-            return self.name in store.persistent.gallery_unlocked
+            return self.name not in store.persistent.gallery_unlocked
 
         @property
         def unlocked(self):
