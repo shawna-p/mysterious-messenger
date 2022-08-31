@@ -145,6 +145,7 @@ define config.window_hide_transition = Dissolve(.2)
 
 default preferences.text_cps = 0
 
+define config.allow_underfull_grids = True
 
 
 ## Save directory ##############################################################
