@@ -896,7 +896,7 @@ python early:
             if (specBubble and specBubble.startswith("round")
                     and (self.file_id == 'r' or self.file_id == 'z')):
                 # Correct this to the new 'flower' variant if applicable
-                specBubble = "flower_" + specBubble[-1:]
+                specBubble = "flower_" + specBubble[-1]
 
             # If the player is texting, add this to the character's
             # TextMessage object instead
