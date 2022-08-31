@@ -1432,6 +1432,7 @@ python early:
             guest = eval(p["guest"])
         else:
             renpy.error("invite requires a guest to invite.")
+            return
 
         if not (isinstance(guest, Guest) or isinstance(guest, Guestv3)):
             ScriptError("Invited guest \"", p['guest'], "\" is not recognized",
@@ -1825,4 +1826,3 @@ python early:
 # s "U've already lost trust in me."
 # s "so u r not listening."
 # y "?"
-
