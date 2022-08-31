@@ -153,7 +153,21 @@ init python:
         def unlock(self):
             """Unlock this image."""
 
+            if not self.locked:
+                return
+
             store.persistent.gallery_unlocked.add(self.name)
+
+            # Set a var so Album shows "NEW"
+            store.new_cg += 1
+            # Add this to the list of unlocked profile pictures
+            if (self.thumb not in store.persistent.unlocked_prof_pics
+                    and (self.filename, (0.0, 0.15, 1.0, 0.5625), True)
+                        not in store.persistent.unlocked_prof_pics):
+                add_img_to_set(store.persistent.unlocked_prof_pics,
+                    self.get_thumbnail())
+
+            renpy.retain_after_load()
 
         def check_if_seen(self):
             """
