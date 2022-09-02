@@ -170,6 +170,8 @@ init python:
         try:
             if who.file_id in store.all_albums:
                 album = getattr(store.persistent, who.file_id + '_album', [])
+                if album is None:
+                    album = getattr(store, who.file_id + "_album", [ ])
             else:
                 album = []
             for pic in album:
