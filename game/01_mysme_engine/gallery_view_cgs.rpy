@@ -69,6 +69,8 @@ init python:
 
         if isinstance(bigCG, Album):
             return bigCG.chat_thumb
+        elif isinstance(bigCG, GalleryImage):
+            return bigCG.chat_thumb
 
 
         if bigCG.startswith("cg "):
@@ -104,7 +106,7 @@ screen viewCG_fullsize(fullsizeCG):
         xysize (config.screen_width, config.screen_height)
         action ToggleVariable("close_visible", False, True)
 
-    if isinstance(fullsizeCG, Album):
+    if isinstance(fullsizeCG, Album) or isinstance(fullsizeCG, GalleryImage):
         add fullsizeCG.chat_img:
             align (0.5, 0.5)
             if fullscreen_on:
