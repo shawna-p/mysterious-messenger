@@ -57,7 +57,7 @@ init python:
                     # will automatically crop and scale the CG
                     self.thumb = Transform(self.img, crop_relative=True,
                                             crop=(0.0, 0.15, 1.0, 0.5625),
-                                            size=(155,155))
+                                            xysize=(155,155))
             self.p_chat_img = chat_img
             self.p_chat_preview = chat_preview
 
