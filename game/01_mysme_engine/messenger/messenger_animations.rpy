@@ -237,6 +237,9 @@ screen speed_num():
 screen hack_screen(hack, flicker_anim=True, bg="black"):
     zorder 10
     modal True
+
+    key 'skip' action Hide('hack_screen')
+
     add bg
     imagebutton:
         if flicker_anim:
@@ -356,6 +359,9 @@ label secure_anim():
 screen secure_anim_screen():
     zorder 10
     modal True
+
+    key 'skip' action Hide('secure_anim_screen')
+
     add 'black'
     imagebutton:
         align (0.5, 0.5)
