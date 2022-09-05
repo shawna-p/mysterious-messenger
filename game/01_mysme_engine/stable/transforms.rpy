@@ -315,6 +315,7 @@ init 5:
 
     ## Scrolls the title of chatrooms that are too long
     transform chat_title_scroll:
+        subpixel True
         xalign 0.0
         pause 3.5
         linear 5.0 xalign 1.0 xoffset -420
@@ -324,6 +325,7 @@ init 5:
     ## Shuffles the participants list in a chatroom so you can
     ## see all the participants
     transform participant_scroll:
+        subpixel True
         pause 3.5
         linear 2.0 xalign 1.0
         pause 3.5
