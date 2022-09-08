@@ -36,8 +36,6 @@ define build.name = "MysteriousMessenger"
 ## Don't autosave on quit
 define config.autosave_on_quit = False
 
-define config.allow_underfull_grids = True
-
 ## Some voice files are automatically located
 define config.auto_voice = "voice files/{id}.mp3"
 
