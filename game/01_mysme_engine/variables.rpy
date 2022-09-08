@@ -46,7 +46,7 @@ init -6 python:
         """A special Action for displaying a CG to the player."""
 
         def __init__(self, img, *args, **kwargs):
-            if not isinstance(img, Album):
+            if not isinstance(img, Album) and not isinstance(img, GalleryImage):
                 img = cg_helper(img)
             super(ShowCG, self).__init__('viewCG_fullsize', *args,
                 fullsizeCG=img, **kwargs)

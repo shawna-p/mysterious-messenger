@@ -211,7 +211,7 @@ label plot_branch_end():
 ## Deprecated; replaced with `invite guest_var`. You can call this label with
 ## `call invite(guest_var)` and it will trigger the guest to email the player.
 label invite(guest):
-    invite guest
+    $ execute_invite_guest(guest)
     return
 
 # Deprecated; replaced with `award heart u` where `u` is the character to award
@@ -1412,3 +1412,28 @@ define z_vn = Character("Zen", kind=vn_character,
     window_color="#929292",
     who_color="#d8e9f9", voice_tag="z_voice",
     image="zen")
+
+
+
+
+# Dummy image definitions to stop lint from complaining they don't exist
+image hack effect = Null()
+image hack = Null()
+image morning = Null()
+image noon = Null()
+image evening = Null()
+image night = Null()
+image rainy_day = Null()
+image snowy_day = Null()
+image morning_snow = Null()
+image secure anim = Null()
+image secure = Null()
+image redhack effect = Null()
+image hack effect reverse = Null()
+image redhack effect reverse = Null()
+image shake = Null()
+image earlyMorn = Null()
+image heart banner = Null()
+image well banner = Null()
+image lightning banner = Null()
+image annoy banner = Null()

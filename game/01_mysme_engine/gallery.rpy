@@ -315,7 +315,8 @@ init python:
         except:
             per_album = None
         if per_album is None:
-            setattr(store.persistent, alb_s, [ ])
+            # No point merging with nothing
+            return
 
 
         merge_albums(per_album, reg_album)
@@ -340,6 +341,15 @@ init python:
                         "\" to update albums.", header="CG Albums",
                         subheader="Adding a CG Album")
                     return
+                if per_album is None:
+                    # Look through the regular album
+                    try:
+                        per_album = getattr(store, convert_to_file_name(a))
+                    except:
+                        ScriptError("Couldn't find variable \"", convert_to_file_name(a),
+                            "\" to update albums.", header="CG Albums",
+                            subheader="Adding a CG Album")
+                        return
                 for cg in per_album:
                     cg.check_if_seen()
         return
@@ -426,6 +436,15 @@ init python:
                     "\" to update albums.", header="CG Albums",
                     subheader="Adding a CG Album")
                 return
+            if per_album is None:
+                # Look through the regular album
+                try:
+                    per_album = getattr(store, convert_to_file_name(a))
+                except:
+                    ScriptError("Couldn't find variable \"", convert_to_file_name(a),
+                        "\" to update albums.", header="CG Albums",
+                        subheader="Adding a CG Album")
+                    return
 
             for photo in per_album:
                 if photo.unlocked:

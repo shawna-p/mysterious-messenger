@@ -896,7 +896,7 @@ python early:
             if (specBubble and specBubble.startswith("round")
                     and (self.file_id == 'r' or self.file_id == 'z')):
                 # Correct this to the new 'flower' variant if applicable
-                specBubble = "flower_" + specBubble[-1:]
+                specBubble = "flower_" + specBubble[-1]
 
             # If the player is texting, add this to the character's
             # TextMessage object instead
@@ -1126,22 +1126,23 @@ init -5 python:
         if isinstance(img, renpy.display.transform.Transform):
             str_img = None
             color = None
-            crop = None
+            # Get the crop, if present
+            crop = img.kwargs.get('crop', None)
             # Get the child
             trans = img.child
-            # Get the crop, if present
-            if img.kwargs.get('crop', None) is not None:
-                crop = img.kwargs['crop']
-            if img.kwargs.get('crop_relative', False):
-                crop_rel = True
-            else:
-                crop_rel = False
+            crop_rel = img.kwargs.get('crop_relative', False)
 
             while (isinstance(trans, renpy.display.core.Displayable)):
                 try:
                     trans = trans.child
                 except AttributeError:
                     break
+
+            if isinstance(trans, renpy.display.image.ImageReference):
+                trans = trans.name
+                trans = ' '.join(trans)
+                trans = renpy.get_registered_image(trans)
+
 
             if isinstance(trans, renpy.display.im.Image):
                 str_img = trans.filename
@@ -1174,7 +1175,7 @@ init -5 python:
                 set.add(color)
             else:
                 print("WARNING: Could not extract immutable string or tuple",
-                    "from profile picture", img)
+                    "from profile picture", img, trans)
 
             return
 

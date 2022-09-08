@@ -85,6 +85,9 @@ init python:
             else:
                 self.pieces = [ ]
 
+        def __reduce__(self):
+            return (self.__class__, None)
+
         def render(self, width, height, st, at):
             render = renpy.Render(self.width, self.height)
             if self.has_screenshot:

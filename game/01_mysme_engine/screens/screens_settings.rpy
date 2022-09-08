@@ -823,7 +823,9 @@ screen other_settings():
                 action CConfirm(("Are you sure you want to"
                         + " start over? You'll be unable to return to this"
                         + " point except through a save file."),
-                        [Jump("restart_game")])
+                        If(main_menu,
+                            Function(renpy.jump_out_of_context, 'restart_game'),
+                            Jump("restart_game")))
         # null height 459
     hbox:
         spacing 20
@@ -1187,16 +1189,21 @@ style other_settings_end_button_text:
 # *********************************
 # Restart Game -- resets variables
 # *********************************
+init python:
+    def restart_game_functions():
+        """A function which resets various values."""
+        if _in_replay:
+            renpy.end_replay()
+            return
+        store.persistent.on_route = False
+        check_for_CGs(store.all_albums)
+        renpy.full_restart()
+
 label restart_game():
 
     show screen loading_screen
     pause 0.2
-    python:
-        renpy.end_replay()
-        # More resets here as needed
-        persistent.on_route = False
-        check_for_CGs(all_albums)
-        renpy.full_restart()
+    $ restart_game_functions()
     return
 
 ## Preferences screen ##########################################################

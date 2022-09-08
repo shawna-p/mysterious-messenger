@@ -314,15 +314,18 @@ label chatroom_replay():
                         renpy.show_screen('hack_rectangle', w_timer=second)
                 elif first == "tear":
                     if persistent.hacking_effects:
-                        renpy.show_screen('tear2', second[0],
-                            second[3], second[4], second[1], second[2],
+                        renpy.show_screen('tear2', number=second[0],
+                            idle_len_multipler=second[1], move_len_multiplier=second[2],
+                            xoffset_min=second[3], xoffset_max=second[4],
                             w_timer=second[5])
                 elif first == "tear2":
                     if persistent.hacking_effects:
                         renpy.show_screen('tear2',
-                            second[0], second[1], second[2], second[3],
-                            second[4], second[5], 0, second[6], second[7],
-                            second[8])
+                            num_pieces=second[0], xoffset_min=second[1],
+                            xoffset_max=second[2], idle_len_multiplier=second[3],
+                            move_len_multiplier=second[4],
+                            w_timer=second[5], img=second[6], width=second[7],
+                            height=second[8])
                 elif first == "remove":
                     del chatlog[second:]
 

@@ -121,11 +121,27 @@ init -4 python:
                 subheader="Showing a CG in a Chatroom or Text Message")
                 return
 
+            if cg_list is None:
+                try:
+                    album_name = filepath.split('_')[0].split(' ')[1] + '_album'
+                    cg_list = getattr(store, album_name)
+                except:
+                    ScriptError("Couldn't get album name from CG image \"", self.what, '"',
+                    header="CG Albums",
+                    subheader="Showing a CG in a Chatroom or Text Message")
+                    return
+
             alb_obj = None
             for photo in cg_list:
-                if Album(filepath) == photo:
+                if photo.name == self.what or photo.name == filepath:
                     alb_obj = photo
                     photo.unlock()
+                    break
+
+                elif Album(filepath) == photo:
+                    alb_obj = photo
+                    photo.unlock()
+                    break
 
             # Ensure the album for this photo is visible in the album screen.
             # Useful if you've hidden an album until an image in it is unlocked.

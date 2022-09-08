@@ -57,7 +57,7 @@ init python:
                     # will automatically crop and scale the CG
                     self.thumb = Transform(self.img, crop_relative=True,
                                             crop=(0.0, 0.15, 1.0, 0.5625),
-                                            size=(155,155))
+                                            xysize=(155,155))
             self.p_chat_img = chat_img
             self.p_chat_preview = chat_preview
 
@@ -131,7 +131,7 @@ init python:
         def locked(self):
             """Return whether this image has been unlocked or not."""
 
-            return self.name in store.persistent.gallery_unlocked
+            return self.name not in store.persistent.gallery_unlocked
 
         @property
         def unlocked(self):
@@ -153,7 +153,21 @@ init python:
         def unlock(self):
             """Unlock this image."""
 
+            if not self.locked:
+                return
+
             store.persistent.gallery_unlocked.add(self.name)
+
+            # Set a var so Album shows "NEW"
+            store.new_cg += 1
+            # Add this to the list of unlocked profile pictures
+            if (self.thumb not in store.persistent.unlocked_prof_pics
+                    and (self.filename, (0.0, 0.15, 1.0, 0.5625), True)
+                        not in store.persistent.unlocked_prof_pics):
+                add_img_to_set(store.persistent.unlocked_prof_pics,
+                    self.get_thumbnail())
+
+            renpy.retain_after_load()
 
         def check_if_seen(self):
             """

@@ -456,7 +456,7 @@ screen route_select_screen():
     tag menu
     use menu_header("Mode Select", Show('main_menu', Dissolve(0.5))):
         frame:
-            xysize (720, 1170)
+            xysize (720, config.screen_height-164)
             yalign 1.0
             xalign 0.5
             if persistent.custom_route_select:
