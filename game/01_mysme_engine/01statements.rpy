@@ -1045,7 +1045,9 @@ python early:
                 end = end.trigger_time
                 # day_diff2 is the difference between the checked item
                 # and its closest item
-
+                random_time, final_day_diff = get_random_time(
+                    begin=begin, end=end, day_diff=day_diff2
+                )
                 # final_day_diff is the difference between the checked
                 # item and the new generated random time
                 # Set day_diff equal to the difference between the
