@@ -73,6 +73,10 @@ init python:
                 s_w, s_h = renpy.get_physical_size()
                 self.width = int(s_w)
                 self.height = int(s_h)
+                # Scale the screenshot to the appropriate size
+                if self.screenshot.get_width != s_w:
+                    self.screenshot = renpy.display.scale.smoothscale(
+                        self.screenshot, (s_w, s_h))
                 self.has_screenshot = True
             else:
                 self.screenshot = renpy.easy.displayable(img)
