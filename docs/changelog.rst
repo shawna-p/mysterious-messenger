@@ -71,9 +71,9 @@ Fixes
     * - Profile picture callback fix
       - Profile picture callbacks still go off even if you use a text message or email popup notification to leave the profile screen.
     * - History fix
-      - Fix an issue when rewatching chatrooms in the history after buying back that same chatroom during the story.
+      - Fixed an issue when rewatching chatrooms in the history after buying back that same chatroom during the story.
     * - MC Profile Picture bug
-      - Fix a bug with the ``add_mc_pfp`` function to properly unlock profile pictures as seen.
+      - Fixed a bug with the ``add_mc_pfp`` function to properly unlock profile pictures as seen.
     * - Animated Backgrounds
       - Animated backgrounds move more smoothly and don't have any stuttering lines when looping.
     * - Guest Comment Interpolation
@@ -81,19 +81,19 @@ Fixes
     * - Guest Hourglasses
       - Fixed an issue where players weren't awarded an hourglass upon first viewing a guest's information in the guestbook.
     * - Branch VNs
-      - Fix an issue with branch VNs that would cause a script error dialogue for trigger times.
+      - Fixed an issue with branch VNs that would cause a script error dialogue for trigger times.
     * - Background shake
       - Improved how background shake is set up. Backgrounds without an animated version still shake when animated backgrounds are turned on.
     * - Timeline display
       - The timeline correctly displays the "5th DAY" with the suffix when opening a particular day's timeline list.
     * - Chat Creator
-      - Fix an issue where the chat creator didn't correctly export other characters' special bubbles.
+      - Fixed an issue where the chat creator didn't correctly export other characters' special bubbles.
     * - Hack tear screen update
       - The hacking "tear" effect is updated for Ren'Py 8 and functions better with large numbers of sections.
     * - Text message preview
       - The text message preview can handle any number of interpolated variables, as needed.
     * - CG Gallery fixes
-      - Fix CG gallery thumbnails with automatic cropping. 
+      - Fix CG gallery thumbnails with automatic cropping.
 
 
 .. _qol-3-3-0:
@@ -130,6 +130,12 @@ QoL Improvements
     * - Popup updates
       - Popups have been updated to take advantage of screen tags. An infinite number of popups of any type can be on screen at any time (so, no more restrictions on how many text message popups, heart icons, or stackable notifications etc you can see at once).
 
+.. _incompat-3-3-0:
+
+Incompatible
+--------------------
+
+* While not strictly incompatible, the gallery system has been updated to use constants rather than both a default and a persistent album variable. The game will attempt to transfer over any unlocked photos from the old gallery version into the new one. It is recommended that you update your gallery definitions to use ``define`` and the new ``GalleryImage`` class rather than ``Album``. You can find more information :ref:`in the docs on the gallery.<Defining a CG>`
 
 
 3.2.0
