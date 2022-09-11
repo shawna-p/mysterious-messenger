@@ -1120,6 +1120,7 @@ screen menu_header(title, return_action=NullAction,
         transclude
     else:
         frame:
+            padding (0, 0)
             if title != "Original Story" and title != "In Call":
                 xysize (config.screen_width, config.screen_height-172)
             else:
