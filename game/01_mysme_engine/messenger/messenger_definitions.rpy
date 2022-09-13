@@ -1039,7 +1039,7 @@ init -4 python:
             reply_instant = False
         elif wait:
             typeTime = chatbackup.what.count(' ') + 1
-            typeTime = typeTime / 3
+            typeTime = typeTime / 3.0
             if typeTime < 1.5:
                 typeTime = 1.5
             typeTime = typeTime * oldPV

@@ -790,7 +790,7 @@ init python:
                     # max_num will be 10 and min_num will be 3, so
                     # the message will be delivered sometime after
                     # the next 3-10 chatrooms
-                    max_num = min(max_num / msg_remain, 13)
+                    max_num = min(max_num // msg_remain, 13)
                     min_num = max(max_num-7, 1)
                     if max_num <= min_num:
                         self.deliver_reply = min_num
