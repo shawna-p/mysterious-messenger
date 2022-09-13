@@ -228,7 +228,7 @@ screen timeline(day, day_num):
     use menu_header(day.day_title, return_action):
         fixed:
             style_prefix 'timeline2'
-            add 'day_vlink' xysize (15, config.screen_height-144-10) xalign 0.15
+            add 'day_vlink' xsize 15 xalign 0.15 yalign 1.0
             viewport:
                 yadjustment timeline_yadj
                 mousewheel True
@@ -270,14 +270,14 @@ screen timeline(day, day_num):
                         Show('white_squares', w_timer=1.0)] repeat False
 
 style timeline2_fixed:
-    xysize (720, config.screen_height-144)
+    xysize (720, config.screen_height-172+20)
     yalign 0.0
     xalign 0.5
-    yoffset -20
+    #yoffset -18
 
 style timeline2_viewport:
-    ysize config.screen_height-144
-    yalign 1.0
+    ysize config.screen_height-172+20
+    yalign 0.0
 
 style timeline2_vbox:
     xsize 700

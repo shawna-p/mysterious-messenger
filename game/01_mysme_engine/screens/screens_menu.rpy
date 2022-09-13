@@ -1062,19 +1062,19 @@ screen menu_header(title, return_action=NullAction,
     if title != "Original Story" and title != "In Call":
         frame:
             ysize 80
-            yalign 0.058
+            yalign align_new_dimensions(0.058)
             add "menu_header"
 
         if not envelope:
             text title:
                 color "#ffffff"
                 size 40
-                xalign 0.5 yalign 0.072
+                xalign 0.5 yalign align_new_dimensions(0.072)
                 text_align 0.5
         else:
             hbox:
                 xalign 0.5
-                yalign 0.072
+                yalign align_new_dimensions(0.072)
                 spacing 15
                 add 'header_envelope' xalign 0.5 yalign 0.5
                 text title color "#ffffff" size 40 text_align 0.5
@@ -1086,7 +1086,7 @@ screen menu_header(title, return_action=NullAction,
             # Back button
             imagebutton:
                 xalign 0.013
-                yalign 0.068
+                yalign align_new_dimensions(0.068)
                 idle "menu_back"
                 focus_mask None
                 hover Transform("menu_back", zoom=1.1)
@@ -1122,7 +1122,7 @@ screen menu_header(title, return_action=NullAction,
         frame:
             padding (0, 0)
             if title != "Original Story" and title != "In Call":
-                xysize (config.screen_width, config.screen_height-172)
+                xysize (config.screen_width, config.screen_height-172+20)
             else:
                 xysize (config.screen_width, config.screen_height-172+80)
             yalign 1.0
