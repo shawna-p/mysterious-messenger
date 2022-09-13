@@ -90,7 +90,7 @@ init python:
                 self.pieces = [ ]
 
         def __reduce__(self):
-            return (self.__class__, None)
+            return (self.__class__, (None,))
 
         def render(self, width, height, st, at):
             render = renpy.Render(self.width, self.height)
