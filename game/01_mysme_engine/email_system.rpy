@@ -227,7 +227,7 @@ init python:
                 # Generate a random number of items to wait for completion
                 # before this email is delivered, based on how many timeline
                 # items remain to be completed.
-                max_num = min(max_num / msg_remain, 13)
+                max_num = min(max_num // msg_remain, 13)
                 min_num = max(max_num-7, 1)
                 if max_num <= min_num:
                     self.deliver_reply = min_num
