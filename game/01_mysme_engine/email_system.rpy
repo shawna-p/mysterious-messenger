@@ -966,45 +966,41 @@ screen guestbook():
         $ return_action = Show('select_history', Dissolve(0.5))
     else:
         $ return_action = Show('chat_home', Dissolve(0.5))
-    $ num_rows = -(-len(persistent.guestbook) // 4)
     use menu_header("Guest", return_action):
         vpgrid id 'guest_vp':
-            xysize (740, config.screen_height-134)
+            xysize (740, config.screen_height-134-30)
             yfill True
-            rows num_rows
             cols 4
             draggable True
             mousewheel True
             scrollbars "vertical"
             side_xalign 1.0
             side_spacing 15
-            align (0.5, 1.0)
-            spacing 20
+            align (0.5, 0.0)
+            xspacing 20
 
             for guest in all_guests:
                 button:
-                    xysize (155, 155)
+                    xysize (155, 155+20)
                     # Do some checks on whether the player
                     # finished inviting the guest or not
                     if persistent.guestbook[guest.name] == "seen":
                         # The player has invited this guest but the
                         # guest hasn't attended the party
-                        background guest.thumbnail
+                        background VBox(Null(height=20), Transform(guest.thumbnail))
                         action Show('guest_info_popup',
                                 guest=guest, unlocked=False)
                     elif (persistent.guestbook[guest.name] == "attended"
                             or persistent.guestbook[guest.name] == 'viewed'):
                         # The guest has attended the party
-                        background guest.thumbnail
+                        background VBox(Null(height=20), Transform(guest.thumbnail))
                         action Show('guest_info_popup',
                             guest=guest, unlocked=True)
                     else:
                         # This guest is unknown to the player
-                        background 'img_locked'
+                        background VBox(Null(height=20), Transform('img_locked'))
                         action CConfirm("You have not yet\nencountered this guest")
 
-            for i in range((4*num_rows) - len(persistent.guestbook)):
-                null
 
 image guest_story = 'Email/story_available.webp'
 image guest_story_locked = 'Email/story_locked.webp'
