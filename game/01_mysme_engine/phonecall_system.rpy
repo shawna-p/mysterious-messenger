@@ -527,7 +527,7 @@ screen phone_calls():
 
     use menu_header("Call History", [Show('chat_home', Dissolve(0.5)),
                                     AutoSave()]):
-
+        null height 3
         frame:
             style_prefix "phone_contacts"
             has hbox
@@ -627,7 +627,7 @@ screen phone_contacts():
     tag menu
     default contact_list = [ c for c in character_list if c != m]
     use menu_header("Contacts", Show('chat_home', Dissolve(0.5))):
-
+        null height 3
         frame:
             style_prefix "phone_contacts"
             has hbox

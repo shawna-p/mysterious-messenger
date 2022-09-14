@@ -689,6 +689,7 @@ screen email_hub():
 
 
     use menu_header('Email', Show('chat_home', Dissolve(0.5))):
+        null height 3
         frame:
             style_prefix 'email_hub'
             has vbox

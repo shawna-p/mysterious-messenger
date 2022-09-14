@@ -797,6 +797,7 @@ screen other_settings():
     modal True
     use menu_header("Settings", If(_menu and not main_menu,
             Return(), Hide('other_settings', Dissolve(0.5)))):
+        null height 3
         use settings_tabs("Others")
         null height 10
         frame:
@@ -890,6 +891,7 @@ screen preferences():
 
     use menu_header("Settings", If(_menu and not main_menu,
             Return(), Hide('preferences', Dissolve(0.5)))):
+        null height 3
         use settings_tabs("Preferences")
 
         viewport:
@@ -1219,6 +1221,7 @@ screen sound_settings():
 
     use menu_header("Settings", If(_menu and not main_menu,
             Return(), Hide('sound_settings', Dissolve(0.5)))):
+        null height 3
         use settings_tabs("Sound")
         viewport:
             style_prefix 'other_settings'
