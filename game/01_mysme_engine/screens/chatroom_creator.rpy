@@ -621,11 +621,11 @@ screen chatroom_creator():
     use starry_night()
     add Transform('bg ' + current_background,
             crop=(0, 315, config.screen_width, creator_messenger_ysize)):
-        yoffset 168
+        yoffset 168-20
     if cc_cracked_overlay:
         add Transform('screen_crack',
                 crop=(0, 315, config.screen_width, creator_messenger_ysize)):
-            yoffset 168
+            yoffset 168-20
     use menu_header("Chat Creator", MainMenu(),
             hide_bkgr=True):
         use messenger_screen()
