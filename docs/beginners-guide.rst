@@ -32,13 +32,7 @@ Opening the code in a code editor
 Next, you need to create a new ``.rpy`` file. This is where you will write the code that will tell Mysterious Messenger how you want your route to be set up. If you have a program to edit code in, such as VS Code or Atom, you should open that program. Otherwise, you can either download an editor online or tell Ren'Py to download it for you.
 
 .. note::
-    If you don't yet have a code editor, I recommend VS Code, which you can download here: `<https://code.visualstudio.com/download>`_
-
-    You can then install the Ren'Py language extension, which will highlight keywords in Ren'Py for you: `<https://marketplace.visualstudio.com/items?itemName=LuqueDaniel.languague-renpy>`_
-
-    Finally, you can tell Ren'Py to use the System Editor under ``Preferences`` -> ``Text Editor`` -> ``System Editor``. Outside of Ren'Py, when you double-click a ``.rpy`` file in the ``mysterious-messenger/game`` folder, tell it to always open ``.rpy`` files with VS Code.
-
-Otherwise, to get Ren'Py to download an editor for you, in the Ren'Py launcher under ``Preferences`` there is an option called ``Text Editor``. Click on that, and you'll see a variety of suggested editors. Of these, I recommend downloading Atom.
+    If you don't yet have a code editor, I recommend VS Code, which you can install directly from the Ren'Py launcher. The instructions to do so can be found on my website here: `Getting Started With Ren'Py <https://feniksdev.com/getting-started-with-renpy/>`_
 
 ``Return`` to the main screen of the Ren'Py launcher. Next, in your file explorer, open the ``mysterious-messenger/game`` folder. To keep things organized, you should create a new folder here. Call it ``my_new_route``.
 
@@ -69,7 +63,7 @@ Inside your new ``.rpy`` file, copy and paste the following code::
 
 This sets up a variable which is going to contain the information the program needs to understand how to display the route to the player. In particular, this defines the "Good End" of a route. In the history screen, when the player reaches the end of this route the final timeline item will show up under the title "Good End". This guide only covers how to add one ending, but if you want to learn more you can refer to :ref:`Plot Branches`.
 
-You can learn more about variables in this series on my website: `A Quick Primer on Variables in Ren'Py<https://feniksdev.com/a-quick-primer-on-variables-in-renpy/>`_
+You can learn more about variables in this series on my website: `A Quick Primer on Variables in Ren'Py <https://feniksdev.com/a-quick-primer-on-variables-in-renpy/>`_
 
 Ensuring the route shows up in History
 ---------------------------------------

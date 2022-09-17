@@ -433,7 +433,7 @@ In real-time mode, timeline items unlock based on the current time. You also hav
 
 Each chatroom and story call you create should have both a "regular" version and an "expired" version. The expired version is the version the player will play through if the item has expired and they have not bought it back. Generally this means the player will not have the opportunity to participate in the chatroom or make choices, and expired story calls function as though the caller left the player a voice message.
 
-To create an expired timeline item, simply take the name of the regular item's label and add `_expired`. So, if your chatroom has the label
+To create an expired timeline item, simply take the name of the regular item's label and add ``_expired``. So, if your chatroom has the label
 
 ```renpy
 label mychat:
