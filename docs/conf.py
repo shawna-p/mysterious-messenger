@@ -12,7 +12,8 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('..'))
+#sys.path.insert(0, os.path.abspath('..'))
+sys.path.insert(0, os.path.abspath('../..'))
 sys.path.append(os.path.abspath('.'))
 on_rtd = os.environ.get('READTHEDOCS') == 'True'
 
@@ -20,7 +21,7 @@ on_rtd = os.environ.get('READTHEDOCS') == 'True'
 # -- Project information -----------------------------------------------------
 
 project = 'Mysterious Messenger Wiki'
-copyright = '2021, Shawna P'
+copyright = '2022, Shawna P'
 author = 'Shawna P'
 
 # The full version, including alpha/beta/rc tags
