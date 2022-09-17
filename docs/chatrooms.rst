@@ -180,7 +180,7 @@ To apply these styles only to parts of a word, you can use the ``{b}`` text tag 
 
     msg y "I can't believe you {b}left{/b} me..."
 
-And the custom ``{big}`` text tag for larger text:
+And the custom ``{big}`` text tag for larger text::
 
     msg z "I can't believe you think it's {big}not a big deal!{/big}"
 
@@ -732,10 +732,10 @@ Some special link actions include:
 
         image cg common_4 = "CGs/common_album/cg-4.webp"
         default common_album = [
-            Album("cg common_1"),
-            Album("cg common_2"),
-            Album("cg common_3"),
-            Album("cg common_4")
+            GalleryImage("cg common_1"),
+            GalleryImage("cg common_2"),
+            GalleryImage("cg common_3"),
+            GalleryImage("cg common_4")
         ]
 
     and you want to show "cg common_4", then you should use the action ``ShowCG("common_4")``.

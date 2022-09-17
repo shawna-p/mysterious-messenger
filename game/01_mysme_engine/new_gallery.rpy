@@ -301,13 +301,13 @@ init python:
         if_unlocked : bool
             If True, only unlocked album images will be returned.
         obj : bool
-            If True, the function will return the Album/GalleryImg objects.
+            If True, the function will return the Album/GalleryImage objects.
             If False, the function will return the full-size image path.
 
         Returns:
         --------
-            GalleryImg[] or string[]
-        Returns a string of GalleryImg (or Album, for older versions) objects
+            GalleryImage[] or string[]
+        Returns a string of GalleryImage (or Album, for older versions) objects
         or a list of strings corresponding to album images, depending on the
         value of obj.
         """
