@@ -186,7 +186,7 @@ and if you've added it to the emoji_lookup dictionary, the following will also w
 
 
 .. note::
-    You may also notice that there are a few variables defined under `emoji_lookup` such as `jaehee_emotes`; these are used in the chatroom generator, which is not yet fully implemented. You can ignore these variables for now.
+    You may also notice that there are a few variables defined under `emoji_lookup` such as `jaehee_emotes`; these are used in the chatroom generator. In a character's ChatCharacter declaration, you can include the `emote_list` parameter and set it to a list with the names of all their emojis. This is only relevant if you would like a character's emojis to appear in the chatroom creator; they will work in-game without requiring this list.
 
 
 

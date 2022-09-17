@@ -106,7 +106,7 @@ init python:
         '{image=zen_wink}': 'audio/sfx/Emotes/Zen/zen_wink.mp3'
         }
 
-## These are defined for the (currently unused) create_a_chatroom
+## These are defined for create_a_chatroom
 define jaehee_emotes = ['jaehee_angry',
                     'jaehee_happy',
                     'jaehee_hehe',
