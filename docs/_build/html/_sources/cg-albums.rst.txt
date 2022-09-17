@@ -105,7 +105,7 @@ You can use this for more complex conditions as well, so long as they are enclos
 Typically you should use persistent variables for the conditions, because the player can view their album from the main menu as well so any save file-specific values won't necessarily be used.
 
 .. warning::
-    The following code *will only* work if you use the old definition format for albums (namely, the one with a ``default`` album and a ``persistent`` version). The updated version of this code (as of v3.3.0) can be found above.
+    The following code *will only* work if you use the old definition format for albums (namely, the one with a ``default`` album and a ``persistent`` version). The updated version of this code (as of v3.3.0) can be found above, and should be used in preference to the version below. The following version is maintained for compatibility purposes only.
 
 While in most cases you should define your CGs in ``gallery_album_definitions.rpy``, you can also add new CGs to an album after the game has already started with the function ``add_to_album``. This function takes two parameters:
 
@@ -187,7 +187,7 @@ After defining your image, you must add it to the correct album. See :ref:`Addin
 
 ::
 
-    default common_album = [
+    define common_album = [
         GalleryImage("cg common_1"),
         GalleryImage("cg common_2"),
         GalleryImage("cg common_3"),
@@ -207,12 +207,12 @@ The full list of arguments to the GalleryImage definition is below:
 `name`
     A string. Typically this ends up being the same as ``img`` below if you define your CGs as described above, but you could also do something like::
 
-        GalleryImage("CGs/Common/special.webp", "cg common_5")
+        GalleryImage("cg common_5", "CGs/Common/special.webp")
 
     This would have the same effect as if you'd defined ``cg common_5`` using the ``image`` declaration.
 
 `img`
-    A Displayable, typically a string with the name of the image for this CG as it should appear in the album. Can be omitted if it is the same as ``name``.
+    A Displayable, typically a string with the name of the image for this CG as it should appear in the album. Can be omitted if it is the same as ``name``. If this is the file path to the image, you should use the ``name`` property to give the CG a "script-friendly" name, as that's the one you'll use to unlock it in-game.
 
 `thumbnail`
     Optional. An image path or displayable for the thumbnail as it should appear in the Gallery. Should be 155x155 pixels. If not provided, the CG is scaled and cropped to fit the thumbnail size.
@@ -285,9 +285,9 @@ You can see an example of a CG posted in a text message in ``tutorial_3b_VN.rpy`
 Showing a CG during Story Mode
 ===============================
 
-All you need to do to have an image unlock after showing it in a Story Mode section is to show it to the player. This can be done through the ``scene`` or ``show`` statements. ``scene`` will clear the screen of any existing character sprites/backgrounds etc before showing the image.
+All you need to do to have an image unlock after showing it in a Story Mode section is to show it to the player. This can be done through the ``scene`` or ``show`` statements. ``scene`` will clear the screen of any existing character sprites/backgrounds etc before showing the image. It's highly recommended that if you are showing a CG outside of a chatroom that you use the ``image`` statement to declare a "short" name for the CG (e.g. ``image cg common_4 = "CGs/Common/com4.webp"``).
 
-::
+You can display it in script with ``scene`` or ``show``, as mentioned::
 
     ju "I wanted to show you how the lounge has been decorated."
     scene cg common_4

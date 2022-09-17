@@ -10,6 +10,8 @@ Full Changelog
 3.3.0
 =====
 
+It should be noted that this new release supports Ren'Py 8.0+, which uses Python 3. It is suggested you move to Ren'Py 8+ with new games, as Python 3 offers greater flexibility.
+
 .. _major-3-3-0:
 
 Major New Features
@@ -69,23 +71,29 @@ Fixes
     * - Profile picture callback fix
       - Profile picture callbacks still go off even if you use a text message or email popup notification to leave the profile screen.
     * - History fix
-      - Fix an issue when rewatching chatrooms in the history after buying back that same chatroom during the story.
+      - Fixed an issue when rewatching chatrooms in the history after buying back that same chatroom during the story.
     * - MC Profile Picture bug
-      - Fix a bug with the ``add_mc_pfp`` function to properly unlock profile pictures as seen.
+      - Fixed a bug with the ``add_mc_pfp`` function to properly unlock profile pictures as seen.
     * - Animated Backgrounds
-      - Animated backgrounds now move more smoothly and don't have any stuttering lines when looping.
+      - Animated backgrounds move more smoothly and don't have any stuttering lines when looping.
     * - Guest Comment Interpolation
-      - Guest comments in the guestbook can now properly interpolate variables like ``[name]`` or pronouns like ``[they]``. There is also a dissolve transition in/out of viewing the comment.
+      - Guest comments in the guestbook properly interpolate variables like ``[name]`` or pronouns like ``[they]``. There is also a dissolve transition in/out of viewing the comment.
     * - Guest Hourglasses
       - Fixed an issue where players weren't awarded an hourglass upon first viewing a guest's information in the guestbook.
     * - Branch VNs
-      - Fix an issue with branch VNs that would cause a script error dialogue for trigger times.
+      - Fixed an issue with branch VNs that would cause a script error dialogue for trigger times.
     * - Background shake
-      - Improve how background shake is set up. Backgrounds without an animated version still shake when animated backgrounds are turned on.
+      - Improved how background shake is set up. Backgrounds without an animated version still shake when animated backgrounds are turned on.
     * - Timeline display
-      - The timeline now correctly displays the "5th DAY" with the suffix when opening a particular day's timeline list.
+      - The timeline correctly displays the "5th DAY" with the suffix when opening a particular day's timeline list.
     * - Chat Creator
-      - Fix an issue where the chat creator didn't correctly export other characters' special bubbles.
+      - Fixed an issue where the chat creator didn't correctly export other characters' special bubbles.
+    * - Hack tear screen update
+      - The hacking "tear" effect is updated for Ren'Py 8 and functions better with large numbers of sections.
+    * - Text message preview
+      - The text message preview can handle any number of interpolated variables, as needed.
+    * - CG Gallery fixes
+      - Fix CG gallery thumbnails with automatic cropping.
 
 
 .. _qol-3-3-0:
@@ -119,7 +127,15 @@ QoL Improvements
       - The gallery has been redone to cause fewer headaches overall and requires one definition instead of two.
     * - ```big`` text tag
       - There is now a ``{big}`` text tag which can be used similarly to how ``big`` is used for the msg CDS.
+    * - Popup updates
+      - Popups have been updated to take advantage of screen tags. An infinite number of popups of any type can be on screen at any time (so, no more restrictions on how many text message popups, heart icons, or stackable notifications etc you can see at once).
 
+.. _incompat-3-3-0:
+
+Incompatible
+--------------------
+
+* While not strictly incompatible, the gallery system has been updated to use constants rather than both a default and a persistent album variable. The game will attempt to transfer over any unlocked photos from the old gallery version into the new one. It is recommended that you update your gallery definitions to use ``define`` and the new ``GalleryImage`` class rather than ``Album``. You can find more information :ref:`in the docs on the gallery.<Defining a CG>`
 
 
 3.2.0
@@ -187,8 +203,10 @@ Fixes
       - Save file names are more reliably saved using json files instead of string separators.
     * - Fix Persistent button
       - Fix persistent now works with user-defined albums
-      - Animated background screen shake
-    * - Animated backgrounds now get black bars offscreen to the left and right to improve the appearance of screenshake while animated backgrounds are active.
+    * - Animated background screen shake
+      - Animated backgrounds now get black bars offscreen to the left and right to improve the appearance of screenshake while animated backgrounds are active.
+    * - Tear screen fix
+      - The tear screen feature has been updated for Ren'Py 8.0
 
 
 .. _qol-3-2-0:

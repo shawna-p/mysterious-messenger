@@ -19,7 +19,12 @@ If you're absolutely new to Ren'Py, I have a tutorial on my website you can foll
 
 You may also consider looking through the `Ren'Py Quickstart<https://www.renpy.org/doc/html/quickstart.html>`_
 
-If you've downloaded the program and assets (or created your own replacement assets), the first thing you should do is hit ``Launch`` from the Ren'Py launcher and play through the Tutorial Day to get a feel for what the program is capable of. If you tried to launch the game before obtaining or creating the assets, be sure to use **Delete Persistent** in the Ren'Py launcher under the **Actions** header.
+There are instructions in the ``#information`` channel of the Mysterious Messenger Discord server on how to download the program and assets to get it up and running.
+
+Once you've downloaded the program and assets (or created your own replacement assets), the first thing you should do is hit ``Launch`` from the Ren'Py launcher and play through the Tutorial Day to get a feel for what the program is capable of.
+
+.. warning::
+    If you tried to launch the game before obtaining or creating the assets, be sure to use **Delete Persistent** in the Ren'Py launcher under the **Actions** header.
 
 Opening the code in a code editor
 ---------------------------------
@@ -62,7 +67,9 @@ Inside your new ``.rpy`` file, copy and paste the following code::
         RouteDay('10th'),
         RouteDay('Final')]
 
-This defines a variable which is going to contain the information the program needs to understand how to display the route to the player. In particular, this defines the "Good End" of a route. In the history screen, when the player reaches the end of this route the final timeline item will show up under the title "Good End". This guide only covers how to add one ending, but if you want to learn more you can refer to :ref:`Plot Branches`.
+This sets up a variable which is going to contain the information the program needs to understand how to display the route to the player. In particular, this defines the "Good End" of a route. In the history screen, when the player reaches the end of this route the final timeline item will show up under the title "Good End". This guide only covers how to add one ending, but if you want to learn more you can refer to :ref:`Plot Branches`.
+
+You can learn more about variables in this series on my website: `A Quick Primer on Variables in Ren'Py<https://feniksdev.com/a-quick-primer-on-variables-in-renpy/>`_
 
 Ensuring the route shows up in History
 ---------------------------------------
@@ -116,7 +123,7 @@ The simplest way to modify this is to change the ``action Start()`` property for
 
 You can also change the image 'Menu Screens/Main Menu/route_select_tutorial.webp' to something else, though it's perfectly fine to leave it as-is for now.
 
-Now you can test out this code in-game. Open up the Ren'Py launcher again and hit **Launch** to start the game. To see your new route select screen, on the main menu, click the **Developer** button in the bottom right corner, then check off the option titled "Use custom route select screen". Now when you start a new game and click Original Story, your custom route select screen will be displayed, though you haven't made an introduction yet so clicking on this button will cause an error.
+Now you can test out this code in-game. Make sure you've saved your file, then open up the Ren'Py launcher again and hit **Launch** to start the game. To see your new route select screen, on the main menu, click the **Developer** button in the bottom right corner, then check off the option titled "Use custom route select screen". Now when you start a new game and click Original Story, your custom route select screen will be displayed, though you haven't made an introduction yet so clicking on this button will cause an error.
 
 
 Creating the Introduction
@@ -233,7 +240,7 @@ This defines a very basic chatroom with the character "Unknown" (``u``). In this
 Creating an Expired Chatroom
 -----------------------------
 
-There's one last thing you should do before finishing your first chatroom. If the player is playing in real-time, or chooses to back out of a chatroom before they've finished viewing it, the chatroom may "expire". Typically this means the player will then see a version of the chatroom where they don't get to participate in the conversation.
+There's one last thing you should do before finishing your first chatroom. If the player is playing in real-time, or chooses to exit a chatroom with the back button before they've finished viewing it, the chatroom may "expire". Typically this means the player will then see a version of the chatroom where they don't get to participate in the conversation.
 
 The program automatically looks for this "expired chatroom" using the name of the original chatroom + the suffix ``_expired``. So you should define your expired chatroom label beneath the regular chatroom like so::
 
@@ -268,15 +275,18 @@ When writing a new route, you might run into some error screens from time to tim
 2) Usually you will see an error that reads something like ``NameError: name "something" is not defined``. The first part is the type of error - in this case, a ``NameError``. There are other kinds of errors, like ``ScriptError``, ``AttributeError``, and more. The next part tells you a bit about the error itself. Sometimes this will be immediately obvious - for example, ``ScriptError: could not find label 'myroute_day3_3'`` means that the program can't find the label ``myroute_day3_3``, so either you've made a typo somewhere, failed to save the file with the label on it in the right place, or haven't created the label yet. Other times the error is a bit more obtuse.
 
 .. tip::
-    One of the most common sources of errors is missing commas or incorrect parentheses. If you see an error that looks like ``TypeError: string indices must be integers``, be on the lookout for missing commas or parentheses!
+    One of the most common sources of errors is missing commas or incorrect parentheses. If you see an error that looks like ``TypeError: string indices must be integers``, be on the lookout for missing commas or parentheses! Unfortunately the error messages for these sorts of mistakes tend to seem unrelated to the missing commas/parentheses, but make sure you take a good look around the lines of code near where the error is detected to rule it out.
 
-3) If the error message isn't particularly clear, the first thing you should usually try is just to close the game and re-open it. If you've been making lots of script changes with the game open, particularly if the game is set to Reload or Auto-Reload, occasionally Ren'Py can't figure out how to update the script while the game is still open and it crashes. In particular, if you see an error message that looks like ``Exception: Couldn't find a place to stop rolling back. Perhaps the script changed in an incompatible way?``, this is a very common cause of that error. Closing and re-launching the game from scratch will often fix this.
-4) Another common source of errors is old save games. If you aren't seeing changes you've made, try starting a new game from the settings rather than loading an old save or hitting "Original Story" (which automatically loads a save).
+3) If the error message isn't particularly clear, the first thing you should usually try is just to quit the game and re-open it. If you've been making lots of script changes with the game open, particularly if the game is set to Reload or Auto-Reload, occasionally Ren'Py can't figure out how to update the script while the game is still open and it crashes. In particular, if you see an error message that looks like ``Exception: Couldn't find a place to stop rolling back. Perhaps the script changed in an incompatible way?``, this is a very common cause of that error. Closing and re-launching the game from scratch will often fix this.
+4) Another common source of errors is old save games. If you aren't seeing changes you've made, try starting a new game from the settings rather than loading an old save or hitting "Original Story" (which automatically loads a save). You can do this by going to the settings -> Other -> Start Over.
+5) And of course, be sure you're saving any changes you make to ``.rpy`` files in your project! Ren'Py needs to either reload or re-launch a game to see the changes made in any code files.
 
 If you're still having trouble, feel free to send a message in the Mysterious Messenger Discord to report a bug!
 
 Next Steps
 ===========
+
+If you'd just like to play around with some of the features available in chatrooms, you can check out the Chatroom Creator from the Developer options on the main menu. There is an option to export created chatrooms to code which you can then add into your route like the code used earlier. If you'd like to take advantage of the full set of features Mysterious Messenger offers, this may help you see how to write the code for particular chatroom features.
 
 Since many things in the game build off of chatrooms, you should look at the documentation on :ref:`Chatrooms Topic`. You should also look at the code for some of the chatrooms and other features included on Tutorial Day, such as ``tutorial_5_coffee.rpy`` and ``tutorial_6_meeting.rpy``, as they have many notes included explaining the various features you will see when you play through those chatrooms.
 
