@@ -23,7 +23,7 @@ Major New Features
 
     * - **Feature**
       - **Description**
-    * - :ref:`Automatic chatroom backgrounds<Creating a Chatroom>``
+    * - :ref:`Automatic chatroom backgrounds<Creating a Chatroom>`
       - The game will automatically set up chatroom backgrounds based on the time of day the chatroom occurs at. You can override this automatic background by providing your own e.g. ``scene morning``.
     * - Adaptable screen size
       - The game can adapt to screen sizes taller than the original 9:16 ratio e.g. 9:19
@@ -45,7 +45,7 @@ Minor New Features
       - Show a different image in chatrooms than in the gallery when sending CGs.
     * - :ref:`Phone call expiry dict<Phone Call Expiry>`
       - A convenience dictionary to easily customize how long phone calls should be availlable for.
-    * - :ref:`Email testing hub<Testing Emails>``
+    * - :ref:`Email testing hub<Testing Emails>`
       - An email testing hub from the Developer settings in-game allows you to quickly invite guests, send replies, and test the party.
     * - VN Screen shake
       - You can use ``show shake`` during Story Mode (VN mode) to shake the screen. Takes into account the player's accessibility preferences.

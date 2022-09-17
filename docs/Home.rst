@@ -7,7 +7,6 @@ Welcome to Mysterious Messenger, a messenger game created in Ren'Py. This guide 
 This guide is best used by navigating to the sections with the information you need as you need it rather than reading it from start-to-finish. Most sections have a line at the top that says "Example files to look at"; these will usually show the features described in the guide in action in the program itself. As much as possible, the code has been annotated to help you understand what's happening in the program. Additionally, you'll find plenty of code excerpts in this guide itself. They look like this::
 
     label day_1_chatroom_1():
-        scene earlyMorn
         play music mystic_chat
         enter chatroom u
 
@@ -38,7 +37,7 @@ Some sections will also have a "quick-start" guide at the beginning; they look l
 
     #. Create a new ``.rpy`` file (Optional, but recommended)
     #. Create a new label for the chatroom.
-    #. Set the background with ``scene morning`` where ``morning`` is replaced by whatever time of day/background you want to use.
+    #. (Optional) Set the background with ``scene morning`` where ``morning`` is replaced by whatever time of day/background you want to use.
     #. Add background music with ``play music mystic_chat`` where ``mystic_chat`` is replaced by the desired music variable.
     #. Write the chatroom dialogue.
 

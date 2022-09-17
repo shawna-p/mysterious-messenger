@@ -63,6 +63,7 @@ Splash Screen
 If you would like to change the splash screen that displays before the player begins the game, you can go to ``screens_splash.rpy`` and find the function ``get_splash_image``. The game will call this function to set the splash screen each time it is shown. There are several ways you can use it; the easiest is to simply have it return the image you would like to show e.g.
 
 ::
+
     def get_splash_image():
         """
         A callback which returns an image that can be used for the
@@ -115,6 +116,7 @@ This function takes two optional parameters: ``if_unlocked`` will only return im
 If you don't want any main menu images and would rather the game skip directly to the main menu itself, simply have the function return None e.g.
 
 ::
+
     def get_splash_image():
         """
         A callback which returns an image that can be used for the
