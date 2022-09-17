@@ -15,9 +15,9 @@ If you want to create your own route and some of the technicalities are going ov
 Getting Started
 ===============
 
-If you're absolutely new to Ren'Py, I have a tutorial on my website you can follow to get set up with the engine and a code editor: `Getting Started With Ren'Py<https://feniksdev.com/getting-started-with-renpy/>`_
+If you're absolutely new to Ren'Py, I have a tutorial on my website you can follow to get set up with the engine and a code editor: `Getting Started With Ren'Py <https://feniksdev.com/getting-started-with-renpy/>`_
 
-You may also consider looking through the `Ren'Py Quickstart<https://www.renpy.org/doc/html/quickstart.html>`_
+You may also consider looking through the `Ren'Py Quickstart <https://www.renpy.org/doc/html/quickstart.html>`_
 
 There are instructions in the ``#information`` channel of the Mysterious Messenger Discord server on how to download the program and assets to get it up and running.
 
