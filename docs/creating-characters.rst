@@ -191,7 +191,7 @@ If the character will appear in story mode sections, you should define the follo
     e.g. "#FFDDFC"
 
 `image`
-    Optional. Ren'Py will apply this tag to images if you include attribute tags during a character's dialogue (See `Say with Image Attributes <https://www.renpy.org/doc/html/dialogue.html?highlight=equivalent#say-with-image-attributes>`_).
+    Optional. Ren'Py will apply this tag to images if you include attribute tags during a character's dialogue (See `Say with Image Attributes <https://www.renpy.org/doc/html/dialogue.html#say-with-image-attributes>`_).
 
     e.g. "emma"
 
@@ -337,7 +337,7 @@ The definition fields are explained below.
     e.g. "#FFDDFC"
 
 `image`
-    Optional. Ren'Py will apply this tag to images if you include attribute tags during a character's dialogue (See `Say with Image Attributes <https://www.renpy.org/doc/html/dialogue.html?highlight=equivalent#say-with-image-attributes>`_).
+    Optional. Ren'Py will apply this tag to images if you include attribute tags during a character's dialogue (See `Say with Image Attributes <https://www.renpy.org/doc/html/dialogue.html#say-with-image-attributes>`_).
 
     e.g. "emma"
 

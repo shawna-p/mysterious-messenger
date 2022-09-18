@@ -117,10 +117,10 @@ You can shake the screen during Story Mode the same way as you do in chatrooms w
 
     u "Hmm? What are you doing here?"
     u "I told you not to come...!"
-    show shake 
-    "(...!)"    
+    show shake
+    "(...!)"
     u "Stop!"
-    
+
 The screen will shake on the "(...!)" line.
 
 .. note::
@@ -259,7 +259,7 @@ There is also another way of simplifying showing characters even further -- sinc
 
 Note that you can only change expressions this way after the character has already been shown on-screen.
 
-For more on Image Attributes, see the [Ren'Py documentation pages on Dialogue and Narration](https://www.renpy.org/doc/html/dialogue.html?highlight=attribute#say-with-image-attributes "Ren'Py Dialogue and Narration documentation").
+For more on Image Attributes, see the [Ren'Py documentation pages on Dialogue and Narration](https://www.renpy.org/doc/html/dialogue.html#say-with-image-attributes "Ren'Py Dialogue and Narration documentation").
 
 Hiding Characters
 -----------------

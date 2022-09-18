@@ -1007,7 +1007,7 @@ Besides adding your own bubbles, you can also extend the functionality of existi
     True if this message should "bounce" in as its animation. This is True if the message uses the "glowing" style of bubble, and also True if a special speech bubble is used (such as "cloud_m"). It is generally False for images and the default speech bubble.
 
 `specBubble`
-    The special bubble. Typically this is equal to somethingn like "sigh_s" or "spike_l". However, you can pass in particular strings and use this function to take care of what background image it should evaluate to.
+    The special bubble. Typically this is equal to something like "sigh_s" or "spike_l". However, you can pass in particular strings and use this function to take care of what background image it should evaluate to.
 
 
 Custom Bubble Background Function
@@ -1118,9 +1118,9 @@ For this example, you'll see how the ``rainy_day`` background was set up.
 
 To add a new background, inside ``variables_editable.rpy`` under the header **CUSTOM MESSENGER ITEMS** are several variables. First, you need to define the image that will be used as the background. This should be ``bg`` + the name of the image as you want to write when displaying it in a chatroom::
 
-    image bg rainy_day = "center_bg:Phone UI/bg_rainy_day.webp"
+    image bg rainy_day = "center_bg:Phone UI/bg-rainy-day.webp"
 
-The ``center_bg:`` before the file path to the image file itself is optional, but will center the image on the screen if it is not exactly 750x1334 pixels. If your image is exactly 750x1334 pixels, then just ``image bg rainy_day = "Phone UI/bg_rainy_day.webp"`` would be sufficient.
+The ``center_bg:`` before the file path to the image file itself is optional, but will center the image on the screen if it is not exactly 750x1334 pixels. If your image is exactly 750x1334 pixels, then just ``image bg rainy_day = "Phone UI/bg-rainy-day.webp"`` would be sufficient.
 
 You can put this image definition wherever you like, though it may make sense to keep it under the **CUSTOM MESSENGER ITEMS** header alongside the background variable definitions.
 
