@@ -202,7 +202,7 @@ In order to have "branching paths" for emails, you must use the ``continue_chain
     num_emails=2
     )
 
-Though the example above is long, it functions as follows:
+Though the example above is long, it functions as follows::
 
     First email:
         "There will be fish at the party" (correct)
@@ -394,6 +394,7 @@ This sets the variable ``saw_longcat_email2`` to True when the player reads Long
     This callback will be triggered every time the player opens the email chain. Thus, the callback generally should not have what are called "side effects", things that you wouldn't want to happen every time the player opened the email. For example, if you want to increase a counter, you should have a flag to ensure you only increase the counter once, on the first viewing of an email e.g.
 
     ::
+
         def longcat_email_callback(email):
             global saw_longcat_email2, my_email_counter
             if email.msg_num >= 2 and not saw_longcat_email2:
