@@ -217,20 +217,6 @@ Though the example above is long, it functions as follows::
 
 Incorrect answers decrease the guest's odds of attending the party, while correct answers will increase the odds. A "perfect" email chain (one where ``num_emails`` emails are replied to correctly) will guarantee the guest's attendance at the party.
 
-.. warning::
-    As of Ren'Py v7.4.10, there continues to be a bug with how Ren'Py handles quotes within triple-quoted strings that causes emails to display oddly (usually without the whitespace preserved). To circumvent this, you can "escape" apostrophes and quotes (``'`` and ``"`` respectively) with a backslash ``\`` e.g.
-
-    ::
-
-        """Dear guest,
-
-        Thanks for your concern. There isn\'t any need to bring your own beverages or \"wine\", as we will have refreshments at the party.
-
-        Yours,
-
-        [name]"""
-
-    You can see that the apostrophe in ``isn't`` is escaped ``isn\'t`` as are the quotes around "wine" ``\"wine\"``.
 
 Calculating if a Guest Will Attend
 ==================================
