@@ -318,7 +318,7 @@ Here you will find a list of all the guests the game could find to invite. Simpl
     Causes all undelivered emails to be delivered at once. (For example, if you sent a reply to a guest, then clicking **Force email replies** would immediately deliver the guest's response to your inbox).
 
 `Invite all guests`
-    Invites every possible guest. All their emails will appear in your inbox. Note that it is possible to invite the same guest more than once with this method.
+    Invites every possible guest. This includes guests which aren't accessible to invite in-game but were declared as a Guest. All their emails will appear in your inbox. Note that it is possible to invite the same guest more than once with this method. Inviting the same guest multiple times can sometimes cause odd side effects.
 
 `Start Party`
     Begins the guest showcase part of the party. Guests only attend if their email chains have been successfully completed as described in :ref:`Calculating if a Guest Will Attend`.
