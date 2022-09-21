@@ -169,7 +169,7 @@ Attached Story Mode
 
 Chatrooms can have an attached Story Mode, which becomes available to play after the chatroom has been played. The easiest way to do this is to create a label which follows a specific naming scheme. This will automatically define a StoryMode object for the associated chatroom.
 
-If your chatroom's label is ``casual_day_1_4```, then if you create a label called ``casual_day_1_4_vn`` (note the ``_vn`` suffix), a general StoryMode will be created that will lead to that label.
+If your chatroom's label is ``casual_day_1_4``, then if you create a label called ``casual_day_1_4_vn`` (note the ``_vn`` suffix), a general StoryMode will be created that will lead to that label.
 
 You can also specify which character should appear on the Story Mode icon in the timeline screen by adding their file_id to the end of the label e.g. ``casual_day_1_4_vn_ja`` would create a Story Mode attached to the chatroom found at ``casual_day_1_4`` which will show Jaehee's image on the icon. Most of the existing characters have an associated Story Mode icon defined for them. You can also define one for a new character: see :ref:`Story Mode Timeline Images` for more.
 
@@ -201,7 +201,7 @@ There are some additional fields as well, each of which is explained below.
     e.g. "casual_d2_example_3"
 
 `trigger_time`
-    The time this story mode should appear at. This should be written in military time with leading zeroes, so a time like 1:00 AM becomes "01:00" and 1:38 PM becomes "13:38".
+    The time this story mode should appear at. This should be written in 24-hour time with leading zeroes, so a time like 1:00 AM becomes "01:00" and 1:38 PM becomes "13:38".
 
     e.g. "03:42"
 
@@ -252,7 +252,7 @@ There are some additional fields as well, each of which is explained below.
     e.g. "new_years_3"
 
 `trigger_time`
-    The time this story call should appear at. This should be written in military time with leading zeroes, so a time like 1:00 AM becomes "01:00" and 1:38 PM becomes "13:38".
+    The time this story call should appear at. This should be written in 24-hour time with leading zeroes, so a time like 1:00 AM becomes "01:00" and 1:38 PM becomes "13:38".
 
     e.g. "11:11"
 
@@ -296,7 +296,7 @@ There is a special convenience function intended to help you define a standalone
     e.g. "emma_route_party"
 
 `trigger_time`
-    The time the party should appear at. This should be written in military time with leading zeroes, so a time like 1:00 AM becomes "01:00" and 1:38 PM becomes "13:38".
+    The time the party should appear at. This should be written in 24-hour time with leading zeroes, so a time like 1:00 AM becomes "01:00" and 1:38 PM becomes "13:38".
 
     e.g. "12:00"
 
@@ -435,15 +435,15 @@ Each chatroom and story call you create should have both a "regular" version and
 
 To create an expired timeline item, simply take the name of the regular item's label and add ``_expired``. So, if your chatroom has the label
 
-```renpy
-label mychat:
-```
+::
+
+    label mychat:
 
 then the expired chatroom should have the label
 
-```renpy
-label mychat_expired:
-```
+::
+
+    label mychat_expired:
 
 The rest can be filled out as any other chatroom.
 
