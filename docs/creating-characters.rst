@@ -116,7 +116,7 @@ Each of those fields is explained below:
     e.g. ``"Emma♥"``
 
 `file_id`
-    A string. This is used for many things internally to associate images and other variables with the character. For example, if a character's file_id is ``"em"``, then the program will look for incoming phone calls from this character with the suffix "_em" e.g. ``my_chatroom_incoming_em``. This is usually just the string version of what you called the ChatCharacter variable.
+    A string. This is used for many things internally to associate images and other variables with the character. For example, if a character's file_id is ``"em"``, then the program will look for incoming phone calls from this character with the suffix "_em" e.g. ``my_chatroom_incoming_em``. This must be the string version of what you called the ChatCharacter variable, as it is often used to find the ChatCharacter object itself in some circumstances.
 
     e.g. ``"em"``
 
@@ -137,12 +137,12 @@ Each of those fields is explained below:
 
 The remaining fields are optional or semi-optional depending on where this character will appear and what other variables or images are defined.
 
-The following two fields either must be given a colour, or you will need to place a special image file inside the game's ``images/Bubble`` folder to use as the background for the character's dialogue bubbles.
-
 `participant_pic`
     Optional. The file path to the image that should be used on the timeline screen to indicate that the character was present in a chatroom. If not provided, their default profile picture is used.
 
     e.g. "Profile Pics/em_chat.webp"
+
+The following two fields either must be given a colour, or you will need to place a special image file inside the game's ``images/Bubble`` folder to use as the background for the character's dialogue bubbles.
 
 `bubble_color`
     Optional; however, if this is not defined **you must provide an image** in ``game/images/Bubble/`` called ``em-Bubble.webp`` if the character's file_id is ``em``.
@@ -213,7 +213,7 @@ Note on voiced characters
 
     This will prevent the program from generating a voice toggle button for them.
 
-You can also fine-tune the properties of the characters used for phone calls and story mode (VN) sections via the following fields:
+You can also fine-tune the properties of the characters used for phone calls and story mode (VN) sections via the following fields. However, typically you will not need to manually define these:
 
 `phone_char`
     A Character object defined for this character for phone calls.
@@ -236,7 +236,7 @@ Finally, ``ChatCharacter`` has some additional optional fields that are either c
     False by default, but True if this character should appear on the right side of the messenger. Typically this variable is False for everyone but the main character.
 
 `emote_list`
-    A list of the "{image=...}" lines corresponding to all emojis associated with this character. Currently unused.
+    A list of the "{image=...}" lines corresponding to all emojis associated with this character. Used in the chatroom creator, but has no effect in-game. See ``emoji_definitions.rpy`` for the values of the currently-defined characters' ``emote_list`` parameters.
 
 `pronunciation_help`
     A screen reader-friendly spelling of the character's name for use with self-voicing.
@@ -523,18 +523,21 @@ To add greetings for Emma, you'll need to add to these dictionaries. This exampl
 
     define morning_greeting = {
         'em' : [ DayGreeting('Emma/Morning/emma-1',
-                "Welcome to Mysterious Messenger!",
-                "제 프로그램으로 환영합니다!"),
-        DayGreeting('Emma/Morning/emma-2',
-                "Welcome to Mysterious Messenger!",
-                "제 프로그램으로 환영합니다!"),
+                    "Welcome to Mysterious Messenger!",
+                    "제 프로그램으로 환영합니다!"),
+                DayGreeting('Emma/Morning/emma-2',
+                    "Good morning",
+                    "좋은 아침")],
 
-        ],
-
-        'ja': [ DayGreeting('Jaehee/Morning/ja-m-1'),
-                    DayGreeting('Jaehee/Morning/ja-m-2'),
-                    DayGreeting('Jaehee/Morning/ja-m-3'),
-                    DayGreeting('Jaehee/Morning/ja-m-4')],
+        'ja': [ DayGreeting('Jaehee/Morning/ja-m-1',
+                    "A brand new day has started",
+                    "새로운 하루가 시작되었네요"),
+                DayGreeting('Jaehee/Morning/ja-m-2',
+                    "Did you have breakfast?",
+                    "아침 식사는 하셨나요?"),
+                DayGreeting('Jaehee/Morning/ja-m-3',
+                    "I pray that I can get off work on the dot today.",
+                    "오늘은 칼퇴할 수 있길 소망합니다.")],
 
         # (Rest of the definition omitted for brevity)
 
