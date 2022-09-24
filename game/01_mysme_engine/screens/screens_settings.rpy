@@ -652,10 +652,14 @@ screen input_popup(prompt=''):
 ## Generic input popup to get any information
 label get_input(the_var, prompt='', default='', length=20,
         allow=None, exclude=None, accept_blank=True,
-        show_answer=True, can_close=False):
+        show_answer=None, can_close=False):
     ## Ensure any missed dialogue is posted before the input comes up
     if (not dialogue_paraphrase and dialogue_picked != ""):
         $ say_choice_caption(dialogue_picked, dialogue_paraphrase, dialogue_pv)
+    ## If show_answer is None, set it based on the game state
+    if show_answer is None:
+        $ show_answer = gamestate in (TEXTMSG, CHAT)
+
     if show_answer and gamestate not in (PHONE, VNMODE) and not email_reply:
         $ choosing = True
         if gamestate == TEXTMSG:
