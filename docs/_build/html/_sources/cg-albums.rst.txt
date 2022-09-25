@@ -11,7 +11,7 @@ Albums Associated a Character
 
 For this tutorial, this example shows how to add a character named Emma to the game. You can view Emma's character definition and more in :ref:`Adding a New Character to Chatrooms`.
 
-Albums are defined in ``gallery_album_definitions.rpy``. There are two images to define and one album variables.
+Albums are defined in ``gallery_album_definitions.rpy``. There are two images to define and one album variable.
 
 .. note::
     Prior to v3.3.0, the game required two album definitions, a variable and a persistent version. The current version combines both of these into one. If you were using the previous version, your album images should automatically update on game launch, and then you can switch over to the current way of defining albums.
@@ -79,6 +79,95 @@ So, using the rules above, "new year's" in the ``all_albums`` definition will be
     image new_years_album_cover = "Image for your album cover.png"
     define new_years_album = []
 
+
+Defining a CG
+==============
+
+For any CG you would like to show in-game, you must first go to ``gallery_album_definitions.rpy`` and define an image under the **CGs** header. For this example, a fourth CG in the **Common** album will be added. CG images should take up the entire screen, which is 750x1334 px. CGs of other sizes may not display correctly.
+
+First, define the image::
+
+    image cg common_4 = "CGs/common_album/cg-4.webp"
+
+The name of the cg must be ``cg`` + the name of the album it is found in, minus "album", plus an underscore and some identifier for the image such as a number (``4``), or a descriptor of the CG. Other possible CG definitions might be::
+
+    image cg common_flower = "CGs/common_album/cg-flower.webp"
+    image cg ju_meeting = "CGs/ju_album/ju-meeting-office.webp"
+
+After defining your image, you must add it to the correct album. See :ref:`Adding a CG Album` for more on creating new albums as well.
+
+::
+
+    define common_album = [
+        GalleryImage("cg common_1"),
+        GalleryImage("cg common_2"),
+        GalleryImage("cg common_3"),
+        GalleryImage("cg common_4")
+    ]
+
+In this example, no unique thumbnail was specified. If the program can find an image with the suffix ``-thumb`` before the file extension, it will use that as the thumbnail. So, since the image is found at "CGs/common_album/cg-4.webp", the program will look for a thumbnail image at "CGs/common_album/cg-4-thumb.webp".
+
+Otherwise, you can also manually specify a thumbnail as the third argument to GalleryImage or just by specifying it using ``thumbnail=`` in the definition::
+
+    GalleryImage("cg common_4", thumbnail="CGs/thumbnails/common_4_thumbnail.webp")
+
+Typically thumbnails are 150x150 px. If one is not provided, the given CG is cropped and resized to the appropriate size.
+
+The full list of arguments to the GalleryImage definition is below:
+
+`name`
+    A string. Typically this ends up being the same as ``img`` below if you define your CGs as described above, but you could also do something like::
+
+        GalleryImage("cg common_5", "CGs/Common/special.webp")
+
+    This would have the same effect as if you'd defined ``cg common_5`` using the ``image`` declaration.
+
+`img`
+    A Displayable, typically a string with the name of the image for this CG as it should appear in the album. Can be omitted if it is the same as ``name``. If this is the file path to the image, you should use the ``name`` property to give the CG a "script-friendly" name, as that's the one you'll use to unlock it in-game.
+
+`thumbnail`
+    Optional. An image path or displayable for the thumbnail as it should appear in the Gallery. Should be 155x155 pixels. If not provided, the CG is scaled and cropped to fit the thumbnail size.
+
+`locked_img`
+    Optional. The file path to the image that will be used as the "locked" thumbnail icon in the gallery. Should be 155x155 pixels. Typically has a "?" or a locked symbol somewhere to indicate this gallery image hasn't been unlocked yet.
+
+    This is often used to indicate, for example, that an image comes from a particular DLC.
+
+`chat_img`
+    Optional. A Displayable (typically an image path or string containing the name of a defined image) which will be shown to the player at full-size in the chatroom only. The supplied ``img`` field will be used when viewing this image full-size in the gallery instead.
+
+    Use this to do things like supply blurry or edited CGs in the chatroom, but provide their regular unedited version in the gallery.
+
+`chat_preview`
+    Optional. A Displayable (typically an image path or string containing the name of a defined image) which will be shown to the player in the chatroom only. Clicking this image will show either ``chat_img`` (if available) or ``img`` (if not) full-screen. Typically this is about 35% of the full screen size, or 263x467 pixels, but can be whatever dimensions you like.
+
+    Use this to customize the image preview in the chatroom, such as blurring the thumbnail for "spoilers" or to put the thumbnail focus on a particular part of the image.
+
+    .. note::
+        The equivalent property was called ``chat_thumb`` in the ``Album`` object prior to v3.3.0.
+
+So, for example, you could define a GalleryImage object like so::
+
+    GalleryImage("cg common_1",
+        thumbnail="common_1_thumb",
+        chat_img="cg common_1_edit",
+        chat_preview="CGs/spoiler_img.png"
+    )
+
+(Note that this assumes you have ``image cg common_1 = "..."``, ``image common_1_thumb = "..."``, ``image cg common_1_edit = "..."`` etc.)
+
+You would then still be able to use the CG in the usual manner described below to show in chatrooms or text messages.
+
+Large Thumbnails
+-----------------
+
+Recall our additional CG image::
+
+    image cg common_4 = "CGs/common_album/cg-4.webp"
+
+For better compatibility with the new profile picture system, you may also want to provide a "larger" version of a thumbnail for use in profile pictures on the profile screen. The program will search for an image with the name of the thumbnail + the suffix ``-b`` before the file extension. So, if "cg common_4" isn't given a different thumbnail, it will look for the large version of the thumbnail at "CGs/common_album/cg-4-thumb-b.webp".
+
+If you provided a different thumbnail, as in ``GalleryImage("cg common_4", thumbnail="CGs/thumbnails/common_4_thumbnail.webp")``, then the large version is expected to be called "CGs/thumbnails/common_4_thumbnail-b.webp".
 
 Adding a CG After Starting the Game
 ------------------------------------
@@ -169,95 +258,6 @@ Note that since you are passing a list, you can pass multiple albums to be hidde
 
 
 
-Defining a CG
-==============
-
-For any CG you would like to show in-game, you must first go to ``gallery_album_definitions.rpy`` and define an image under the **CGs** header. For this example, a fourth CG in the **Common** album will be added. CG images should take up the entire screen, which is 750x1334 px. CGs of other sizes may not display correctly.
-
-First, define the image::
-
-    image cg common_4 = "CGs/common_album/cg-4.webp"
-
-The name of the cg must be ``cg`` + the name of the album it is found in, minus "album", plus an underscore and some identifier for the image such as a number (``4``), or a descriptor of the CG. Other possible CG definitions might be::
-
-    image cg common_flower = "CGs/common_album/cg-flower.webp"
-    image cg ju_meeting = "CGs/ju_album/ju-meeting-office.webp"
-
-After defining your image, you must add it to the correct album. See :ref:`Adding a CG Album` for more on creating new albums as well.
-
-::
-
-    define common_album = [
-        GalleryImage("cg common_1"),
-        GalleryImage("cg common_2"),
-        GalleryImage("cg common_3"),
-        GalleryImage("cg common_4")
-    ]
-
-In this example, no unique thumbnail was specified. If the program can find an image with the suffix ``-thumb`` before the file extension, it will use that as the thumbnail. So, since the image is found at "CGs/common_album/cg-4.webp", the program will look for a thumbnail image at "CGs/common_album/cg-4-thumb.webp".
-
-Otherwise, you can also manually specify a thumbnail as the third argument to GalleryImage or just by specifying it::
-
-    GalleryImage("cg common_4", thumbnail="CGs/thumbnails/common_4_thumbnail.webp")
-
-Typically thumbnails are 150x150 px. If one is not provided, the given CG is cropped and resized to the appropriate size.
-
-The full list of arguments to the GalleryImage definition is below:
-
-`name`
-    A string. Typically this ends up being the same as ``img`` below if you define your CGs as described above, but you could also do something like::
-
-        GalleryImage("cg common_5", "CGs/Common/special.webp")
-
-    This would have the same effect as if you'd defined ``cg common_5`` using the ``image`` declaration.
-
-`img`
-    A Displayable, typically a string with the name of the image for this CG as it should appear in the album. Can be omitted if it is the same as ``name``. If this is the file path to the image, you should use the ``name`` property to give the CG a "script-friendly" name, as that's the one you'll use to unlock it in-game.
-
-`thumbnail`
-    Optional. An image path or displayable for the thumbnail as it should appear in the Gallery. Should be 155x155 pixels. If not provided, the CG is scaled and cropped to fit the thumbnail size.
-
-`locked_img`
-    Optional. The file path to the image that will be used as the "locked" thumbnail icon in the gallery. Should be 155x155 pixels. Typically has a "?" or a locked symbol somewhere to indicate this gallery image hasn't been unlocked yet.
-
-    This is often used to indicate, for example, that an image comes from a particular DLC.
-
-`chat_img`
-    Optional. A Displayable (typically an image path or string containing the name of a defined image) which will be shown to the player at full-size in the chatroom only. The supplied ``img`` field will be used when viewing this image full-size in the gallery instead.
-
-    Use this to do things like supply blurry or edited CGs in the chatroom, but provide their regular unedited version in the gallery.
-
-`chat_preview`
-    Optional. A Displayable (typically an image path or string containing the name of a defined image) which will be shown to the player in the chatroom only. Clicking this image will show either ``chat_img`` (if available) or ``img`` (if not) full-screen. Typically this is about 35% of the full screen size, or 263x467 pixels, but can be whatever dimensions you like.
-
-    Use this to customize the image preview in the chatroom, such as blurring the thumbnail for "spoilers" or to put the thumbnail focus on a particular part of the image.
-
-    .. note::
-        The equivalent property was called ``chat_thumb`` in the ``Album`` object prior to v3.3.0.
-
-So, for example, you could define a GalleryImage object like so::
-
-    GalleryImage("cg common_1",
-        thumbnail="common_1_thumb",
-        chat_img="cg common_1_edit",
-        chat_preview="CGs/spoiler_img.png"
-    )
-
-(Note that this assumes you have ``image cg common_1 = "..."``, ``image common_1_thumb = "..."``, ``image cg common_1_edit = "..."`` etc.)
-
-You would then still be able to use the CG in the usual manner described below to show in chatrooms or text messages.
-
-Large Thumbnails
------------------
-
-Recall our additional CG image::
-
-    image cg common_4 = "CGs/common_album/cg-4.webp"
-
-For better compatibility with the new profile picture system, you may also want to provide a "larger" version of a thumbnail for use in profile pictures on the profile screen. The program will search for an image with the name of the thumbnail + the suffix ``-b`` before the file extension. So, if "cg common_4" isn't given a different thumbnail, it will look for the large version of the thumbnail at "CGs/common_album/cg-4-thumb-b.webp".
-
-If you provided a different thumbnail, as in ``GalleryImage("cg common_4", thumbnail="CGs/thumbnails/common_4_thumbnail.webp")``, then the large version is expected to be called "CGs/thumbnails/common_4_thumbnail-b.webp".
-
 
 Showing a CG in a Chatroom or Text Message
 ===========================================
@@ -272,7 +272,7 @@ To show a CG in the chatroom, put the name of the CG in the character's dialogue
     # or with the msg CDS
     msg s "cg common_4" img
 
-You can also omit ``cg `` at the beginning, so long as you remember to mark it as an image::
+You can also omit ``cg`` at the beginning, so long as you remember to mark it as an image::
 
     y "common_4" (img=True)
     msg z "common_4" img

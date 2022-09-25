@@ -201,7 +201,7 @@ There are some additional fields as well, each of which is explained below.
     e.g. "casual_d2_example_3"
 
 `trigger_time`
-    The time this story mode should appear at. This should be written in military time with leading zeroes, so a time like 1:00 AM becomes "01:00" and 1:38 PM becomes "13:38".
+    The time this story mode should appear at. This should be written in 24-hour time with leading zeroes, so a time like 1:00 AM becomes "01:00" and 1:38 PM becomes "13:38".
 
     e.g. "03:42"
 
@@ -252,7 +252,7 @@ There are some additional fields as well, each of which is explained below.
     e.g. "new_years_3"
 
 `trigger_time`
-    The time this story call should appear at. This should be written in military time with leading zeroes, so a time like 1:00 AM becomes "01:00" and 1:38 PM becomes "13:38".
+    The time this story call should appear at. This should be written in 24-hour time with leading zeroes, so a time like 1:00 AM becomes "01:00" and 1:38 PM becomes "13:38".
 
     e.g. "11:11"
 
@@ -296,7 +296,7 @@ There is a special convenience function intended to help you define a standalone
     e.g. "emma_route_party"
 
 `trigger_time`
-    The time the party should appear at. This should be written in military time with leading zeroes, so a time like 1:00 AM becomes "01:00" and 1:38 PM becomes "13:38".
+    The time the party should appear at. This should be written in 24-hour time with leading zeroes, so a time like 1:00 AM becomes "01:00" and 1:38 PM becomes "13:38".
 
     e.g. "12:00"
 
@@ -433,17 +433,17 @@ In real-time mode, timeline items unlock based on the current time. You also hav
 
 Each chatroom and story call you create should have both a "regular" version and an "expired" version. The expired version is the version the player will play through if the item has expired and they have not bought it back. Generally this means the player will not have the opportunity to participate in the chatroom or make choices, and expired story calls function as though the caller left the player a voice message.
 
-To create an expired timeline item, simply take the name of the regular item's label and add `_expired`. So, if your chatroom has the label
+To create an expired timeline item, simply take the name of the regular item's label and add ``_expired``. So, if your chatroom has the label
 
-```renpy
-label mychat:
-```
+::
+
+    label mychat:
 
 then the expired chatroom should have the label
 
-```renpy
-label mychat_expired:
-```
+::
+
+    label mychat_expired:
 
 The rest can be filled out as any other chatroom.
 

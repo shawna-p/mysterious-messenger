@@ -262,6 +262,7 @@ If you'll be reusing dialogue between the two phone calls, it might be useful to
     label day_7_chat_4_incoming_s_ending():
         s "Are you busy right now?"
         menu:
+            extend ''
             "No, not particularly.":
                 s "Great! So I had this idea for a cat cafe I wanted to bring up in the chatroom."
                 s "Don't tell Jaehee though, okay? She might get mad."

@@ -204,7 +204,7 @@ You may also want to check how many guests are attending the party to determine 
     else:
         $ merge_routes(my_route_normal_end)
 
-This is best used for the plot branch when clicking the party (see :ref:`Branching on the Party`).
+This is best used for the plot branch when clicking the party (see :ref:`Branching on the Party`). You can also check if individual guests are attending the party; see :ref:`Checking in-game if a Guest Will Attend`.
 
 Comparing Heart Points:
 -----------------------

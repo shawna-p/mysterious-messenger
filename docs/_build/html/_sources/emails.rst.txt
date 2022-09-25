@@ -202,7 +202,7 @@ In order to have "branching paths" for emails, you must use the ``continue_chain
     num_emails=2
     )
 
-Though the example above is long, it functions as follows:
+Though the example above is long, it functions as follows::
 
     First email:
         "There will be fish at the party" (correct)
@@ -217,20 +217,6 @@ Though the example above is long, it functions as follows:
 
 Incorrect answers decrease the guest's odds of attending the party, while correct answers will increase the odds. A "perfect" email chain (one where ``num_emails`` emails are replied to correctly) will guarantee the guest's attendance at the party.
 
-.. warning::
-    As of Ren'Py v7.4.10, there continues to be a bug with how Ren'Py handles quotes within triple-quoted strings that causes emails to display oddly (usually without the whitespace preserved). To circumvent this, you can "escape" apostrophes and quotes (``'`` and ``"`` respectively) with a backslash ``\`` e.g.
-
-    ::
-
-        """Dear guest,
-
-        Thanks for your concern. There isn\'t any need to bring your own beverages or \"wine\", as we will have refreshments at the party.
-
-        Yours,
-
-        [name]"""
-
-    You can see that the apostrophe in ``isn't`` is escaped ``isn\'t`` as are the quotes around "wine" ``\"wine\"``.
 
 Calculating if a Guest Will Attend
 ==================================
@@ -332,7 +318,7 @@ Here you will find a list of all the guests the game could find to invite. Simpl
     Causes all undelivered emails to be delivered at once. (For example, if you sent a reply to a guest, then clicking **Force email replies** would immediately deliver the guest's response to your inbox).
 
 `Invite all guests`
-    Invites every possible guest. All their emails will appear in your inbox. Note that it is possible to invite the same guest more than once with this method.
+    Invites every possible guest. This includes guests which aren't accessible to invite in-game but were declared as a Guest. All their emails will appear in your inbox. Note that it is possible to invite the same guest more than once with this method. Inviting the same guest multiple times can sometimes cause odd side effects.
 
 `Start Party`
     Begins the guest showcase part of the party. Guests only attend if their email chains have been successfully completed as described in :ref:`Calculating if a Guest Will Attend`.
@@ -394,6 +380,7 @@ This sets the variable ``saw_longcat_email2`` to True when the player reads Long
     This callback will be triggered every time the player opens the email chain. Thus, the callback generally should not have what are called "side effects", things that you wouldn't want to happen every time the player opened the email. For example, if you want to increase a counter, you should have a flag to ensure you only increase the counter once, on the first viewing of an email e.g.
 
     ::
+
         def longcat_email_callback(email):
             global saw_longcat_email2, my_email_counter
             if email.msg_num >= 2 and not saw_longcat_email2:

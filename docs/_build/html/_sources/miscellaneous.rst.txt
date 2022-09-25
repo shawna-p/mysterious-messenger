@@ -26,7 +26,7 @@ It's important to remember that many verbs conjugate differently for "he/she" th
 For a player with they/them pronouns, this displays as "I think [name] said they don't know if they'll be free this weekend", meanwhile, a player with he/him pronouns will see "I think [name] said he doesn't know if he'll be free this weekend." (Note: ``[name]`` is replaced with the player's name)
 
 .. note::
-    In Mysterious Messenger, players can pick their gender separately from their pronouns. This means for example that a player can identify as nonbinary and use she/her pronouns. You are welcome to extend this functionality as well to have the player further clarify how they want to be referred to.
+    In Mysterious Messenger, players can pick their gender separately from their pronouns. This means, for example, that a player can identify as nonbinary and use she/her pronouns. You are welcome to extend this functionality as well to have the player further clarify how they want to be referred to.
 
     Note that because a player's pronouns will not necessarily directly correlate to their gender, it may be good to ask the player if they would like to be referred to as a woman, man, person, or something else, if that comes up in your writing. You can use input prompts to get more specific information from the player as well (see :ref:`Getting Input from the Player`).
 
@@ -186,7 +186,7 @@ and if you've added it to the emoji_lookup dictionary, the following will also w
 
 
 .. note::
-    You may also notice that there are a few variables defined under `emoji_lookup` such as `jaehee_emotes`; these are used in the chatroom generator, which is not yet fully implemented. You can ignore these variables for now.
+    You may also notice that there are a few variables defined under `emoji_lookup` such as `jaehee_emotes`; these are used in the chatroom generator. In a character's ChatCharacter declaration, you can include the `emote_list` parameter and set it to a list with the names of all their emojis. This is only relevant if you would like a character's emojis to appear in the chatroom creator; they will work in-game without requiring this list.
 
 
 
@@ -277,10 +277,10 @@ Getting Input from the Player
 
 In addition to choice menus, you can also prompt the player to enter text to get information such as nicknames, age, and other personalized information about the player, and then use this to shape the story later on. These input prompts work in many areas of the game, including chatrooms, story mode, text messages, and phone calls.
 
-To show an input prompt to the player, you'll use the special label ``get_input``::
+To show an input prompt to the player, you'll call the special label ``get_input``::
 
     get_input(the_var, prompt="", default="", length=20, allow=None,
-        exclude=None, show_answer=True)
+        exclude=None, show_answer=None)
 
 The parameters are explained below:
 
@@ -294,7 +294,7 @@ The parameters are explained below:
     Optional. If included, this text will appear above the input box to remind the player what information they're supposed to be entering. See the example above.
 
 `default`
-    Optional. A string that will automatically be filled into the input box as the "default" value, which the player can then delete and change if they wish. By default, this is the empty string (so, no text will be filled in automatically).
+    Optional. A string that will automatically be filled into the input box as the "default" value, which the player can then delete and change if they wish. By default, this is the empty string "" (so, no text will be filled in automatically).
 
 `length`
     By default, 20. An integer equal to the number of characters you will allow in the input box. Depending on where you are using the result, excessively long input values may not display correctly everywhere in the game.
@@ -347,7 +347,7 @@ The parameters are explained below:
     If True, the default, the prompt will accept the empty string ("") as input. If False, the player must enter at least one valid character for the Confirm button to be active.
 
 `show_answer`
-    By default, this is True during chatrooms and text messages. It will show the answer button at the bottom of the screen which, when clicked, will display the input prompt. This should always be False for input prompts outside of chatrooms and text messages so that the input prompt appears right away.
+    By default, this is True during chatrooms and text messages and ignored during other times (such as phone calls and Story Mode). It will show the answer button at the bottom of the screen which, when clicked, will display the input prompt. If you set this to False, the input prompt will show up right away, without requiring the player to click to answer at the bottom of the screen.
 
 
 
@@ -601,7 +601,7 @@ You can permanently unlock tones for the player using persistent variables in a 
         "Bonus Unknown", "unknown",
         "Bonus V", "v",
         "Bonus Rika", "ri",
-        condition="persistent.tutorial_good_end_complete == True")
+        condition="persistent.tutorial_good_end_complete")
 
 Overall, the ``text_tones`` variable might look like the following if you were to add a Bonus category::
 
@@ -617,7 +617,7 @@ Overall, the ``text_tones`` variable might look like the following if you were t
             "Bonus Unknown", "unknown",
             "Bonus V", "v",
             "Bonus Rika", "ri",
-            condition="persistent.tutorial_good_end_complete == True")
+            condition="persistent.tutorial_good_end_complete")
     ]
 
 You can add as many tones and categories as you like. The ``condition`` field is always optional; if omitted, that category will always be available.
@@ -656,7 +656,7 @@ The second and most important function is ``register_pfp``. This has many parame
 `condition`
     By default, this is 'seen', which means that the images passed to the function will become visible on the profile picture screen once the player has seen the image in-game (either as a CG or as another character's profile picture).
 
-    Otherwise, the program expects a string that evaluates to a Python condition that determines when these images should be unlocked. For example, if you want the pictures to be unlocked after setting a particular variable, you could write ``condition="persistent.saw_casual_bad_end == True"``, for example. It is best to use persistent variables for conditions.
+    Otherwise, the program expects a string that evaluates to a Python condition that determines when these images should be unlocked. For example, if you want the pictures to be unlocked after setting a particular variable, you could write ``condition="persistent.saw_casual_bad_end"``, for example. It is best to use persistent variables for conditions so they persist throughout different playthroughs.
 
     e.g. "persistent.seen_endings > 3"
 
@@ -848,9 +848,9 @@ Checking the Last Time the Picture was Changed
 
     init -1 python:
         def example_pfp_callback(time_diff, prev_pic, current_pic, who):
-        if time_diff.seconds < 60:
-            # It has been less than a minute since the player changed their pfp
-            return 'quickly_changing_pfp'
+            if time_diff.seconds < 60:
+                # It has been less than a minute since the player changed their pfp
+                return 'quickly_changing_pfp'
 
     # Outside of the main function
     label quickly_changing_pfp:
@@ -1001,92 +1001,92 @@ Mysterious Messenger uses several variables, transforms, class names, and other 
 
 Transform Names
 ---------------
-album_tilt
-alpha_dissolve
-cg_swipe_left
-cg_swipe_left2
-cg_swipe_left_hide
-cg_swipe_right
-cg_swipe_right2
-cg_swipe_right_hide
-chat_title_scroll
-chip_anim
-chip_wobble
-chip_wobble2
-choice_anim
-choice_disappear_hourglass
-cloud_shuffle1
-cloud_shuffle2
-cloud_shuffle3
-cloud_shuffle4
-cloud_shuffle5
-continue_appear_disappear
-continue_appear_disappear_first
-delayed_blink
-delayed_blink2
-dropdown_horizontal
-dropdown_menu
-fadein_out
-fade_in_out
-flash_yellow
-flicker
-guest_enter
-hacked_anim
-heart
-heartbreak
-hide_dissolve
-hourglass_anim
-hourglass_anim_2
-incoming_message
-incoming_message_bounce
-invisible
-invisible_bounce
-large_tap
-lightning_cloud_flash
-lock_spin
-med_tap
-moon_pan
-move_clouds
-new_fade
-notify_appear
-NullTransform
-null_anim
-participant_scroll
-reverse_topbottom_pan
-scale_vn_bg
-shake
-shooting_star
-shrink_away
-slide_in_out
-slide_up_down
-slide_up_down
-slow_fade
-slow_pan
-small_tap
-spaceship_chips
-spaceship_flight
-speed_msg
-stack_notify_appear
-star_fade_in
-star_place_randomly
-star_rotate
-star_twinkle_in
-star_twinkle_out
-star_twinkle_randomly
-text_footer_disappear
-toggle_btn_transform
-topbottom_pan
-topbottom_pan2
-tutorial_anim
-vn_center
-vn_farleft
-vn_farright
-vn_left
-vn_midleft
-vn_midright
-vn_right
-wait_fade
-yzoom_in
+* album_tilt
+* alpha_dissolve
+* cg_swipe_left
+* cg_swipe_left2
+* cg_swipe_left_hide
+* cg_swipe_right
+* cg_swipe_right2
+* cg_swipe_right_hide
+* chat_title_scroll
+* chip_anim
+* chip_wobble
+* chip_wobble2
+* choice_anim
+* choice_disappear_hourglass
+* cloud_shuffle1
+* cloud_shuffle2
+* cloud_shuffle3
+* cloud_shuffle4
+* cloud_shuffle5
+* continue_appear_disappear
+* continue_appear_disappear_first
+* delayed_blink
+* delayed_blink2
+* dropdown_horizontal
+* dropdown_menu
+* fadein_out
+* fade_in_out
+* flash_yellow
+* flicker
+* guest_enter
+* hacked_anim
+* heart
+* heartbreak
+* hide_dissolve
+* hourglass_anim
+* hourglass_anim_2
+* incoming_message
+* incoming_message_bounce
+* invisible
+* invisible_bounce
+* large_tap
+* lightning_cloud_flash
+* lock_spin
+* med_tap
+* moon_pan
+* move_clouds
+* new_fade
+* notify_appear
+* NullTransform
+* null_anim
+* participant_scroll
+* reverse_topbottom_pan
+* scale_vn_bg
+* shake
+* shooting_star
+* shrink_away
+* slide_in_out
+* slide_up_down
+* slide_up_down
+* slow_fade
+* slow_pan
+* small_tap
+* spaceship_chips
+* spaceship_flight
+* speed_msg
+* stack_notify_appear
+* star_fade_in
+* star_place_randomly
+* star_rotate
+* star_twinkle_in
+* star_twinkle_out
+* star_twinkle_randomly
+* text_footer_disappear
+* toggle_btn_transform
+* topbottom_pan
+* topbottom_pan2
+* tutorial_anim
+* vn_center
+* vn_farleft
+* vn_farright
+* vn_left
+* vn_midleft
+* vn_midright
+* vn_right
+* wait_fade
+* yzoom_in
 
 
 Variable Names
@@ -1096,39 +1096,39 @@ Variable Names
 
     This list is not exhaustive! If you are running into an error you think may be caused by conflicting variable names, try searching for ``define var_name``, ``image var_name``, ``transform var_name``, ``default var_name``, or ``var_name =`` to see if you come across any unexpected matches.
 
-all_characters
-all_guests
-answer
-available_calls
-bubble_list
-call_countdown
-call_history
-character_list
-chat_pause
-current_call
-email_list
-example_guest
-filler
-fullsizeCG
-heart_point_chars
-incoming_call
-in_phone_call
-ja
-ju
-m
-main_character
-new_cg
-novoice_chars
-r
-rainbow2
-ri
-s
-sa
-special_msg
-u
-unseen_calls
-v
-va
-y
-z
+* all_characters
+* all_guests
+* answer
+* available_calls
+* bubble_list
+* call_countdown
+* call_history
+* character_list
+* chat_pause
+* current_call
+* email_list
+* example_guest
+* filler
+* fullsizeCG
+* heart_point_chars
+* incoming_call
+* in_phone_call
+* ja
+* ju
+* m
+* main_character
+* new_cg
+* novoice_chars
+* r
+* rainbow2
+* ri
+* s
+* sa
+* special_msg
+* u
+* unseen_calls
+* v
+* va
+* y
+* z
 

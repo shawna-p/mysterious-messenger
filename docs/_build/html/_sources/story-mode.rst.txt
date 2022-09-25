@@ -20,7 +20,7 @@ Writing a Story Mode
 
     *A brief overview of the steps required (more detail below):*
 
-    #. If writing an attached Story Mode, create a label using the label of the attached chtroom + the suffix ``_vn`` (e.g. ``label my_chatroom_vn``)
+    #. If writing an attached Story Mode, create a label using the label of the attached chatroom + the suffix ``_vn`` (e.g. ``label my_chatroom_vn``)
 
         #. (Optional) Indicate the character a Story Mode section is associated with by including their file_id as an additional suffix (e.g. ``label my_chatroom_vn_s``)
         #. (Optional) Indicate that this Story Mode is the party by including the suffix ``_party`` (e.g. ``label my_chatroom_party``)
@@ -65,7 +65,7 @@ Next, you can set up the Story Mode and begin writing dialogue. It's a good idea
 
     scene bg rika_apartment with fade
 
-``bg rika_apartment`` is a background that is already defined in ``vn_variables.rpy``. You can add your own backgrounds here as well to display in-game. Backgrounds should be ``750x1334`` pixels.
+``bg rika_apartment`` is a background that is already defined in ``vn_variables.rpy``. You can add your own backgrounds here as well to display in-game. Backgrounds should be 750x1334 pixels.
 
 ``with fade`` indicates that the background should fade in from black. There are many more transitions you can use that are covered in Ren'Py's documentation `Transitions <https://www.renpy.org/doc/html/transitions.html>`_.
 
@@ -117,10 +117,10 @@ You can shake the screen during Story Mode the same way as you do in chatrooms w
 
     u "Hmm? What are you doing here?"
     u "I told you not to come...!"
-    show shake 
-    "(...!)"    
+    show shake
+    "(...!)"
     u "Stop!"
-    
+
 The screen will shake on the "(...!)" line.
 
 .. note::
@@ -182,7 +182,7 @@ There are several pre-defined positions you can move the characters to. These ar
 
 Not every position will work for every character due to spacing and differences in sprite design. You can define more positions in ``vn_variables.rpy``.
 
-``vn_center`` is a unique position because it moves the character closer to the screen in addition to centering them. It's often used to imply the character is talking directly to the player. However, if you want to move a character who is currently shown in the ``vn_center`` position to another position, you must ``hide`` them first. See ``tutorial_6_meeting.rpy`` for an example of this.
+``vn_center`` is a unique position because it moves the character closer to the screen in addition to centering them. It's often used to imply the character is talking directly to the player. However, if you want to move a character who is currently shown in the ``vn_center`` position to another position, you must ``hide`` them first, or ensure that you reset the zoom to 1.0. See ``tutorial_6_meeting.rpy`` for an example of this.
 
 To show a character at a given position, write
 
@@ -259,7 +259,7 @@ There is also another way of simplifying showing characters even further -- sinc
 
 Note that you can only change expressions this way after the character has already been shown on-screen.
 
-For more on Image Attributes, see the [Ren'Py documentation pages on Dialogue and Narration](https://www.renpy.org/doc/html/dialogue.html?highlight=attribute#say-with-image-attributes "Ren'Py Dialogue and Narration documentation").
+For more on Image Attributes, see the `Ren'Py documentation pages on Dialogue and Narration <https://www.renpy.org/doc/html/dialogue.html#say-with-image-attributes>`_.
 
 Hiding Characters
 -----------------
@@ -285,7 +285,7 @@ Including a Story Mode During a Chatroom
     #. Create a chatroom as you usually would (see :ref:`Creating a Chatroom`.
     #. When you want the story mode to interrupt the chatroom, use ``call vn_during_chat("name_of_story_mode_label")`` where ``name_of_story_mode_label`` is the name of the label where the program can find the associated story mode.
 
-        #. If you want to change the list of chatroom participants between chatroom sections, pass the argument ``reset_participants=[y, s, m]`` where ``[y, s, m]]`` is a list of the character variables who you want to show participating in the chatroom section following the story mode.
+        #. If you want to change the list of chatroom participants between chatroom sections, pass the argument ``reset_participants=[y, s, m]`` where ``[y, s, m]`` is a list of the character variables who you want to show participating in the chatroom section following the story mode.
 
     #. If you don't want to return to the chatroom section after jumping to the story mode section, use the argument ``end_after_vn=True`` e.g. ``call vn_during_chat("vn_label", end_after_vn=True)``.
     #. Create the label for the story mode and write the dialogue as normal (see :ref:`Writing a Story Mode`).
