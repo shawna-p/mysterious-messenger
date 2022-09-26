@@ -54,6 +54,14 @@ Now you should make sure you get the most recent released version, which is curr
 * Type ``git checkout v3.3.0`` and press Enter
 * Next, type ``git merge tags/v3.3.0`` and press Enter.
 
+.. tip::
+    If you get an error at this point like::
+
+        error: pathspec 'v3.3.0' did not match any file(s) known to git.
+
+    Then try typing ``git fetch --all --tags`` and hit Enter to fetch updates from the Mysterious Messenger repository. Then you can try again with ``git checkout v3.3.0`` and ``git merge tags/v3.3.0``.
+
+
 You should now have v3.3.0 of Mysterious Messenger. In the future, you can use ``git checkout v3.3.0`` and ``git merge tags/v3.3.0`` with future version numbers to update to the latest version of Mysterious Messenger.
 
 Further resources
