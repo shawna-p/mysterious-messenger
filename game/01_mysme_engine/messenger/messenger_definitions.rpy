@@ -422,7 +422,7 @@ init -4 python:
                     header="Chatrooms",
                     subheader="Custom Bubble Style Function")
 
-            if self.who.right_msgr:
+            if self.who.right_msgr and not self.specBubble and not self.bounce:
                 self.saved_bubble_style = 'reg_bubble_MC'
                 return self.saved_bubble_style
             elif not self.specBubble and not self.bounce:
@@ -480,6 +480,9 @@ init -4 python:
                 self.saved_bubble_style = bubble_style
                 return bubble_style
             except:
+                if self.who.right_msgr:
+                    self.saved_bubble_style = 'reg_bubble_MC'
+                    return self.saved_bubble_style
                 ScriptError("Could not find the style", bubble_style,
                     header="Chatrooms",
                     subheader="Custom Bubbles")
@@ -613,7 +616,7 @@ init -4 python:
                     return custom_bg
             except Exception as e:
                 ScriptError("Could not evaluate the function",
-                    "'custom_bubble_bg'.", header="Chatroooms",
+                    "'custom_bubble_bg'.", header="Chatrooms",
                     subheader="Custom Bubble Background Function")
 
             # If this is a special bubble, set the background to said bubble
