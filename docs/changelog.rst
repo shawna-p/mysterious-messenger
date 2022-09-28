@@ -7,6 +7,62 @@ Full Changelog
 
     changelog
 
+3.4.0
+=====
+
+.. _major-3-4-0:
+
+Major New Features
+-------------------
+
+.. list-table::
+    :widths: 15, 85
+    :header-rows: 1
+
+    * - **Feature**
+      - **Description**
+
+.. _minor-3-4-0:
+
+Minor New Features
+-------------------
+
+.. list-table::
+    :widths: 15, 85
+    :header-rows: 1
+
+    * - **Feature**
+      - **Description**
+
+
+.. _fixes-3-4-0:
+
+Fixes
+------
+
+.. list-table::
+    :widths: 15, 85
+    :header-rows: 1
+
+    * - **Fix**
+      - **Description**
+    * - Special speech bubbles
+      - Being on the right side of the messenger no longer requires using the special speech bubble function to get special bubbles.
+
+
+.. _qol-3-4-0:
+
+QoL Improvements
+--------------------
+
+.. list-table::
+    :widths: 15, 85
+    :header-rows: 1
+
+    * - **Feature**
+      - **Description**
+
+
 3.3.0
 =====
 
