@@ -165,7 +165,7 @@ define gui.text_font = "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regula
 define gui.name_text_font = "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
 
 ## The font used for out-of-game text.
-define gui.interface_text_font = "DejaVuSans.ttf"
+define gui.interface_text_font = "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
 
 ## The size of normal dialogue text.
 define gui.text_size = 33
