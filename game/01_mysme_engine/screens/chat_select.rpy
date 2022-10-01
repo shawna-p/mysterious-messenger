@@ -942,10 +942,10 @@ style guest_num_text:
 
 transform guest_enter:
     on show:
-        xalign 1.0 yalign 0.6 xoffset 350
-        linear 0.7 xalign 0.5 yalign 0.6 xoffset 0
+        xalign 1.0 yalign 0.5 xoffset 350 yoffset 40
+        linear 0.7 xalign 0.5 yalign 0.5 xoffset 0 yoffset 40
     on hide:
-        linear 0.7 xalign 0.0 yalign 0.6 xoffset -350
+        linear 0.7 xalign 0.0 yalign 0.5 xoffset -350 yoffset 40
 
 
 

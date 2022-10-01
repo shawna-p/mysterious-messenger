@@ -18,7 +18,7 @@ image bg rika_door_open = "VN Mode/Backgrounds/rika_door_open.webp"
 image bg guest_walkway = Fixed(
     Transform("#000", xsize=config.screen_width, fit="cover"),
     Transform("VN Mode/Backgrounds/guest_walkway.webp",
-        xalign=0.5, yalign=0.7))
+        xalign=0.5, yalign=0.5, yoffset=30))
 image bg good_end = "VN Mode/Backgrounds/good_end.webp"
 image bg normal_end = "VN Mode/Backgrounds/normal_end.webp"
 image bg bad_end = "VN Mode/Backgrounds/bad_end.webp"
