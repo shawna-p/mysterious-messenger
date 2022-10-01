@@ -48,6 +48,8 @@ Fixes
       - **Description**
     * - Special speech bubbles
       - Being on the right side of the messenger no longer requires using the special speech bubble function to get special bubbles.
+    * - Guest positioning
+      - Guests arriving at the party are better positioned relative to variable screen heights.
 
 
 .. _qol-3-4-0:
