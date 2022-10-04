@@ -85,7 +85,7 @@ python early:
             Character object associated with this character. Used for Visual
             Novel (VN) mode dialogue.
         p_name : string
-            A string with the phoenetic pronunciation of this character's
+            A string with the phonetic pronunciation of this character's
             name. Used for self-voicing e.g. "seven oh seven"
         """
 
@@ -150,7 +150,7 @@ python early:
                 Character object associated with this character. Used for
                 Visual Novel (VN) mode dialogue.
             pronunciation_help : string or False
-                A string with the phoenetic pronunciation of this character's
+                A string with the phonetic pronunciation of this character's
                 name. Used for self-voicing e.g. "seven oh seven"
             voice_tag : string
                 The voice tag associated with this character for VN and
@@ -472,7 +472,6 @@ python early:
                 except:
                     print_file("Couldn't sync Saeran and Ray's heart points.")
 
-
             self.heart_points -= amount
             self.good_heart -= amount
 
@@ -649,8 +648,6 @@ python early:
                     return Transform(Transform(the_pic, fit='cover',
                         size=(the_size, the_size)),
                         crop=(0, 0, the_size, the_size))
-
-
 
             # Regular profile pic is 110x110
             # Big pfp is 314x314
