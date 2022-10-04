@@ -57,15 +57,6 @@ screen heart_icon_screen(character, hide_screen='heart_icon_screen'):
 
     timer 0.62 action [Hide(hide_screen)]
 
-# Additional screens for allocation
-screen hicon2(character):
-    zorder 20
-    use heart_icon_screen(character, 'hicon2')
-
-screen hicon3(character):
-    zorder 20
-    use heart_icon_screen(character, 'hicon3')
-
 # List of the most recently shown heart screens
 default recently_shown_heart = [ ]
 
