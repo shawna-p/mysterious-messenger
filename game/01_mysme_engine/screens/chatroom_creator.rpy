@@ -959,10 +959,8 @@ screen pick_bubble_size(bubble_sizes, editing=False):
         default bubble_dict = edit_bubble_info
 
     zorder 101
-    button:
-        xysize (config.screen_width, config.screen_height)
-        background None
-        action Hide('pick_bubble_size')
+    dismiss action Hide('pick_bubble_size')
+
     frame:
         at yzoom_in()
         background "#000"
@@ -977,6 +975,8 @@ screen pick_bubble_size(bubble_sizes, editing=False):
             textbutton sz:
                 xsize 150
                 text_color "#fff"
+                text_hover_color "#95e5f0"
+                text_selected_idle_color "#88d0da"
                 action [SetDict(bubble_dict, 'size', sz),
                     Hide('pick_bubble_size')]
 
