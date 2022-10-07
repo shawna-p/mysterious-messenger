@@ -1381,7 +1381,7 @@ screen select_bubble(editing=False):
                             if "glow" not in bub:
                                 action [Show('pick_bubble_size',
                                     bubble_sizes=find_bubble_sizes(bub),
-                                    editing=True),
+                                    editing=editing),
                                     SetDict(bubble_dict, 'bubble', bub),
                                     SetDict(bubble_dict, 'bounce', True)]
                                 add Transform(bub, zoom=0.46) align (0.5, 0.5)
