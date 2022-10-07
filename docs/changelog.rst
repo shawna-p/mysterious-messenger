@@ -50,6 +50,8 @@ Fixes
       - Being on the right side of the messenger no longer requires using the special speech bubble function to get special bubbles.
     * - Guest positioning
       - Guests arriving at the party are better positioned relative to variable screen heights.
+    * - Chat Creator special bubbles
+      - Fixed an issue where you could only edit a special speech bubble's style and not set it beforehand.
 
 
 .. _qol-3-4-0:
