@@ -1039,6 +1039,7 @@ style edit_menu_frame:
 style edit_menu_button_text:
     idle_color "#fff"
     hover_color "#bff"
+    selected_idle_color "#88d0da"
 
 screen dialogue_edit_popup():
     modal True
