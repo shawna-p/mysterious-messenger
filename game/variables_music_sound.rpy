@@ -123,7 +123,8 @@ define door_open_sfx = "audio/sfx/door open.mp3"
 define sfx_dictionary = {
     car_moving_sfx : "Sound of a car moving",
     door_knock_sfx : "A knock at the door",
-    door_open_sfx : "The door opens"
+    door_open_sfx : "The door opens",
+    phone_dial_sfx : "Phone ringing on the other end of the line",
 }
 
 
