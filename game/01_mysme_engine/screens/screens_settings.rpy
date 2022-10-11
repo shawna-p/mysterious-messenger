@@ -1282,8 +1282,9 @@ screen sound_settings():
 
             # Mute the voices of specific characters
             frame:
-                xysize(675,390)
-                background "menu_settings_panel" padding(10,10)
+                xsize 675 bottom_padding 25
+                background "menu_settings_panel"
+                padding(10,10)
                 has vbox
                 xalign 0.5
                 spacing 15
@@ -1292,15 +1293,16 @@ screen sound_settings():
                 style_prefix None
                 # There are few voiced lines in this program, so currently
                 # the effects of these buttons will not be very noticeable
-                vbox:
+                hbox:
                     box_wrap True
-                    box_wrap_spacing 10
-                    spacing 20
+                    box_wrap_spacing 20
+                    spacing 5
                     yalign 0.5
+                    xsize 625
                     for c in all_characters:
-                        # Unknown and Saeran are lumped into Ray's
-                        # voice button and MC doesn't speak
                         if c not in novoice_chars:
+                            # Unknown and Saeran are lumped into Ray's
+                            # voice button and MC doesn't speak
                             use voice_buttons(c)
                     use voice_buttons("Other", 'other')
 
