@@ -199,4 +199,45 @@ Let's tackle that last one. For Mysterious Messenger, chatrooms are simply a ser
 
 There are only two new lines, so we'll look at each one in turn. First, ``global chatlog``. This is because ``chatlog`` is a variable that's defined outside of the ChatCharacter class, so you need to tell Ren'Py where to find it. The variable itself is set up with the line ``default chatlog = [ ]`` elsewhere.
 
-The second line is ``chatlog.append(ChatEntry(self, what))``, which is made up of two parts. First, ``ChatEntry(self, what)``. This creates a ``ChatEntry`` object, which as described earlier, holds information on a particular message. If you recall, the ``ChatEntry`` constructor takes two parameters, ``who`` and ``what``. The ``who`` in this case is the ChatCharacter who's sending the message, which is the ``self`` parameter.
+The second line is ``chatlog.append(ChatEntry(self, what))``, which is made up of two parts. First, ``ChatEntry(self, what)``. This creates a ``ChatEntry`` object, which as described earlier, holds information on a particular message. If you recall, the ``ChatEntry`` constructor takes two parameters, ``who`` and ``what``. The ``who`` in this case is the ChatCharacter who's sending the message, which is the ``self`` parameter. If you're not familiar with classes, ``self`` basically just refers to the object itself. If you had ``default em = ChatCharacter("Emma", "Profile Pics/Emma-1.webp")``, then it's like passing ``ChatEntry(em, what)`` if it's the ``__call__`` method of ``em`` that's being called. The second parameter, ``what``, is of course the dialogue of the message.
+
+The second part is ``chatlog.append``. This appends a new item to our list, ``chatlog``. In this case, the item we are appending is a ``ChatEntry``, namely, ``ChatEntry(self, what)``. As a result, we will end up with a list of ``ChatEntry`` objects in a list, each of which holds the sender of a message and the contents of said message.
+
+
+Displaying the Chatrooms
+-------------------------
+
+Now that we have a method of writing dialogue and obtaining a list of messages in a chatroom, we can move on to displaying those messages. Again, Mysterious Messenger has a whole lot of features and other things it uses to display emojis, clickable CGs, links, and other features, but we'll simplify as much of that as possible here to keep it simple.
+
+I won't be going into too much depth on each of the screen language elements I'm using here, as that's best left to a different tutorial. I'll briefly comment on my choices where relevant.
+
+So, to start, let's construct an extremely simple screen::
+
+    screen messenger():
+
+        viewport:
+            mousewheel True draggable True
+            yinitial 1.0
+            has vbox
+
+            for msg in chatlog:
+                hbox:
+                    add msg.who.profile_pic
+                    vbox:
+                        text msg.who.name
+                        text msg.what
+
+I'll briefly go over what each of these pieces are. First, there's the ``viewport``. This is a scrollable area on the screen that we'll put all the messages into. You need to tell Ren'Py how its contents can be scrolled, so that's what ``mousewheel True`` and ``draggable True`` do - it should be able to be scrolled with the mouse scroll wheel, and clicked and dragged (or tapped and dragged on touch screen devices), so those are set to True.
+
+Next, ``yinitial 1.0``. There's another piece of this puzzle that this code is missing, but to start, this means that when the messenger screen is shown, the viewport will start scrolled to the bottom. This is important, because we want to basically always be at the very bottom of the viewport so we can see new messages.
+
+``has vbox`` is a special way of saying the viewport's children will be laid out top-to-bottom, one on top of the other (like a messenger). You could also do ``vbox:`` and indent the rest of the code one level over, but this just keeps it a little cleaner and saves us one level of indentation.
+
+``for msg in chatlog`` is a Python loop. This will loop over every item in the provided list, ``chatlog``. Each loop, the current message the loop is looking at is stored in ``msg`` (which is an arbitrary and temporary variable name I selected; this could've easily been ``for entry in chatlog:`` or ``for chat_message in chatlog``, for example).
+
+Now we get into the nitty-gritty of displaying the actual chat messages. A pretty typical setup is to have the character's profile picture on the left, and then to the right of the profile picture, there's the person's name on top of the text of their message. But, how do each of those parts work?
+
+The ``hbox`` is there to arrange the items from left-to-right beside each other. The first item is ``add msg.who.profile_pic``, which adds the profile picture to the hbox. This works because if you recall, ``msg`` is equal to a ``ChatEntry`` object that's part of the ``chatlog`` list.
+
+
+
