@@ -167,4 +167,36 @@ This looks similar to the ``ChatCharacter`` class in some ways - both take in a 
 
 The second field is the ``what`` field which, as mentioned, borrows from Ren'Py's convention of using ``who`` and ``what`` in the say screen and in other internal functions. This is just the dialogue, or the text contents of the message.
 
-With that, we have all the tools we need to start putting together an actual chatroom.
+With that, we have the main tools we need to start putting together an actual chatroom. The only remaining pieces are the actual display of the messages, and how we store messages so we can display them on the screen.
+
+Let's tackle that last one. For Mysterious Messenger, chatrooms are simply a series of ``ChatEntry`` objects in a list. The list is called ``chatlog``. Armed with that knowledge, we can fill out more of the missing ``__call__`` method for the ``ChatCharacter`` class::
+
+    class ChatCharacter(object):
+        """
+        A class which holds information on a single character in the game
+        for participating in chatrooms.
+
+        Attributes:
+        -----------
+        name : string
+            The name of the character, as it appears in a chatroom.
+        profile_pic : Displayable
+            The profile picture for this character.
+        """
+
+        def __init__(self, name, profile_pic):
+            """
+            Create a ChatCharacter object for use in chatrooms.
+            """
+            self.name = name
+            self.profile_pic = profile_pic
+
+        def __call__(self, what, **kwargs):
+            global chatlog
+
+            chatlog.append(ChatEntry(self, what))
+
+
+There are only two new lines, so we'll look at each one in turn. First, ``global chatlog``. This is because ``chatlog`` is a variable that's defined outside of the ChatCharacter class, so you need to tell Ren'Py where to find it. The variable itself is set up with the line ``default chatlog = [ ]`` elsewhere.
+
+The second line is ``chatlog.append(ChatEntry(self, what))``, which is made up of two parts. First, ``ChatEntry(self, what)``. This creates a ``ChatEntry`` object, which as described earlier, holds information on a particular message. If you recall, the ``ChatEntry`` constructor takes two parameters, ``who`` and ``what``. The ``who`` in this case is the ChatCharacter who's sending the message, which is the ``self`` parameter.
