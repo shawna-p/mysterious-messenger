@@ -426,16 +426,54 @@ screen answer_choice_text(items, paraphrased=None):
     use text_answer([Hide('answer_choice_text'), Show('text_pause_button'),
         ShowTransient('choice', items=items, paraphrased=paraphrased)])
 
+init python:
+    def choice_action(i, paraphrased):
+        """
+        Return the action for this choice based on the current state of
+        the game and various variables.
+        """
+
+        usual_action = [
+            SetVariable('dialogue_picked', i.caption),
+            Function(set_paraphrase,
+                screen_pref=paraphrased,
+                item_pref=i.kwargs.get('paraphrased', None),
+                save_choices=gamestate in (PHONE, VNMODE)),
+            i.action
+        ]
+
+        if gamestate == TEXTMSG:
+            usual_action.insert(0,
+                If(not text_person or not text_person.real_time_text,
+                    Show('text_message_screen', sender=text_person)))
+            return usual_action
+
+        elif gamestate in (PHONE, VNMODE):
+            return usual_action
+
+        elif email_reply:
+            return i.action
+
+        else:
+            if using_timed_menus:
+                ret = [SetVariable('reply_instant', True),
+                    SetVariable('using_timed_menus', False),
+                    Hide('answer_countdown'),
+                    # This ensures the messenger scrolls
+                    # to the bottom
+                    Hide('messenger_screen'),
+                    Show('messenger_screen')]
+                ret.extend(usual_action)
+                return ret
+            else:
+                return usual_action
+
+
 screen choice(items, paraphrased=None):
     zorder 150
     modal True
 
-
-    if persistent.custom_footers and not renpy.is_skipping():
-        default the_anim = choice_anim
-    else:
-        default the_anim = null_anim
-
+    default the_anim = choice_anim if persistent.custom_footers and not renpy.is_skipping() else null_anim
 
     add "choice_darken"
 
@@ -455,22 +493,7 @@ screen choice(items, paraphrased=None):
                     if (persistent.past_choices
                             and i.chosen):
                         foreground 'seen_choice_check'
-                    action If((not text_person
-                                or not text_person.real_time_text),
-                            [Show('text_message_screen',
-                                        sender=text_person),
-                                SetVariable('dialogue_picked', i.caption),
-                                Function(set_paraphrase, screen_pref=paraphrased,
-                                    item_pref=(i.kwargs.get('paraphrased',
-                                    None))),
-                                i.action
-                                ],
-                            [SetVariable('dialogue_picked', i.caption),
-                                Function(set_paraphrase, screen_pref=paraphrased,
-                                    item_pref=(i.kwargs.get('paraphrased',
-                                    None))),
-                                i.action
-                            ])
+                    action choice_action(i, paraphrased)
 
     # For Story Mode and phone calls
     elif gamestate in (PHONE, VNMODE):
@@ -487,13 +510,7 @@ screen choice(items, paraphrased=None):
                         foreground 'seen_choice_check_circle'
                         background 'call_choice_check'
                         hover_background 'call_choice_check_hover'
-                    action [SetVariable('dialogue_picked', i.caption),
-                        Function(set_paraphrase, screen_pref=paraphrased,
-                            item_pref=(i.kwargs.get('paraphrased',
-                            None)),
-                            save_choices=True),
-                        i.action
-                        ]
+                    action choice_action(i, paraphrased)
 
     # For emails
     elif email_reply:
@@ -505,7 +522,7 @@ screen choice(items, paraphrased=None):
             for num, i in enumerate(items):
                 $ fnum = float(num*0.2)
                 textbutton i.caption at the_anim(fnum):
-                    action [i.action]
+                    action choice_action(i, paraphrased)
 
     # For everything else (e.g. chatrooms)
     else:
@@ -516,16 +533,7 @@ screen choice(items, paraphrased=None):
                 style_prefix 'choice'
             for num, i in enumerate(items):
                 $ fnum = float(num*0.2)
-                textbutton i.caption at the_anim(fnum):
-                    if (persistent.dialogue_outlines
-                            and persistent.custom_footers):
-                        text_outlines [ (2, "#000",
-                            absolute(0), absolute(0)) ]
-                    elif (persistent.dialogue_outlines
-                            and not persistent.custom_footers):
-                        text_outlines [ (2, "#fff",
-                            absolute(0), absolute(0)) ]
-
+                button at the_anim(fnum):
                     if (persistent.past_choices and not observing
                             and i.chosen):
                         if persistent.custom_footers:
@@ -534,29 +542,25 @@ screen choice(items, paraphrased=None):
                             hover_background 'call_choice_check_hover'
                         else:
                             foreground 'seen_choice_check'
-                    action If(using_timed_menus,
-                        [SetVariable('reply_instant', True),
-                            SetVariable('using_timed_menus', False),
-                            Hide('answer_countdown'),
-                            # This ensures the messenger scrolls
-                            # to the bottom
-                            Hide('messenger_screen'),
-                            Show('messenger_screen'),
-                            SetVariable('dialogue_picked', i.caption),
-                            Function(set_paraphrase, screen_pref=paraphrased,
-                                item_pref=(i.kwargs.get('paraphrased',
-                                None))),
-                            SetVariable('dialogue_pv', None),
-                            i.action
-                                ],
-                        [SetVariable('dialogue_picked', i.caption),
-                            Function(set_paraphrase, screen_pref=paraphrased,
-                                item_pref=(i.kwargs.get('paraphrased',
-                                None))),
-                            i.action
-                            ])
 
+                    text i.caption:
+                        if persistent.custom_footers:
+                            style 'phone_vn_choice_button_text'
+                        else:
+                            style 'choice_button_text'
+                        if (persistent.dialogue_outlines
+                                and persistent.custom_footers):
+                            outlines [ (2, "#000", 0, 0) ]
+                        elif (persistent.dialogue_outlines
+                                and not persistent.custom_footers):
+                            outlines [ (2, "#fff", 0, 0) ]
+                    action choice_action(i, paraphrased)
 
+image phone_icon_bg = Fixed(
+    'call_choice_check',
+    Transform('Phone Calls/call_button_answer.webp', align=(0.0, 0.5)),
+    fit_first=True,
+)
 image seen_choice_check = Image('Menu Screens/Main Menu/main02_tick.webp',
                             align=(0.99, 0.97))
 image seen_choice_check_circle = Image('Menu Screens/Main Menu/main02_tick_2.webp',
