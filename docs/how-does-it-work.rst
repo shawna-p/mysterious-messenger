@@ -237,7 +237,9 @@ Next, ``yinitial 1.0``. There's another piece of this puzzle that this code is m
 
 Now we get into the nitty-gritty of displaying the actual chat messages. A pretty typical setup is to have the character's profile picture on the left, and then to the right of the profile picture, there's the person's name on top of the text of their message. But, how do each of those parts work?
 
-The ``hbox`` is there to arrange the items from left-to-right beside each other. The first item is ``add msg.who.profile_pic``, which adds the profile picture to the hbox. This works because if you recall, ``msg`` is equal to a ``ChatEntry`` object that's part of the ``chatlog`` list.
+The ``hbox`` is there to arrange the items from left-to-right beside each other. The first item is ``add msg.who.profile_pic``, which adds the profile picture to the hbox. This works because if you recall, ``msg`` is equal to a ``ChatEntry`` object that's part of the ``chatlog`` list. A ``ChatEntry`` has a ``who`` field, which is the ``ChatCharacter`` object of the person sending the message. And a ``ChatCharacter`` object has a ``profile_pic`` field, which contains their profile picture. So, ``add msg.who.profile_pic`` adds the profile picture of the person who sent the message.
+
+
 
 
 
