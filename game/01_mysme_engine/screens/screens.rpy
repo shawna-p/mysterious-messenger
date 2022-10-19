@@ -474,6 +474,7 @@ screen choice(items, paraphrased=None):
     modal True
 
     default the_anim = choice_anim if persistent.custom_footers and not renpy.is_skipping() else null_anim
+    default outline_color = "#0000" if not persistent.dialogue_outlines else "#fff" if (gamestate == CHAT and not persistent.custom_footers) else "#000"
 
     add "choice_darken"
 
@@ -487,9 +488,7 @@ screen choice(items, paraphrased=None):
             for num, i in enumerate(items):
                 $ fnum = float(num*0.2)
                 textbutton i.caption at the_anim(fnum):
-                    if persistent.dialogue_outlines:
-                        text_outlines [ (absolute(2), "#000",
-                                absolute(0), absolute(0)) ]
+                    text_outlines [(2, outline_color, 0, 0)]
                     if (persistent.past_choices
                             and i.chosen):
                         foreground 'seen_choice_check'
@@ -502,9 +501,7 @@ screen choice(items, paraphrased=None):
             for num, i in enumerate(items):
                 $ fnum = float(num*0.2)
                 textbutton i.caption at the_anim(fnum):
-                    if persistent.dialogue_outlines:
-                        text_outlines [ (absolute(2), "#000",
-                            absolute(0), absolute(0)) ]
+                    text_outlines [(2, outline_color, 0, 0)]
                     if (persistent.past_choices and not observing
                             and i.chosen):
                         foreground 'seen_choice_check_circle'
@@ -548,12 +545,7 @@ screen choice(items, paraphrased=None):
                             style 'phone_vn_choice_button_text'
                         else:
                             style 'choice_button_text'
-                        if (persistent.dialogue_outlines
-                                and persistent.custom_footers):
-                            outlines [ (2, "#000", 0, 0) ]
-                        elif (persistent.dialogue_outlines
-                                and not persistent.custom_footers):
-                            outlines [ (2, "#fff", 0, 0) ]
+                        outlines [(2, outline_color, 0, 0)]
                     action choice_action(i, paraphrased)
 
 image phone_icon_bg = Fixed(
