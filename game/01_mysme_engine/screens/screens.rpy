@@ -486,11 +486,9 @@ screen choice(items, paraphrased=None):
         vbox:
             style_prefix 'text_msg_choice'
             for num, i in enumerate(items):
-                $ fnum = float(num*0.2)
-                textbutton i.caption at the_anim(fnum):
+                textbutton i.caption at the_anim(float(num*0.2)):
                     text_outlines [(2, outline_color, 0, 0)]
-                    if (persistent.past_choices
-                            and i.chosen):
+                    if (persistent.past_choices and i.chosen):
                         foreground 'seen_choice_check'
                     action choice_action(i, paraphrased)
 
@@ -499,8 +497,7 @@ screen choice(items, paraphrased=None):
         vbox:
             style_prefix 'phone_vn_choice'
             for num, i in enumerate(items):
-                $ fnum = float(num*0.2)
-                textbutton i.caption at the_anim(fnum):
+                textbutton i.caption at the_anim(float(num*0.2)):
                     text_outlines [(2, outline_color, 0, 0)]
                     if (persistent.past_choices and not observing
                             and i.chosen):
@@ -517,8 +514,7 @@ screen choice(items, paraphrased=None):
         vbox:
             style_prefix 'email_choice'
             for num, i in enumerate(items):
-                $ fnum = float(num*0.2)
-                textbutton i.caption at the_anim(fnum):
+                textbutton i.caption at the_anim(float(num*0.2)):
                     action choice_action(i, paraphrased)
 
     # For everything else (e.g. chatrooms)
@@ -529,8 +525,7 @@ screen choice(items, paraphrased=None):
             else:
                 style_prefix 'choice'
             for num, i in enumerate(items):
-                $ fnum = float(num*0.2)
-                button at the_anim(fnum):
+                button at the_anim(float(num*0.2)):
                     if (persistent.past_choices and not observing
                             and i.chosen):
                         if persistent.custom_footers:
