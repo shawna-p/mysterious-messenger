@@ -201,7 +201,7 @@ There are only two new lines, so we'll look at each one in turn. First, ``global
 
 The second line is ``chatlog.append(ChatEntry(self, what))``, which is made up of two parts. First, ``ChatEntry(self, what)``. This creates a ``ChatEntry`` object, which as described earlier, holds information on a particular message. If you recall, the ``ChatEntry`` constructor takes two parameters, ``who`` and ``what``. The ``who`` in this case is the ChatCharacter who's sending the message, which is the ``self`` parameter. If you're not familiar with classes, ``self`` basically just refers to the object itself. If you had ``default em = ChatCharacter("Emma", "Profile Pics/Emma-1.webp")``, then it's like passing ``ChatEntry(em, what)`` if it's the ``__call__`` method of ``em`` that's being called. The second parameter, ``what``, is of course the dialogue of the message.
 
-The second part is ``chatlog.append``. This appends a new item to our list, ``chatlog``. In this case, the item we are appending is a ``ChatEntry``, namely, ``ChatEntry(self, what)``. As a result, we will end up with a list of ``ChatEntry`` objects in a list, each of which holds the sender of a message and the contents of said message.
+The second part is ``chatlog.append``. This appends a new item to our list, ``chatlog``. In this case, the item we are appending is a ``ChatEntry``, namely, ``ChatEntry(self, what)``. As a result, we will end up with a list of ``ChatEntry`` objects, each of which holds the sender of a message and the contents of said message.
 
 
 Displaying the Chatrooms
@@ -238,6 +238,8 @@ Next, ``yinitial 1.0``. There's another piece of this puzzle that this code is m
 Now we get into the nitty-gritty of displaying the actual chat messages. A pretty typical setup is to have the character's profile picture on the left, and then to the right of the profile picture, there's the person's name on top of the text of their message. But, how do each of those parts work?
 
 The ``hbox`` is there to arrange the items from left-to-right beside each other. The first item is ``add msg.who.profile_pic``, which adds the profile picture to the hbox. This works because if you recall, ``msg`` is equal to a ``ChatEntry`` object that's part of the ``chatlog`` list. A ``ChatEntry`` has a ``who`` field, which is the ``ChatCharacter`` object of the person sending the message. And a ``ChatCharacter`` object has a ``profile_pic`` field, which contains their profile picture. So, ``add msg.who.profile_pic`` adds the profile picture of the person who sent the message.
+
+Then beside the profile picture there is a ``vbox``, which organizes its children by stacking them from top-to-bottom as mentioned. In this case, the top item is ``text msg.who.name``, which adds the sender's name, and the bottom item is ``text msg.what``, which adds the text of the message itself.
 
 
 
