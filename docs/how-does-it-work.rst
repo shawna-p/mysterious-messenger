@@ -241,6 +241,18 @@ The ``hbox`` is there to arrange the items from left-to-right beside each other.
 
 Then beside the profile picture there is a ``vbox``, which organizes its children by stacking them from top-to-bottom as mentioned. In this case, the top item is ``text msg.who.name``, which adds the sender's name, and the bottom item is ``text msg.what``, which adds the text of the message itself.
 
+With all that, in a fresh project, you should be able to write something like::
+
+    define e = ChatCharacter("Eileen", "gui/window_icon.png")
+    label start():
+        show screen messenger
+        e "This is some test dialogue!"
+        e "The whole thing hasn't been put together quite yet, thought."
+        e "Stay tuned for the rest!"
+        pause
+        return
+
+and you'll see the barebones version of the messenger system forming. Notably, all messages will just get added instantly to the chatlog; this is because there isn't any particular logic telling it to wait between messages yet.
 
 
 
