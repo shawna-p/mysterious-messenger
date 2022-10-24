@@ -252,7 +252,49 @@ With all that, in a fresh project, you should be able to write something like::
         pause
         return
 
-and you'll see the barebones version of the messenger system forming. Notably, all messages will just get added instantly to the chatlog; this is because there isn't any particular logic telling it to wait between messages yet.
+and you'll see the barebones version of the messenger system forming. Notably, all messages will just get added instantly to the chatlog; this is because there isn't any particular logic telling it to wait between messages yet. It also doesn't automatically scroll to the bottom when new messages arrive, which we'll fix later as well.
+
+## Pausing between messages
+
+In most cases, you'll want to simulate the characters typing/reading before they post a message so chatrooms aren't just a slew of instantly-sent messages. In Mysterious Messenger, there's a lot of other logic going on in each message, so I use a helper function, ``addchat``, to help with the calculations and other work. However, for a simplified version, it can go right into the ``__call__`` method from before::
+
+    class ChatCharacter(object):
+        """
+        A class which holds information on a single character in the game
+        for participating in chatrooms.
+
+        Attributes:
+        -----------
+        name : string
+            The name of the character, as it appears in a chatroom.
+        profile_pic : Displayable
+            The profile picture for this character.
+        """
+
+        def __init__(self, name, profile_pic):
+            """
+            Create a ChatCharacter object for use in chatrooms.
+            """
+            self.name = name
+            self.profile_pic = profile_pic
+
+        def __call__(self, what, **kwargs):
+            global chatlog
+
+            # Calculate a rough time estimate for how long before
+            # posting this message
+            # Let's assume each word has 6 characters (letters) and they
+            # are typing at a brisk 100wpm
+            # This formula becomes num_characters/6 characters per word
+            # = # of words / 100wpm = number of minutes to type
+            # *60 = # of seconds to type
+            wait_time = len(what)/6.0/100.0*60.0
+
+            # Now wait for that number of seconds
+            renpy.pause(wait_time)
+
+            # *Now* add the message
+            chatlog.append(ChatEntry(self, what))
 
 
 
