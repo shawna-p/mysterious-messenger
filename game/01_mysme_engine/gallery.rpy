@@ -428,21 +428,22 @@ init python:
             if not album.endswith("_album"):
                 full_alb = album + "_album"
             else:
+                full_alb = album
                 album = album[:-6]
             try:
                 per_album = getattr(store.persistent, convert_to_file_name(full_alb))
             except:
                 ScriptError("Couldn't find variable \"", convert_to_file_name(full_alb),
-                    "\" to update albums.", header="CG Albums",
+                    "\" to hide albums.", header="CG Albums",
                     subheader="Adding a CG Album")
                 return
             if per_album is None:
                 # Look through the regular album
                 try:
-                    per_album = getattr(store, convert_to_file_name(a))
+                    per_album = getattr(store, convert_to_file_name(full_alb))
                 except:
-                    ScriptError("Couldn't find variable \"", convert_to_file_name(a),
-                        "\" to update albums.", header="CG Albums",
+                    ScriptError("Couldn't find variable \"", convert_to_file_name(full_alb),
+                        "\" to hide albums.", header="CG Albums",
                         subheader="Adding a CG Album")
                     return
 
