@@ -302,4 +302,46 @@ The new lines here are ``wait_time = len(what)/6.0/100.0*60.0`` and ``renpy.paus
 
     The actual wait times can be much more involved, and include calculations on more than just the length of the current message. For example, you might consider looking at the current chatlog to see if the last message was posted by a different character, in which case perhaps they take a little extra time to send because they need to read the message first before they start to type. Mysterious Messenger uses a logarithmic curve to calculate how long a message takes to send, with very short messages taking a comparatively longer time than a linear function, and longer messages beginning to take similar amounts of time despite increasing length. Gameplay-wise, this prevents very short messages from feeling like they're being posted at lightning speed, and very long messages from feeling like they grind the chatroom speed to a halt.
 
+    If you'd like to get creative, you might consider both reading and typing times, particularly if you have a way of tracking who is "typing" a message at any given moment.
+
+Now when you run your script, there should be pauses between when each message gets posted to the chatlog. The last crucial piece of the puzzle is getting the viewport to stay at the bottom so it displays each new message. Let's look at that now::
+
+    default messenger_yadjustment = ui.adjustment()
+    screen messenger():
+
+        viewport:
+            mousewheel True draggable True
+            yinitial 1.0
+            yadjustment messenger_yadjustment
+            has vbox
+
+            for msg in chatlog:
+                hbox:
+                    add msg.who.profile_pic
+                    vbox:
+                        text msg.who.name
+                        text msg.what
+
+We'll also make a small adjustment to the ChatCharacter class's ``__call__`` method::
+
+    def __call__(self, what, **kwargs):
+        global chatlog, messenger_yadjustment
+
+        # Calculate a rough time estimate for how long before
+        # posting this message
+        # Let's assume each word has 6 characters (letters) and they
+        # are typing at a brisk 100wpm
+        # This formula becomes num_characters/6 characters per word
+        # = # of words / 100wpm = number of minutes to type
+        # *60 = # of seconds to type
+        wait_time = len(what)/6.0/100.0*60.0
+
+        # Now wait for that number of seconds
+        renpy.pause(wait_time)
+
+        # *Now* add the message
+        chatlog.append(ChatEntry(self, what))
+
+        # Scroll to the bottom to see it
+        messenger_yadjustment.value = float('inf')
 
