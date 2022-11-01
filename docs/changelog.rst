@@ -52,6 +52,8 @@ Fixes
       - Guests arriving at the party are better positioned relative to variable screen heights.
     * - Chat Creator special bubbles
       - Fixed an issue where you could only edit a special speech bubble's style and not set it beforehand.
+    * - ``hide_albums``
+      - Fix an issue with ``hide_albums`` not working properly.
 
 
 .. _qol-3-4-0:
