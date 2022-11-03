@@ -872,6 +872,17 @@ init -4 python:
                             img, bounce, specBubble,
                             link_img=link_img, link_title=link_title,
                             link_text=link_text, link_action=link_action))
+        # Scroll to the bottom to see it
+        if (not in_chat_creator) or is_main_menu_replay:
+            if abs(store.yadj.range - store.yadj.value) < 200:
+                # Adjust it if it's within 200 pixels of the bottom
+                store.yadj.value = yadjValue
+                # Reset the bubble value
+                store.num_bubbles = store.bubbles_to_keep
+            else:
+                # They're not near the bottom; increase the bubbles
+                # on-screen so it doesn't nudge them away
+                store.num_bubbles += 1
         # Create a rollback checkpoint
         renpy.checkpoint()
 
@@ -1128,6 +1139,9 @@ default oldPV = 0.8
 # (larger numbers may slow down the program; too
 # small and there may not be enough to fill the screen)
 default bubbles_to_keep = 20
+# The number of bubbles that's *actually* on-screen. May be adjusted
+# if the player isn't constantly at the bottom of the screen.
+default num_bubbles = bubbles_to_keep
 # Keeps track of the current background for calls such as "shake"
 default current_background = "morning"
 # Semi-randomizes awarding hourglasses
