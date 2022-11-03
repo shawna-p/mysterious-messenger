@@ -8,8 +8,6 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
         # This is the infinite value from earlier which
         # tells the viewport to always scroll to
         # the bottom
-        if (not in_chat_creator) or is_main_menu_replay:
-            yadj.value = yadjValue
         finalchat = None
         if len(chatlog) > 0:
             finalchat = chatlog[-1]
@@ -28,7 +26,8 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
         if animate_down:
             at slide_down(-220)
 
-        viewport: # viewport id "VP":
+        viewport:
+            id 'messenger_vp'
             yadjustment yadj
             draggable True
             mousewheel True
@@ -44,7 +43,7 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
             if len(chatlog) < 20 and (not in_chat_creator or is_main_menu_replay):
                 null height config.screen_height
             if not in_chat_creator or is_main_menu_replay:
-                for i index id(i) in chatlog[-bubbles_to_keep:]:
+                for i index id(i) in chatlog[-num_bubbles:]:
                     fixed:
                         yfit True
                         xfill True
