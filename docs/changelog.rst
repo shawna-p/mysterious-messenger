@@ -33,6 +33,8 @@ Minor New Features
 
     * - **Feature**
       - **Description**
+    * - Chatroom scrolling
+      - You can now scroll backwards in a chatroom without pausing and the game will not attempt to drag you back down towards the recent messages.
 
 
 .. _fixes-3-4-0:
