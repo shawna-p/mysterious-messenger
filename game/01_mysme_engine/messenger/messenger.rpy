@@ -4,13 +4,10 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
 
     tag menu
     zorder 1
+
     python:
-        # This is the infinite value from earlier which
-        # tells the viewport to always scroll to
-        # the bottom
-        finalchat = None
-        if len(chatlog) > 0:
-            finalchat = chatlog[-1]
+        # If we've gone past 20 entries that aren't in the no_anim_list,
+        # there is no animation list
         if (no_anim_list and len(chatlog) > 20
                 and chatlog[-20] not in no_anim_list):
             no_anim_list = None
@@ -18,11 +15,16 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
     frame:
         align (0.5, 1.0)
         xfill True
+        # Different sizes depending on if this is a regular chatroom,
+        # a chatroom replay, or if it's from the chat creator (which has
+        # limited space).
         if (not in_chat_creator) or is_main_menu_replay:
             yoffset -114
             ysize config.screen_height-113-165
         else:
             ysize creator_messenger_ysize-5
+
+        # This animation is used when timed menus disappear
         if animate_down:
             at slide_down(-220)
 
@@ -40,6 +42,8 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
             has vbox
             spacing 10
             xfill True
+            # Add a null to ensure new messages are pushed down to start at
+            # the bottom of the screen
             if len(chatlog) < 20 and (not in_chat_creator or is_main_menu_replay):
                 null height config.screen_height
             if not in_chat_creator or is_main_menu_replay:
@@ -47,23 +51,27 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
                     fixed:
                         yfit True
                         xfill True
-                        if i.who.name in ['msg', 'filler']:
+                        if i.who.name in ('msg', 'filler'):
                             use special_msg(i)
                         elif i.who == answer:
                             pass
                         # This trick means that the program displays
                         # an invisible bubble behind the visible one
                         # so the animation doesn't "slide" in
-                        else:# i == finalchat:
+                        else:
                             use chat_animation(i, True)
-                        if (i.who.name not in ['msg', 'filler', 'answer']
+                        # Three special messenger "characters" do not animate,
+                        # and for choices sometimes bubbles are marked to
+                        # not be animated
+                        if (i.who.name not in ('msg', 'filler', 'answer')
                                 and (no_anim_list is None
                                     or i not in no_anim_list)):
                             use chat_animation(i)
-                        elif (i.who.name not in ['msg', 'filler', 'answer']
+                        elif (i.who.name not in ('msg', 'filler', 'answer')
                                 and i in no_anim_list):
                             use chat_animation(i, no_anim=True)
             else:
+                ## FOR THE CHATROOM CREATOR
                 for ind, i index id(i) in enumerate(chatlog):
                     if ind == insert_msg_index:
                         ## A helper "message" for the chat creator which
@@ -164,7 +172,7 @@ screen chat_animation(i, anti=False, no_anim=False):
     # Now add the dialogue
     if not i.has_new: # Not a "regular" dialogue bubble
         # Not an image; check if it's a special bubble
-        if i.specBubble != None and i.specBubble not in ['glow2', 'glow3']:
+        if i.specBubble != None and i.specBubble not in ('glow2', 'glow3'):
             fixed at i.msg_animation(anti, no_anim):
                 offset i.spec_bubble_offset
                 if i.who.right_msgr:
