@@ -78,11 +78,11 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
                         ## indicates where messages will be inserted.
                         button:
                             style_prefix "cc_insert"
-                            vbox:
-                                text "Insert Message Here" size 45
-                                text "(Click to remove)" size 22
                             action CConfirm("Stop inserting messages here?",
                                 SetVariable('insert_msg_index', -1))
+                            has vbox
+                            text "Insert Message Here" size 45
+                            text "(Click to remove)" size 22
                     button:
                         style 'cc_button2'
                         if edit_mode:
