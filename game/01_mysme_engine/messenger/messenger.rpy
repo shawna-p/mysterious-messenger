@@ -77,27 +77,14 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
                         ## A helper "message" for the chat creator which
                         ## indicates where messages will be inserted.
                         button:
-                            padding (20, 20) background "#f003"
-                            xfill True
+                            style_prefix "cc_insert"
                             vbox:
-                                align (0.5, 0.5)
-                                text "Insert Message Here":
-                                    outlines [(1, "#000", 0, 0)]
-                                    color "#fff"
-                                    size 45
-                                    align (0.5, 0.5)
-                                    text_align 0.5
-                                text "(Click to remove)":
-                                    outlines [(1, "#000", 0, 0)]
-                                    color "#fff"
-                                    size 22
-                                    text_align 0.5
-                                    align (0.5, 0.5)
+                                text "Insert Message Here" size 45
+                                text "(Click to remove)" size 22
                             action CConfirm("Stop inserting messages here?",
                                 SetVariable('insert_msg_index', -1))
                     button:
-                        padding (0, 0) background None
-                        hover_background "#fff6"
+                        style 'cc_button2'
                         if edit_mode:
                             action [SetVariable('edit_msg_index', ind),
                                 Show('edit_msg_menu', msg=i, ind=ind)]
@@ -119,6 +106,22 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
                             use chat_animation(i, no_anim=True)
 
             null height 10
+
+style cc_button2:
+    padding (0, 0) background None
+    hover_background "#fff6"
+style cc_insert_button:
+    padding (20, 20)
+    background "#f003"
+    xfill True
+style cc_insert_vbox:
+    align (0.5, 0.5)
+style cc_insert_text:
+    outlines [(1, "#000", 0, 0)]
+    color "#fff"
+    align (0.5, 0.5)
+    text_align 0.5
+
 
 ## This displays the special messages like "xyz
 ## has entered the chatroom"
