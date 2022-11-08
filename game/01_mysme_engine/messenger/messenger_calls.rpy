@@ -21,13 +21,15 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
     $ set_chatroom_background(background)
     return
 
-## This label simplifies setting up backgrounds for chatrooms
-## It takes the name of a background and shows the corresponding
-## static or animated background
 init python:
 
     def set_chatroom_background(new_bg):
-        """Set the correct background and nickname colour."""
+        """
+        Set up the background for a chatroom. Takes the name of a background
+        and shows the corresponding static or animated background. Also sets
+        the appropriate nickname colour. If new_bg is None, sets the background
+        according to the time-of-day.
+        """
 
         if new_bg is None:
             renpy.scene()
