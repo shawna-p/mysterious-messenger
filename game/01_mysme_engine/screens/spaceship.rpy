@@ -119,6 +119,7 @@ screen spaceship_thoughts():
         xysize (config.screen_width, config.screen_height)
         activate_sound 'audio/sfx/UI/select_6.mp3'
         action Hide('spaceship_thoughts', Dissolve(0.5))
+        keysym "rollback"
 
         frame:
             xysize (680, 374)

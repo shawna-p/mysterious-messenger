@@ -1089,6 +1089,7 @@ screen menu_header(title, return_action=NullAction,
                 yalign align_new_dimensions(0.068)
                 idle "menu_back"
                 focus_mask None
+                keysym "rollback"
                 hover Transform("menu_back", zoom=1.1)
                 activate_sound 'audio/sfx/UI/back_button.mp3'
                 if not renpy.get_screen("choice"):
@@ -1632,6 +1633,7 @@ screen developer_settings():
             xoffset 3 yoffset -3
             auto 'input_close_%s'
             action Hide('developer_settings')
+            keysym "rollback"
 
         text "Developer Settings" style "settings_style" xpos 55 ypos 5
 
@@ -1774,6 +1776,7 @@ screen choose_screen_ratio():
             xoffset 3 yoffset -3
             auto 'input_close_%s'
             action Hide('choose_screen_ratio')
+            keysym "rollback"
 
         text "Choose a screen ratio" style "settings_style" xpos 55 ypos 5
 
@@ -1828,6 +1831,7 @@ screen email_testing():
             xoffset 3 yoffset -3
             auto 'input_close_%s'
             action Hide('email_testing')
+            keysym "rollback"
 
         text "Test Emails" style "settings_style" xpos 55 ypos 5
 
@@ -2066,6 +2070,7 @@ screen update_preferences():
         imagebutton:
             auto 'input_close_%s'
             action Hide('update_preferences')
+            keysym "rollback"
 
         text "Update Preferences" style "settings_style" xpos 55 ypos 5
 

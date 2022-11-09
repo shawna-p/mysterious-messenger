@@ -67,6 +67,7 @@ screen adjust_fonts():
             xoffset 3 yoffset -3
             auto 'input_close_%s'
             action Hide('adjust_fonts')
+            keysym "rollback"
 
         text "Adjust Fonts" style "settings_style" xpos 55 ypos 5
 

@@ -1056,6 +1056,7 @@ screen dialogue_edit_popup():
             align (1.0, 0.0) xoffset 20
             auto 'input_close_%s'
             action Hide('dialogue_edit_popup')
+            keysym "rollback"
         vbox:
             spacing 10
             null height 60
@@ -1141,6 +1142,7 @@ screen select_anim():
             align (1.0, 0.0)
             auto 'input_close_%s'
             action Hide('select_anim')
+            keysym "rollback"
         vbox:
             spacing 20
             xalign 0.5
@@ -1422,6 +1424,7 @@ screen select_banner():
             align (1.0, 0.0)
             auto 'input_close_%s'
             action Hide('select_banner')
+            keysym "rollback"
         vbox:
             spacing 20
             xalign 0.5
@@ -1548,6 +1551,7 @@ screen select_music():
             align (1.0, 0.0)
             auto 'input_close_%s'
             action Hide('select_music')
+            keysym "rollback"
         vbox:
             spacing 20
             xalign 0.5
@@ -1604,6 +1608,7 @@ screen select_background():
             align (1.0, 0.0)
             auto 'input_close_%s'
             action Hide('select_background')
+            keysym "rollback"
         vbox:
             spacing 20
             xalign 0.5
@@ -1669,6 +1674,7 @@ screen select_participants():
             align (1.0, 0.0)
             auto 'input_close_%s'
             action Hide('select_participants')
+            keysym "rollback"
         vbox:
             spacing 20
             xalign 0.5
@@ -1866,6 +1872,7 @@ screen choose_chat_creator():
                 textbutton _("Cancel"):
                     xsize 300
                     action Hide('choose_chat_creator')
+                    keysym "rollback"
 
     ## Right-click and escape answer "no".
     key "game_menu" action Hide('choose_chat_creator')

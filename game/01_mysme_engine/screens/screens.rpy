@@ -1053,6 +1053,7 @@ screen messenger_error():
                     textbutton _("Confirm"):
                         action [SetField(persistent, 'HG', persistent.HG+1),
                                 Hide('messenger_error')]
+                        keysym "rollback"
 
 style confirm_frame is gui_frame
 style confirm_prompt is gui_prompt

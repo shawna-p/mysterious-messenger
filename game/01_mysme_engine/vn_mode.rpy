@@ -155,6 +155,7 @@ screen history():
         focus_mask True
         xysize (config.screen_width, 99)
         action Hide('history')#Return()
+        keysym "rollback"
         text "Close" style "CG_close_button_text":
             yalign 0.5 xpos 20
             if persistent.dialogue_outlines:
