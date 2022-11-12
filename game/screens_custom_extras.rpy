@@ -17,6 +17,7 @@ screen game_extras():
             align (1.0, 0.0)
             xoffset 18
             auto 'input_close_%s'
+            keysym "rollback"
             action Hide('game_extras')
 
         text "Extras" style "settings_style" xpos 55 ypos 5
