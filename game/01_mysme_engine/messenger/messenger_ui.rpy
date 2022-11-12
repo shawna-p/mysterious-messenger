@@ -7,10 +7,10 @@ screen answer_button(act=None):
     tag chat_footer
     add 'pause_square' ysize config.screen_height-113-165 yalign 0.0 yoffset 165
     if persistent.custom_footers:
-        add 'custom_pausebutton' xalign 0.96 yoffset 190
+        add 'custom_pausebutton' xalign 1.0 xoffset -25 yoffset 190
         add 'custom_answerbutton' yalign 1.0
     else:
-        add "pausebutton" xalign 0.96 yoffset 190
+        add "pausebutton" xalign 1.0 xoffset -25 yoffset 190
         add "answerbutton" yalign 1.0
 
     imagebutton:
@@ -104,9 +104,9 @@ screen play_button_pause_chat():
     use messenger_screen(no_anim_list=chatlog[-bubbles_to_keep:])
     use phone_overlay(is_menu_pause=True)
     if persistent.custom_footers:
-        add 'custom_pausebutton' xalign 0.96 yoffset 190
+        add 'custom_pausebutton' xalign 1.0 xoffset -25 yoffset 190
     else:
-        add "pausebutton" xalign 0.96 yoffset 190
+        add "pausebutton" xalign 1.0 xoffset -25 yoffset 190
     add "pause_square" ysize config.screen_height-113-165 yalign 0.0 yoffset 165
     imagebutton:
         xanchor 0.0
