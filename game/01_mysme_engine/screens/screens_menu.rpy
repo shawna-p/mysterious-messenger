@@ -1162,6 +1162,49 @@ style hg_hp_display_text:
     xalign 1.0
 
 ########################################################
+## Extra screen for exchanging hearts for hourglasses
+########################################################
+screen hearts_to_hg():
+
+    modal True
+
+    add "#000b"
+
+    frame:
+        style_prefix 'heart_hg_exchange'
+        has vbox
+        text "You can exchange 100 hearts for a single hourglass.\nPlease choose the amount you would like to exchange."
+        hbox:
+            style_prefix "sig_points"
+            spacing 25
+            frame:
+                background 'heart_sign'
+                text "[persistent.HP]"
+            text ">>>" color "#fff" align (0.5, 0.5)
+            frame:
+                background 'hg_sign'
+                text "[persistent.HG]"
+        # Slider here
+        hbox:
+            style_prefix "confirm"
+            textbutton _("Confirm") action NullAction()
+            textbutton _("Cancel") action Hide('hearts_to_hg')
+
+style heart_hg_exchange_frame:
+    align (0.5, 0.5)
+    background 'menu_popup_bkgrd'
+    padding (30, 30)
+
+style heart_hg_exchange_text:
+    color "#fff"
+    align (0.5, 0.5)
+    text_align 0.5
+    xmaximum 550
+
+style heart_hg_exchange_vbox:
+    spacing 40
+
+########################################################
 ## The 'homepage' from which you interact with the game
 ## after the main menu
 ########################################################
