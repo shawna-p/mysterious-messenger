@@ -67,7 +67,6 @@ init python:
         of the player when interpolated in dialogue.
         """
         def __init__(self, fem, masc, neutral):
-            print("Called init")
             self.fem = fem
             self.masc = masc
             self.neutral = neutral
