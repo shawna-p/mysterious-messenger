@@ -1012,22 +1012,23 @@ screen menu_header(title, return_action=NullAction,
                         add 'header_hg' yalign 1.0
                         frame:
                             style_prefix 'hg_hp_display'
-                            text str(persistent.HG)
+                            text "[persistent.HG]"
                     imagebutton:
                         idle "header_plus"
                         hover "header_plus_hover"
-                        action CConfirm(("There are no in-game "
-                            + "purchases in this application. However, if "
-                            + "you'd like to support its development, you can "),
-                            #+ "{a=https://ko-fi.com/fen}check out my Ko-Fi here.{/a}",
-                            show_link=True)
+                        action Show('hearts_to_hg')
+                        # action CConfirm(("There are no in-game "
+                        #     + "purchases in this application. However, if "
+                        #     + "you'd like to support its development, you can "),
+                        #     #+ "{a=https://ko-fi.com/fen}check out my Ko-Fi here.{/a}",
+                        #     show_link=True)
                     frame:
                         has hbox
                         xalign 1.0
                         add "header_heart" yalign 1.0
                         frame:
                             style_prefix 'hg_hp_display'
-                            text str(persistent.HP)
+                            text "[persistent.HP]"
 
         # Settings gear
         if not persistent.first_boot and title != "Settings":
@@ -1164,9 +1165,21 @@ style hg_hp_display_text:
 ########################################################
 ## Extra screen for exchanging hearts for hourglasses
 ########################################################
+init python:
+    def update_hg_hp(hearts):
+        """
+        Adjusts the number of hearts and hourglasses the player has
+        after exchanging them.
+        """
+        store.persistent.HP -= hearts*100
+        store.persistent.HG += hearts
+
 screen hearts_to_hg():
 
     modal True
+
+    default heart_to_exchange = 0
+    default final_hg = persistent.HG
 
     add "#000b"
 
@@ -1179,15 +1192,25 @@ screen hearts_to_hg():
             spacing 25
             frame:
                 background 'heart_sign'
-                text "[persistent.HP]"
+                text str(heart_to_exchange*100)
             text ">>>" color "#fff" align (0.5, 0.5)
             frame:
                 background 'hg_sign'
-                text "[persistent.HG]"
+                text "[heart_to_exchange]"
         # Slider here
         hbox:
+            style_prefix "sound_settings"
+            bar value ScreenVariableValue('heart_to_exchange',
+                    persistent.HP//100, style='sound_settings_slider'):
+                xsize 360
+            textbutton _("MAX") action SetScreenVariable('heart_to_exchange', persistent.HP//100)
+        hbox:
             style_prefix "confirm"
-            textbutton _("Confirm") action NullAction()
+            textbutton _("Confirm"):
+                action CConfirm("Are you sure you'd like to exchange {} hearts for {} hourglass{}?".format(
+                            heart_to_exchange*100, heart_to_exchange, "es" if heart_to_exchange > 1 else ""),
+                        [Function(update_hg_hp, heart_to_exchange),
+                        Hide('hearts_to_hg')])
             textbutton _("Cancel") action Hide('hearts_to_hg')
 
 style heart_hg_exchange_frame:
