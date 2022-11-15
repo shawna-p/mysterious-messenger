@@ -61,6 +61,19 @@ init python:
         else:
             return neutral
 
+    class GenderedTerm(object):
+        """
+        A class which returns a term corresponding to the gender and pronouns
+        of the player when interpolated in dialogue.
+        """
+        def __init__(self, fem, masc, neutral):
+            print("Called init")
+            self.fem = fem
+            self.masc = masc
+            self.neutral = neutral
+        def __str__(self):
+            return get_term(self.fem, self.masc, self.neutral)
+
 init 100 python:
     ## FOR RELEASE
     # This will force these persistent values to always be the value
