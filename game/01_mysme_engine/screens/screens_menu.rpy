@@ -1178,7 +1178,7 @@ screen hearts_to_hg():
 
     modal True
 
-    default heart_to_exchange = 0
+    default heart_to_exchange = 0.0
     default final_hg = persistent.HG
 
     add "#000b"
@@ -1192,24 +1192,24 @@ screen hearts_to_hg():
             spacing 25
             frame:
                 background 'heart_sign'
-                text str(heart_to_exchange*100)
+                text str(persistent.HP-int(heart_to_exchange)*100)
             text ">>>" color "#fff" align (0.5, 0.5)
             frame:
                 background 'hg_sign'
-                text "[heart_to_exchange]"
+                text "+" + str(int(heart_to_exchange))
         # Slider here
         hbox:
             style_prefix "sound_settings"
             bar value ScreenVariableValue('heart_to_exchange',
-                    persistent.HP//100, style='sound_settings_slider'):
+                    float(persistent.HP//100), style='sound_settings_slider'):
                 xsize 360
             textbutton _("MAX") action SetScreenVariable('heart_to_exchange', persistent.HP//100)
         hbox:
             style_prefix "confirm"
             textbutton _("Confirm"):
                 action CConfirm("Are you sure you'd like to exchange {} hearts for {} hourglass{}?".format(
-                            heart_to_exchange*100, heart_to_exchange, "es" if heart_to_exchange > 1 else ""),
-                        [Function(update_hg_hp, heart_to_exchange),
+                            int(heart_to_exchange)*100, int(heart_to_exchange), "es" if int(heart_to_exchange) > 1 else ""),
+                        [Function(update_hg_hp, int(heart_to_exchange)),
                         Hide('hearts_to_hg')])
             textbutton _("Cancel") action Hide('hearts_to_hg')
 
