@@ -1207,11 +1207,42 @@ screen hearts_to_hg():
         hbox:
             style_prefix "confirm"
             textbutton _("Confirm"):
-                action CConfirm("Are you sure you'd like to exchange {} hearts for {} hourglass{}?".format(
-                            int(heart_to_exchange)*100, int(heart_to_exchange), "es" if int(heart_to_exchange) > 1 else ""),
-                        [Function(update_hg_hp, int(heart_to_exchange)),
-                        Hide('hearts_to_hg')])
+                sensitive heart_to_exchange > 0
+                action Show('heart_exchange_confirm', heart_to_exchange=heart_to_exchange)
             textbutton _("Cancel") action Hide('hearts_to_hg')
+
+screen heart_exchange_confirm(heart_to_exchange):
+
+    ## Ensure other screens do not get input while this screen is displayed.
+    modal True
+
+    zorder 200
+
+    style_prefix "confirm"
+
+    add "gui/overlay/confirm.png"
+
+    frame:
+        vbox:
+            label "The amount of hearts you set will be used. Would you like to continue?":
+                style "confirm_prompt"
+                xalign 0.5
+            frame:
+                style_prefix "sig_points"
+                xalign 0.5
+                background 'heart_sign'
+                text "{}".format(int(heart_to_exchange)*-100)
+            hbox:
+                textbutton _("Confirm"):
+                    action [Function(update_hg_hp, int(heart_to_exchange)),
+                            Hide('hearts_to_hg'),
+                            Hide('heart_exchange_confirm'),
+                            CConfirm("Completed!")]
+                textbutton _("Cancel") action Hide('heart_exchange_confirm')
+
+
+    ## Right-click and escape answer "no".
+    key "game_menu" action Hide('heart_exchange_confirm')
 
 style heart_hg_exchange_frame:
     align (0.5, 0.5)
