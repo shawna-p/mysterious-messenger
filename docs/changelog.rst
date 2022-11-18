@@ -37,6 +37,8 @@ Minor New Features
       - You can now scroll backwards in a chatroom without pausing and the game will not attempt to drag you back down towards the recent messages.
     * - Android Back Button
       - The Android back button will now correctly activate the "back" action in the UI when available.
+    * - Hearts to Hourglasses
+      - You can exchange 100 hearts for 1 hourglass by clicking the "+" next to hourglasses in the header.
 
 
 .. _fixes-3-4-0:
