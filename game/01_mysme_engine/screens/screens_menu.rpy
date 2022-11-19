@@ -1179,7 +1179,6 @@ screen hearts_to_hg():
     modal True
 
     default heart_to_exchange = 0.0
-    default final_hg = persistent.HG
 
     add "#000b"
 
