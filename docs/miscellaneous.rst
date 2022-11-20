@@ -106,24 +106,25 @@ If you ever want to change dialogue based on the player's gender, you can write 
 Using Gendered Terms
 ---------------------
 
-Since the program allows players to choose their gender and pronouns, you may need to consider these factors when writing dialogue. Luckily, there is a built-in function, ``get_term``, which is designed to assist with this.
+Since the program allows players to choose their gender and pronouns, you may need to consider these factors when writing dialogue. The program has a built-in GenderedTerm class to help with this.
 
-The function can be found in ``variables_editable.rpy`` and currently functions as follows:
+The class can be found in ``variables_editable.rpy`` and currently functions as follows:
 
 * If the player has she/her pronouns *and* identifies as female, the "feminine" term will be used
 * If the player has he/him pronouns *and* identifies as male, the "masculine" term will be used
 * Otherwise, the neutral term is used
 
-To use it, you will call the function like so::
+To use it, you can declare variables like so::
 
-    $ cutie = get_term("cute girl", "cute boy", "cutie")
+    default cutie = GenderedTerm("cute girl", "cute boy", "cutie")
 
 in which the first argument ("cute girl") is the term that should be used for female players, the second argument ("cute boy") for male players, and the final argument for a neutral term. A similar use-case might be::
 
-    $ datefriend = get_term("girlfriend", "boyfriend", "datefriend")
-    s "So... can I call u my [datefriend] lol"
+    default datefriend = GenderedTerm("girlfriend", "boyfriend", "datefriend")
+    label day8_5():
+        s "So... can I call u my [datefriend] lol"
 
-You can use this function anywhere you might need to refer to the player with a term that can be considered gendered.
+The variable will update automatically based on the player's pronouns and gender without you needing to do anything else, so long as you set it up initially with ``default``.
 
 
 Custom Emojis
