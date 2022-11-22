@@ -39,6 +39,8 @@ Minor New Features
       - The Android back button will now correctly activate the "back" action in the UI when available.
     * - Hearts to Hourglasses
       - You can exchange 100 hearts for 1 hourglass by clicking the "+" next to hourglasses in the header.
+    * - Gendered Term Improvement
+      - The GenderedTerm class lets you set up gendered terms once and have them update automatically based on the player's pronouns and gender, improving ``get_term`` introduced in 3.3.0.
 
 
 .. _fixes-3-4-0:
@@ -121,7 +123,6 @@ Minor New Features
       - The splash screen has been relocated and updated to make it easy to add your own image and "Tap to Start" before entering the main menu.
     * - Award Hearts
       - You can provide a number to ``break heart`` or ``award heart`` to award/break multiple hearts at once.
-
 
 .. _fixes-3-3-0:
 
