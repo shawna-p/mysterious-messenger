@@ -904,7 +904,7 @@ init -6 python:
 
         # If the first item of the merged route has a branch_vn, it gets added
         # to the main TimelineItem that contained the branch
-        if len(new_route) > 1 and new_route[1].branch_vn:
+        if len(new_route) > 1 and new_route[1].branch_vn and most_recent_item:
             most_recent_item.story_mode = new_route[1].get_branch_item
             most_recent_item.story_mode.parent = most_recent_item
 
@@ -937,18 +937,20 @@ init -6 python:
             a += 1
 
         # Now get rid of all the chats past the plot branch
-        while (story_archive[a].archive_list
-                and not story_archive[a].archive_list[-1] == found_branch):
-            # Remove the last item from the archive_list if it isn't the
-            # plot branch being dealt with
-            story_archive[a].archive_list.pop()
+        if found_branch:
+            while (story_archive[a].archive_list
+                    and not story_archive[a].archive_list[-1] == found_branch):
+                # Remove the last item from the archive_list if it isn't the
+                # plot branch being dealt with
+                story_archive[a].archive_list.pop()
 
         if a < len(story_archive):
             for archive in story_archive[a+1:]:
                 archive.archive_list = []
 
         # Remove the plot branch indicator
-        most_recent_item.plot_branch = None
+        if most_recent_item:
+            most_recent_item.plot_branch = None
 
         # If this is the party, might need to update the current_timeline_item
         # to be the merged party
