@@ -1,7 +1,7 @@
 ####################################################################
 ## CASUAL ROUTE DEFINITION
 ####################################################################
-default example_casual_route_good_end = ["Good End",
+default example_first_day_good_end = ["Good End",
     RouteDay('1st', [
         ChatRoom("Welcome1", 'casual_d1_example_1', '00:03', [y]),
         ChatRoom("Welcome2", 'casual_d1_example_2', '02:21', [ja]),
@@ -24,6 +24,18 @@ default example_casual_route_good_end = ["Good End",
         # also set it here on the RouteDay object to apply it to all items.
         # If save_img is set for an individual item, this will not overwrite it.
         ], save_img='casual'),
+    RouteDay('2nd'),
+    RouteDay('3rd'),
+    RouteDay('4th'),
+    RouteDay('5th'),
+    RouteDay('6th'),
+    RouteDay('7th'),
+    RouteDay('8th'),
+    RouteDay('9th'),
+    RouteDay('10th'),
+    RouteDay('Final')
+]
+default example_casual_route_good_end = ["Good End",
     RouteDay('2nd', [
         ChatRoom("Jaehee's announcement", 'casual_d2_example_1', '00:38', [ja]),
         ChatRoom("Zen received fan letters", 'casual_d2_example_2', '03:03', [z]),
@@ -105,12 +117,22 @@ default example_casual_route = Route(
     has_end_title=False
 )
 
+default example_first_day = Route(
+    default_branch=example_first_day_good_end,
+    route_history_title='First Day',
+    has_end_title=False
+)
+
 label example_casual_start:
     python:
-        new_route_setup(route=example_casual_route)
+        new_route_setup(route=example_first_day)
         # r, v, and ri are not present on casual route.
         character_list = [ju, z, s, y, ja]
         heart_point_chars = [ju, z, s, y, ja]
+        # Since casual route connects the first day and days 2-4 directly,
+        # we immediately merge routes here
+        merge_routes(example_casual_route_good_end)
+
     # Typically you would put an introductory chatroom of some kind here.
     # For convenience, this simply jumps to the home screen.
     jump skip_intro_setup
