@@ -339,7 +339,6 @@ screen pick_mc_pfp():
             and isImg(pic) ]
         if not persistent.first_boot:
             pfp_list.extend(persistent.unlocked_prof_pics)
-        num_rows = -(-(len(pfp_list) ) // 4)
 
     default can_pick = can_pick_image()
 
@@ -353,7 +352,6 @@ screen pick_mc_pfp():
         text "Choose your profile picture"
 
         vpgrid:
-            rows num_rows
             cols 4
             draggable True
             mousewheel True
@@ -379,14 +377,10 @@ screen pick_mc_pfp():
                         add "#0005" size (140, 140)
                         add 'plot_lock' align (0.5, 0.5)
                         add 'header_hg' align (0.95, 0.95)
-                        action CConfirm(("Would you like to "
-                            + "unlock this profile picture for 1 hourglass?"),
-                            If(persistent.HG>0,
-                                [SetField(persistent, 'HG',
-                                    persistent.HG-1),
-                                AddToSet(persistent.mc_unlocked_pfps, img)],
-                                [CConfirm("You do not have enough hourglasses"
-                                    + " to purchase this picture.")]))
+                        action Show('hourglass_spend_confirmation', None,
+                            "Would you like to unlock this profile picture for 1 hourglass?",
+                            1,  [AddToSet(persistent.mc_unlocked_pfps, img)])
+
 
 init python:
 
