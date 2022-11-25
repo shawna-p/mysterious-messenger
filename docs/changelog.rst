@@ -41,6 +41,8 @@ Minor New Features
       - You can exchange 100 hearts for 1 hourglass by clicking the "+" next to hourglasses in the header.
     * - Gendered Term Improvement
       - The GenderedTerm class lets you set up gendered terms once and have them update automatically based on the player's pronouns and gender, improving ``get_term`` introduced in 3.3.0.
+    * - Hourglass confirmation screen
+      - New ``hourglass_spend_confirmation`` screen will display the number of hourglasses to be used for things like bonus profile pictures.
 
 
 .. _fixes-3-4-0:
