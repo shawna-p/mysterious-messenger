@@ -377,9 +377,10 @@ screen pick_mc_pfp():
                         add "#0005" size (140, 140)
                         add 'plot_lock' align (0.5, 0.5)
                         add 'header_hg' align (0.95, 0.95)
-                        action Show('hourglass_spend_confirmation', None,
+                        action SpendHourglass(
                             "Would you like to unlock this profile picture for 1 hourglass?",
-                            1,  [AddToSet(persistent.mc_unlocked_pfps, img)])
+                            1, AddToSet(persistent.mc_unlocked_pfps, img)
+                        )
 
 
 init python:

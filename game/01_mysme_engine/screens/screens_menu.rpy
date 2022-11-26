@@ -1243,10 +1243,29 @@ screen heart_exchange_confirm(heart_to_exchange):
     ## Right-click and escape answer "no".
     key "game_menu" action Hide('heart_exchange_confirm')
 
+init python:
+    class SpendHourglass(Show):
+        """
+        A class to simplify showing a confirmation popup to the player
+        when they spend hourglasses.
+        """
+        def __init__(self, msg, num_hg, action, transition=None):
+            if not isinstance(action, list):
+                action = [ action ] + [
+                    SetField(store.persistent, 'HG', store.persistent.HG-num_hg),
+                    Hide('hourglass_spend_confirmation')]
+            else:
+                action = action +[
+                    SetField(store.persistent, 'HG', store.persistent.HG-num_hg),
+                    Hide('hourglass_spend_confirmation')]
+
+            super(SpendHourglass, self).__init__('hourglass_spend_confirmation',
+                transition=transition, msg=msg, num_hg=num_hg, action=action)
+
+
 ## Example:
-## action Show('hourglass_spend_confirmation', None,
-##     "Would you like to unlock the deep\nstory mode?", 200,
-##     [Hide('heart_exchange_confirm')])
+## action SpendHourglass("Would you like to unlock the deep\nstory mode?",
+##          300, SetField(persistent, 'deep_story_unlocked', True))
 screen hourglass_spend_confirmation(msg, num_hg, action):
 
     default yes_action = action + [SetField(persistent, 'HG', persistent.HG-num_hg),
