@@ -210,116 +210,95 @@ image animated_shooting_star2 = 'Phone UI/animated_bgs/night/night_shooting_star
 
 image animated_night_bg = 'Phone UI/animated_bgs/night/night_background.webp'
 
+init python:
+    class StarSprite():
+        """
+        A small class to hold information on a given star so it can be
+        generated as a sprite.
+        """
+        def __init__(self, img, animation, delay_min, delay_max,
+                xmin, xmax, ymin, ymax):
+            delay = renpy.random.randint(delay_min, delay_max)
+            self.x = renpy.random.randint(xmin, xmax)
+            self.y = renpy.random.randint(ymin, ymax)
+
+            if animation is not None:
+                self.displayable = At(img, animation(delay))
+            else:
+                self.displayable = img
+
+    ## Use sprites for stars
+    def make_stars():
+        star_manager = SpriteManager(predict=['animated_night_med_star',
+            'animated_night_tiny_star', 'animated_night_big_star'])
+        star_sprites = [ ]
+
+        # The range of where the star can be on-screen
+        xran = config.screen_width // 3
+        yran = (config.screen_height-113-165) // 4
+
+        for j in range(2): # Double the number of stars
+            for x in range(3):
+                for y in range(4):
+                    for i in range(0, 200, 50):
+                        # Make some stars twinkle in
+                        star_sprites.append(StarSprite('animated_night_tiny_star',
+                            star_twinkle_in2, i, i+50, x*xran, x*xran+xran,
+                            y*yran, y*yran+yran))
+                        star_sprites.append(StarSprite('animated_night_med_star',
+                            star_twinkle_in2, i, i+50, x*xran, x*xran+xran,
+                            y*yran, y*yran+yran))
+                        star_sprites.append(StarSprite('animated_night_big_star',
+                            star_twinkle_in2, i, i+50, x*xran, x*xran+xran,
+                            y*yran, y*yran+yran))
+                        # Make some stars fade in and stay stationary
+                        star_sprites.append(StarSprite('animated_night_tiny_star',
+                            star_fade_in2, i, i+50, x*xran, x*xran+xran,
+                            y*yran, y*yran+yran))
+                        star_sprites.append(StarSprite('animated_night_med_star',
+                            star_fade_in2, i, i+50, x*xran, x*xran+xran,
+                            y*yran, y*yran+yran))
+                        star_sprites.append(StarSprite('animated_night_big_star',
+                            star_fade_in2, i, i+50, x*xran, x*xran+xran,
+                            y*yran, y*yran+yran))
+                    # Make some stars already exist
+                    star_sprites.append(StarSprite('animated_night_tiny_star',
+                        None, 0, 0, x*xran, x*xran+xran, y*yran, y*yran+yran))
+                    star_sprites.append(StarSprite('animated_night_med_star',
+                        None, 0, 0, x*xran, x*xran+xran, y*yran, y*yran+yran))
+                    star_sprites.append(StarSprite('animated_night_big_star',
+                        None, 0, 0, x*xran, x*xran+xran, y*yran, y*yran+yran))
+
+        # Add them all to the sprite manager
+        all_sprites = [ ]
+        for sprite in star_sprites:
+            all_sprites.append(star_manager.create(sprite.displayable))
+
+        # Position them all
+        for info, sprite in zip(star_sprites, all_sprites):
+            sprite.x = info.x
+            sprite.y = info.y
+
+        return star_manager
+
 screen animated_night():
     zorder 0
     tag animated_bg
+
+    default star_sprites = make_stars()
+
     add 'animated_night_bg':
         ysize max(1334, config.screen_height-113-165) fit "cover"
-
-    default xran = config.screen_width // 3
-    default yran = (config.screen_height-113-165) // 4
-
     # Gradient overlay
     add 'Phone UI/animated_bgs/night/night_overlay.webp':
         at topbottom_pan2(100, 100, 50, 1.0, 0, 0.0, 0.0)
-
-
     fixed:
-        # at star_rotate(250) # originally the whole sky rotated
-        #xysize (1524, 1524)
         xysize (config.screen_width, config.screen_height-113-165) # Don't bother adding stars behind the UI
         align (0.5, 1.0)
         yoffset -113
-        # Stars
-        for x in range(3):
-            for y in range(4):
-                add 'animated_night_med_star':
-                    at star_twinkle_in(0, 50,
-                        x*xran, x*xran+xran,
-                        y*yran, y*yran+yran)
-                add 'animated_night_med_star':
-                    at star_twinkle_in(51, 100,
-                        x*xran, x*xran+xran,
-                        y*yran, y*yran+yran)
-                add 'animated_night_med_star':
-                    at star_twinkle_in(101, 200,
-                        x*xran, x*xran+xran,
-                        y*yran, y*yran+yran)
-                add 'animated_night_tiny_star':
-                    at star_twinkle_in(0, 50,
-                        x*xran, x*xran+xran,
-                        y*yran, y*yran+yran)
-                add 'animated_night_tiny_star':
-                    at star_twinkle_in(51, 100,
-                        x*xran, x*xran+xran,
-                        y*yran, y*yran+yran)
-                add 'animated_night_tiny_star':
-                    at star_twinkle_in(101, 200,
-                        x*xran, x*xran+xran,
-                        y*yran, y*yran+yran)
-                add 'animated_night_big_star':
-                    at star_twinkle_in(0, 50,
-                        x*xran, x*xran+xran,
-                        y*yran, y*yran+yran)
-                add 'animated_night_big_star':
-                    at star_twinkle_in(51, 100,
-                        x*xran, x*xran+xran,
-                        y*yran, y*yran+yran)
-                add 'animated_night_big_star':
-                    at star_twinkle_in(101, 200,
-                        x*xran, x*xran+xran,
-                        y*yran, y*yran+yran)
 
-                add 'animated_night_med_star':
-                    at star_place_randomly(
-                        x*xran, x*xran+xran,
-                        y*yran, y*yran+yran)
-                add 'animated_night_tiny_star':
-                    at star_place_randomly(
-                        x*xran, x*xran+xran,
-                        y*yran, y*yran+yran)
-                add 'animated_night_big_star':
-                    at star_place_randomly(
-                        x*xran, x*xran+xran,
-                        y*yran, y*yran+yran)
+        add star_sprites
 
-                for i in range(2):
-                    add 'animated_night_med_star':
-                        at star_fade_in(20, 50,
-                            x*xran, x*xran+xran,
-                            y*yran, y*yran+yran)
-                    add 'animated_night_med_star':
-                        at star_fade_in(51, 100,
-                            x*xran, x*xran+xran,
-                            y*yran, y*yran+yran)
-                    add 'animated_night_med_star':
-                        at star_fade_in(101, 200,
-                            x*xran, x*xran+xran,
-                            y*yran, y*yran+yran)
-                    add 'animated_night_tiny_star':
-                        at star_fade_in(0, 50,
-                            x*xran, x*xran+xran,
-                            y*yran, y*yran+yran)
-                    add 'animated_night_tiny_star':
-                        at star_fade_in(51, 100,
-                            x*xran, x*xran+xran,
-                            y*yran, y*yran+yran)
-                    add 'animated_night_tiny_star':
-                        at star_fade_in(101, 200,
-                            x*xran, x*xran+xran,
-                            y*yran, y*yran+yran)
-                    add 'animated_night_big_star':
-                        at star_fade_in(30, 50,
-                            x*xran, x*xran+xran,
-                            y*yran, y*yran+yran)
-                    add 'animated_night_big_star':
-                        at star_fade_in(51, 100,
-                            x*xran, x*xran+xran,
-                            y*yran, y*yran+yran)
-                    add 'animated_night_big_star':
-                        at star_fade_in(101, 200,
-                            x*xran, x*xran+xran,
-                            y*yran, y*yran+yran)
         # Shooting stars
         add 'animated_shooting_star1' at shooting_star
         add 'animated_shooting_star2' at shooting_star
@@ -674,6 +653,21 @@ transform star_twinkle_out(delay1, x_min, x_max, y_min, y_max):
         ease 1.1 + renpy.random.random() alpha 0.0
         linear 0.3
         repeat (delay1 // 18) + 1
+
+transform star_fade_in2(delay):
+    alpha 0.0
+    pause delay
+    ease 1.0+renpy.random.random() alpha 1.0
+transform star_twinkle_in2(delay):
+    alpha 0.0
+    pause delay
+    block:
+        ease 1.0 + renpy.random.random() alpha 1.0
+        linear renpy.random.randint(4, 16) + renpy.random.random()
+        ease 1.1 + renpy.random.random() alpha 0.0
+        linear 0.3
+        repeat
+
 
 ###########################################################
 ## Hack background
@@ -1327,5 +1321,3 @@ init -100 python:
                 return int(xpos), int(ypos), to + self.offset, self.image
             else:
                 return int(ypos), int(xpos), to + self.offset, self.image
-
-
