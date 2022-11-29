@@ -240,34 +240,22 @@ init python:
         for j in range(2): # Double the number of stars
             for x in range(3):
                 for y in range(4):
-                    for i in range(0, 200, 50):
-                        # Make some stars twinkle in
-                        star_sprites.append(StarSprite('animated_night_tiny_star',
-                            star_twinkle_in2, i, i+50, x*xran, x*xran+xran,
-                            y*yran, y*yran+yran))
-                        star_sprites.append(StarSprite('animated_night_med_star',
-                            star_twinkle_in2, i, i+50, x*xran, x*xran+xran,
-                            y*yran, y*yran+yran))
-                        star_sprites.append(StarSprite('animated_night_big_star',
-                            star_twinkle_in2, i, i+50, x*xran, x*xran+xran,
-                            y*yran, y*yran+yran))
-                        # Make some stars fade in and stay stationary
-                        star_sprites.append(StarSprite('animated_night_tiny_star',
-                            star_fade_in2, i, i+50, x*xran, x*xran+xran,
-                            y*yran, y*yran+yran))
-                        star_sprites.append(StarSprite('animated_night_med_star',
-                            star_fade_in2, i, i+50, x*xran, x*xran+xran,
-                            y*yran, y*yran+yran))
-                        star_sprites.append(StarSprite('animated_night_big_star',
-                            star_fade_in2, i, i+50, x*xran, x*xran+xran,
-                            y*yran, y*yran+yran))
-                    # Make some stars already exist
-                    star_sprites.append(StarSprite('animated_night_tiny_star',
-                        None, 0, 0, x*xran, x*xran+xran, y*yran, y*yran+yran))
-                    star_sprites.append(StarSprite('animated_night_med_star',
-                        None, 0, 0, x*xran, x*xran+xran, y*yran, y*yran+yran))
-                    star_sprites.append(StarSprite('animated_night_big_star',
-                        None, 0, 0, x*xran, x*xran+xran, y*yran, y*yran+yran))
+                    for star_type in ['med', 'tiny', 'big']:
+                        for i in range(0, 200, 50):
+                            # Make some stars twinkle in
+                            star_sprites.append(StarSprite(
+                                'animated_night_{}_star'.format(star_type),
+                                star_twinkle_in2, i, i+50, x*xran, x*xran+xran,
+                                y*yran, y*yran+yran))
+                            # Make some stars fade in and stay stationary
+                            star_sprites.append(StarSprite(
+                                'animated_night_{}_star'.format(star_type),
+                                star_fade_in2, i, i+50, x*xran, x*xran+xran,
+                                y*yran, y*yran+yran))
+                        # Make some stars already exist
+                        star_sprites.append(StarSprite(
+                            'animated_night_{}_star'.format(star_type),
+                            None, 0, 0, x*xran, x*xran+xran, y*yran, y*yran+yran))
 
         # Add them all to the sprite manager
         all_sprites = [ ]
@@ -305,6 +293,43 @@ screen animated_night():
 
     use animated_shake_borders()
 
+init python:
+    def make_morning_stars():
+        star_manager = SpriteManager(predict=['animated_night_med_star',
+            'animated_night_tiny_star', 'animated_night_big_star'])
+        star_sprites = [ ]
+
+        # The range of where the star can be on-screen
+        xran = config.screen_width // 3
+        yran = (config.screen_height-113-165) // 4
+
+        for i in range(3):
+            for x in range(3):
+                for y in range(4):
+                    for star_type in ['med', 'tiny', 'big']:
+                        # Some stars twinkle
+                        star_sprites.append(StarSprite(
+                            'animated_night_{}_star'.format(star_type),
+                            star_twinkle_randomly2, 0, 0,
+                            x*xran, x*xran+xran,
+                            y*yran, y*yran+yran))
+                        # Some stars are stationary
+                        star_sprites.append(StarSprite(
+                            'animated_night_{}_star'.format(star_type),
+                            None, 0, 0, x*xran, x*xran+xran, y*yran, y*yran+yran))
+
+        # Add them all to the sprite manager
+        all_sprites = [ ]
+        for sprite in star_sprites:
+            all_sprites.append(star_manager.create(sprite.displayable))
+
+        # Position them all
+        for info, sprite in zip(star_sprites, all_sprites):
+            sprite.x = info.x
+            sprite.y = info.y
+
+        return star_manager
+
 ###########################################################
 ## Early morning background
 ###########################################################
@@ -315,24 +340,13 @@ screen animated_earlyMorn():
     add 'Phone UI/animated_bgs/earlyMorn/earlymorn_background.webp':
         at reverse_topbottom_pan(150, 0, 0, 1.0, 0, 1.0)
 
-    default xran = config.screen_width // 3
-    default yran = (config.screen_height-113-165) // 4
+    default star_sprites = make_morning_stars()
 
     fixed:
         # Stars
         xysize (config.screen_width, 1134)
         align (0.5, 0.6)
-        for x in range(3):
-            for y in range(4):
-                for star_type in ['med', 'tiny', 'big']:
-                    add 'animated_night_{}_star'.format(star_type):
-                        at star_twinkle_randomly(
-                            x*xran, x*xran+xran,
-                            y*yran, y*yran+yran)
-                    add 'animated_night_{}_star'.format(star_type):
-                        at star_place_randomly(
-                            x*xran, x*xran+xran,
-                            y*yran, y*yran+yran)
+        add star_sprites
 
     frame:
         # Constellations
@@ -667,7 +681,15 @@ transform star_twinkle_in2(delay):
         ease 1.1 + renpy.random.random() alpha 0.0
         linear 0.3
         repeat
-
+# Animates a star twinkling on occasion
+transform star_twinkle_randomly2(num1):
+    alpha 0.6
+    block:
+        ease 1.0 + renpy.random.random() alpha 0.6
+        linear renpy.random.randint(4, 16) + renpy.random.random()
+        ease 1.1 + renpy.random.random() alpha 0.0
+        linear 0.3
+        repeat
 
 ###########################################################
 ## Hack background
