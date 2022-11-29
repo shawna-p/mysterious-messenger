@@ -49,32 +49,53 @@ transform move_clouds(t=150, ytime=1, ysize=0):
             linear t xanchor 0.5 xpos 1.0
             repeat
 
+init python:
+    def make_morning_stars():
+        star_manager = SpriteManager(predict=['animated_night_med_star',
+            'animated_night_tiny_star', 'animated_night_big_star'])
+        star_sprites = [ ]
+
+        # The range of where the star can be on-screen
+        xran = config.screen_width // 2
+        yran = (config.screen_height-113-165) // 3
+
+        for i in range(2):
+            for x in range(2):
+                for y in range(3):
+                    for star_type in ['med', 'tiny', 'big', 'med', 'big']:
+                        # Some stars twinkle
+                        star_sprites.append(StarSprite(
+                            'animated_night_{}_star'.format(star_type),
+                            star_twinkle_out2, 90, 110,
+                            x*xran, x*xran+xran,
+                            y*yran, y*yran+yran))
+
+        # Add them all to the sprite manager
+        all_sprites = [ ]
+        for sprite in star_sprites:
+            all_sprites.append(star_manager.create(sprite.displayable))
+
+        # Position them all
+        for info, sprite in zip(star_sprites, all_sprites):
+            sprite.x = info.x
+            sprite.y = info.y
+
+        return star_manager
+
 screen animated_morning():
     zorder 0
     tag animated_bg
+    default star_sprites = make_morning_stars()
+
     add 'Phone UI/animated_bgs/morning/morning_clouds_bg.webp':
         at reverse_topbottom_pan(150, 0, 0, 1.0, 0, 1.0)
         ysize int(2280.0/1334.0*config.screen_height)
 
-    default xran = config.screen_width // 2
-    default yran = (config.screen_height-113-165) // 3
-
-    # Add a bunch of stars
-    for x in range(2):
-        for y in range(3):
-            for star_type in ['med', 'tiny', 'big', 'med', 'tiny', 'big']:
-                add 'animated_{}_star'.format(star_type):
-                    at star_twinkle_out(100,
-                        x*xran, x*xran+xran,
-                        y*yran+165, y*yran+yran+165)
-                add 'animated_{}_star'.format(star_type):
-                    at star_twinkle_out(100,
-                        x*xran, x*xran+xran,
-                        y*yran+165, y*yran+yran+165)
-                add 'animated_{}_star'.format(star_type):
-                    at star_twinkle_out(100,
-                        x*xran, x*xran+xran,
-                        y*yran+165, y*yran+yran+165)
+    fixed:
+        # Stars
+        xysize (config.screen_width, 1134)
+        align (0.5, 0.6)
+        add star_sprites
 
     # Clouds
     # add 'gentle_snow_back' at colorize_snow_morning()
@@ -294,7 +315,7 @@ screen animated_night():
     use animated_shake_borders()
 
 init python:
-    def make_morning_stars():
+    def make_earlymorn_stars():
         star_manager = SpriteManager(predict=['animated_night_med_star',
             'animated_night_tiny_star', 'animated_night_big_star'])
         star_sprites = [ ]
@@ -340,7 +361,7 @@ screen animated_earlyMorn():
     add 'Phone UI/animated_bgs/earlyMorn/earlymorn_background.webp':
         at reverse_topbottom_pan(150, 0, 0, 1.0, 0, 1.0)
 
-    default star_sprites = make_morning_stars()
+    default star_sprites = make_earlymorn_stars()
 
     fixed:
         # Stars
@@ -661,6 +682,14 @@ transform star_twinkle_in(delay_min, delay_max, x_min, x_max, y_min, y_max):
 # Places a star on the screen, twinkling randomly until it disappears
 transform star_twinkle_out(delay1, x_min, x_max, y_min, y_max):
     alpha 1.0 xpos renpy.random.randint(x_min, x_max) ypos (renpy.random.randint(y_min, y_max))
+    block:
+        ease 1.0 + renpy.random.random() alpha 1.0
+        linear renpy.random.randint(4, 16) + renpy.random.random()
+        ease 1.1 + renpy.random.random() alpha 0.0
+        linear 0.3
+        repeat (delay1 // 18) + 1
+transform star_twinkle_out2(delay1):
+    alpha 1.0
     block:
         ease 1.0 + renpy.random.random() alpha 1.0
         linear renpy.random.randint(4, 16) + renpy.random.random()
