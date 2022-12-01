@@ -66,7 +66,7 @@ init python:
                         # Some stars twinkle
                         star_sprites.append(StarSprite(
                             'animated_night_{}_star'.format(star_type),
-                            star_twinkle_out2, 90, 110,
+                            star_twinkle_out, 90, 110,
                             x*xran, x*xran+xran,
                             y*yran, y*yran+yran))
 
@@ -266,12 +266,12 @@ init python:
                             # Make some stars twinkle in
                             star_sprites.append(StarSprite(
                                 'animated_night_{}_star'.format(star_type),
-                                star_twinkle_in2, i, i+50, x*xran, x*xran+xran,
+                                star_twinkle_in, i, i+50, x*xran, x*xran+xran,
                                 y*yran, y*yran+yran))
                             # Make some stars fade in and stay stationary
                             star_sprites.append(StarSprite(
                                 'animated_night_{}_star'.format(star_type),
-                                star_fade_in2, i, i+50, x*xran, x*xran+xran,
+                                star_fade_in, i, i+50, x*xran, x*xran+xran,
                                 y*yran, y*yran+yran))
                         # Make some stars already exist
                         star_sprites.append(StarSprite(
@@ -331,7 +331,7 @@ init python:
                         # Some stars twinkle
                         star_sprites.append(StarSprite(
                             'animated_night_{}_star'.format(star_type),
-                            star_twinkle_randomly2, 0, 0,
+                            star_twinkle_randomly, 0, 0,
                             x*xran, x*xran+xran,
                             y*yran, y*yran+yran))
                         # Some stars are stationary
@@ -652,43 +652,9 @@ transform shooting_star():
         parallel:
             linear 0.5 rotate 80
     repeat
-# Fades a star in after waiting some arbitrary number of seconds
-transform star_fade_in(delay_min, delay_max, x_min=0, x_max=0, y_min=0, y_max=0):
-    alpha 0.0 xpos renpy.random.randint(x_min, x_max) ypos (renpy.random.randint(y_min, y_max))
-    renpy.random.randint(delay_min, delay_max)
-    ease 1.0 + renpy.random.random() alpha 1.0
-# Places a star at a random position on the screen, within certain bounds
-transform star_place_randomly(x_min=0, x_max=0, y_min=0, y_max=0):
-    alpha 0.6 xpos renpy.random.randint(x_min, x_max) ypos (renpy.random.randint(y_min, y_max))
-# Places a star randomly on the screen, then animates it twinkling on occasion
-transform star_twinkle_randomly(x_min=0, x_max=0, y_min=0, y_max=0):
-    alpha 0.6 xpos renpy.random.randint(x_min, x_max) ypos (renpy.random.randint(y_min, y_max))
-    block:
-        ease 1.0 + renpy.random.random() alpha 0.6
-        linear renpy.random.randint(4, 16) + renpy.random.random()
-        ease 1.1 + renpy.random.random() alpha 0.0
-        linear 0.3
-        repeat
-# Animates a star blinking onto the screen, then makes it twinkle occasionally
-transform star_twinkle_in(delay_min, delay_max, x_min, x_max, y_min, y_max):
-    alpha 0.0 xpos renpy.random.randint(x_min, x_max) ypos (renpy.random.randint(y_min, y_max))
-    renpy.random.randint(delay_min, delay_max)
-    block:
-        ease 1.0 + renpy.random.random() alpha 1.0
-        linear renpy.random.randint(4, 16) + renpy.random.random()
-        ease 1.1 + renpy.random.random() alpha 0.0
-        linear 0.3
-        repeat
-# Places a star on the screen, twinkling randomly until it disappears
-transform star_twinkle_out(delay1, x_min, x_max, y_min, y_max):
-    alpha 1.0 xpos renpy.random.randint(x_min, x_max) ypos (renpy.random.randint(y_min, y_max))
-    block:
-        ease 1.0 + renpy.random.random() alpha 1.0
-        linear renpy.random.randint(4, 16) + renpy.random.random()
-        ease 1.1 + renpy.random.random() alpha 0.0
-        linear 0.3
-        repeat (delay1 // 18) + 1
-transform star_twinkle_out2(delay1):
+
+# Twinkles a star for some period of time before fading it out permanently
+transform star_twinkle_out(delay1):
     alpha 1.0
     block:
         ease 1.0 + renpy.random.random() alpha 1.0
@@ -696,12 +662,13 @@ transform star_twinkle_out2(delay1):
         ease 1.1 + renpy.random.random() alpha 0.0
         linear 0.3
         repeat (delay1 // 18) + 1
-
-transform star_fade_in2(delay):
+# Fades in a stationary star after a delay
+transform star_fade_in(delay):
     alpha 0.0
     pause delay
     ease 1.0+renpy.random.random() alpha 1.0
-transform star_twinkle_in2(delay):
+# Fades in a star after a delay which then twinkles randomly
+transform star_twinkle_in(delay):
     alpha 0.0
     pause delay
     block:
@@ -711,7 +678,7 @@ transform star_twinkle_in2(delay):
         linear 0.3
         repeat
 # Animates a star twinkling on occasion
-transform star_twinkle_randomly2(num1):
+transform star_twinkle_randomly(num1):
     alpha 0.6
     block:
         ease 1.0 + renpy.random.random() alpha 0.6
