@@ -77,6 +77,8 @@ QoL Improvements
 
     * - **Feature**
       - **Description**
+    * - Animated Background Performance
+      - Improved the performance of the stars in the animated backgrounds for night, early morning, and morning.
 
 
 3.3.0
