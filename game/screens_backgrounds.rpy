@@ -50,9 +50,25 @@ transform move_clouds(t=150, ytime=1, ysize=0):
             repeat
 
 init python:
-    def make_morning_stars():
+
+    def create_star_manager(star_sprites):
         star_manager = SpriteManager(predict=['animated_night_med_star',
             'animated_night_tiny_star', 'animated_night_big_star'])
+
+        # Add them all to the sprite manager
+        all_sprites = [ ]
+        for sprite in star_sprites:
+            all_sprites.append(star_manager.create(sprite.displayable))
+
+        # Position them all
+        for info, sprite in zip(star_sprites, all_sprites):
+            sprite.x = info.x
+            sprite.y = info.y
+
+        return star_manager
+
+    def make_morning_stars():
+
         star_sprites = [ ]
 
         # The range of where the star can be on-screen
@@ -70,17 +86,8 @@ init python:
                             x*xran, x*xran+xran,
                             y*yran, y*yran+yran))
 
-        # Add them all to the sprite manager
-        all_sprites = [ ]
-        for sprite in star_sprites:
-            all_sprites.append(star_manager.create(sprite.displayable))
+        return create_star_manager(star_sprites)
 
-        # Position them all
-        for info, sprite in zip(star_sprites, all_sprites):
-            sprite.x = info.x
-            sprite.y = info.y
-
-        return star_manager
 
 screen animated_morning():
     zorder 0
@@ -250,8 +257,6 @@ init python:
 
     ## Use sprites for stars
     def make_stars():
-        star_manager = SpriteManager(predict=['animated_night_med_star',
-            'animated_night_tiny_star', 'animated_night_big_star'])
         star_sprites = [ ]
 
         # The range of where the star can be on-screen
@@ -278,17 +283,7 @@ init python:
                             'animated_night_{}_star'.format(star_type),
                             None, 0, 0, x*xran, x*xran+xran, y*yran, y*yran+yran))
 
-        # Add them all to the sprite manager
-        all_sprites = [ ]
-        for sprite in star_sprites:
-            all_sprites.append(star_manager.create(sprite.displayable))
-
-        # Position them all
-        for info, sprite in zip(star_sprites, all_sprites):
-            sprite.x = info.x
-            sprite.y = info.y
-
-        return star_manager
+        return create_star_manager(star_sprites)
 
 screen animated_night():
     zorder 0
@@ -316,8 +311,6 @@ screen animated_night():
 
 init python:
     def make_earlymorn_stars():
-        star_manager = SpriteManager(predict=['animated_night_med_star',
-            'animated_night_tiny_star', 'animated_night_big_star'])
         star_sprites = [ ]
 
         # The range of where the star can be on-screen
@@ -339,17 +332,7 @@ init python:
                             'animated_night_{}_star'.format(star_type),
                             None, 0, 0, x*xran, x*xran+xran, y*yran, y*yran+yran))
 
-        # Add them all to the sprite manager
-        all_sprites = [ ]
-        for sprite in star_sprites:
-            all_sprites.append(star_manager.create(sprite.displayable))
-
-        # Position them all
-        for info, sprite in zip(star_sprites, all_sprites):
-            sprite.x = info.x
-            sprite.y = info.y
-
-        return star_manager
+        return create_star_manager(star_sprites)
 
 ###########################################################
 ## Early morning background
