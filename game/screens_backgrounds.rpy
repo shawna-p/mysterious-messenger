@@ -51,6 +51,45 @@ transform move_clouds(t=150, ytime=1, ysize=0):
 
 init python:
 
+    class StarSprite():
+        """
+        A small class to hold information on a given star so it can be
+        generated as a sprite.
+
+        Attributes:
+        -----------
+        img : string
+            The image to be displayed (a star).
+        animation : Transform
+            The name of a declared transform which the star will be displayed
+            at, or None if no transform will be used.
+        delay_min : float
+            The minimum number of seconds to delay before beginning the
+            animation.
+        delay_max : float
+            The maximum number of seconds to delay before beginning the
+            animation.
+        xmin : int
+            The minimum xpos for this star.
+        xmax : int
+            The maximum xpos for this star.
+        ymin : int
+            The minimum ypos for this star.
+        ymax : int
+            The maximum ypos for this star.
+        """
+        def __init__(self, img, animation, delay_min, delay_max,
+                xmin, xmax, ymin, ymax):
+            delay = renpy.random.randint(delay_min, delay_max)
+            self.x = renpy.random.randint(xmin, xmax)
+            self.y = renpy.random.randint(ymin, ymax)
+
+            if animation is not None:
+                self.displayable = At(img, animation(delay))
+            else:
+                self.displayable = img
+
+
     def create_star_manager(star_sprites):
         star_manager = SpriteManager(predict=['animated_night_med_star',
             'animated_night_tiny_star', 'animated_night_big_star'])
@@ -239,22 +278,6 @@ image animated_shooting_star2 = 'Phone UI/animated_bgs/night/night_shooting_star
 image animated_night_bg = 'Phone UI/animated_bgs/night/night_background.webp'
 
 init python:
-    class StarSprite():
-        """
-        A small class to hold information on a given star so it can be
-        generated as a sprite.
-        """
-        def __init__(self, img, animation, delay_min, delay_max,
-                xmin, xmax, ymin, ymax):
-            delay = renpy.random.randint(delay_min, delay_max)
-            self.x = renpy.random.randint(xmin, xmax)
-            self.y = renpy.random.randint(ymin, ymax)
-
-            if animation is not None:
-                self.displayable = At(img, animation(delay))
-            else:
-                self.displayable = img
-
     ## Use sprites for stars
     def make_stars():
         star_sprites = [ ]
