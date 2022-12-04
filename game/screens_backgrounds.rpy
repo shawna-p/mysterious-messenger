@@ -91,6 +91,11 @@ init python:
 
 
     def create_star_manager(star_sprites):
+        """
+        Create and return a SpriteManager object based on the list of StarSprite
+        objects passed in. Also positions each individual sprite at a random
+        x, y position based on the attributes of the StarSprite.
+        """
         star_manager = SpriteManager(predict=['animated_night_med_star',
             'animated_night_tiny_star', 'animated_night_big_star'])
 
@@ -107,6 +112,10 @@ init python:
         return star_manager
 
     def make_morning_stars():
+        """
+        Create and return a sprite manager with the animation information
+        needed to display twinkling sprites.
+        """
 
         star_sprites = [ ]
 
@@ -278,8 +287,7 @@ image animated_shooting_star2 = 'Phone UI/animated_bgs/night/night_shooting_star
 image animated_night_bg = 'Phone UI/animated_bgs/night/night_background.webp'
 
 init python:
-    ## Use sprites for stars
-    def make_stars():
+    def make_night_stars():
         star_sprites = [ ]
 
         # The range of where the star can be on-screen
@@ -312,7 +320,7 @@ screen animated_night():
     zorder 0
     tag animated_bg
 
-    default star_sprites = make_stars()
+    default star_sprites = make_night_stars()
 
     add 'animated_night_bg':
         ysize max(1334, config.screen_height-113-165) fit "cover"
