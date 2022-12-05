@@ -148,7 +148,7 @@ screen animated_morning():
 
     fixed:
         # Stars
-        xysize (config.screen_width, 1134)
+        xysize (config.screen_width, config.screen_height-200)
         align (0.5, 0.6)
         add star_sprites
 
@@ -379,7 +379,7 @@ screen animated_earlyMorn():
 
     fixed:
         # Stars
-        xysize (config.screen_width, 1134)
+        xysize (config.screen_width, config.screen_height-200)
         align (0.5, 0.6)
         add star_sprites
 
