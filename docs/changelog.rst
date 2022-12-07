@@ -42,7 +42,7 @@ Minor New Features
     * - Gendered Term Improvement
       - The GenderedTerm class lets you set up gendered terms once and have them update automatically based on the player's pronouns and gender, improving ``get_term`` introduced in 3.3.0.
     * - Hourglass confirmation screen
-      - New ``hourglass_spend_confirmation`` screen will display the number of hourglasses to be used for things like bonus profile pictures.
+      - New ``hourglass_spend_confirmation`` screen will display the number of hourglasses to be used for things like bonus profile pictures. You can use the new :ref:`SpendHourglass<Spending Hourglasses>` action to easily display it.
 
 
 .. _fixes-3-4-0:
