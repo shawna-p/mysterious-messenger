@@ -995,6 +995,23 @@ As non-paraphrased dialogue is automatically said by the main character, you may
 If you set this variable equal to a different character (e.g. ``em`` from the character examples), then ``em`` will say non-paraphrased choice dialogue instead of ``m``. ``em`` will also appear on the right side of the screen when saying dialogue in chatrooms or text messages.
 
 
+Spending Hourglasses
+==========================
+
+If there's a part of your game where the player must use hourglasses to proceed, there is a special screen action to help with handling that transaction. It is called ``SpendHourglass``.
+
+To use ``SpendHourglass``, pass in a message, the number of required hourglasses, and an action to execute if the player spends the required hourglasses.
+
+For example, an action to unlock Deep Route might look like so::
+
+    textbutton _("Deep Route"):
+        action SpendHourglass("Would you like to unlock the deep story mode?",
+                300, SetField(persistent, 'deep_story_unlocked', True))
+
+In this example, we presume you are checking for whether deep story is unlocked via the variable ``persistent.deep_story_unlocked``, which begins as False. Thus, the message the player sees is "Would  you like to unlock the deep story mode?" and they are prompted to spend 300 hourglasses. If they spend the 300 hourglasses, then the action ``SetField(persistent, 'deep_story_unlocked', True)`` is run, which sets the variable ``persistent.deep_story_unlocked`` to True. Note that you can pass in a list of actions here too instead of just one action, if needed.
+
+The SpendHourglass action takes care of the case where the player attempts to spend more hourglasses than they currently hold (e.g. they have 100 hourglasses but require 300 to unlock deep story mode). In this case, the provided action is not run and the player is simply shown a message saying they don't have enough hourglasses.
+
 Reserved Names
 ===============
 
