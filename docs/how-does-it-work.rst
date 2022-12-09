@@ -254,7 +254,8 @@ With all that, in a fresh project, you should be able to write something like::
 
 and you'll see the barebones version of the messenger system forming. Notably, all messages will just get added instantly to the chatlog; this is because there isn't any particular logic telling it to wait between messages yet. It also doesn't automatically scroll to the bottom when new messages arrive, which we'll fix later as well.
 
-## Pausing between messages
+Pausing between messages
+------------------------
 
 In most cases, you'll want to simulate the characters typing/reading before they post a message so chatrooms aren't just a slew of instantly-sent messages. In Mysterious Messenger, there's a lot of other logic going on in each message, so I use a helper function, ``addchat``, to help with the calculations and other work. However, for a simplified version, it can go right into the ``__call__`` method from before::
 
