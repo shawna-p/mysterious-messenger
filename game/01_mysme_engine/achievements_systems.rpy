@@ -57,3 +57,37 @@ init python:
 
             # Add to list of all achievements
             self.all_achievements.append(self)
+
+            # Register with backends
+            achievement.register(self.id, stat_max, stat_modulo)
+
+        ## Wrappers for various achievement functionality
+        def clear(self):
+            return achievement.clear(self.id)
+        def get_progress(self):
+            return achievement.get_progress(self.id)
+        def grant(self):
+            has_achievement = self.has()
+            x = achievement.grant(self.id)
+            if not has_achievement:
+                # First time this was granted
+                self.achievement_popup()
+            return x
+        def has(self):
+            return achievement.has(self.id)
+        def progress(self, complete):
+            has_achievement = self.has()
+            x = achievement.progress(self.id, complete)
+            if not has_achievement and self.has():
+                # First time this was granted
+                self.achievement_popup()
+            return x
+
+        def achievement_popup(self):
+            """
+            A function which shows an achievement screen to the user
+            to indicate they were granted an achievement.
+            """
+
+
+
