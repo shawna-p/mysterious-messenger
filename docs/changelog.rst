@@ -21,6 +21,8 @@ Major New Features
 
     * - **Feature**
       - **Description**
+    * - Achievements
+      - An achievement system will allow you to easily add and display player achievements.
 
 .. _minor-3-4-0:
 
