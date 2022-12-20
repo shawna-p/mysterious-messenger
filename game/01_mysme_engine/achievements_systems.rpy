@@ -136,7 +136,8 @@ init python:
 
             # Otherwise, show the achievement screen
             # TODO: onlayer?
-            renpy.show_screen('achievement_popup', a=self)
+            renpy.show_screen('achievement_popup', a=self,
+                _tag=get_random_screen_tag(6, return_after_tag=True))
 
 
     test_achievement = Achievement("A Test", "a_test", "A test achievement!",
@@ -146,3 +147,5 @@ init python:
 
 
 default persistent.achievement_timestamp = dict()
+
+image blue_ui_bg = Frame("Menu Screens/Day Select/daychat01_2.webp", 20, 15, 20, 15)
