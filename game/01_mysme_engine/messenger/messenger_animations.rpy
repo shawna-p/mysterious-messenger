@@ -4,7 +4,7 @@
 init python:
 
     TAG_ALPHABET = "abcdefghijklmnopqrstuvwxyz"
-    def get_random_screen_tag(k=4, text_msg=False):
+    def get_random_screen_tag(k=4, text_msg=False, return_after_tag=False):
         """Generate a random k-letter word out of alphabet letters."""
 
         while True:
@@ -17,6 +17,9 @@ init python:
             else:
                 # Sample k letters from the alphabet. Repeats allowed.
                 tag = ''.join(random.choices(list(store.TAG_ALPHABET), k=k))
+
+            if return_after_tag:
+                return tag
 
             if text_msg and tag not in store.text_screen_tags:
                 break
