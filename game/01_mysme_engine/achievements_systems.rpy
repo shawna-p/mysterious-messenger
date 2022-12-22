@@ -60,7 +60,8 @@ init python:
             self.stat_progress = 0
 
             self.hidden = hidden
-            self._timestamp = persistent.achievement_timestamp.get(self.id, None)
+            if persistent.achievement_timestamp is not None:
+                self._timestamp = persistent.achievement_timestamp.get(self.id, None)
 
             # Add to list of all achievements
             self.all_achievements.append(self)
