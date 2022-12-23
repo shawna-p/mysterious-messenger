@@ -7,22 +7,29 @@
 screen achievement_popup(a):
 
     frame:
-        background 'blue_ui_bg'
-        padding (10, 10)
-        left_margin 15 top_margin 15
-        xmaximum config.screen_width-80
+        style_prefix 'achieve_popup'
         at achievement_popout()
         has hbox
-        spacing 10
         add a.unlocked_image:
             fit "contain" ysize 95
         vbox:
-            spacing 10
-            text a.name font gui.curly_font color "#fff"
-            text a.description size 25 color "#fff"
+            text a.name font gui.curly_font
+            text a.description size 25
 
     # Hide the screen after 6 seconds
     timer 5.0 action Hide("achievement_popup")
+
+style achieve_popup_frame:
+    background 'blue_ui_bg'
+    padding (10, 10)
+    left_margin 15 top_margin 15
+    xmaximum config.screen_width-80
+style achieve_popup_hbox:
+    spacing 10
+style achieve_popup_vbox:
+    spacing 10
+style achieve_popup_text:
+    color "#fff"
 
 
 ## Replace this with whatever locked image you want to use as the default
