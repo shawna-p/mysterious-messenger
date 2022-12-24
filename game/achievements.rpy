@@ -54,30 +54,20 @@ screen achievement_gallery():
         null height 10
 
         viewport id 'achievement_vp':
-            xysize (config.screen_width-20, config.screen_height-234)
-            yfill True
-            align (0.5, 0.0)
+            style_prefix 'achieve'
             draggable True
             mousewheel True
             scrollbars "vertical"
-            vscrollbar_unscrollable "hide"
-            side_xalign 1.0
-            side_spacing 15
             has vbox
-            spacing 20
 
             for a in Achievement.all_achievements:
                 button:
-                    background "#fff5"
-                    padding (8, 8)
-                    xsize config.screen_width-40
                     has hbox
-                    spacing 25
                     add a.idle_img
                     vbox:
-                        text a.name color "#fff" font gui.curly_font size 40
-                        text a.description color "#fff"
-                        text a.timestamp color "#fff" size 22
+                        text a.name font gui.curly_font size 40
+                        text a.description
+                        text a.timestamp size 22
 
             textbutton "Achieve 1":
                 selected test_achievement.has()
@@ -93,4 +83,23 @@ screen achievement_gallery():
                     Function(hidden_achievement.grant))
 
 
+style achieve_viewport:
+    xysize (config.screen_width-20, config.screen_height-234)
+    yfill True
+    align (0.5, 0.0)
+style achieve_vscrollbar:
+    unscrollable "hide"
+style achieve_side:
+    xalign 1.0
+    spacing 15
+style achieve_vbox:
+    spacing 20
 
+style achieve_button:
+    background "#fff5"
+    padding (8, 8)
+    xsize config.screen_width-40
+style achieve_hbox:
+    spacing 25
+style achieve_text:
+    color "#fff"
