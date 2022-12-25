@@ -4,6 +4,7 @@
 ## a.name = the human-readable name of the achievement
 ## a.description = the description
 ## a.unlocked_image = the image of the achievement, now that it's unlocked
+## a.timestamp = the time the achievement was unlocked at
 screen achievement_popup(a):
 
     frame:
