@@ -64,7 +64,9 @@ screen achievement_gallery():
             for a in Achievement.all_achievements:
                 button:
                     has hbox
-                    add a.idle_img
+                    fixed:
+                        xysize (155, 155)
+                        add a.idle_img fit "scale-down" ysize 155 align (0.5, 0.5)
                     vbox:
                         text a.name font gui.curly_font size 40
                         text a.description
