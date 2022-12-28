@@ -140,6 +140,16 @@ init python:
             renpy.show_screen('achievement_popup', a=self,
                 _tag=get_random_screen_tag(6, return_after_tag=True))
 
+        def Toggle(self):
+            """
+            A developer action to easily toggle the achieved status
+            of a particular achievement.
+            """
+            return [SelectedIf(self.has()),
+                If(self.has(),
+                    Function(self.clear),
+                    Function(self.grant))]
+
 
     test_achievement = Achievement("A Test", "a_test", "A test achievement!",
         "CGs/ju_album/cg-1-thumb.webp")
