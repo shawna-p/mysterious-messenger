@@ -73,17 +73,11 @@ screen achievement_gallery():
                         text a.timestamp size 22
 
             textbutton "Achieve 1":
-                selected test_achievement.has()
                 text_selected_color "#0ff"
-                action If(test_achievement.has(),
-                    Function(test_achievement.clear),
-                    Function(test_achievement.grant))
+                action test_achievement.Toggle()
             textbutton "Achieve 2":
-                selected hidden_achievement.has()
                 text_selected_color "#0ff"
-                action If(hidden_achievement.has(),
-                    Function(hidden_achievement.clear),
-                    Function(hidden_achievement.grant))
+                action hidden_achievement.Toggle()
 
 
 style achieve_viewport:
