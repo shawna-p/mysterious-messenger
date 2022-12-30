@@ -7,18 +7,23 @@
 ## a.timestamp = the time the achievement was unlocked at
 screen achievement_popup(a):
 
+    default achievement_yoffset = (onscreen_achievements-1)*135
+
     frame:
         style_prefix 'achieve_popup'
         at achievement_popout()
+        yoffset achievement_yoffset
         has hbox
         add a.unlocked_image:
-            fit "contain" ysize 95
+            fit "contain" ysize 95 align (0.5, 0.5)
         vbox:
             text a.name font gui.curly_font
             text a.description size 25
 
     # Hide the screen after 6 seconds
-    timer 5.0 action Hide("achievement_popup")
+    timer 5.0:
+        action [SetVariable('onscreen_achievements', onscreen_achievements-1),
+                Hide("achievement_popup")]
 
 style achieve_popup_frame:
     background 'blue_ui_bg'
@@ -65,6 +70,7 @@ screen achievement_gallery():
                 button:
                     has hbox
                     fixed:
+                        align (0.5, 0.5)
                         xysize (155, 155)
                         add a.idle_img fit "scale-down" ysize 155 align (0.5, 0.5)
                     vbox:
@@ -72,12 +78,12 @@ screen achievement_gallery():
                         text a.description
                         text a.timestamp size 22
 
-            textbutton "Achieve 1":
-                text_selected_color "#0ff"
-                action test_achievement.Toggle()
-            textbutton "Achieve 2":
-                text_selected_color "#0ff"
-                action hidden_achievement.Toggle()
+            if config.developer:
+                # Manually toggle achievements, for development
+                for a in Achievement.all_achievements:
+                    textbutton "Achieve {}".format(a.name):
+                        text_selected_color "#0ff"
+                        action a.Toggle()
 
 
 style achieve_viewport:
