@@ -137,6 +137,7 @@ init python:
 
             # Otherwise, show the achievement screen
             # TODO: onlayer?
+            store.onscreen_achievements += 1
             renpy.show_screen('achievement_popup', a=self,
                 _tag=get_random_screen_tag(6, return_after_tag=True))
 
@@ -155,8 +156,13 @@ init python:
         "CGs/ju_album/cg-1-thumb.webp")
     hidden_achievement = Achievement("Hidden", "hidden", "You got the hidden achievement!",
         "CGs/ju_album/cg-1-thumb.webp", hidden=True)
+    third_achievement = Achievement("A longer achievement name",
+        description="I want this to be long enough to possibly expand this bubble",
+        unlocked_image="CGs/ju_album/cg-1-thumb.webp"
+        )
 
 
 default persistent.achievement_timestamp = dict()
+default onscreen_achievements = 0
 
 image blue_ui_bg = Frame("Menu Screens/Day Select/daychat01_2.webp", 20, 15, 20, 15)
