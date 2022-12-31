@@ -7,6 +7,8 @@
 ## a.timestamp = the time the achievement was unlocked at
 screen achievement_popup(a):
 
+    zorder 190
+
     default achievement_yoffset = (onscreen_achievements-1)*135
 
     frame:
