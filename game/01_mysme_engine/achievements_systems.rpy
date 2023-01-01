@@ -151,7 +151,8 @@ init python:
                     Function(self.clear),
                     Function(self.grant))]
 
-
+    ## Declare achievements here. The order you declare them in is the order
+    ## they will appear on the Achievements page.
     test_achievement = Achievement("A Test", "a_test", "A test achievement!",
         "CGs/ju_album/cg-1-thumb.webp")
     hidden_achievement = Achievement("Hidden", "hidden", "You got the hidden achievement!",
