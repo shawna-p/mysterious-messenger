@@ -42,6 +42,10 @@ init python:
             True if this achievement's description and name should be hidden
             from the player.
         timestamp : Datetime
+            The time this achievement was unlocked at.
+        ignored : bool
+            True if this achievement is being ignored (generally only
+            relevant in order to omit tutorial achievements).
         """
         all_achievements = [ ]
         def __init__(self, name, id=None, description=None, unlocked_image=None,
@@ -64,10 +68,13 @@ init python:
                 self._timestamp = persistent.achievement_timestamp.get(self.id, None)
 
             # Add to list of all achievements
+            if not store.IGNORE_ACHIEVEMENTS:
             self.all_achievements.append(self)
 
             # Register with backends
             achievement.register(self.id, stat_max=stat_max, stat_modulo=stat_modulo)
+
+            self.ignored = store.IGNORE_ACHIEVEMENTS
 
         @property
         def timestamp(self):
@@ -134,6 +141,9 @@ init python:
             if not self.has():
                 # Don't have this achievement
                 return
+            elif self.ignored:
+                # Ignoring this achievement
+                return
 
             # Otherwise, show the achievement screen
             # TODO: onlayer?
@@ -150,6 +160,12 @@ init python:
                 If(self.has(),
                     Function(self.clear),
                     Function(self.grant))]
+
+        def Achieve(self):
+            """
+            An action to easily achieve a particular achievement.
+            """
+            return Function(self.grant)
 
     ## Declare achievements here. The order you declare them in is the order
     ## they will appear on the Achievements page.
