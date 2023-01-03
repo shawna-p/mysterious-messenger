@@ -69,10 +69,10 @@ init python:
 
             # Add to list of all achievements
             if not store.IGNORE_ACHIEVEMENTS:
-            self.all_achievements.append(self)
+                self.all_achievements.append(self)
 
-            # Register with backends
-            achievement.register(self.id, stat_max=stat_max, stat_modulo=stat_modulo)
+                # Register with backends
+                achievement.register(self.id, stat_max=stat_max, stat_modulo=stat_modulo)
 
             self.ignored = store.IGNORE_ACHIEVEMENTS
 
@@ -177,6 +177,42 @@ init python:
         description="I want this to be long enough to possibly expand this bubble",
         unlocked_image="CGs/ju_album/cg-1-thumb.webp"
         )
+
+    ## Actual achievements, for the tutorial
+    ## These *can't* be removed (or else you'd need to comb through the
+    ## rest of the game to get rid of the triggers, too), but if you change
+    ## this value to True, it'll prevent them from activating.
+    IGNORE_ACHIEVEMENTS = False
+    ui_achievement = Achievement("Farewell, Old UI", "modified_ui",
+        "Turn on the modified UI from the settings.")
+    animated_bg_achievement = Achievement("Now for some Pizzazz!", "animated_bgs",
+        "Turn on the animated chatroom backgrounds from the settings.")
+    tutorial_ending1 = Achievement("Made it to the End", "tut_end_1",
+        "See at least one ending on Tutorial Day")
+    tutorial_ending2 = Achievement("Gotta See 'Em All", "tut_end_2",
+        "See all the endings on Tutorial Day")
+    make_a_call_achievement = Achievement("Ring Ring", "make_a_call",
+        "Try calling someone on the phone.")
+    try_real_time_achievement = Achievement("IRL", "irl",
+        "Turn on real-time mode from the settings.")
+    expired_achievement = Achievement("Missed it by That Much", "expired",
+        "Play through a chatroom that's expired.")
+    first_cg_achievement = Achievement("New Image", "unlock_first_cg",
+        "Unlock an image in the CG Gallery")
+    change_pfp_achievement = Achievement("Wait, I didn't pick that", "change_pfp",
+        "Change a character's profile picture.")
+    first_guest_achievement = Achievement("Get this Party Started", "first_guest",
+        "Have one or more guests attend the party.")
+    change_your_pfp_achievement = Achievement("New Look, New Me", "change_my_pfp",
+        "Unlock a bonus image for your own profile picture")
+
+
+
+
+
+    ## Don't change this one or your achievements won't work
+    IGNORE_ACHIEVEMENTS = False
+
 
 
 default persistent.achievement_timestamp = dict()
