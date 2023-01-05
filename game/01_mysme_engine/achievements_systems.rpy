@@ -68,13 +68,13 @@ init python:
                 self._timestamp = persistent.achievement_timestamp.get(self.id, None)
 
             # Add to list of all achievements
-            if not store.IGNORE_ACHIEVEMENTS:
+            if not getattr(store, 'IGNORE_ACHIEVEMENTS', False):
                 self.all_achievements.append(self)
 
                 # Register with backends
                 achievement.register(self.id, stat_max=stat_max, stat_modulo=stat_modulo)
 
-            self.ignored = store.IGNORE_ACHIEVEMENTS
+            self.ignored = getattr(store, 'IGNORE_ACHIEVEMENTS', False)
 
         @property
         def timestamp(self):
