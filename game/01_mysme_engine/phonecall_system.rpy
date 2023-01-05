@@ -408,6 +408,10 @@ init -6 python:
         if call_available(i):
             return [Preference("auto-forward", "enable"),
                     SetVariable('gamestate', PHONE),
+
+                    ## An achievement for making your first outgoing call
+                    make_a_call_achievement.Achieve(),
+
                     Show('outgoing_call',
                         phonecall=call_available(i))]
         elif i in phone_only_characters:
@@ -415,6 +419,10 @@ init -6 python:
         else:
             return [Preference("auto-forward", "enable"),
                     SetVariable('gamestate', PHONE),
+
+                    ## An achievement for making your first outgoing call
+                    make_a_call_achievement.Achieve(),
+
                     Show('outgoing_call',
                         phonecall=i.voicemail,
                         voicemail=True)]
