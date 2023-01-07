@@ -543,6 +543,20 @@ init -6 python:
             except AttributeError:
                 self.__dict__['ending_chatrooms'] = newitem
 
+        @property
+        def num_seen_endings(self):
+            """Return the number of endings seen on this route."""
+            # completed_branches(self) / len(self.ending_labels)
+            return completed_branches(self)
+
+        @property
+        def seen_all_endings(self):
+            """Return True if the player has seen all endings on this route."""
+            return (num_seen_endings == len(self.ending_labels))
+
+
+
+
 
     def check_and_unlock_story():
         """
