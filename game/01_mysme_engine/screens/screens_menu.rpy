@@ -1811,7 +1811,9 @@ screen developer_settings():
                         Function(check_and_unlock_story)],
                         ToggleField(persistent, "unlock_all_story"))
                 textbutton _("Real-Time Mode"):
-                    action ToggleField(persistent, "real_time")
+                    action [ToggleField(persistent, "real_time"),
+                        If(not persistent.real_time,
+                            try_real_time_achievement.Achieve())]
                 if not main_menu:
                     textbutton _("Hacked Effect"):
                         action ToggleVariable('hacked_effect')
