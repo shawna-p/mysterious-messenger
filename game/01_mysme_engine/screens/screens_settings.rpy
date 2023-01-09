@@ -953,11 +953,15 @@ screen preferences():
                         xalign 0.5
                         style_prefix "check"
                         textbutton _("Modified UI"):
-                            action ToggleField(persistent, "custom_footers")
+                            action [ToggleField(persistent, "custom_footers"),
+                                If(not persistent.custom_footers,
+                                    ui_achievement.Achieve())]
                         textbutton _("Animated Backgrounds"):
                             text_size 26
                             action [ToggleField(persistent,
-                                    'animated_backgrounds')]
+                                    'animated_backgrounds'),
+                                    If(not persistent.animated_backgrounds,
+                                        animated_bg_achievement.Achieve())]
                             selected persistent.animated_backgrounds
 
             frame:
