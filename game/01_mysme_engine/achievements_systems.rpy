@@ -181,7 +181,8 @@ init python:
     ## Actual achievements, for the tutorial
     ## These *can't* be removed (or else you'd need to comb through the
     ## rest of the game to get rid of the triggers, too), but if you change
-    ## this value to True, it'll prevent them from activating.
+    ## this value to True, it'll prevent them from activating or appearing
+    ## in the achievements list.
     IGNORE_ACHIEVEMENTS = False
     ui_achievement = Achievement("Farewell, Old UI", "modified_ui",
         "Turn on the modified UI from the settings.")
