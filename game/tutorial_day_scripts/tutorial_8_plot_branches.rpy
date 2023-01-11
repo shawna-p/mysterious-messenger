@@ -191,6 +191,14 @@ label tutorial_bad_end():
     # `ending`
     $ ending = 'bad'
     # If you've set `ending`, then after `return` the route will end.
+
+    # Some achievements for various endings. If they already have this
+    # achievement, this does nothing.
+    $ tutorial_ending1.grant()
+    # Check if they have all the endings
+    if tutorial_route.seen_all_endings:
+        $ tutorial_ending2.grant()
+
     return
 
 ## This is the label you see if the previous chatroom has expired.
@@ -207,6 +215,12 @@ label tutorial_bad_end_expired():
     v "{image=v_smile}" (img=True)
     exit chatroom v
     $ ending = 'bad'
+    # Some achievements for various endings. If they already have this
+    # achievement, this does nothing.
+    $ tutorial_ending1.grant()
+    # Check if they have all the endings
+    if tutorial_route.seen_all_endings:
+        $ tutorial_ending2.grant()
     return
 
 ## You get this Story Mode after the Plot Branch Tutorial
@@ -337,6 +351,12 @@ label plot_branch_normal_end():
     u smile "Did you have any questions about how to get the other endings?"
     call ending_descrip('Normal', u)
     $ ending = 'normal'
+    # Some achievements for various endings. If they already have this
+    # achievement, this does nothing.
+    $ tutorial_ending1.grant()
+    # Check if they have all the endings
+    if tutorial_route.seen_all_endings:
+        $ tutorial_ending2.grant()
     return
 
 ## This is a convenience label to have 'who' explain the different endings
@@ -455,6 +475,12 @@ label tutorial_good_end_party():
     u "Do you want to know how to get the other endings before I go?"
     call ending_descrip('Good', u)
     $ ending = 'good'
+    # Some achievements for various endings. If they already have this
+    # achievement, this does nothing.
+    $ tutorial_ending1.grant()
+    # Check if they have all the endings
+    if tutorial_route.seen_all_endings:
+        $ tutorial_ending2.grant()
     return
 
 
@@ -476,6 +502,12 @@ label plot_branch_bre():
     r "Was there an ending you wanted to know how to get?"
     call ending_descrip('Bad Relationship', r)
     $ ending = 'bad'
+    # Some achievements for various endings. If they already have this
+    # achievement, this does nothing.
+    $ tutorial_ending1.grant()
+    # Check if they have all the endings
+    if tutorial_route.seen_all_endings:
+        $ tutorial_ending2.grant()
     return
 
 
