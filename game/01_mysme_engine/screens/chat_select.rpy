@@ -815,6 +815,10 @@ label guest_party_showcase():
         for g in attending_guests_list:
             persistent.guestbook[g.name] = "attended"
 
+    # Achievement for having one or more guests attend
+    if num_guests > 0:
+        $ first_guest_achievement.grant()
+
     hide screen guest_count
     $ viewing_guest = False
 
