@@ -379,7 +379,8 @@ screen pick_mc_pfp():
                         add 'header_hg' align (0.95, 0.95)
                         action SpendHourglass(
                             "Would you like to unlock this profile picture for 1 hourglass?",
-                            1, AddToSet(persistent.mc_unlocked_pfps, img)
+                            1, [AddToSet(persistent.mc_unlocked_pfps, img),
+                                change_your_pfp_achievement.Achieve()]
                         )
 
 
