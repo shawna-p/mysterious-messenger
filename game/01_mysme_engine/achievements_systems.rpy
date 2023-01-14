@@ -189,9 +189,9 @@ init python:
     animated_bg_achievement = Achievement("Now for some Pizzazz!", "animated_bgs",
         "Turn on the animated chatroom backgrounds from the settings.")
     tutorial_ending1 = Achievement("Made it to the End", "tut_end_1",
-        "See at least one ending on Tutorial Day")
+        "See at least one ending on Tutorial Day.")
     tutorial_ending2 = Achievement("Gotta See 'Em All", "tut_end_2",
-        "See all the endings on Tutorial Day")
+        "See all the endings on Tutorial Day.")
     make_a_call_achievement = Achievement("Ring Ring", "make_a_call",
         "Try calling someone on the phone.")
     try_real_time_achievement = Achievement("IRL", "irl",
@@ -199,13 +199,15 @@ init python:
     expired_achievement = Achievement("Missed it by That Much", "expired",
         "Play through a chatroom that's expired.")
     first_cg_achievement = Achievement("New Image", "unlock_first_cg",
-        "Unlock an image in the CG Gallery")
+        "Unlock an image in the CG Gallery.")
     change_pfp_achievement = Achievement("Wait, I didn't pick that", "change_pfp",
         "Change a character's profile picture.")
     first_guest_achievement = Achievement("Get this Party Started", "first_guest",
         "Have one or more guests attend the party.")
     change_your_pfp_achievement = Achievement("New Look, New Me", "change_my_pfp",
-        "Unlock a bonus image for your own profile picture")
+        "Unlock a bonus image for your own profile picture.")
+    malfunctioning_achievement = Achievement("I-it's malfunctioning!",
+        "malfunction_achieve", "Hang up on Ray's Tutorial Day call.")
 
 
 

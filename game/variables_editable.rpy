@@ -326,6 +326,7 @@ init python:
 label ray_test_call_callback():
     # Since the player hung up on Ray, he's going to try
     # to call them back directly.
+    $ malfunction_achieve.grant()
     $ create_incoming_call("ray_test_call_callback_phone", who=r)
     # Return at the end of the label like usual
     return
