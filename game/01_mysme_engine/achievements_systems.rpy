@@ -186,7 +186,7 @@ init python:
     IGNORE_ACHIEVEMENTS = False
     ui_achievement = Achievement("Farewell, Old UI", "modified_ui",
         "Turn on the modified UI from the settings.")
-    animated_bg_achievement = Achievement("Now for some Pizzazz!", "animated_bgs",
+    animated_bg_achievement = Achievement("Now for some Pizazz!", "animated_bgs",
         "Turn on the animated chatroom backgrounds from the settings.")
     tutorial_ending1 = Achievement("Made it to the End", "tut_end_1",
         "See at least one ending on Tutorial Day.")
