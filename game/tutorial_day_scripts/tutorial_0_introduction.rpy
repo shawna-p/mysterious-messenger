@@ -281,6 +281,7 @@ label zen_pfp_callback_unknown1():
     # call you. This creates an incoming call that will be delivered when
     # the player is on the main menu.
     $ create_incoming_call("zen_pfp_callback_unknown1_incoming", who=z)
+    $ hidden_pfp_achievement.grant()
     return
 
 label zen_pfp_callback_unknown1_incoming():

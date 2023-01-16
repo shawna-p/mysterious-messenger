@@ -208,6 +208,9 @@ init python:
         "Unlock a bonus image for your own profile picture.")
     malfunctioning_achievement = Achievement("I-it's malfunctioning!",
         "malfunction_achieve", "Hang up on Ray's Tutorial Day call.")
+    hidden_pfp_achievement = Achievement("Who Are You?",
+        "hidden_pfp_achieve", "Change your profile picture to the black-haired man.",
+        hidden=True)
 
 
 
