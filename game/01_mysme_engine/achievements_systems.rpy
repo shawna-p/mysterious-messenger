@@ -185,13 +185,22 @@ init python:
     ## in the achievements list.
     IGNORE_ACHIEVEMENTS = False
     ui_achievement = Achievement("Farewell, Old UI", "modified_ui",
-        "Turn on the modified UI from the settings.")
+        "Turn on the modified UI from the settings.",
+        # Size ~(155, 155)
+        Crop((0, 0, 155, 155), Transform("Phone UI/bg_secure.webp", xsize=155, fit="contain"))
+    )
     animated_bg_achievement = Achievement("Now for some Pizazz!", "animated_bgs",
-        "Turn on the animated chatroom backgrounds from the settings.")
+        "Turn on the animated chatroom backgrounds from the settings.",
+        Crop((0, 0, 155, 155), Transform("Phone UI/bg-rainy-day.webp", xsize=155, fit="contain"))
+    )
     tutorial_ending1 = Achievement("Made it to the End", "tut_end_1",
-        "See at least one ending on Tutorial Day.")
+        "See at least one ending on Tutorial Day.",
+        Crop((0, 55, 155, 155), Transform("VN Mode/Backgrounds/normal_end.webp", xsize=155, fit="contain"))
+    )
     tutorial_ending2 = Achievement("Gotta See 'Em All", "tut_end_2",
-        "See all the endings on Tutorial Day.")
+        "See all the endings on Tutorial Day.",
+        Crop((0, 55, 155, 155), Transform("VN Mode/Backgrounds/good_end.webp", xsize=155, fit="contain"))
+    )
     make_a_call_achievement = Achievement("Ring Ring", "make_a_call",
         "Try calling someone on the phone.")
     try_real_time_achievement = Achievement("IRL", "irl",
