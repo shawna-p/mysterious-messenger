@@ -202,11 +202,20 @@ init python:
         Crop((0, 55, 155, 155), Transform("VN Mode/Backgrounds/good_end.webp", xsize=155, fit="contain"))
     )
     make_a_call_achievement = Achievement("Ring Ring", "make_a_call",
-        "Try calling someone on the phone.")
+        "Try calling someone on the phone.",
+        Transform("Phone Calls/call_contact_empty.webp", xsize=155, fit="contain")
+    )
     try_real_time_achievement = Achievement("IRL", "irl",
-        "Turn on real-time mode from the settings.")
+        "Turn on real-time mode from the settings.",
+        Fixed(
+            Transform("Menu Screens/Main Menu/dlc.webp", xsize=155, fit="contain"),
+            Transform("Phone Calls/call_icon_history.webp", align=(0.5, 0.53), matrixcolor=InvertMatrix(1.0))
+        )
+    )
     expired_achievement = Achievement("Missed it by That Much", "expired",
-        "Play through a chatroom that's expired.")
+        "Play through a chatroom that's expired.",
+        "Menu Screens/Main Menu/save_load.webp"
+        )
     first_cg_achievement = Achievement("New Image", "unlock_first_cg",
         "Unlock an image in the CG Gallery.")
     change_pfp_achievement = Achievement("Wait, I didn't pick that", "change_pfp",
