@@ -215,11 +215,15 @@ init python:
     expired_achievement = Achievement("Missed it by That Much", "expired",
         "Play through a chatroom that's expired.",
         "Menu Screens/Main Menu/save_load.webp"
-        )
+    )
     first_cg_achievement = Achievement("New Image", "unlock_first_cg",
-        "Unlock an image in the CG Gallery.")
+        "Unlock an image in the CG Gallery.",
+        "CGs/common_album_cover.webp",
+    )
     change_pfp_achievement = Achievement("Wait, I didn't pick that", "change_pfp",
-        "Change a character's profile picture.")
+        "Change a character's profile picture.",
+        "Menu Screens/Main Menu/s_greeting.webp",
+    )
     first_guest_achievement = Achievement("Get this Party Started", "first_guest",
         "Have one or more guests attend the party.")
     change_your_pfp_achievement = Achievement("New Look, New Me", "change_my_pfp",
