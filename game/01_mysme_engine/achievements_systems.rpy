@@ -225,9 +225,14 @@ init python:
         "Menu Screens/Main Menu/s_greeting.webp",
     )
     first_guest_achievement = Achievement("Get this Party Started", "first_guest",
-        "Have one or more guests attend the party.")
+        "Have one or more guests attend the party.",
+        "Email/a_grade.webp",
+        )
     change_your_pfp_achievement = Achievement("New Look, New Me", "change_my_pfp",
-        "Unlock a bonus image for your own profile picture.")
+        "Unlock a bonus image for your own profile picture.",
+        Crop((0, 0, 155, 155),
+            Transform("CGs/common_album/cg-2.webp", xsize=155, fit="contain"))
+        )
     malfunctioning_achievement = Achievement("I-it's malfunctioning!",
         "malfunction_achieve", "Hang up on Ray's Tutorial Day call.")
     hidden_pfp_achievement = Achievement("Who Are You?",
