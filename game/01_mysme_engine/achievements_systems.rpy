@@ -234,7 +234,9 @@ init python:
             Transform("CGs/common_album/cg-2.webp", xsize=155, fit="contain"))
         )
     malfunctioning_achievement = Achievement("I-it's malfunctioning!",
-        "malfunction_achieve", "Hang up on Ray's Tutorial Day call.")
+        "malfunction_achieve", "Hang up on Ray's Tutorial Day call.",
+        "Phone Calls/call_button_hang_up.webp"
+        )
     hidden_pfp_achievement = Achievement("Who Are You?",
         "hidden_pfp_achieve", "Change your profile picture to the black-haired man.",
         hidden=True)
