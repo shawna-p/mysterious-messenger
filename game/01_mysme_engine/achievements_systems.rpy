@@ -230,8 +230,8 @@ init python:
         )
     change_your_pfp_achievement = Achievement("New Look, New Me", "change_my_pfp",
         "Unlock a bonus image for your own profile picture.",
-        Crop((0, 0, 155, 155),
-            Transform("CGs/common_album/cg-2.webp", xsize=155, fit="contain"))
+        Crop((0, 30, 155, 155),
+            Transform("CGs/common_album/cg-3.webp", xsize=155, fit="contain"))
         )
     malfunctioning_achievement = Achievement("I-it's malfunctioning!",
         "malfunction_achieve", "Hang up on Ray's Tutorial Day call.",
@@ -239,6 +239,8 @@ init python:
         )
     hidden_pfp_achievement = Achievement("Who Are You?",
         "hidden_pfp_achieve", "Change your profile picture to the black-haired man.",
+        Crop((0, 0, 155, 155),
+            Transform("CGs/common_album/cg-2.webp", xsize=155, fit="contain"))
         hidden=True)
 
 
