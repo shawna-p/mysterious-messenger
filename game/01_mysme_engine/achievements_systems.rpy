@@ -56,7 +56,7 @@ init python:
             self.id = id or name.lower().replace(' ', '_').replace("'", '').replace('-', '_')
 
             self._description = description
-            self.unlocked_image = unlocked_image or Null()
+            self.unlocked_image = unlocked_image or None
             self.locked_image = locked_image or "locked_achievement"
 
             self.stat_max = stat_max
@@ -175,7 +175,6 @@ init python:
         "CGs/ju_album/cg-1-thumb.webp", hidden=True)
     third_achievement = Achievement("A longer achievement name",
         description="I want this to be long enough to possibly expand this bubble",
-        unlocked_image="CGs/ju_album/cg-1-thumb.webp"
         )
 
     ## Actual achievements, for the tutorial
@@ -230,7 +229,7 @@ init python:
         )
     change_your_pfp_achievement = Achievement("New Look, New Me", "change_my_pfp",
         "Unlock a bonus image for your own profile picture.",
-        Crop((0, 30, 155, 155),
+        Crop((0, 60, 155, 155),
             Transform("CGs/common_album/cg-3.webp", xsize=155, fit="contain"))
         )
     malfunctioning_achievement = Achievement("I-it's malfunctioning!",
@@ -240,7 +239,7 @@ init python:
     hidden_pfp_achievement = Achievement("Who Are You?",
         "hidden_pfp_achieve", "Change your profile picture to the black-haired man.",
         Crop((0, 0, 155, 155),
-            Transform("CGs/common_album/cg-2.webp", xsize=155, fit="contain"))
+            Transform("CGs/common_album/cg-2.webp", xsize=155, fit="contain")),
         hidden=True)
 
 

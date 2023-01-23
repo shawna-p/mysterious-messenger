@@ -59,7 +59,6 @@ screen achievement_gallery():
     tag menu
 
     use menu_header("Achievements", Return()):
-        null height 10
 
         viewport id 'achievement_vp':
             style_prefix 'achieve'
@@ -67,14 +66,18 @@ screen achievement_gallery():
             mousewheel True
             scrollbars "vertical"
             has vbox
+            null height 10
 
             for a in Achievement.all_achievements:
                 button:
                     has hbox
-                    fixed:
-                        align (0.5, 0.5)
-                        xysize (155, 155)
-                        add a.idle_img fit "scale-down" ysize 155 align (0.5, 0.5)
+                    if a.idle_img:
+                        fixed:
+                            align (0.5, 0.5)
+                            xysize (155, 155)
+                            add a.idle_img fit "scale-down" ysize 155 align (0.5, 0.5)
+                    else:
+                        null width -10
                     vbox:
                         text a.name font gui.curly_font size 40
                         text a.description
@@ -86,22 +89,23 @@ screen achievement_gallery():
                     textbutton "Achieve {}".format(a.name):
                         text_selected_color "#0ff"
                         action a.Toggle()
+            null height 10
 
 
 style achieve_viewport:
-    xysize (config.screen_width-20, config.screen_height-234)
+    xysize (config.screen_width-20, config.screen_height-154)
     yfill True
-    align (0.5, 0.0)
+    align (1.0, 0.0)
 style achieve_vscrollbar:
     unscrollable "hide"
 style achieve_side:
-    xalign 1.0
-    spacing 15
+    xalign 1.0 yalign 1.0
+    spacing -5
 style achieve_vbox:
     spacing 20
 
 style achieve_button:
-    background "#fff5"
+    background 'history_chat_active'
     padding (8, 8)
     xsize config.screen_width-40
 style achieve_hbox:
