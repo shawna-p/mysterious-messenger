@@ -70,6 +70,9 @@ screen achievement_gallery():
 
             for a in Achievement.all_achievements:
                 button:
+                    # Manually toggle achievements, for development
+                    if config.developer:
+                        action a.Toggle()
                     has hbox
                     if a.idle_img:
                         fixed:
@@ -83,12 +86,6 @@ screen achievement_gallery():
                         text a.description
                         text a.timestamp size 22
 
-            if config.developer:
-                # Manually toggle achievements, for development
-                for a in Achievement.all_achievements:
-                    textbutton "Achieve {}".format(a.name):
-                        text_selected_color "#0ff"
-                        action a.Toggle()
             null height 10
 
 
