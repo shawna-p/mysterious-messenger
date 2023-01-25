@@ -1012,6 +1012,11 @@ In this example, we presume you are checking for whether deep story is unlocked 
 
 The SpendHourglass action takes care of the case where the player attempts to spend more hourglasses than they currently hold (e.g. they have 100 hourglasses but require 300 to unlock deep story mode). In this case, the provided action is not run and the player is simply shown a message saying they don't have enough hourglasses.
 
+Achievements
+===================
+
+Mysterious Messenger provides an in-game achievement system which also integrates with existing Ren'Py systems, including Steam achievements.
+
 Reserved Names
 ===============
 
