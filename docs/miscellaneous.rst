@@ -1015,7 +1015,7 @@ The SpendHourglass action takes care of the case where the player attempts to sp
 Achievements
 ===================
 
-Mysterious Messenger provides an in-game achievement system which also integrates with existing Ren'Py systems, including Steam achievements.
+Mysterious Messenger provides an in-game achievement system which also integrates with existing Ren'Py systems, including Steam achievements. Several default achievements are included with the program which trigger when you complete various actions around the messenger and throughout Tutorial Day.
 
 Reserved Names
 ===============
