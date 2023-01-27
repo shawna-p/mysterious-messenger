@@ -1017,6 +1017,13 @@ Achievements
 
 Mysterious Messenger provides an in-game achievement system which also integrates with existing Ren'Py systems, including Steam achievements. Several default achievements are included with the program which trigger when you complete various actions around the messenger and throughout Tutorial Day.
 
+You will find most of the relevant code in ``achievements.rpy``. Here there is an ``achievement_popup`` screen, which is what will display a preview of the unlocked achievement in-game when the player earns it. It is passed one parameter, which I called ``a`` in the example screen, which corresponds to the Achievement object representing the achievement the player just earned.
+
+There is also another screen, ``achievement_gallery``, which is what displays the achievements to the player. You are welcome to customize these in whatever way you like.
+
+Setting Up Achievements
+-----------------------
+
 Reserved Names
 ===============
 
