@@ -1024,6 +1024,26 @@ There is also another screen, ``achievement_gallery``, which is what displays th
 Setting Up Achievements
 -----------------------
 
+To set up an achievement, you will use the Achievement class. This takes several parameters:
+
+`name`
+    A string representing the name of this achievement, as it should appear in the popup and in the achievement screen.
+
+`id`
+    A string which does not include spaces, single or double quotes, or dashes (aka just use alphanumeric + underscores). This will be used as the ID for this achievement for backends such as Steam's backend.
+
+`description`
+    Optional. A string with the description for this achievement.
+
+`unlocked_image`
+    Optional. A displayable which is shown as an icon when this achievement is unlocked.
+
+`locked_image`
+    Optional. A displayable which is shown as an icon when this achievement is locked. By default this is set to the image ``locked_achievement``, which you can change.
+
+`stat_max`
+    Optional. If provided, it's an integer corresponding to the maximum progress of an achievement, if the achievement can be partially completed. For example, if your game has 24 chapters and you want this achievement to have a progress bar displaying the % of chapters the player has completed, you would set ``stat_max=24``. The achievement is unlocked when it reaches this value.
+
 Reserved Names
 ===============
 
