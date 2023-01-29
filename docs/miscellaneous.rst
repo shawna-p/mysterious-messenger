@@ -1044,6 +1044,11 @@ To set up an achievement, you will use the Achievement class. This takes several
 `stat_max`
     Optional. If provided, it's an integer corresponding to the maximum progress of an achievement, if the achievement can be partially completed. For example, if your game has 24 chapters and you want this achievement to have a progress bar displaying the % of chapters the player has completed, you would set ``stat_max=24``. The achievement is unlocked when it reaches this value.
 
+`stat_modulo`
+    Optional. Only relevant if using the ``stat_max`` attribute. The formula ``(stat_progress % stat_modulo)`` is applied whenever achievement progress is updated. If the result of this calculation is 0, then the progress is shown to the user. By default this is 0, so all updates to ``stat_progress`` are shown.
+
+    This is useful if, for example, for the earlier 24-chapter game progress stat, you only wanted to show updates every time the player got through a quarter of the chapters (0% full -> 25% full -> 50% full -> 75% full -> 100% full). In that case, the ``stat_modulo`` would be 6 (24/4).
+
 Reserved Names
 ===============
 
