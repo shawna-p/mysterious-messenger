@@ -247,7 +247,7 @@ With all that, in a fresh project, you should be able to write something like::
     label start():
         show screen messenger
         e "This is some test dialogue!"
-        e "The whole thing hasn't been put together quite yet, thought."
+        e "The whole thing hasn't been put together quite yet, though."
         e "Stay tuned for the rest!"
         pause
         return
