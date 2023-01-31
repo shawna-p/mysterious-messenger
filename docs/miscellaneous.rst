@@ -1049,6 +1049,19 @@ To set up an achievement, you will use the Achievement class. This takes several
 
     This is useful if, for example, for the earlier 24-chapter game progress stat, you only wanted to show updates every time the player got through a quarter of the chapters (0% full -> 25% full -> 50% full -> 75% full -> 100% full). In that case, the ``stat_modulo`` would be 6 (24/4).
 
+`hidden`
+    If True, then this achievement's title and description will be replaced with "???" until the player has unlocked it.
+
+Thus, a few example achievements::
+
+    ## An achievement which will unlock when the player starts a new game
+    start_game = Achievement("Start of your journey", "start_game",
+        "Start a new game", "achievements/new_game.webp")
+    ## An achievement for getting to any bad end in the game
+    bad_end = Achievement("Happily Never After", "bad_end",
+        "Reach a bad end", "achievements/bad_end.webp")
+
+
 Reserved Names
 ===============
 
