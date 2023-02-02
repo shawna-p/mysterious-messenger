@@ -11,33 +11,53 @@ init python:
         pygame.MULTIGESTURE,
     ])
 
+    class Finger():
+        def __init__(self, x, y):
+            self.x = x
+            self.y = y
+        @property
+        def x_int(self):
+            return int(self.x*config.screen_width)
+        @property
+        def y_int(self):
+            return int(self.y*config.screen_height)
+
+        def dist(self, x, y):
+            """Return the distance from this finger to the given coordinates."""
+
+            dx = self.x - x
+            dy = self.y - y
+
+            return (dx**2 + dy**2)**0.5
+
+        def finger_info(self):
+            return "Finger: ({}, {})".format(self.x_int, self.y_int)
 
     class MultiTouch(renpy.Displayable):
         def __init__(self, *args, **kwargs):
             super().__init__(*args, **kwargs)
             self.text = ""
-            self.x = 0
-            self.y = 0
             self.zoom = 1.0
             self.rotate = 0
+
+            self.fingers = [ ]
 
         def render(self, width, height, st, at):
 
             r = renpy.Render(width, height)
 
-            square_width = int(200*self.zoom)
-            square_size = int((square_width**2+square_width**2)**0.5)
+            # square_width = int(200*self.zoom)
+            # square_size = int((square_width**2+square_width**2)**0.5)
 
-            ren = renpy.render(Transform("#f0f8",
-                xysize=(square_width, square_width),
-                rotate=self.rotate,
-                anchor=(0.5, 0.5)), width, height, st, at)
-            #r.blit(ren, (self.x, self.y))
-            r.blit(ren, (config.screen_width//2-square_size//2,
-                        config.screen_height//2-square_size//2))
+            # ren = renpy.render(Transform("#f0f8",
+            #     xysize=(square_width, square_width),
+            #     rotate=self.rotate,
+            #     anchor=(0.5, 0.5)), width, height, st, at)
+            # r.blit(ren, (config.screen_width//2-square_size//2,
+            #             config.screen_height//2-square_size//2))
 
-            # ren = renpy.render(Text(self.text), width, height, st, at)
-            # r.blit(ren, (0, 0))
+            ren = renpy.render(Text(self.text), width, height, st, at)
+            r.blit(ren, (0, 0))
 
             renpy.redraw(self, 0)
 
@@ -46,38 +66,58 @@ init python:
         def normalize_pos(self, x, y):
             return (int(x*config.screen_width), int(y*config.screen_height))
 
+        def register_finger(self, x, y):
+            self.fingers.append(Finger(x, y))
+
+        def find_finger(self, x, y):
+            """
+            Find the finger with the smallest distance between its current
+            position and x, y
+            """
+            if not self.fingers:
+                return None
+            dist = [
+                (f.dist(x, y), f) for f in self.fingers
+            ]
+            dist.sort(key=lambda x : x[0])
+            return dist[0][1]
+
+
+        def update_finger(self, x, y):
+            """Find which finger just moved and update it."""
+            finger = self.find_finger(x, y)
+            if not finger:
+                return
+            finger.x = x
+            finger.y = y
+
+        def remove_finger(self, x, y):
+            finger = self.find_finger(x, y)
+            if not finger:
+                return
+            self.fingers.remove(finger)
+
         def event(self, ev, x, y, st):
 
             if ev.type == pygame.FINGERMOTION:
-                # print("Finger motion")
                 self.text = "Finger motion"
+                self.update_finger(ev.x, ev.y)
             elif ev.type == pygame.FINGERDOWN:
-                # print("Finger down")
                 self.text = "Finger down"
+                self.register_finger(ev.x, ev.y)
             elif ev.type == pygame.FINGERUP:
-                # print("Finger up")
                 self.text = "Finger up"
+                self.remove_finger(ev.x, ev.y)
             elif ev.type == pygame.MULTIGESTURE:
-                # print("Multigesture")
                 self.text = "Multigesture"
-                # try:
-                #     print(ev.touchId, ev.dTheta, ev.dDist, self.normalize_pos(ev.x, ev.y), ev.numFingers)
-                # except Exception as e:
-                #     print("Couldn't do multitouch print", e)
-                #self.zoom += ev.dTheta*10
+
                 self.rotate += int(ev.dTheta*360)
                 self.zoom += ev.dDist*15
                 self.zoom = max(0.25, self.zoom)
             else:
                 self.text = "Not recognized"
 
-            if ev.type in (pygame.FINGERMOTION, pygame.FINGERDOWN, pygame.FINGERUP):
-                try:
-                    #print(ev.touchId, ev.fingerId, self.normalize_pos(ev.x, ev.y))
-                    self.x, self.y = self.normalize_pos(ev.x, ev.y)
-                except Exception as e:
-                    print("something went wrong:", e)
-
+            self.text = '\n'.join([x.finger_info for x in self.fingers])
 
             ## Results:
             ## FINGER MOVEMENT:
