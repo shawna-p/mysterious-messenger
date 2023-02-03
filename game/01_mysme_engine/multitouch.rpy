@@ -30,6 +30,7 @@ init python:
 
             return (dx**2 + dy**2)**0.5
 
+        @property
         def finger_info(self):
             return "Finger: ({}, {})".format(self.x_int, self.y_int)
 
@@ -56,7 +57,7 @@ init python:
                         config.screen_height//2-square_size//2)
             square = Transform("Profile Pics/Zen/zen-10-b.webp",
                 xysize=(square_width, square_width),
-                rotate=self.rotate,
+                rotate=int(self.rotate),
                 #anchor=(0.5, 0.5),
                 pos=square_pos)
 
@@ -116,20 +117,17 @@ init python:
             self.fingers.remove(finger)
 
         def event(self, ev, x, y, st):
+            self.text = ""
 
             if ev.type == pygame.FINGERMOTION:
-                self.text = "Finger motion"
                 self.update_finger(ev.x, ev.y)
             elif ev.type == pygame.FINGERDOWN:
-                self.text = "Finger down"
                 self.register_finger(ev.x, ev.y)
             elif ev.type == pygame.FINGERUP:
-                self.text = "Finger up"
                 self.remove_finger(ev.x, ev.y)
             elif ev.type == pygame.MULTIGESTURE:
-                self.text = "Multigesture"
-
-                self.rotate += int(ev.dTheta*360)
+                self.rotate += ev.dTheta*360/8
+                # self.text = "Theta: {} - {}\n".format(ev.dTheta, int(self.rotate))
                 self.zoom += ev.dDist*15
             elif renpy.map_event(ev, "viewport_wheelup"):
                 if store.wheel_zoom:
@@ -144,11 +142,11 @@ init python:
             else:
                 self.text = "Not recognized"
 
+            self.rotate %= 360
             self.zoom = min(max(0.25, self.zoom), 4.0)
-            # self.rotate %= 360
 
             if self.fingers:
-                self.text = '\n'.join([x.finger_info for x in self.fingers])
+                self.text += '\n'.join([x.finger_info for x in self.fingers])
             else:
                 self.text = "No fingers recognized"
 
