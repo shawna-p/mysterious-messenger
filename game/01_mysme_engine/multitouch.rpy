@@ -15,12 +15,6 @@ init python:
         def __init__(self, x, y):
             self.x = x
             self.y = y
-        @property
-        def x_int(self):
-            return int(self.x*config.screen_width)
-        @property
-        def y_int(self):
-            return int(self.y*config.screen_height)
 
         def dist(self, x, y):
             """Return the distance from this finger to the given coordinates."""
@@ -32,7 +26,7 @@ init python:
 
         @property
         def finger_info(self):
-            return "Finger: ({}, {})".format(self.x_int, self.y_int)
+            return "Finger: ({}, {})".format(self.x, self.y)
 
     class MultiTouch(renpy.Displayable):
 
@@ -46,6 +40,11 @@ init python:
             self.xpos = 0
             self.ypos = 0
 
+            self.drag_start_pos = None
+            self.drag_finger = None
+
+            self.drag_offset = (0, 0)
+
             self.fingers = [ ]
 
         def render(self, width, height, st, at):
@@ -57,6 +56,16 @@ init python:
 
             self.xpos = config.screen_width//2-square_size//2
             self.ypos = config.screen_height//2-square_size//2
+
+            if self.drag_start_pos is not None and self.drag_finger:
+                # Trying to drag this
+                dx = self.drag_start_pos[0] - (self.xpos + self.drag_offset[0])
+                dy = self.drag_start_pos[1] - (self.ypos + self.drag_offset[1])
+
+                self.drag_offset = (dx, dy)
+
+
+
 
             square = Transform("Profile Pics/Zen/zen-10-b.webp",
                 xysize=(square_width, square_width),
@@ -81,7 +90,9 @@ init python:
             return (int(x*config.screen_width), int(y*config.screen_height))
 
         def register_finger(self, x, y):
-            self.fingers.append(Finger(x, y))
+            finger = Finger(x, y)
+            self.fingers.append(finger)
+            return finger
 
         def find_finger(self, x, y):
             """
@@ -103,35 +114,51 @@ init python:
                 return
             finger.x = x
             finger.y = y
+            return finger
 
         def remove_finger(self, x, y):
             finger = self.find_finger(x, y)
             if not finger:
                 return
             self.fingers.remove(finger)
+            return finger
+
+        def start_drag(self, x, y, finger):
+            finger_touch_pos = (x, y)
+
+
 
         def event(self, ev, event_x, event_y, st):
             self.text = ""
 
             if ev.type in (pygame.FINGERDOWN, pygame.FINGERMOTION, pygame.FINGERUP):
-                x = ev.x
-                y = ev.y
+                x, y = self.normalize_pos(ev.x, ev.y)
                 is_touch = True
             else:
-                x = event_x/float(config.screen_width)
-                y = event_y/float(config.screen_height)
+                x = event_x
+                y = event_y
                 is_touch = False
 
             if (renpy.map_event(ev, "viewport_drag_start") # mousedown_1
                     or ev.type == pygame.FINGERDOWN):
-                self.register_finger(x, y)
+                finger = self.register_finger(x, y)
+                if self.drag_start_pos is None and len(self.fingers) == 1:
+                    self.drag_start_pos = (x, y)
+                    self.drag_finger = finger
+                elif len(self.fingers) > 1:
+                    # More than one finger; no dragging
+                    self.drag_start_pos = None
+                    self.drag_finger = None
 
             elif (renpy.map_event(ev, "viewport_drag_end")
                     or ev.type == pygame.FINGERUP):
-                self.remove_finger(x, y)
+                finger = self.remove_finger(x, y)
+                if finger and self.drag_finger == finger:
+                    self.drag_finger = None
+                    self.drag_start_pos = None
 
             elif ev.type in (pygame.FINGERMOTION, pygame.MOUSEMOTION):
-                self.update_finger(x, y)
+                finger = self.update_finger(x, y)
 
             elif ev.type == pygame.MULTIGESTURE:
                 self.rotate += ev.dTheta*360/8
