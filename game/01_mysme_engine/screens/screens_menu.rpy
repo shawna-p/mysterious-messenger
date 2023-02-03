@@ -1890,10 +1890,10 @@ screen developer_settings():
                     textbutton _('Choose Screen Ratio'):
                         style_prefix "other_settings_end"
                         action Show('choose_screen_ratio')
-                    textbutton _('Achievements'):
+                    textbutton _('Multitouch'):
                         style_prefix "other_settings_end"
                         action [Hide('developer_settings'),
-                                Show('achievement_gallery')]
+                                Show('multitouch_test')]
 
             else:
                 hbox:

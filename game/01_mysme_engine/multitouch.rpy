@@ -34,6 +34,9 @@ init python:
             return "Finger: ({}, {})".format(self.x_int, self.y_int)
 
     class MultiTouch(renpy.Displayable):
+
+        square_dimensions = 314
+
         def __init__(self, *args, **kwargs):
             super().__init__(*args, **kwargs)
             self.text = ""
@@ -46,8 +49,16 @@ init python:
 
             r = renpy.Render(width, height)
 
-            # square_width = int(200*self.zoom)
-            # square_size = int((square_width**2+square_width**2)**0.5)
+            square_width = int(self.square_dimensions*self.zoom)
+            square_size = int((square_width**2+square_width**2)**0.5)
+
+            square_pos = (config.screen_width//2-square_size//2,
+                        config.screen_height//2-square_size//2)
+            square = Transform("Profile Pics/Zen/zen-10-b.webp",
+                xysize=(square_width, square_width),
+                rotate=self.rotate,
+                #anchor=(0.5, 0.5),
+                pos=square_pos)
 
             # ren = renpy.render(Transform("#f0f8",
             #     xysize=(square_width, square_width),
@@ -56,7 +67,14 @@ init python:
             # r.blit(ren, (config.screen_width//2-square_size//2,
             #             config.screen_height//2-square_size//2))
 
-            ren = renpy.render(Text(self.text), width, height, st, at)
+            text = Text(self.text, style='multitouch_text')
+
+            fix = Fixed(
+                square, text,
+                xysize=(config.screen_width, config.screen_height),
+            )
+
+            ren = renpy.render(fix, width, height, st, at)
             r.blit(ren, (0, 0))
 
             renpy.redraw(self, 0)
@@ -113,11 +131,26 @@ init python:
 
                 self.rotate += int(ev.dTheta*360)
                 self.zoom += ev.dDist*15
-                self.zoom = max(0.25, self.zoom)
+            elif renpy.map_event(ev, "viewport_wheelup"):
+                if store.wheel_zoom:
+                    self.zoom += 0.25
+                else:
+                    self.rotate += 10
+            elif renpy.map_event(ev, "viewport_wheeldown"):
+                if store.wheel_zoom:
+                    self.zoom -= 0.25
+                else:
+                    self.rotate -= 10
             else:
                 self.text = "Not recognized"
 
-            self.text = '\n'.join([x.finger_info for x in self.fingers])
+            self.zoom = min(max(0.25, self.zoom), 4.0)
+            # self.rotate %= 360
+
+            if self.fingers:
+                self.text = '\n'.join([x.finger_info for x in self.fingers])
+            else:
+                self.text = "No fingers recognized"
 
             ## Results:
             ## FINGER MOVEMENT:
@@ -132,3 +165,22 @@ init python:
             ## dDist = Veery tiny number 0.0005
             ## x/y = float between 0 and 1
             ## numFingers = 2
+
+style multitouch_text:
+    color "#fff"
+    size 35
+
+default multi_touch = MultiTouch()
+default wheel_zoom = True
+screen multitouch_test():
+
+    modal True
+
+    use starry_night()
+
+    add multi_touch
+
+    vbox:
+        align (1.0, 1.0) spacing 20
+        textbutton "Wheel Zoom" action ToggleVariable('wheel_zoom')
+        textbutton "Return" action Hide('multitouch_test')
