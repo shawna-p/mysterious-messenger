@@ -22,7 +22,11 @@ screen select_history():
 
         style_prefix "select_history"
         frame:
-            vbox:
+            hbox:
+                style 'default'
+                spacing 35 box_wrap_spacing 35
+                box_wrap True align (0.5, 0.5)
+
                 button:
                     action [Function(check_for_CGs, all_albums=all_albums),
                             Show('photo_album', Dissolve(0.5))]
@@ -34,6 +38,12 @@ screen select_history():
                     hbox:
                         add 'history_icon_chat' yalign 0.5
                         text "CHAT HISTORY"
+
+                button:
+                    action Show('achievement_gallery', Dissolve(0.5))
+                    hbox:
+                        add 'history_icon_album' yalign 0.5
+                        text "ACHIEVEMENTS"
 
                 button:
                     action Show('guestbook', Dissolve(0.5))
