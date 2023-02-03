@@ -43,6 +43,8 @@ init python:
             self.text = ""
             self.zoom = 1.0
             self.rotate = 0
+            self.xpos = 0
+            self.ypos = 0
 
             self.fingers = [ ]
 
@@ -53,20 +55,13 @@ init python:
             square_width = int(self.square_dimensions*self.zoom)
             square_size = int((square_width**2+square_width**2)**0.5)
 
-            square_pos = (config.screen_width//2-square_size//2,
-                        config.screen_height//2-square_size//2)
+            self.xpos = config.screen_width//2-square_size//2
+            self.ypos = config.screen_height//2-square_size//2
+
             square = Transform("Profile Pics/Zen/zen-10-b.webp",
                 xysize=(square_width, square_width),
                 rotate=int(self.rotate),
-                #anchor=(0.5, 0.5),
-                pos=square_pos)
-
-            # ren = renpy.render(Transform("#f0f8",
-            #     xysize=(square_width, square_width),
-            #     rotate=self.rotate,
-            #     anchor=(0.5, 0.5)), width, height, st, at)
-            # r.blit(ren, (config.screen_width//2-square_size//2,
-            #             config.screen_height//2-square_size//2))
+                pos=(self.xpos, self.ypos))
 
             text = Text(self.text, style='multitouch_text')
 
@@ -101,7 +96,6 @@ init python:
             dist.sort(key=lambda x : x[0])
             return dist[0][1]
 
-
         def update_finger(self, x, y):
             """Find which finger just moved and update it."""
             finger = self.find_finger(x, y)
@@ -116,31 +110,47 @@ init python:
                 return
             self.fingers.remove(finger)
 
-        def event(self, ev, x, y, st):
+        def event(self, ev, event_x, event_y, st):
             self.text = ""
 
-            if ev.type == pygame.FINGERMOTION:
-                self.update_finger(ev.x, ev.y)
-            elif ev.type == pygame.FINGERDOWN:
-                self.register_finger(ev.x, ev.y)
-            elif ev.type == pygame.FINGERUP:
-                self.remove_finger(ev.x, ev.y)
+            if ev.type in (pygame.FINGERDOWN, pygame.FINGERMOTION, pygame.FINGERUP):
+                x = ev.x
+                y = ev.y
+                is_touch = True
+            else:
+                x = event_x/float(config.screen_width)
+                y = event_y/float(config.screen_height)
+                is_touch = False
+
+            if (renpy.map_event(ev, "viewport_drag_start") # mousedown_1
+                    or ev.type == pygame.FINGERDOWN):
+                self.register_finger(x, y)
+
+            elif (renpy.map_event(ev, "viewport_drag_end")
+                    or ev.type == pygame.FINGERUP):
+                self.remove_finger(x, y)
+
+            elif ev.type in (pygame.FINGERMOTION, pygame.MOUSEMOTION):
+                self.update_finger(x, y)
+
             elif ev.type == pygame.MULTIGESTURE:
                 self.rotate += ev.dTheta*360/8
                 # self.text = "Theta: {} - {}\n".format(ev.dTheta, int(self.rotate))
                 self.zoom += ev.dDist*15
+
             elif renpy.map_event(ev, "viewport_wheelup"):
                 if store.wheel_zoom:
                     self.zoom += 0.25
                 else:
                     self.rotate += 10
+
             elif renpy.map_event(ev, "viewport_wheeldown"):
                 if store.wheel_zoom:
                     self.zoom -= 0.25
                 else:
                     self.rotate -= 10
             else:
-                self.text = "Not recognized"
+                self.text += "Not recognized\n"
 
             self.rotate %= 360
             self.zoom = min(max(0.25, self.zoom), 4.0)
