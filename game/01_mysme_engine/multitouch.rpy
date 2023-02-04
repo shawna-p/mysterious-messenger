@@ -39,8 +39,11 @@ init python:
             self.text = ""
             self.zoom = 1.0
             self.rotate = 0
-            self.xpos = 0
-            self.ypos = 0
+
+            dimensions = self.get_dimensions()
+            padded_size = int((dimensions[0]**2+dimensions[1]**2)**0.5)
+            self.xpos = config.screen_width//2-padded_size//2
+            self.ypos = config.screen_height//2-padded_size//2
 
             self.zoom_max = zoom_max
             self.zoom_min = zoom_min
@@ -157,12 +160,12 @@ init python:
             dimensions = self.get_dimensions()
             padded_size = int((dimensions[0]**2+dimensions[1]**2)**0.5)
 
-            if self.drag_finger is None:
+            # if self.drag_finger is None:
 
-                self.xpos = config.screen_width//2-padded_size//2
-                self.ypos = config.screen_height//2-padded_size//2
+            #     self.xpos = config.screen_width//2-padded_size//2
+            #     self.ypos = config.screen_height//2-padded_size//2
 
-            elif x is not None and y is not None:
+            if x is not None and y is not None:
 
                 self.xpos = int(x - self.drag_offset[0])
                 self.ypos = int(y - self.drag_offset[1])
@@ -182,17 +185,24 @@ init python:
                 finger = self.register_finger(x, y)
                 if self.drag_finger is None and len(self.fingers) == 1:
                     self.calculate_drag_offset(x, y)
+                    self.update_image_pos(x, y)
                     self.drag_finger = finger
-                elif len(self.fingers) > 1:
-                    # More than one finger; no dragging
+                elif self.drag_finger and len(self.fingers) > 1:
+                    # More than one finger; turn off dragging
+                    # self.update_image_pos(self.drag_finger.x, self.drag_finger.y)
                     self.drag_offset = (0, 0)
                     self.drag_finger = None
 
             elif self.touch_up_event(ev):
                 finger = self.remove_finger(x, y)
-                if finger and self.drag_finger == finger:
+                if finger and self.drag_finger is finger:
                     self.drag_finger = None
                     self.drag_offset = (0, 0)
+                if finger and len(self.fingers) == 1:
+                    new_drag_finger = self.fingers[0]
+                    self.calculate_drag_offset(new_drag_finger.x, new_drag_finger.y)
+                    self.update_image_pos(new_drag_finger.x, new_drag_finger.y)
+                    self.drag_finger = new_drag_finger
 
             elif ev.type in (pygame.FINGERMOTION, pygame.MOUSEMOTION):
                 finger = self.update_finger(x, y)
@@ -223,6 +233,8 @@ init python:
                 self.text += '\n'.join([x.finger_info for x in self.fingers])
             else:
                 self.text = "No fingers recognized"
+
+            self.text += "\n({}, {})".format(self.xpos, self.ypos)
 
             ## Results:
             ## FINGER MOVEMENT:
