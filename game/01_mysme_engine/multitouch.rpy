@@ -66,14 +66,7 @@ init python:
 
             r = renpy.Render(width, height)
 
-            dimensions = self.get_dimensions()
-            padded_size = int((dimensions[0]**2+dimensions[1]**2)**0.5)
-
-            # if not self.drag_offset:
-
-            self.xpos = config.screen_width//2-padded_size//2
-            self.ypos = config.screen_height//2-padded_size//2
-
+            dimensions = self.update_image_pos()
 
             the_img = Transform(self.img,
                 xysize=dimensions,
@@ -155,7 +148,7 @@ init python:
         def get_dimensions(self):
             return (int(self.width*self.zoom), int(self.height*self.zoom))
 
-        def update_image_pos(self, x, y):
+        def update_image_pos(self, x=None, y=None):
             """
             The player has dragged their finger to point (x, y), and the
             drag itself is supposed to come along with it.
@@ -164,12 +157,17 @@ init python:
             dimensions = self.get_dimensions()
             padded_size = int((dimensions[0]**2+dimensions[1]**2)**0.5)
 
-            if not self.drag_offset:
+            if self.drag_finger is None:
 
-                self.xpos = config.screen_width//2-dimensions[0]//2
-                self.ypos = config.screen_height//2-dimensions[1]//2
+                self.xpos = config.screen_width//2-padded_size//2
+                self.ypos = config.screen_height//2-padded_size//2
 
+            elif x is not None and y is not None:
 
+                self.xpos = int(x - self.drag_offset[0])
+                self.ypos = int(y - self.drag_offset[1])
+
+            return dimensions
 
         def event(self, ev, event_x, event_y, st):
             self.text = ""
