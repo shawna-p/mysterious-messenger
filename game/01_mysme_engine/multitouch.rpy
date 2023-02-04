@@ -40,6 +40,8 @@ init python:
             self.xpos = 0
             self.ypos = 0
 
+            self.touch_screen_mode = renpy.variant("touch")
+
             self.drag_start_pos = None
             self.drag_finger = None
 
@@ -126,7 +128,17 @@ init python:
         def start_drag(self, x, y, finger):
             finger_touch_pos = (x, y)
 
+        def touch_down_event(self, ev):
+            if self.touch_screen_mode:
+                return ev.type == pygame.FINGERDOWN
+            else:
+                return renpy.map_event(ev, "viewport_drag_start")
 
+        def touch_up_event(self, ev):
+            if self.touch_screen_mode:
+                return ev.type == pygame.FINGERUP
+            else:
+                return renpy.map_event(ev, "viewport_drag_end")
 
         def event(self, ev, event_x, event_y, st):
             self.text = ""
@@ -139,8 +151,7 @@ init python:
                 y = event_y
                 is_touch = False
 
-            if (renpy.map_event(ev, "viewport_drag_start") # mousedown_1
-                    or ev.type == pygame.FINGERDOWN):
+            if self.touch_down_event(ev):
                 finger = self.register_finger(x, y)
                 if self.drag_start_pos is None and len(self.fingers) == 1:
                     self.drag_start_pos = (x, y)
@@ -150,8 +161,7 @@ init python:
                     self.drag_start_pos = None
                     self.drag_finger = None
 
-            elif (renpy.map_event(ev, "viewport_drag_end")
-                    or ev.type == pygame.FINGERUP):
+            elif self.touch_up_event(ev):
                 finger = self.remove_finger(x, y)
                 if finger and self.drag_finger == finger:
                     self.drag_finger = None
@@ -176,8 +186,6 @@ init python:
                     self.zoom -= 0.25
                 else:
                     self.rotate -= 10
-            else:
-                self.text += "Not recognized\n"
 
             self.rotate %= 360
             self.zoom = min(max(0.25, self.zoom), 4.0)
@@ -217,5 +225,7 @@ screen multitouch_test():
 
     vbox:
         align (1.0, 1.0) spacing 20
-        textbutton "Wheel Zoom" action ToggleVariable('wheel_zoom')
+        textbutton "Touch version" action ToggleField(multi_touch, 'touch_screen_mode')
+        if not multi_touch.touch_screen_mode:
+            textbutton "Wheel Zoom" action ToggleVariable('wheel_zoom')
         textbutton "Return" action Hide('multitouch_test')
