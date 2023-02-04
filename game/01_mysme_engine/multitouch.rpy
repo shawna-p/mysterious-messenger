@@ -42,8 +42,8 @@ init python:
 
             dimensions = self.get_dimensions()
             padded_size = int((dimensions[0]**2+dimensions[1]**2)**0.5)
-            self.xpos = config.screen_width//2-padded_size//2
-            self.ypos = config.screen_height//2-padded_size//2
+            self.xpos = config.screen_width//2#-padded_size//2
+            self.ypos = config.screen_height//2#-padded_size//2
 
             self.zoom_max = zoom_max
             self.zoom_min = zoom_min
@@ -74,6 +74,7 @@ init python:
             the_img = Transform(self.img,
                 xysize=dimensions,
                 rotate=int(self.rotate),
+                anchor=(0.5, 0.5),
                 pos=(self.xpos, self.ypos))
 
             text = Text(self.text, style='multitouch_text')
@@ -127,9 +128,6 @@ init python:
             self.fingers.remove(finger)
             return finger
 
-        def start_drag(self, x, y, finger):
-            finger_touch_pos = (x, y)
-
         def touch_down_event(self, ev):
             if self.touch_screen_mode:
                 return ev.type == pygame.FINGERDOWN
@@ -158,12 +156,7 @@ init python:
             """
 
             dimensions = self.get_dimensions()
-            padded_size = int((dimensions[0]**2+dimensions[1]**2)**0.5)
-
-            # if self.drag_finger is None:
-
-            #     self.xpos = config.screen_width//2-padded_size//2
-            #     self.ypos = config.screen_height//2-padded_size//2
+            # padded_size = int((dimensions[0]**2+dimensions[1]**2)**0.5)
 
             if x is not None and y is not None:
 
@@ -234,7 +227,7 @@ init python:
             else:
                 self.text = "No fingers recognized"
 
-            self.text += "\n({}, {})".format(self.xpos, self.ypos)
+            self.text += "\nPos: ({}, {})".format(self.xpos, self.ypos)
 
             ## Results:
             ## FINGER MOVEMENT:
