@@ -40,13 +40,11 @@ init python:
             self.zoom = 1.0
             self.rotate = 0
 
-            self.xpos = config.screen_width//2
-            self.ypos = config.screen_height//2
-
             dimensions = self.get_dimensions()
-            padded_size = int((dimensions[0]**2+dimensions[1]**2)**0.5)
-            self.unadjusted_x = config.screen_width//2-padded_size//2
-            self.unadjusted_y = config.screen_height//2-padded_size//2
+            padded_size = self.get_padding(dimensions)
+
+            self.xpos = (self.width - padded_size)//2
+            self.ypos = (self.height - padded_size)//2
 
             self.anchor = (padded_size//2, padded_size//2)
 
@@ -78,11 +76,14 @@ init python:
             padding = self.get_padding(dimensions)
             self.anchor = (padding//2, padding//2)
 
+            xpos = self.xpos + self.anchor[0] - dimensions[0]//2
+            ypos = self.ypos + self.anchor[1] - dimensions[1]//2
+
             the_img = Transform(self.img,
                 xysize=dimensions,
                 rotate=int(self.rotate),
-                anchor=self.anchor,
-                pos=(self.xpos, self.ypos))
+                anchor=(0.5, 0.5),
+                pos=(xpos, ypos))
 
             text = Text(self.text, style='multitouch_text')
 
@@ -168,7 +169,7 @@ init python:
             """
             Get the anchor from which the image should start zooming.
             """
-            self.anchor = (0.5, 0.5)
+            # self.anchor = (0.5, 0.5)
 
             if self.touch_screen_mode and len(self.fingers) == 2:
                 # Try to get the point between the two fingers
@@ -189,15 +190,12 @@ init python:
             drag itself is supposed to come along with it.
             """
 
-            dimensions = self.get_dimensions()
-            # padded_size = int((dimensions[0]**2+dimensions[1]**2)**0.5)
-
             if x is not None and y is not None:
 
                 self.xpos = int(x - self.drag_offset[0])
                 self.ypos = int(y - self.drag_offset[1])
 
-            return dimensions
+            return
 
         def event(self, ev, event_x, event_y, st):
             self.text = ""
