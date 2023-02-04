@@ -30,54 +30,60 @@ init python:
 
     class MultiTouch(renpy.Displayable):
 
-        square_dimensions = 314
-
-        def __init__(self, *args, **kwargs):
+        def __init__(self, img, width, height, zoom_min=0.25, zoom_max=4.0,
+                rotate_degrees=360, *args, **kwargs):
             super().__init__(*args, **kwargs)
+            self.img = img
+            self.width = width
+            self.height = height
             self.text = ""
             self.zoom = 1.0
             self.rotate = 0
             self.xpos = 0
             self.ypos = 0
 
+            self.zoom_max = zoom_max
+            self.zoom_min = zoom_min
+            self.rotate_degrees = rotate_degrees
+
             self.touch_screen_mode = renpy.variant("touch")
+            self.wheel_zoom = True
 
-            self.drag_start_pos = None
             self.drag_finger = None
-
             self.drag_offset = (0, 0)
 
             self.fingers = [ ]
+
+        def clamp_zoom(self):
+            self.zoom = min(max(self.zoom, self.zoom_min), self.zoom_max)
+
+        def clamp_rotate(self):
+
+            self.rotate %= 360
+            self.rotate = min(max(self.rotate, -self.rotate_degrees), self.rotate_degrees)
 
         def render(self, width, height, st, at):
 
             r = renpy.Render(width, height)
 
-            square_width = int(self.square_dimensions*self.zoom)
-            square_size = int((square_width**2+square_width**2)**0.5)
+            dimensions = self.get_dimensions()
+            padded_size = int((dimensions[0]**2+dimensions[1]**2)**0.5)
 
-            self.xpos = config.screen_width//2-square_size//2
-            self.ypos = config.screen_height//2-square_size//2
+            # if not self.drag_offset:
 
-            if self.drag_start_pos is not None and self.drag_finger:
-                # Trying to drag this
-                dx = self.drag_start_pos[0] - (self.xpos + self.drag_offset[0])
-                dy = self.drag_start_pos[1] - (self.ypos + self.drag_offset[1])
-
-                self.drag_offset = (dx, dy)
+            self.xpos = config.screen_width//2-padded_size//2
+            self.ypos = config.screen_height//2-padded_size//2
 
 
-
-
-            square = Transform("Profile Pics/Zen/zen-10-b.webp",
-                xysize=(square_width, square_width),
+            the_img = Transform(self.img,
+                xysize=dimensions,
                 rotate=int(self.rotate),
                 pos=(self.xpos, self.ypos))
 
             text = Text(self.text, style='multitouch_text')
 
             fix = Fixed(
-                square, text,
+                the_img, text,
                 xysize=(config.screen_width, config.screen_height),
             )
 
@@ -140,55 +146,80 @@ init python:
             else:
                 return renpy.map_event(ev, "viewport_drag_end")
 
+        def calculate_drag_offset(self, x, y):
+
+            dx = x - self.xpos
+            dy = y - self.ypos
+            self.drag_offset = (dx, dy)
+
+        def get_dimensions(self):
+            return (int(self.width*self.zoom), int(self.height*self.zoom))
+
+        def update_image_pos(self, x, y):
+            """
+            The player has dragged their finger to point (x, y), and the
+            drag itself is supposed to come along with it.
+            """
+
+            dimensions = self.get_dimensions()
+            padded_size = int((dimensions[0]**2+dimensions[1]**2)**0.5)
+
+            if not self.drag_offset:
+
+                self.xpos = config.screen_width//2-dimensions[0]//2
+                self.ypos = config.screen_height//2-dimensions[1]//2
+
+
+
         def event(self, ev, event_x, event_y, st):
             self.text = ""
 
             if ev.type in (pygame.FINGERDOWN, pygame.FINGERMOTION, pygame.FINGERUP):
                 x, y = self.normalize_pos(ev.x, ev.y)
-                is_touch = True
             else:
                 x = event_x
                 y = event_y
-                is_touch = False
 
             if self.touch_down_event(ev):
                 finger = self.register_finger(x, y)
-                if self.drag_start_pos is None and len(self.fingers) == 1:
-                    self.drag_start_pos = (x, y)
+                if self.drag_finger is None and len(self.fingers) == 1:
+                    self.calculate_drag_offset(x, y)
                     self.drag_finger = finger
                 elif len(self.fingers) > 1:
                     # More than one finger; no dragging
-                    self.drag_start_pos = None
+                    self.drag_offset = (0, 0)
                     self.drag_finger = None
 
             elif self.touch_up_event(ev):
                 finger = self.remove_finger(x, y)
                 if finger and self.drag_finger == finger:
                     self.drag_finger = None
-                    self.drag_start_pos = None
+                    self.drag_offset = (0, 0)
 
             elif ev.type in (pygame.FINGERMOTION, pygame.MOUSEMOTION):
                 finger = self.update_finger(x, y)
+                if finger is not None and finger is self.drag_finger:
+                    # They are dragging the image around
+                    self.update_image_pos(x, y)
 
             elif ev.type == pygame.MULTIGESTURE:
                 self.rotate += ev.dTheta*360/8
-                # self.text = "Theta: {} - {}\n".format(ev.dTheta, int(self.rotate))
                 self.zoom += ev.dDist*15
 
             elif renpy.map_event(ev, "viewport_wheelup"):
-                if store.wheel_zoom:
+                if self.wheel_zoom:
                     self.zoom += 0.25
                 else:
                     self.rotate += 10
 
             elif renpy.map_event(ev, "viewport_wheeldown"):
-                if store.wheel_zoom:
+                if self.wheel_zoom:
                     self.zoom -= 0.25
                 else:
                     self.rotate -= 10
 
-            self.rotate %= 360
-            self.zoom = min(max(0.25, self.zoom), 4.0)
+            self.clamp_rotate()
+            self.clamp_zoom()
 
             if self.fingers:
                 self.text += '\n'.join([x.finger_info for x in self.fingers])
@@ -213,8 +244,7 @@ style multitouch_text:
     color "#fff"
     size 35
 
-default multi_touch = MultiTouch()
-default wheel_zoom = True
+default multi_touch = MultiTouch("Profile Pics/Zen/zen-10-b.webp", 314, 314)
 screen multitouch_test():
 
     modal True
@@ -227,5 +257,5 @@ screen multitouch_test():
         align (1.0, 1.0) spacing 20
         textbutton "Touch version" action ToggleField(multi_touch, 'touch_screen_mode')
         if not multi_touch.touch_screen_mode:
-            textbutton "Wheel Zoom" action ToggleVariable('wheel_zoom')
+            textbutton "Wheel Zoom" action ToggleField(multi_touch, 'wheel_zoom')
         textbutton "Return" action Hide('multitouch_test')
