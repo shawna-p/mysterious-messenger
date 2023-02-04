@@ -40,10 +40,15 @@ init python:
             self.zoom = 1.0
             self.rotate = 0
 
+            self.xpos = config.screen_width//2
+            self.ypos = config.screen_height//2
+
             dimensions = self.get_dimensions()
             padded_size = int((dimensions[0]**2+dimensions[1]**2)**0.5)
-            self.xpos = config.screen_width//2#-padded_size//2
-            self.ypos = config.screen_height//2#-padded_size//2
+            self.unadjusted_x = config.screen_width//2-padded_size//2
+            self.unadjusted_y = config.screen_height//2-padded_size//2
+
+            self.anchor = (padded_size//2, padded_size//2)
 
             self.zoom_max = zoom_max
             self.zoom_min = zoom_min
@@ -69,12 +74,14 @@ init python:
 
             r = renpy.Render(width, height)
 
-            dimensions = self.update_image_pos()
+            dimensions = self.get_dimensions()
+            padding = self.get_padding(dimensions)
+            self.anchor = (padding//2, padding//2)
 
             the_img = Transform(self.img,
                 xysize=dimensions,
                 rotate=int(self.rotate),
-                anchor=(0.5, 0.5),
+                anchor=self.anchor,
                 pos=(self.xpos, self.ypos))
 
             text = Text(self.text, style='multitouch_text')
@@ -149,6 +156,33 @@ init python:
         def get_dimensions(self):
             return (int(self.width*self.zoom), int(self.height*self.zoom))
 
+        def get_padding(self, dimensions=None):
+            if dimensions is None:
+                dimensions = self.get_dimensions()
+            return int((dimensions[0]**2+dimensions[1]**2)**0.5)
+
+        def clamp_pos(self):
+            return
+
+        def get_anchor(self):
+            """
+            Get the anchor from which the image should start zooming.
+            """
+            self.anchor = (0.5, 0.5)
+
+            if self.touch_screen_mode and len(self.fingers) == 2:
+                # Try to get the point between the two fingers
+                finger1 = self.fingers[0]
+                finger2 = self.fingers[1]
+                x_midpoint = int((finger1.x**2+finger2.x**2)**0.5)
+                y_midpoint = int((finger1.y**2+finger2.y**2)**0.5)
+
+                # Now figure out where that is relative to the top-left
+                # corner of the image itself
+
+
+
+
         def update_image_pos(self, x=None, y=None):
             """
             The player has dragged their finger to point (x, y), and the
@@ -221,6 +255,7 @@ init python:
 
             self.clamp_rotate()
             self.clamp_zoom()
+            self.clamp_pos()
 
             if self.fingers:
                 self.text += '\n'.join([x.finger_info for x in self.fingers])
@@ -228,6 +263,8 @@ init python:
                 self.text = "No fingers recognized"
 
             self.text += "\nPos: ({}, {})".format(self.xpos, self.ypos)
+
+
 
             ## Results:
             ## FINGER MOVEMENT:
@@ -243,17 +280,63 @@ init python:
             ## x/y = float between 0 and 1
             ## numFingers = 2
 
+    class GalleryZoom(MultiTouch):
+        """
+        A class which allows zooming in on full-screen gallery images.
+        """
+        def __init__(self, img, width, height, zoom_max=4.0, *args, **kwargs):
+            ## Calculate zoom_min. It should always fill the screen in one
+            ## dimension
+            min_width_ratio = config.screen_width / float(width)
+            min_height_ratio = config.screen_height / float(height)
+            min_ratio = max(min_width_ratio, min_height_ratio)
+
+            super(GalleryZoom, self).__init__(img, width, height, min_ratio,
+                zoom_max, rotate_degrees=0, *args, **kwargs)
+
+        def clamp_pos(self):
+            return
+            ## Smallest x position it can be in is 0 - rotate padding
+            ## Since anchor is at the center, 0-rotate padding - 0.5*width
+            dimensions = self.get_dimensions()
+            padded_size = int((dimensions[0]**2+dimensions[1]**2)**0.5)
+            xpadding = (padded_size - dimensions[0])//2
+            ypadding = (padded_size - dimensions[1])//2
+
+
+
+            xmin = dimensions[0]//2
+            ymin = dimensions[1]//2
+
+            # print("Clamping pos: xmin:", xmin, "ymin", ymin, "current:", self.xpos, self.ypos)
+            self.xpos = max(self.xpos, xmin)
+            self.ypos = max(self.ypos, ymin)
+
+
+
+
 style multitouch_text:
     color "#fff"
     size 35
 
 default multi_touch = MultiTouch("Profile Pics/Zen/zen-10-b.webp", 314, 314)
+default cg_zoom = GalleryZoom("CGs/ju_album/cg-1.webp", 750, 1334)
 screen multitouch_test():
 
     modal True
 
     use starry_night()
 
+    add cg_zoom
+
+    vbox:
+        align (1.0, 1.0) spacing 20
+        textbutton "Touch version" action ToggleField(cg_zoom, 'touch_screen_mode')
+        if not cg_zoom.touch_screen_mode:
+            textbutton "Wheel Zoom" action ToggleField(cg_zoom, 'wheel_zoom')
+        textbutton "Return" action Hide('multitouch_test')
+
+screen original_touch_test():
     add multi_touch
 
     vbox:
