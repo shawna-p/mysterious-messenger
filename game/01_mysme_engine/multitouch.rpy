@@ -43,6 +43,8 @@ init python:
             self.xpos = config.screen_width//2
             self.ypos = config.screen_height//2
 
+            self.anchor = (config.screen_width//2, config.screen_height//2)
+
             self.zoom_max = zoom_max
             self.zoom_min = zoom_min
             self.rotate_degrees = rotate_degrees
@@ -75,10 +77,12 @@ init python:
                 anchor=(0.5, 0.5),
                 pos=(self.xpos, self.ypos))
 
+            anchor = Transform("#f008", xysize=(7, 7), anchor=(0.5, 0.5), pos=self.anchor)
+
             text = Text(self.text, style='multitouch_text')
 
             fix = Fixed(
-                the_img, text,
+                the_img, text, anchor,
                 xysize=(config.screen_width, config.screen_height),
             )
 
@@ -171,24 +175,79 @@ init python:
 
             return
 
-        def get_anchor(self):
+        def adjust_pos_for_zoom(self, start_zoom):
             """
-            Get the anchor from which the image should start zooming.
+            Adjust the position of the image such that it appears to be
+            zooming in from the anchor point.
             """
-            # self.anchor = (0.5, 0.5)
 
-            if self.touch_screen_mode and len(self.fingers) == 2:
-                # Try to get the point between the two fingers
-                finger1 = self.fingers[0]
-                finger2 = self.fingers[1]
-                x_midpoint = int((finger1.x**2+finger2.x**2)**0.5)
-                y_midpoint = int((finger1.y**2+finger2.y**2)**0.5)
+            if start_zoom == self.zoom:
+                # No change
+                return
+            print("Change from", start_zoom, "to", self.zoom)
+            ## First, where is the anchor point relative to the actual
+            ## center anchor of the image?
+            dx =  self.xpos - self.anchor[0]
+            dy =  self.ypos - self.anchor[1]
 
-                # Now figure out where that is relative to the top-left
-                # corner of the image itself
+            x_dist_from_zoom1 = dx / start_zoom
+            y_dist_from_zoom1 = dy / start_zoom
+
+            ## Okay, we're trying to keep that particular pixel in place while
+            ## the image gets bigger. How much bigger/smaller has it gotten?
+
+            ## So let's say we zoomed in from 0.75 zoom to 1.2 zoom.
+            ## If the image was 100x100, it went from 75x75 to 120x120
+            ## If our anchor point was at 25x25 on the original image, now
+            ## it should be at 40x40 on the new size
+            ## 25 / 0.75 * 1.2 = 40 (new_dx)
+            ## Relative to the top-left corner of the unpadded image, in order
+            ## to keep the 25x25 anchor point at the same place on the screen,
+            ## it has to move -15, -15
+
+            ## Goal: where does the original anchor point end up, after zooming?
+            ## How about step 1 is just to have the anchor point follow the zoomed image
+
+            ## First task: find where the anchor pixel position is on the new size
+            new_dx = x_dist_from_zoom1*self.zoom
+            new_dy = y_dist_from_zoom1*self.zoom
+
+            # new_xanchor = int(self.xpos - new_dx)
+            # new_yanchor = int(self.ypos - new_dy)
+
+            new_xanchor = int(self.xpos - new_dx)
+            new_yanchor = int(self.ypos - new_dy)
+
+            self.anchor = (new_xanchor, new_yanchor)
+
+            return
 
 
+            # These are some wild guesses but let's say that all worked out,
+            # now we gotta adjust the position to put that back at the
+            # original anchor location
+            xpos_adj = new_xanchor - self.anchor[0]
+            ypos_adj = new_yanchor - self.anchor[1]
 
+            self.xpos += int(xpos_adj)
+            self.ypos += int(ypos_adj)
+
+
+        def update_anchor(self):
+            """
+            Set the anchor as the middle between the two currently touching
+            fingers.
+            """
+            if len(self.fingers) != 2:
+                return
+
+            finger1 = self.fingers[0]
+            finger2 = self.fingers[1]
+
+            x_midpoint = int((finger1.x**2+finger2.x**2)**0.5)
+            y_midpoint = int((finger1.y**2+finger2.y**2)**0.5)
+
+            self.anchor = (x_midpoint, y_midpoint)
 
         def update_image_pos(self, x=None, y=None):
             """
@@ -211,6 +270,8 @@ init python:
             else:
                 x = event_x
                 y = event_y
+
+            start_zoom = self.zoom
 
             if self.touch_down_event(ev):
                 finger = self.register_finger(x, y)
@@ -235,6 +296,10 @@ init python:
                     self.update_image_pos(new_drag_finger.x, new_drag_finger.y)
                     self.drag_finger = new_drag_finger
 
+            elif not self.touch_screen_mode and renpy.map_event(ev, 'mouseup_3'):
+                # Right mouse click; set the anchor
+                self.anchor = (x, y)
+
             elif ev.type in (pygame.FINGERMOTION, pygame.MOUSEMOTION):
                 finger = self.update_finger(x, y)
                 if finger is not None and finger is self.drag_finger:
@@ -245,9 +310,12 @@ init python:
                 self.rotate += ev.dTheta*360/8
                 self.zoom += ev.dDist*15
 
+                ## Set the anchor as the middle between their two fingers
+                self.update_anchor()
+
             elif renpy.map_event(ev, "viewport_wheelup"):
                 if self.wheel_zoom:
-                    self.zoom += 0.25
+                    self.zoom += 0.05 #0.25
                 else:
                     self.rotate += 10
 
@@ -259,7 +327,9 @@ init python:
 
             self.clamp_rotate()
             self.clamp_zoom()
+            self.adjust_pos_for_zoom(start_zoom)
             self.clamp_pos()
+
 
             if self.fingers:
                 self.text += '\n'.join([x.finger_info for x in self.fingers])
@@ -267,6 +337,7 @@ init python:
                 self.text = "No fingers recognized"
 
             self.text += "\nPos: ({}, {})".format(self.xpos, self.ypos)
+            self.text += "\nAnchor: {}".format(self.anchor)
 
 
 
@@ -310,8 +381,6 @@ init python:
             xpadding = (padding - dimensions[0])//2
             ypadding = (padding - dimensions[1])//2
 
-            true_coords = self.left_corner
-
             ## When the image is against the right side, the left side will
             ## be at -(padding-screen_width) + xpadding
             xmin = (padding-xpadding-config.screen_width)*-1 + padding//2
@@ -328,6 +397,7 @@ init python:
 style multitouch_text:
     color "#fff"
     size 35
+    outlines [ (1, "#000", 0, 0)]
 
 default multi_touch = MultiTouch("Profile Pics/Zen/zen-10-b.webp", 314, 314)
 default cg_zoom = GalleryZoom("CGs/ju_album/cg-1.webp", 750, 1334)
