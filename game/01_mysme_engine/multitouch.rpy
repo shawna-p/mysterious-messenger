@@ -40,13 +40,8 @@ init python:
             self.zoom = 1.0
             self.rotate = 0
 
-            dimensions = self.get_dimensions()
-            padded_size = self.get_padding(dimensions)
-
-            self.xpos = (self.width - padded_size)//2
-            self.ypos = (self.height - padded_size)//2
-
-            self.anchor = (padded_size//2, padded_size//2)
+            self.xpos = config.screen_width//2
+            self.ypos = config.screen_height//2
 
             self.zoom_max = zoom_max
             self.zoom_min = zoom_min
@@ -73,17 +68,12 @@ init python:
             r = renpy.Render(width, height)
 
             dimensions = self.get_dimensions()
-            padding = self.get_padding(dimensions)
-            self.anchor = (padding//2, padding//2)
-
-            xpos = self.xpos + self.anchor[0] - dimensions[0]//2
-            ypos = self.ypos + self.anchor[1] - dimensions[1]//2
 
             the_img = Transform(self.img,
                 xysize=dimensions,
                 rotate=int(self.rotate),
                 anchor=(0.5, 0.5),
-                pos=(xpos, ypos))
+                pos=(self.xpos, self.ypos))
 
             text = Text(self.text, style='multitouch_text')
 
