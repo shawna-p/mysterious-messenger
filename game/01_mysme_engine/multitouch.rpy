@@ -77,7 +77,7 @@ init python:
                 anchor=(0.5, 0.5),
                 pos=(self.xpos, self.ypos))
 
-            anchor = Transform("#f008", xysize=(7, 7), anchor=(0.5, 0.5), pos=self.anchor)
+            anchor = Transform("#f008", xysize=(7, 7), anchor=(0.5, 0.5), pos=(int(self.anchor[0]), int(self.anchor[1])))
 
             text = Text(self.text, style='multitouch_text')
 
@@ -215,8 +215,8 @@ init python:
             # new_xanchor = int(self.xpos - new_dx)
             # new_yanchor = int(self.ypos - new_dy)
 
-            new_xanchor = int(self.xpos - new_dx)
-            new_yanchor = int(self.ypos - new_dy)
+            new_xanchor = self.xpos - new_dx
+            new_yanchor = self.ypos - new_dy
 
             self.anchor = (new_xanchor, new_yanchor)
 
