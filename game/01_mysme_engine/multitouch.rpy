@@ -89,6 +89,21 @@ init python:
 
             return r
 
+        @property
+        def left_corner(self):
+            """Return the coordinates of the padded top-left corner of the image."""
+            # Currently, the xpos/ypos are indicating the center of the image
+            padding = self.get_padding()
+            return (self.xpos - padding//2, self.ypos - padding//2)
+
+        def get_xypadding(self):
+
+            dimensions = self.get_dimensions()
+            padding = self.get_padding(dimensions)
+            xpadding = (padding - dimensions[0])//2
+            ypadding = (padding - dimensions[1])//2
+            return (xpadding, ypadding)
+
         def normalize_pos(self, x, y):
             return (int(x*config.screen_width), int(y*config.screen_height))
 
@@ -153,6 +168,7 @@ init python:
             return int((dimensions[0]**2+dimensions[1]**2)**0.5)
 
         def clamp_pos(self):
+
             return
 
         def get_anchor(self):
@@ -283,24 +299,30 @@ init python:
                 zoom_max, rotate_degrees=0, *args, **kwargs)
 
         def clamp_pos(self):
-            return
-            ## Smallest x position it can be in is 0 - rotate padding
-            ## Since anchor is at the center, 0-rotate padding - 0.5*width
+
+            ## Clamp
+            ## For the xpos: the minimum it can be will put the right edge
+            ## against the right side of the screen
+            ## So, how far is that?
             dimensions = self.get_dimensions()
-            padded_size = int((dimensions[0]**2+dimensions[1]**2)**0.5)
-            xpadding = (padded_size - dimensions[0])//2
-            ypadding = (padded_size - dimensions[1])//2
+            padding = self.get_padding(dimensions)
 
+            xpadding = (padding - dimensions[0])//2
+            ypadding = (padding - dimensions[1])//2
 
+            true_coords = self.left_corner
 
-            xmin = dimensions[0]//2
-            ymin = dimensions[1]//2
-
-            # print("Clamping pos: xmin:", xmin, "ymin", ymin, "current:", self.xpos, self.ypos)
+            ## When the image is against the right side, the left side will
+            ## be at -(padding-screen_width) + xpadding
+            xmin = (padding-xpadding-config.screen_width)*-1 + padding//2
             self.xpos = max(self.xpos, xmin)
+            ## When the image is against the left side, the right side will
+            ## be at -xpadding
+            self.xpos = min(self.xpos, -xpadding+padding//2)
+
+            ymin = (padding-ypadding-config.screen_height)*-1 + padding//2
             self.ypos = max(self.ypos, ymin)
-
-
+            self.ypos = min(self.ypos, -ypadding+padding//2)
 
 
 style multitouch_text:
