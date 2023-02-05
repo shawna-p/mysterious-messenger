@@ -239,8 +239,8 @@ init python:
             finger1 = self.fingers[0]
             finger2 = self.fingers[1]
 
-            x_midpoint = int((finger1.x**2+finger2.x**2)**0.5)
-            y_midpoint = int((finger1.y**2+finger2.y**2)**0.5)
+            x_midpoint = (finger1.x+finger2.x)//2
+            y_midpoint = (finger1.y+finger2.y)//2
 
             self.anchor = (x_midpoint, y_midpoint)
 
