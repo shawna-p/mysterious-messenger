@@ -218,16 +218,11 @@ init python:
             new_xanchor = self.xpos - new_dx
             new_yanchor = self.ypos - new_dy
 
-            self.anchor = (new_xanchor, new_yanchor)
-
-            return
-
-
             # These are some wild guesses but let's say that all worked out,
             # now we gotta adjust the position to put that back at the
             # original anchor location
-            xpos_adj = new_xanchor - self.anchor[0]
-            ypos_adj = new_yanchor - self.anchor[1]
+            xpos_adj = self.anchor[0] - new_xanchor
+            ypos_adj = self.anchor[1] - new_yanchor
 
             self.xpos += int(xpos_adj)
             self.ypos += int(ypos_adj)
