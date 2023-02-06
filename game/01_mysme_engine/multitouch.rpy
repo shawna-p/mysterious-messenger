@@ -102,6 +102,8 @@ init python:
                 self.change(value, end_animation=False)
 
         def periodic(self, st):
+            print("Periodic adjustment going off", st)
+            print("animation target:", self.animation_target)
 
             if self.animation_target is None:
                 return
@@ -111,6 +113,8 @@ init python:
 
             done = (st - self.animation_start) / self.animation_delay
             done = self.animation_warper(done)
+
+            print("How much done are we", done)
 
             value = self.animation_target - self.animation_amplitude * (1.0 - done)
 
@@ -160,6 +164,10 @@ init python:
 
             self.st = 0
 
+        def per_interact(self):
+            self.xadjustment.register(self)
+            self.yadjustment.register(self)
+
         def clamp_zoom(self):
             self.zoom = min(max(self.zoom, self.zoom_min), self.zoom_max)
 
@@ -168,16 +176,27 @@ init python:
             self.rotate %= 360
             self.rotate = min(max(self.rotate, -self.rotate_degrees), self.rotate_degrees)
 
+        def redraw_adjustments(self, st):
+            redraw = self.xadjustment.periodic(st)
+            if redraw is not None:
+                renpy.redraw(self, redraw)
+
+            redraw = self.yadjustment.periodic(st)
+            if redraw is not None:
+                renpy.redraw(self, redraw)
+
         def render(self, width, height, st, at):
             self.st = st
             r = renpy.Render(width, height)
 
             dimensions = self.get_dimensions()
 
+            self.redraw_adjustments(st)
+
             # xpos, ypos = self.xpos, self.ypos
             padding = self.get_padding(dimensions)
-            xpos = padding//2 - self.xadjustment.value
-            ypos = padding//2 - self.yadjustment.value
+            xpos = int(padding//2 - self.xadjustment.value)
+            ypos = int(padding//2 - self.yadjustment.value)
 
             the_img = Transform(self.img,
                 xysize=dimensions,
@@ -355,6 +374,7 @@ init python:
             self.xpos += int(xpos_adj)
             self.ypos += int(ypos_adj)
 
+
         def update_anchor(self):
             """
             Set the anchor as the middle between the two currently touching
@@ -395,27 +415,27 @@ init python:
 
             start_zoom = self.zoom
 
-            # if self.drag_finger is not None:
-            #     # Dragging
-            #     old_xvalue = self.xadjustment.value
-            #     old_yvalue = self.yadjustment.value
+            if self.drag_finger is not None:
+                # Dragging
+                old_xvalue = self.xadjustment.value
+                old_yvalue = self.yadjustment.value
 
-            #     oldx, oldy = self.drag_position # type: ignore
-            #     dx = x - oldx
-            #     dy = y - oldy
+                oldx, oldy = self.drag_position # type: ignore
+                dx = x - oldx
+                dy = y - oldy
 
-            #     dt = st - self.drag_position_time
-            #     if dt > 0:
-            #         old_xspeed, old_yspeed = self.drag_speed
-            #         new_xspeed = -dx / dt / 60
-            #         new_yspeed = -dy / dt / 60
+                dt = st - self.drag_position_time
+                if dt > 0:
+                    old_xspeed, old_yspeed = self.drag_speed
+                    new_xspeed = -dx / dt / 60
+                    new_yspeed = -dy / dt / 60
 
-            #         done = min(1.0, dt / (1 / 60))
+                    done = min(1.0, dt / (1 / 60))
 
-            #         new_xspeed = old_xspeed + done * (new_xspeed - old_xspeed)
-            #         new_yspeed = old_yspeed + done * (new_yspeed - old_yspeed)
+                    new_xspeed = old_xspeed + done * (new_xspeed - old_xspeed)
+                    new_yspeed = old_yspeed + done * (new_yspeed - old_yspeed)
 
-            #         self.drag_speed = (new_xspeed, new_yspeed)
+                    self.drag_speed = (new_xspeed, new_yspeed)
 
             if self.touch_down_event(ev):
                 finger = self.register_finger(x, y)
@@ -428,7 +448,9 @@ init python:
                     self.drag_position = (x, y)
                     self.drag_position_time = st
                     self.drag_speed = (0.0, 0.0)
-                    ## TODO: end_animation()
+
+                    self.xadjustment.end_animation()
+                    self.yadjustment.end_animation()
 
                 elif self.drag_finger and len(self.fingers) > 1:
                     # More than one finger; turn off dragging
@@ -443,22 +465,26 @@ init python:
                     self.drag_offset = (0, 0)
 
                     ## Inertia
-                    # xspeed, yspeed = self.drag_speed
+                    xspeed, yspeed = self.drag_speed
 
-                    # if xspeed and config.viewport_inertia_amplitude:
-                    #     self.xadjustment.inertia(renpy.config.viewport_inertia_amplitude * xspeed, renpy.config.viewport_inertia_time_constant, st)
-                    # else:
-                    #     xvalue = self.xadjustment.round_value(old_xvalue, release=True)
-                    #     self.xadjustment.change(xvalue)
+                    if xspeed and myconfig.viewport_inertia_amplitude:
+                        self.xadjustment.inertia(
+                            myconfig.viewport_inertia_amplitude * xspeed,
+                                myconfig.viewport_inertia_time_constant, st)
+                    else:
+                        xvalue = self.xadjustment.round_value(old_xvalue, release=True)
+                        self.xadjustment.change(xvalue)
 
-                    # if yspeed and renpy.config.viewport_inertia_amplitude:
-                    #     self.yadjustment.inertia(renpy.config.viewport_inertia_amplitude * yspeed, renpy.config.viewport_inertia_time_constant, st)
-                    # else:
-                    #     yvalue = self.yadjustment.round_value(old_yvalue, release=True)
-                    #     self.yadjustment.change(yvalue)
+                    if yspeed and myconfig.viewport_inertia_amplitude:
+                        self.yadjustment.inertia(
+                            myconfig.viewport_inertia_amplitude * yspeed,
+                                myconfig.viewport_inertia_time_constant, st)
+                    else:
+                        yvalue = self.yadjustment.round_value(old_yvalue, release=True)
+                        self.yadjustment.change(yvalue)
 
-                    # self.drag_position = None
-                    # self.drag_position_time = None
+                    self.drag_position = None
+                    self.drag_position_time = None
 
                 if finger and len(self.fingers) == 1:
                     new_drag_finger = self.fingers[0]
@@ -475,6 +501,26 @@ init python:
                 if finger is not None and finger is self.drag_finger:
                     # They are dragging the image around
                     self.update_image_pos(x, y)
+
+                    ## Inertia
+                    new_xvalue = self.xadjustment.round_value(old_xvalue - dx,
+                        release=False)
+                    if old_xvalue == new_xvalue:
+                        newx = oldx
+                    else:
+                        self.xadjustment.change(new_xvalue)
+                        newx = x
+
+                    new_yvalue = self.yadjustment.round_value(old_yvalue - dy,
+                        release=False)
+                    if old_yvalue == new_yvalue:
+                        newy = oldy
+                    else:
+                        self.yadjustment.change(new_yvalue)
+                        newy = y
+
+                    self.drag_position = (newx, newy) # W0201
+                    self.drag_position_time = st
 
             elif ev.type == pygame.MULTIGESTURE:
                 self.rotate += ev.dTheta*360/8
@@ -510,9 +556,7 @@ init python:
             self.text += "\nAnchor: {}".format(self.anchor)
             self.text += "\nxadjustment: {}/{}".format(self.xadjustment.value, self.xadjustment.range)
             self.text += "\nyadjustment: {}/{}".format(self.yadjustment.value, self.yadjustment.range)
-            padding = self.get_padding()
-            self.text += "\nxadj to pos: {}".format(padding//2 - self.xadjustment.value)
-            # self.xpos - padding//2
+            self.text += "\ndrag_speed: {}".format(self.drag_speed)
 
     class GalleryZoom(MultiTouch):
         """
@@ -593,28 +637,28 @@ screen multitouch_test():
 
     add cg_zoom
 
-    frame:
-        xysize (720, 1000)
-        background "#fff"
-        viewport:
-            yadjustment my_yadj
-            draggable True
-            scrollbars "vertical"
-            mousewheel True
-            has vbox
-            for i in range(50):
-                text "textbutton {}".format(i)
+    # frame:
+    #     xysize (720, 1000)
+    #     background "#fff"
+    #     viewport:
+    #         yadjustment my_yadj
+    #         draggable True
+    #         scrollbars "vertical"
+    #         mousewheel True
+    #         has vbox
+    #         for i in range(50):
+    #             text "textbutton {}".format(i)
 
-    # vbox:
-    #     align (1.0, 1.0) spacing 20
-    #     textbutton "Touch version" action ToggleField(cg_zoom, 'touch_screen_mode')
-    #     if not cg_zoom.touch_screen_mode:
-    #         textbutton "Wheel Zoom" action ToggleField(cg_zoom, 'wheel_zoom')
-    #         textbutton "Inertia test":
-    #             action Function(cg_zoom.xadjustment.inertia,
-    #                 myconfig.viewport_inertia_amplitude * 0.01,
-    #                 myconfig.viewport_inertia_time_constant, cg_zoom.st)
-    #     textbutton "Return" action Hide('multitouch_test')
+    vbox:
+        align (1.0, 1.0) spacing 20
+        textbutton "Touch version" action ToggleField(cg_zoom, 'touch_screen_mode')
+        if not cg_zoom.touch_screen_mode:
+            textbutton "Wheel Zoom" action ToggleField(cg_zoom, 'wheel_zoom')
+            textbutton "Inertia test":
+                action Function(cg_zoom.xadjustment.inertia,
+                    myconfig.viewport_inertia_amplitude * 0.01,
+                    myconfig.viewport_inertia_time_constant, cg_zoom.st)
+        textbutton "Return" action Hide('multitouch_test')
 
 screen original_touch_test():
     add multi_touch
