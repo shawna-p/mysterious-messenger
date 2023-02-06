@@ -102,8 +102,6 @@ init python:
                 self.change(value, end_animation=False)
 
         def periodic(self, st):
-            print("Periodic adjustment going off", st)
-            print("animation target:", self.animation_target)
 
             if self.animation_target is None:
                 return
@@ -113,8 +111,6 @@ init python:
 
             done = (st - self.animation_start) / self.animation_delay
             done = self.animation_warper(done)
-
-            print("How much done are we", done)
 
             value = self.animation_target - self.animation_amplitude * (1.0 - done)
 
