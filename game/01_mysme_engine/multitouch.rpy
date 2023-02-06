@@ -370,6 +370,35 @@ init python:
             self.xpos += int(xpos_adj)
             self.ypos += int(ypos_adj)
 
+        def update_adjustment_limits(self):
+            """
+            Adjust the limits as to how far the xadjustment can *actually* go.
+            """
+
+            ## Clamp
+            ## For the xpos: the minimum it can be will put the right edge
+            ## against the right side of the screen
+            ## So, how far is that?
+            dimensions = self.get_dimensions()
+            padding = self.get_padding(dimensions)
+
+            xpadding = (padding - dimensions[0])//2
+            ypadding = (padding - dimensions[1])//2
+
+            ## When the image is against the right side, the left side will
+            ## be at -(padding-screen_width) + xpadding
+            xmin = (padding-xpadding-config.screen_width)*-1
+            xmin = max(0, xmin)
+            ## When the image is against the left side, the right side will
+            ## be at -xpadding
+            xmax = min(padding, -xpadding)
+
+            ymin = (padding-ypadding-config.screen_height)*-1
+            ymin = max(0, ymin)
+            ymax = min(padding, -ypadding)
+
+            self.xadjustment.range_limits = (xmin, xmax)
+            self.yadjustment.range_limits = (ymin, ymax)
 
         def update_anchor(self):
             """
