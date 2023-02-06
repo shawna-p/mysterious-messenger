@@ -226,7 +226,6 @@ init python:
             self.xpos += int(xpos_adj)
             self.ypos += int(ypos_adj)
 
-
         def update_anchor(self):
             """
             Set the anchor as the middle between the two currently touching
@@ -353,7 +352,29 @@ init python:
         """
         A class which allows zooming in on full-screen gallery images.
         """
-        def __init__(self, img, width, height, zoom_max=4.0, *args, **kwargs):
+        def __init__(self, img, width, height, zoom_max=4.0, use_container=False,
+            *args, **kwargs):
+
+            if use_container:
+                ## Gonna put it in a container that fits the size of the screen
+                screen_ratio = config.screen_width / float(config.screen_height)
+                ## e.g. 1.778 for 16:9
+                ## 1.6 for 16:10
+                img_ratio = width / float(height)
+
+                if img_ratio <= screen_ratio:
+                    # Base it on the height
+                    container_height = height
+                    container_width = int(height * screen_ratio)
+                else:
+                    container_height = int(width / screen_ratio)
+                    container_width = width
+
+                width = container_width
+                height = container_height
+
+                img = Fixed(Transform(img, align=(0.5, 0.5)), xysize=(container_width, container_height))
+
             ## Calculate zoom_min. It should always fill the screen in one
             ## dimension
             min_width_ratio = config.screen_width / float(width)
