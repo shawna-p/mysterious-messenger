@@ -1,3 +1,7 @@
+init python in myconfig:
+    viewport_inertia_amplitude = 20.0
+    viewport_inertia_time_constant = 0.325
+
 init python:
     import pygame
 
@@ -28,6 +32,96 @@ init python:
         def finger_info(self):
             return "Finger: ({}, {})".format(self.x, self.y)
 
+    class MyAdjustment(renpy.display.behavior.Adjustment):
+        # renpy.display.behavior.Adjustment
+
+        # The amplitude of the inertia.
+        animation_amplitude = None # type: float|None
+
+        # The target value of the inertia.
+        animation_target = None # type: float|None
+
+        # The time the inertia started
+        animation_start = None # type: float|None
+
+        # The time constant of the inertia.
+        animation_delay = None # type: float|None
+
+        # The warper applied to the animation.
+        animation_warper = None # type (float) -> float|None
+
+        def change(self, value, end_animation=True):
+
+            if end_animation:
+                self.end_animation()
+
+            if value < 0:
+                value = 0
+            if value > self._range: # type: ignore
+                value = self._range
+
+            if value != self._value:
+                self._value = value
+                for d in renpy.display.behavior.adj_registered.setdefault(self, [ ]):
+                    renpy.display.render.redraw(d, 0)
+                if self.changed:
+                    return self.changed(value)
+
+            return None
+
+        def inertia_warper(self, done):
+            return 1.0 - math.exp(-done * 6)
+
+        def animate(self, amplitude, delay, warper):
+            if not amplitude or not self._range:
+                self.end_animation(True)
+            else:
+                self.animation_amplitude = amplitude
+                self.animation_target = self.round_value(self._value + amplitude,
+                    release=True)
+
+                self.animation_delay = delay
+                self.animation_start = None
+                self.animation_warper = warper
+                self.update()
+
+        def inertia(self, amplitude, time_constant, st):
+            self.animate(amplitude, time_constant * 6.0, self.inertia_warper)
+            self.periodic(st)
+
+        def end_animation(self, always=False):
+            if always or self.animation_target is not None:
+                value = self.animation_target
+
+                self.animation_amplitude = None
+                self.animation_target = None
+                self.animation_start = None
+                self.animation_delay = None
+                self.animation_warper = None
+
+                self.change(value, end_animation=False)
+
+        def periodic(self, st):
+
+            if self.animation_target is None:
+                return
+
+            if self.animation_start is None:
+                self.animation_start = st
+
+            done = (st - self.animation_start) / self.animation_delay
+            done = self.animation_warper(done)
+
+            value = self.animation_target - self.animation_amplitude * (1.0 - done)
+
+            self.change(value, end_animation=False)
+
+            if st > self.animation_start + self.animation_delay: # type: ignore
+                self.end_animation()
+                return None
+            else:
+                return 0
+
     class MultiTouch(renpy.Displayable):
 
         def __init__(self, img, width, height, zoom_min=0.25, zoom_max=4.0,
@@ -55,7 +149,16 @@ init python:
             self.drag_finger = None
             self.drag_offset = (0, 0)
 
+            self.drag_position_time = None
+            self.drag_speed = (0.0, 0.0)
+            self.drag_position = (0, 0)
+
+            self.xadjustment = MyAdjustment(1, 0)
+            self.yadjustment = MyAdjustment(1, 0)
+
             self.fingers = [ ]
+
+            self.st = 0
 
         def clamp_zoom(self):
             self.zoom = min(max(self.zoom, self.zoom_min), self.zoom_max)
@@ -66,16 +169,21 @@ init python:
             self.rotate = min(max(self.rotate, -self.rotate_degrees), self.rotate_degrees)
 
         def render(self, width, height, st, at):
-
+            self.st = st
             r = renpy.Render(width, height)
 
             dimensions = self.get_dimensions()
+
+            # xpos, ypos = self.xpos, self.ypos
+            padding = self.get_padding(dimensions)
+            xpos = padding//2 - self.xadjustment.value
+            ypos = padding//2 - self.yadjustment.value
 
             the_img = Transform(self.img,
                 xysize=dimensions,
                 rotate=int(self.rotate),
                 anchor=(0.5, 0.5),
-                pos=(self.xpos, self.ypos))
+                pos=(xpos, ypos))
 
             anchor = Transform("#f008", xysize=(7, 7), anchor=(0.5, 0.5), pos=(int(self.anchor[0]), int(self.anchor[1])))
 
@@ -92,6 +200,27 @@ init python:
             renpy.redraw(self, 0)
 
             return r
+
+        def update_adjustments(self):
+            """
+            Update the x/yadjustments after updating the xypos.
+            """
+
+            ## Range: the whole width of the padded displayable
+            range = self.get_padding()
+
+            self.xadjustment.range = range
+            self.yadjustment.range = range
+
+            ## Value: where the top-left of the screen is relative to the
+            ## top-left of the displayable
+            left_corner = self.left_corner
+
+            ## Say the left corner is (-400, -300)
+            ## The anchor is (10, 50)
+
+            self.xadjustment.value = abs(left_corner[0])
+            self.yadjustment.value = abs(left_corner[1])
 
         @property
         def left_corner(self):
@@ -266,12 +395,41 @@ init python:
 
             start_zoom = self.zoom
 
+            # if self.drag_finger is not None:
+            #     # Dragging
+            #     old_xvalue = self.xadjustment.value
+            #     old_yvalue = self.yadjustment.value
+
+            #     oldx, oldy = self.drag_position # type: ignore
+            #     dx = x - oldx
+            #     dy = y - oldy
+
+            #     dt = st - self.drag_position_time
+            #     if dt > 0:
+            #         old_xspeed, old_yspeed = self.drag_speed
+            #         new_xspeed = -dx / dt / 60
+            #         new_yspeed = -dy / dt / 60
+
+            #         done = min(1.0, dt / (1 / 60))
+
+            #         new_xspeed = old_xspeed + done * (new_xspeed - old_xspeed)
+            #         new_yspeed = old_yspeed + done * (new_yspeed - old_yspeed)
+
+            #         self.drag_speed = (new_xspeed, new_yspeed)
+
             if self.touch_down_event(ev):
                 finger = self.register_finger(x, y)
                 if self.drag_finger is None and len(self.fingers) == 1:
                     self.calculate_drag_offset(x, y)
                     self.update_image_pos(x, y)
                     self.drag_finger = finger
+
+                    # Inertia
+                    self.drag_position = (x, y)
+                    self.drag_position_time = st
+                    self.drag_speed = (0.0, 0.0)
+                    ## TODO: end_animation()
+
                 elif self.drag_finger and len(self.fingers) > 1:
                     # More than one finger; turn off dragging
                     # self.update_image_pos(self.drag_finger.x, self.drag_finger.y)
@@ -283,6 +441,25 @@ init python:
                 if finger and self.drag_finger is finger:
                     self.drag_finger = None
                     self.drag_offset = (0, 0)
+
+                    ## Inertia
+                    # xspeed, yspeed = self.drag_speed
+
+                    # if xspeed and config.viewport_inertia_amplitude:
+                    #     self.xadjustment.inertia(renpy.config.viewport_inertia_amplitude * xspeed, renpy.config.viewport_inertia_time_constant, st)
+                    # else:
+                    #     xvalue = self.xadjustment.round_value(old_xvalue, release=True)
+                    #     self.xadjustment.change(xvalue)
+
+                    # if yspeed and renpy.config.viewport_inertia_amplitude:
+                    #     self.yadjustment.inertia(renpy.config.viewport_inertia_amplitude * yspeed, renpy.config.viewport_inertia_time_constant, st)
+                    # else:
+                    #     yvalue = self.yadjustment.round_value(old_yvalue, release=True)
+                    #     self.yadjustment.change(yvalue)
+
+                    # self.drag_position = None
+                    # self.drag_position_time = None
+
                 if finger and len(self.fingers) == 1:
                     new_drag_finger = self.fingers[0]
                     self.calculate_drag_offset(new_drag_finger.x, new_drag_finger.y)
@@ -322,7 +499,7 @@ init python:
             self.clamp_zoom()
             self.adjust_pos_for_zoom(start_zoom)
             self.clamp_pos()
-
+            self.update_adjustments()
 
             if self.fingers:
                 self.text += '\n'.join([x.finger_info for x in self.fingers])
@@ -331,22 +508,11 @@ init python:
 
             self.text += "\nPos: ({}, {})".format(self.xpos, self.ypos)
             self.text += "\nAnchor: {}".format(self.anchor)
-
-
-
-            ## Results:
-            ## FINGER MOVEMENT:
-            ## touchId = 131151
-            ## fingerId = numbers from 186-193, goes up while moving?
-            ## x = float between 0 and 1
-            ## y = float between 0 and 1
-            ##
-            ## MULTIGESTURE:
-            ## touchId = 131151
-            ## dTheta = Very tiny negative number ~0.002
-            ## dDist = Veery tiny number 0.0005
-            ## x/y = float between 0 and 1
-            ## numFingers = 2
+            self.text += "\nxadjustment: {}/{}".format(self.xadjustment.value, self.xadjustment.range)
+            self.text += "\nyadjustment: {}/{}".format(self.yadjustment.value, self.yadjustment.range)
+            padding = self.get_padding()
+            self.text += "\nxadj to pos: {}".format(padding//2 - self.xadjustment.value)
+            # self.xpos - padding//2
 
     class GalleryZoom(MultiTouch):
         """
@@ -419,18 +585,36 @@ default multi_touch = MultiTouch("Profile Pics/Zen/zen-10-b.webp", 314, 314)
 default cg_zoom = GalleryZoom("jellyfish.jpg", 1920, 2880)
 screen multitouch_test():
 
+    default my_yadj = MyAdjustment()
+
     modal True
 
     use starry_night()
 
     add cg_zoom
 
-    vbox:
-        align (1.0, 1.0) spacing 20
-        textbutton "Touch version" action ToggleField(cg_zoom, 'touch_screen_mode')
-        if not cg_zoom.touch_screen_mode:
-            textbutton "Wheel Zoom" action ToggleField(cg_zoom, 'wheel_zoom')
-        textbutton "Return" action Hide('multitouch_test')
+    frame:
+        xysize (720, 1000)
+        background "#fff"
+        viewport:
+            yadjustment my_yadj
+            draggable True
+            scrollbars "vertical"
+            mousewheel True
+            has vbox
+            for i in range(50):
+                text "textbutton {}".format(i)
+
+    # vbox:
+    #     align (1.0, 1.0) spacing 20
+    #     textbutton "Touch version" action ToggleField(cg_zoom, 'touch_screen_mode')
+    #     if not cg_zoom.touch_screen_mode:
+    #         textbutton "Wheel Zoom" action ToggleField(cg_zoom, 'wheel_zoom')
+    #         textbutton "Inertia test":
+    #             action Function(cg_zoom.xadjustment.inertia,
+    #                 myconfig.viewport_inertia_amplitude * 0.01,
+    #                 myconfig.viewport_inertia_time_constant, cg_zoom.st)
+    #     textbutton "Return" action Hide('multitouch_test')
 
 screen original_touch_test():
     add multi_touch
