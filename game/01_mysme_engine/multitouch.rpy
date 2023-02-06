@@ -184,7 +184,6 @@ init python:
             if start_zoom == self.zoom:
                 # No change
                 return
-            print("Change from", start_zoom, "to", self.zoom)
             ## First, where is the anchor point relative to the actual
             ## center anchor of the image?
             dx =  self.xpos - self.anchor[0]
