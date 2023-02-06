@@ -302,7 +302,7 @@ init python:
 
             elif ev.type == pygame.MULTIGESTURE:
                 self.rotate += ev.dTheta*360/8
-                self.zoom += ev.dDist*15
+                self.zoom += ev.dDist*4   # *15
 
                 ## Set the anchor as the middle between their two fingers
                 self.update_anchor()
@@ -394,7 +394,8 @@ style multitouch_text:
     outlines [ (1, "#000", 0, 0)]
 
 default multi_touch = MultiTouch("Profile Pics/Zen/zen-10-b.webp", 314, 314)
-default cg_zoom = GalleryZoom("CGs/ju_album/cg-1.webp", 750, 1334)
+#default cg_zoom = GalleryZoom("CGs/ju_album/cg-1.webp", 750, 1334)
+default cg_zoom = GalleryZoom("jellyfish.jpg", 1920, 2880)
 screen multitouch_test():
 
     modal True
