@@ -794,13 +794,13 @@ init python:
         A class to facilitate declaring images to be used in a ZoomGallery.
         """
         def __init__(self, name, image, width=None, height=None,
-                locked_img=None, condition="True"):
+                locked_image=None, condition="True"):
 
             self.name = name
             self.image = image
             self.width = width
             self.height = height
-            self.locked_img = locked_img
+            self.locked_image = locked_image
             self.condition = condition
 
         @property
@@ -839,6 +839,9 @@ init python:
 
             if locked_image is not None and image_size is None:
                 raise("For a ZoomGallery, you must provide an image_size if you provide a locked_img. image_size must be the size of the locked_img")
+
+            self.image_size = image_size
+            self.locked_image = locked_image
 
             for image in images:
                 if image.width is None:
@@ -889,10 +892,10 @@ init python:
                     start_index = self.unlocked_images.index(from_image)
                 except ValueError:
                     start_index = 0
-                start_image = self.unlocked_images[start_index]
+                self.current_image = self.unlocked_images[start_index]
             else:
                 start_index = 0
-                start_image = self.unlocked_images[0]
+                self.current_image = self.unlocked_images[0]
 
             ## Set up next and previous images
             if len(self.unlocked_images) == 1:
@@ -917,7 +920,27 @@ init python:
         def visit(self):
             return [x.image for x in self.unlocked_images]
 
+        def render(self, width, height, st, at):
+            r = renpy.Render(width, height)
 
+            text = f"Current image: {self.current_image.name}\n"
+            text += f"Next image: {self.next_image.name}\n"
+            text += f"Previous image: {self.previous_image.name}\n"
+
+            fix = Fixed(
+                text = Text(text, style='multitouch_text'),
+                xysize=(config.screen_width, config.screen_height),
+            )
+
+            ren = renpy.render(fix, width, height, st, at)
+            r.blit(ren, (0, 0))
+
+            renpy.redraw(self, 0)
+
+            return r
+
+        def event(self, ev, event_x, event_y, st):
+            return
 
 
 
@@ -961,6 +984,12 @@ default cg_zoom2 = ZoomGalleryDisplayable("flowers.jpg", 1920, 2560)
 default cg_zoom3 = ZoomGalleryDisplayable("vase.jpg", 1920, 2560)
 default cg_zoom4 = ZoomGalleryDisplayable("city.jpg", 1920, 1200)
 
+default zoom_gallery = ZoomGallery(
+    ZoomGalleryImage("jellyfish", "jellyfish.jpg", 1920, 2880),
+    ZoomGalleryImage("flowers", "flowers.jpg", 1920, 2560),
+    ZoomGalleryImage("vase", "vase.jpg", 1920, 2560),
+    ZoomGalleryImage("city", "city.jpg", 1920, 1200),
+)
 
 screen multitouch_test():
 
