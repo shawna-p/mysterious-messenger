@@ -21,6 +21,7 @@ init python:
             self.y = y
             self.touchdown_x = x
             self.touchdown_y = y
+            self.last_three_speeds = [ ]
 
         def dist(self, x, y):
             """Return the distance from this finger to the given coordinates."""
@@ -29,6 +30,17 @@ init python:
             dy = self.y - y
 
             return (dx**2 + dy**2)**0.5
+
+        def add_speed(self, speed):
+            self.last_three_speeds.append(speed)
+            if len(self.last_three_speeds) > 3:
+                self.last_three_speeds.pop(0)
+
+        @property
+        def last_speed(self):
+            if self.last_three_speeds:
+                return self.last_three_speeds[0]
+            return (0.0, 0.0)
 
         @property
         def finger_info(self):
@@ -317,11 +329,11 @@ init python:
 
         def update_finger(self, x, y):
             """Find which finger just moved and update it."""
-            # if len(self.fingers) == 1:
-            #     # Only one finger *to* move
-            #     self.fingers[0].x = x
-            #     self.fingers[0].x = y
-            #     return
+            if len(self.fingers) == 1:
+                # Only one finger *to* move
+                self.fingers[0].x = x
+                self.fingers[0].x = y
+                return self.fingers[0]
             finger = self.find_finger(x, y)
             if not finger:
                 return
@@ -532,10 +544,13 @@ init python:
                                 else:
                                     adjusted_yspeed = old_yspeed
 
-                                debug_log(f"Adjusted old speed is ({adjusted_xspeed:.2f}, {adjusted_yspeed:.2f}) vs ({new_xspeed:.2f}, {new_yspeed:.2f})")
-                                self.drag_speed = (adjusted_xspeed, adjusted_yspeed)
+                                #debug_log(f"Adjusted old speed is ({adjusted_xspeed:.2f}, {adjusted_yspeed:.2f}) vs ({new_xspeed:.2f}, {new_yspeed:.2f})")
+                                #self.drag_speed = (adjusted_xspeed, adjusted_yspeed)
+                                debug_log(f"Popping last speed {self.drag_finger.last_speed}")
+                                self.drag_speed = self.drag_finger.last_speed
                     else:
                         self.stationary_drag_counter = 0
+                        self.drag_finger.add_speed(self.drag_speed)
 
             if self.touch_down_event(ev):
                 finger = self.register_finger(x, y)
@@ -804,8 +819,11 @@ screen multitouch_test():
                     text entry size 20
                 null height 25
 
-    vbox:
-        align (1.0, 1.0) spacing 20
+    frame:
+        align (1.0, 1.0)
+        modal True
+        has vbox
+        spacing 20
         textbutton "Touch version" action ToggleField(cg_zoom, 'touch_screen_mode')
         if not cg_zoom.touch_screen_mode:
             textbutton "Wheel Zoom" action ToggleField(cg_zoom, 'wheel_zoom')
