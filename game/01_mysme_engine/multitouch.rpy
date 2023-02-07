@@ -190,7 +190,6 @@ init python:
             self.zoom = start_zoom
             self.rotate = 0
 
-
             self.xpos = config.screen_width//2
             self.ypos = config.screen_height//2
 
@@ -276,12 +275,10 @@ init python:
                 anchor=(0.5, 0.5),
                 pos=(xpos, ypos))
 
-            anchor = Transform("#f008", xysize=(7, 7), anchor=(0.5, 0.5), pos=(int(self.anchor[0]), int(self.anchor[1])))
-
             text = Text(self.text, style='multitouch_text')
 
             fix = Fixed(
-                the_img, text, anchor,
+                the_img, text,
                 xysize=(config.screen_width, config.screen_height),
             )
 
@@ -629,10 +626,6 @@ init python:
                     else:
                         debug_log(f"Finger UP at ({x}, {y})\nStarted at ({finger.touchdown_x}, {finger.touchdown_y})", color="red")
 
-            elif not self.touch_screen_mode and renpy.map_event(ev, 'mouseup_3'):
-                # Right mouse click; set the anchor
-                self.anchor = (x, y)
-
             elif ev.type in (pygame.FINGERMOTION, pygame.MOUSEMOTION):
                 finger = self.update_finger(x, y)
                 if finger is not None and finger is self.drag_finger:
@@ -673,6 +666,9 @@ init python:
 
             elif renpy.map_event(ev, "viewport_wheelup"):
 
+                # Set the anchor to wherever they're hovering
+                self.anchor = (x, y)
+
                 self.xadjustment.end_animation(instantly=True)
                 self.yadjustment.end_animation(instantly=True)
 
@@ -682,6 +678,8 @@ init python:
                     self.rotate += 10
 
             elif renpy.map_event(ev, "viewport_wheeldown"):
+                # Set the anchor to wherever they're hovering
+                self.anchor = (x, y)
 
                 self.xadjustment.end_animation(instantly=True)
                 self.yadjustment.end_animation(instantly=True)
@@ -718,7 +716,7 @@ init python:
             self.text += "\ndrag_speed: ({:.2f}, {:.2f})".format(self.drag_speed[0], self.drag_speed[1])
 
 
-    class GalleryZoom(MultiTouch):
+    class ZoomGalleryImage(MultiTouch):
         """
         A class which allows zooming in on full-screen gallery images.
         """
@@ -731,7 +729,7 @@ init python:
             min_height_ratio = config.screen_height / float(height)
             min_ratio = min(min_width_ratio, min_height_ratio)
 
-            super(GalleryZoom, self).__init__(img, width, height, min_ratio,
+            super(ZoomGalleryImage, self).__init__(img, width, height, min_ratio,
                 zoom_max, rotate_degrees=0, start_zoom=min_ratio, *args, **kwargs)
 
         def clamp_pos(self):
@@ -769,6 +767,15 @@ init python:
                 self.ypos = max(self.ypos, ymin)
                 self.ypos = min(self.ypos, -ypadding+padding//2)
 
+    class ZoomGallery(renpy.Displayable):
+        """
+        A class which holds a list of gallery images to be able to swipe
+        through and view.
+        """
+
+        def __init__(self, *images):
+            pass
+
 
     def debug_log(*args, color=None):
         ret = ' '.join([str(arg) for arg in args])
@@ -796,8 +803,13 @@ style multitouch_text:
     outlines [ (1, "#000", 0, 0)]
 
 default multi_touch = MultiTouch("Profile Pics/Zen/zen-10-b.webp", 314, 314)
-#default cg_zoom = GalleryZoom("CGs/ju_album/cg-1.webp", 750, 1334)
-default cg_zoom = GalleryZoom("jellyfish.jpg", 1920, 2880)
+#default cg_zoom = ZoomGalleryImage("CGs/ju_album/cg-1.webp", 750, 1334)
+default cg_zoom = ZoomGalleryImage("jellyfish.jpg", 1920, 2880)
+default cg_zoom2 = ZoomGalleryImage("flowers.jpg", 1920, 2560)
+default cg_zoom3 = ZoomGalleryImage("vase.jpg", 1920, 2560)
+default cg_zoom4 = ZoomGalleryImage("city.jpg", 1920, 1200)
+
+
 screen multitouch_test():
 
     default show_log = False
