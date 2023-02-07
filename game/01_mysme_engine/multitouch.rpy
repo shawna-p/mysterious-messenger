@@ -58,15 +58,15 @@ init python:
         def round_value(self, value, release):
             # Prevent deadlock border points
 
-            # if value <= self.range_limits[0]:
-            #     return type(self._value)(self.range_limits[0])
-            # elif value >= self.range_limits[1]:
-            #     return self.range_limits[1]
+            if value <= self.range_limits[0]:
+                return type(self._value)(self.range_limits[0])
+            elif value >= self.range_limits[1]:
+                return self.range_limits[1]
 
-            if value <= 0:
-                return type(self._value)(0)
-            elif value >= self._range:
-                return self._range
+            # if value <= 0:
+            #     return type(self._value)(0)
+            # elif value >= self._range:
+            #     return self._range
 
             if self.force_step is False:
                 return value
@@ -81,15 +81,15 @@ init python:
             if end_animation:
                 self.end_animation()
 
-            # if value < self.range_limits[0]:
-            #     value = self.range_limits[0]
-            # if value > self.range_limits[1]: # type: ignore
-            #     value = self.range_limits[1]
+            if value < self.range_limits[0]:
+                value = self.range_limits[0]
+            if value > self.range_limits[1]: # type: ignore
+                value = self.range_limits[1]
 
-            if value < 0:
-                value = 0
-            if value > self._range: # type: ignore
-                value = self._range
+            # if value < 0:
+            #     value = 0
+            # if value > self._range: # type: ignore
+            #     value = self._range
 
             if value != self._value:
                 self._value = value
@@ -108,8 +108,9 @@ init python:
                 self.end_animation(True)
             else:
                 self.animation_amplitude = amplitude
-                self.animation_target = self.round_value(self._value + amplitude,
-                    release=True)
+                # self.animation_target = self.round_value(self._value + amplitude,
+                #     release=True)
+                self.animation_target = self._value + amplitude
 
                 self.animation_delay = delay
                 self.animation_start = None
@@ -130,7 +131,7 @@ init python:
                 self.animation_delay = None
                 self.animation_warper = None
 
-                self.change(value, end_animation=False)
+                #self.change(value, end_animation=False)
 
         def periodic(self, st):
 
@@ -147,7 +148,11 @@ init python:
 
             self.change(value, end_animation=False)
 
-            if st > self.animation_start + self.animation_delay: # type: ignore
+            # Did we hit a wall?
+            if value <= self.range_limits[0] or value >= self.range_limits[1]:
+                self.end_animation()
+                return None
+            elif st > self.animation_start + self.animation_delay: # type: ignore
                 self.end_animation()
                 return None
             else:
@@ -341,8 +346,9 @@ init python:
 
         def calculate_drag_offset(self, x, y):
 
-            dx = x - self.xpos
-            dy = y - self.ypos
+            padding = self.get_padding()
+            dx = x - int(padding//2 - self.xadjustment.value)
+            dy = y - int(padding//2 - self.yadjustment.value)
             self.drag_offset = (dx, dy)
 
         def get_dimensions(self):
@@ -448,16 +454,14 @@ init python:
 
             self.anchor = (x_midpoint, y_midpoint)
 
-        def update_image_pos(self, x=None, y=None):
+        def update_image_pos(self, x, y):
             """
             The player has dragged their finger to point (x, y), and the
             drag itself is supposed to come along with it.
             """
 
-            if x is not None and y is not None:
-
-                self.xpos = int(x - self.drag_offset[0])
-                self.ypos = int(y - self.drag_offset[1])
+            self.xpos = int(x - self.drag_offset[0])
+            self.ypos = int(y - self.drag_offset[1])
 
             return
 
@@ -497,10 +501,6 @@ init python:
             if self.touch_down_event(ev):
                 finger = self.register_finger(x, y)
                 if self.drag_finger is None and len(self.fingers) == 1:
-                    self.calculate_drag_offset(x, y)
-                    self.update_image_pos(x, y)
-                    self.drag_finger = finger
-
                     # Inertia
                     self.drag_position = (x, y)
                     self.drag_position_time = st
@@ -508,6 +508,10 @@ init python:
 
                     self.xadjustment.end_animation()
                     self.yadjustment.end_animation()
+
+                    self.calculate_drag_offset(x, y)
+                    self.update_image_pos(x, y)
+                    self.drag_finger = finger
 
                 elif self.drag_finger and len(self.fingers) > 1:
                     # More than one finger; turn off dragging
@@ -631,7 +635,7 @@ init python:
             self.text += "\nxadjustment: {}/{}".format(self.xadjustment.value, self.xadjustment.range)
             self.text += "\nyadjustment: {}/{}".format(self.yadjustment.value, self.yadjustment.range)
             self.text += "\ndrag_speed: {}".format(self.drag_speed)
-            self.text += "\nrange limits: x {}, y {}".format(self.xadjustment.range_limits, self.yadjustment.range_limits)
+
 
     class GalleryZoom(MultiTouch):
         """
@@ -729,10 +733,6 @@ screen multitouch_test():
         textbutton "Touch version" action ToggleField(cg_zoom, 'touch_screen_mode')
         if not cg_zoom.touch_screen_mode:
             textbutton "Wheel Zoom" action ToggleField(cg_zoom, 'wheel_zoom')
-            textbutton "Inertia test":
-                action Function(cg_zoom.xadjustment.inertia,
-                    myconfig.viewport_inertia_amplitude * 0.01,
-                    myconfig.viewport_inertia_time_constant, cg_zoom.st)
         textbutton "Return" action Hide('multitouch_test')
 
 screen original_touch_test():
