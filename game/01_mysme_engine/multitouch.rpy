@@ -231,7 +231,30 @@ init python:
 
             self.fingers = [ ]
 
-            self.st = 0
+            self.original_values = (start_zoom, self.xpos, self.ypos, self.anchor)
+
+        def reset_values(self):
+            """Reset all values for this object."""
+
+            self.zoom, self.xpos, self.ypos, self.anchor = self.original_values
+            self.rotate = 0
+            self.drag_finger = None
+            self.drag_offset = (0, 0)
+
+            self.drag_position_time = None
+            self.drag_speed = (0.0, 0.0)
+            self.drag_position = (0, 0)
+
+            self.stationary_drag_counter = 0
+
+            self.xadjustment = MyAdjustment(1, 0)
+            self.yadjustment = MyAdjustment(1, 0)
+
+            self.padding = self.get_padding()
+
+            self.update_adjustment_limits()
+
+            self.fingers = [ ]
 
         def per_interact(self):
             self.xadjustment.register(self)
@@ -260,7 +283,6 @@ init python:
                 self.ypos = int(padding//2 - self.yadjustment.value)
 
         def render(self, width, height, st, at):
-            self.st = st
             r = renpy.Render(width, height)
 
             dimensions = self.get_dimensions()
@@ -716,7 +738,7 @@ init python:
             self.text += "\ndrag_speed: ({:.2f}, {:.2f})".format(self.drag_speed[0], self.drag_speed[1])
 
 
-    class ZoomGalleryImage(MultiTouch):
+    class ZoomGalleryDisplayable(MultiTouch):
         """
         A class which allows zooming in on full-screen gallery images.
         """
@@ -729,7 +751,7 @@ init python:
             min_height_ratio = config.screen_height / float(height)
             min_ratio = min(min_width_ratio, min_height_ratio)
 
-            super(ZoomGalleryImage, self).__init__(img, width, height, min_ratio,
+            super(ZoomGalleryDisplayable, self).__init__(img, width, height, min_ratio,
                 zoom_max, rotate_degrees=0, start_zoom=min_ratio, *args, **kwargs)
 
         def clamp_pos(self):
@@ -767,14 +789,144 @@ init python:
                 self.ypos = max(self.ypos, ymin)
                 self.ypos = min(self.ypos, -ypadding+padding//2)
 
+    class ZoomGalleryImage():
+        """
+        A class to facilitate declaring images to be used in a ZoomGallery.
+        """
+        def __init__(self, name, image, width=None, height=None,
+                locked_img=None, condition="True"):
+
+            self.name = name
+            self.image = image
+            self.width = width
+            self.height = height
+            self.locked_img = locked_img
+            self.condition = condition
+
+        @property
+        def unlocked(self):
+            try:
+                return eval(self.condition)
+            except Exception as e:
+                return True
+
     class ZoomGallery(renpy.Displayable):
         """
         A class which holds a list of gallery images to be able to swipe
         through and view.
         """
 
-        def __init__(self, *images):
-            pass
+        def __init__(self, *images, image_size=None, locked_image=None,
+                show_locked=False, loop_gallery=True):
+            """
+            images : ZoomGalleryImage[]
+                ZoomGalleryImage objects corresponding to images to be added
+                to this gallery.
+            image_size : (int, int)
+                If given, this is the width and height of all images in this
+                gallery, or at least all images for which a more specific
+                width and height is not given.
+            locked_image : Displayable
+                A displayable which is shown when the player has not
+                unlocked this image in the gallery.
+            show_locked : bool
+                True if this gallery should show locked images when swiping
+                through. If False, it will skip them.
+            loop_gallery : bool
+                True if this gallery should loop around to the first image
+                if it reaches the last one.
+            """
+
+            if locked_image is not None and image_size is None:
+                raise("For a ZoomGallery, you must provide an image_size if you provide a locked_img. image_size must be the size of the locked_img")
+
+            for image in images:
+                if image.width is None:
+                    image.width = image_size[0]
+                    image.height = image_size[1]
+                if image.locked_image is None:
+                    image.locked_image = locked_image
+
+            # Now create ZoomGalleryImage objects out of all of them
+            self.gallery_images = [ ]
+            self.image_lookup = dict()
+
+            for img in images:
+                gi = ZoomGalleryImage(img.image, img.width, img.height)
+                self.image_lookup[img.name] = gi
+                self.gallery_images.append(gi)
+
+            self.previous_image = None
+            self.current_image = self.gallery_images[0]
+            if len(self.gallery_images) > 1:
+                self.next_image = self.gallery_images[1]
+            else:
+                self.next_image = None
+
+            self.unlocked_images = self.gallery_images.copy()
+            self.loop_gallery = loop_gallery
+
+        def set_up_gallery(self, from_image=None):
+            """
+            Set up the gallery to begin from a particular image, or from
+            the first unlocked image if available.
+            """
+
+            if not self.show_locked:
+                ## First, filter all the images for conditions.
+                self.unlocked_images = [
+                    x for x in self.gallery_images if x.unlocked
+                ]
+                ## Otherwise it's just a copy of regular images
+
+            ## Reset all the values in these gallery images
+            for img in self.unlocked_images:
+                img.reset_values()
+
+            ## Is there a start image?
+            if from_image is not None:
+                try:
+                    start_index = self.unlocked_images.index(from_image)
+                except ValueError:
+                    start_index = 0
+                start_image = self.unlocked_images[start_index]
+            else:
+                start_index = 0
+                start_image = self.unlocked_images[0]
+
+            ## Set up next and previous images
+            if len(self.unlocked_images) == 1:
+                self.previous_image = None
+                self.next_image = None
+            else:
+                if self.loop_gallery:
+                    self.previous_image = self.unlocked_images[start_index-1]
+                    self.next_image = self.unlocked_images[(start_index+1)%len(self.unlocked_images)]
+                else:
+                    prev_index = max(0, start_index-1)
+                    next_index = min(len(self.unlocked_images)-1, start_index+1)
+                    if prev_index == start_index:
+                        self.previous_image = None
+                    else:
+                        self.previous_image = self.unlocked_images[prev_index]
+                    if next_index == start_index:
+                        self.next_image = None
+                    else:
+                        self.next_image = self.unlocked_images[next_index]
+
+        def visit(self):
+            return [x.image for x in self.unlocked_images]
+
+
+
+
+
+
+
+
+
+
+
 
 
     def debug_log(*args, color=None):
@@ -804,10 +956,10 @@ style multitouch_text:
 
 default multi_touch = MultiTouch("Profile Pics/Zen/zen-10-b.webp", 314, 314)
 #default cg_zoom = ZoomGalleryImage("CGs/ju_album/cg-1.webp", 750, 1334)
-default cg_zoom = ZoomGalleryImage("jellyfish.jpg", 1920, 2880)
-default cg_zoom2 = ZoomGalleryImage("flowers.jpg", 1920, 2560)
-default cg_zoom3 = ZoomGalleryImage("vase.jpg", 1920, 2560)
-default cg_zoom4 = ZoomGalleryImage("city.jpg", 1920, 1200)
+default cg_zoom = ZoomGalleryDisplayable("jellyfish.jpg", 1920, 2880)
+default cg_zoom2 = ZoomGalleryDisplayable("flowers.jpg", 1920, 2560)
+default cg_zoom3 = ZoomGalleryDisplayable("vase.jpg", 1920, 2560)
+default cg_zoom4 = ZoomGalleryDisplayable("city.jpg", 1920, 1200)
 
 
 screen multitouch_test():
