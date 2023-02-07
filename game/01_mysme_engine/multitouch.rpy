@@ -39,7 +39,12 @@ init python:
         @property
         def last_speed(self):
             if self.last_three_speeds:
-                return self.last_three_speeds[0]
+                ## Return the average of all three
+                all_xspeeds = [x[0] for x in self.last_three_speeds]
+                all_yspeeds = [x[1] for x in self.last_three_speeds]
+                final_x = sum(all_xspeeds) / float(len(self.last_three_speeds))
+                final_y = sum(all_yspeeds) / float(len(self.last_three_speeds))
+                return (final_x, final_y)
             return (0.0, 0.0)
 
         @property
