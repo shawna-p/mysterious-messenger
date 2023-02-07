@@ -121,7 +121,7 @@ init python:
             self.animate(amplitude, time_constant * 6.0, self.inertia_warper)
             self.periodic(st)
 
-        def end_animation(self, always=False):
+        def end_animation(self, always=False, instantly=False):
             if always or self.animation_target is not None:
                 value = self.animation_target
 
@@ -131,7 +131,8 @@ init python:
                 self.animation_delay = None
                 self.animation_warper = None
 
-                #self.change(value, end_animation=False)
+                if not instantly:
+                    self.change(value, end_animation=False)
 
         def periodic(self, st):
 
@@ -150,10 +151,10 @@ init python:
 
             # Did we hit a wall?
             if value <= self.range_limits[0] or value >= self.range_limits[1]:
-                self.end_animation()
+                self.end_animation(instantly=True)
                 return None
             elif st > self.animation_start + self.animation_delay: # type: ignore
-                self.end_animation()
+                self.end_animation(instantly=True)
                 return None
             else:
                 return 0
@@ -506,8 +507,8 @@ init python:
                     self.drag_position_time = st
                     self.drag_speed = (0.0, 0.0)
 
-                    self.xadjustment.end_animation()
-                    self.yadjustment.end_animation()
+                    self.xadjustment.end_animation(instantly=True)
+                    self.yadjustment.end_animation(instantly=True)
 
                     self.calculate_drag_offset(x, y)
                     self.update_image_pos(x, y)
@@ -587,16 +588,16 @@ init python:
                 self.rotate += ev.dTheta*360/8
                 self.zoom += ev.dDist*4   # *15
 
-                self.xadjustment.end_animation()
-                self.yadjustment.end_animation()
+                self.xadjustment.end_animation(instantly=True)
+                self.yadjustment.end_animation(instantly=True)
 
                 ## Set the anchor as the middle between their two fingers
                 self.update_anchor()
 
             elif renpy.map_event(ev, "viewport_wheelup"):
 
-                self.xadjustment.end_animation()
-                self.yadjustment.end_animation()
+                self.xadjustment.end_animation(instantly=True)
+                self.yadjustment.end_animation(instantly=True)
 
                 if self.wheel_zoom:
                     self.zoom += 0.05 #0.25
@@ -605,8 +606,8 @@ init python:
 
             elif renpy.map_event(ev, "viewport_wheeldown"):
 
-                self.xadjustment.end_animation()
-                self.yadjustment.end_animation()
+                self.xadjustment.end_animation(instantly=True)
+                self.yadjustment.end_animation(instantly=True)
 
                 if self.wheel_zoom:
                     self.zoom -= 0.25
