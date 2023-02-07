@@ -181,14 +181,15 @@ init python:
     class MultiTouch(renpy.Displayable):
 
         def __init__(self, img, width, height, zoom_min=0.25, zoom_max=4.0,
-                rotate_degrees=360, *args, **kwargs):
+                rotate_degrees=360, start_zoom=1.0, *args, **kwargs):
             super().__init__(*args, **kwargs)
             self.img = img
             self.width = width
             self.height = height
             self.text = ""
-            self.zoom = 1.0
+            self.zoom = start_zoom
             self.rotate = 0
+
 
             self.xpos = config.screen_width//2
             self.ypos = config.screen_height//2
@@ -197,6 +198,17 @@ init python:
 
             self.zoom_max = zoom_max
             self.zoom_min = zoom_min
+
+            min_width_ratio = config.screen_width / float(width)
+            min_height_ratio = config.screen_height / float(height)
+            max_ratio = max(min_width_ratio, min_height_ratio)
+            min_ratio = min(min_width_ratio, min_height_ratio)
+            ## Screen is entirely covered by the image
+            self.fill_screen_zoom_level = max(max_ratio, self.zoom_min)
+            ## Screen contains the image, but may have top/bottom
+            ## "black bars"/empty space in one dimension
+            self.fit_screen_zoom_level = max(min_ratio, self.zoom_min)
+
             self.rotate_degrees = rotate_degrees
 
             self.touch_screen_mode = renpy.variant("touch")
@@ -257,9 +269,6 @@ init python:
             self.redraw_adjustments(st)
 
             xpos, ypos = self.xpos, self.ypos
-            # padding = self.get_padding(dimensions)
-            # xpos = int(padding//2 - self.xadjustment.value)
-            # ypos = int(padding//2 - self.yadjustment.value)
 
             the_img = Transform(self.img,
                 xysize=dimensions,
@@ -716,34 +725,14 @@ init python:
         def __init__(self, img, width, height, zoom_max=4.0, use_container=False,
             *args, **kwargs):
 
-            if use_container:
-                ## Gonna put it in a container that fits the size of the screen
-                screen_ratio = config.screen_width / float(config.screen_height)
-                ## e.g. 1.778 for 16:9
-                ## 1.6 for 16:10
-                img_ratio = width / float(height)
-
-                if img_ratio <= screen_ratio:
-                    # Base it on the height
-                    container_height = height
-                    container_width = int(height * screen_ratio)
-                else:
-                    container_height = int(width / screen_ratio)
-                    container_width = width
-
-                width = container_width
-                height = container_height
-
-                img = Fixed(Transform(img, align=(0.5, 0.5)), xysize=(container_width, container_height))
-
             ## Calculate zoom_min. It should always fill the screen in one
             ## dimension
             min_width_ratio = config.screen_width / float(width)
             min_height_ratio = config.screen_height / float(height)
-            min_ratio = max(min_width_ratio, min_height_ratio)
+            min_ratio = min(min_width_ratio, min_height_ratio)
 
             super(GalleryZoom, self).__init__(img, width, height, min_ratio,
-                zoom_max, rotate_degrees=0, *args, **kwargs)
+                zoom_max, rotate_degrees=0, start_zoom=min_ratio, *args, **kwargs)
 
         def clamp_pos(self):
 
@@ -757,17 +746,28 @@ init python:
             xpadding = (padding - dimensions[0])//2
             ypadding = (padding - dimensions[1])//2
 
-            ## When the image is against the right side, the left side will
-            ## be at -(padding-screen_width) + xpadding
-            xmin = (padding-xpadding-config.screen_width)*-1 + padding//2
-            self.xpos = max(self.xpos, xmin)
-            ## When the image is against the left side, the right side will
-            ## be at -xpadding
-            self.xpos = min(self.xpos, -xpadding+padding//2)
+            has_black_bars = ((self.fill_screen_zoom_level > self.fit_screen_zoom_level)
+                and (self.zoom < self.fill_screen_zoom_level))
 
-            ymin = (padding-ypadding-config.screen_height)*-1 + padding//2
-            self.ypos = max(self.ypos, ymin)
-            self.ypos = min(self.ypos, -ypadding+padding//2)
+            ## Are we zoomed out enough that we're going to start getting
+            ## black bars? Is that possible?
+            if has_black_bars and dimensions[0] <= config.screen_width:
+                    self.xpos = config.screen_width//2
+            else:
+                ## When the image is against the right side, the left side will
+                ## be at -(padding-screen_width) + xpadding
+                xmin = (padding-xpadding-config.screen_width)*-1 + padding//2
+                self.xpos = max(self.xpos, xmin)
+                ## When the image is against the left side, the right side will
+                ## be at -xpadding
+                self.xpos = min(self.xpos, -xpadding+padding//2)
+
+            if has_black_bars and dimensions[1] <= config.screen_height:
+                self.ypos = config.screen_height//2
+            else:
+                ymin = (padding-ypadding-config.screen_height)*-1 + padding//2
+                self.ypos = max(self.ypos, ymin)
+                self.ypos = min(self.ypos, -ypadding+padding//2)
 
 
     def debug_log(*args, color=None):
