@@ -50,10 +50,41 @@ init python:
         # The warper applied to the animation.
         animation_warper = None # type (float) -> float|None
 
+
+        def __init__(self, *args, **kwargs):
+            super(MyAdjustment, self).__init__(*args, **kwargs)
+            self.range_limits = (0, 1)
+
+        def round_value(self, value, release):
+            # Prevent deadlock border points
+
+            # if value <= self.range_limits[0]:
+            #     return type(self._value)(self.range_limits[0])
+            # elif value >= self.range_limits[1]:
+            #     return self.range_limits[1]
+
+            if value <= 0:
+                return type(self._value)(0)
+            elif value >= self._range:
+                return self._range
+
+            if self.force_step is False:
+                return value
+
+            if (not release) and self.force_step == "release":
+                return value
+
+            return type(self._value)(self.step * round(float(value) / self.step))
+
         def change(self, value, end_animation=True):
 
             if end_animation:
                 self.end_animation()
+
+            # if value < self.range_limits[0]:
+            #     value = self.range_limits[0]
+            # if value > self.range_limits[1]: # type: ignore
+            #     value = self.range_limits[1]
 
             if value < 0:
                 value = 0
@@ -156,6 +187,8 @@ init python:
             self.xadjustment = MyAdjustment(1, 0)
             self.yadjustment = MyAdjustment(1, 0)
 
+            self.update_adjustment_limits()
+
             self.fingers = [ ]
 
             self.st = 0
@@ -174,12 +207,17 @@ init python:
 
         def redraw_adjustments(self, st):
             redraw = self.xadjustment.periodic(st)
+
+            padding = self.get_padding()
+
             if redraw is not None:
                 renpy.redraw(self, redraw)
+                self.xpos = int(padding//2 - self.xadjustment.value)
 
             redraw = self.yadjustment.periodic(st)
             if redraw is not None:
                 renpy.redraw(self, redraw)
+                self.ypos = int(padding//2 - self.yadjustment.value)
 
         def render(self, width, height, st, at):
             self.st = st
@@ -189,10 +227,10 @@ init python:
 
             self.redraw_adjustments(st)
 
-            # xpos, ypos = self.xpos, self.ypos
-            padding = self.get_padding(dimensions)
-            xpos = int(padding//2 - self.xadjustment.value)
-            ypos = int(padding//2 - self.yadjustment.value)
+            xpos, ypos = self.xpos, self.ypos
+            # padding = self.get_padding(dimensions)
+            # xpos = int(padding//2 - self.xadjustment.value)
+            # ypos = int(padding//2 - self.yadjustment.value)
 
             the_img = Transform(self.img,
                 xysize=dimensions,
@@ -551,24 +589,41 @@ init python:
                 self.rotate += ev.dTheta*360/8
                 self.zoom += ev.dDist*4   # *15
 
+                self.xadjustment.end_animation()
+                self.yadjustment.end_animation()
+
                 ## Set the anchor as the middle between their two fingers
                 self.update_anchor()
 
             elif renpy.map_event(ev, "viewport_wheelup"):
+
+                self.xadjustment.end_animation()
+                self.yadjustment.end_animation()
+
                 if self.wheel_zoom:
                     self.zoom += 0.05 #0.25
                 else:
                     self.rotate += 10
 
             elif renpy.map_event(ev, "viewport_wheeldown"):
+
+                self.xadjustment.end_animation()
+                self.yadjustment.end_animation()
+
                 if self.wheel_zoom:
                     self.zoom -= 0.25
                 else:
                     self.rotate -= 10
 
-            self.clamp_rotate()
-            self.clamp_zoom()
-            self.adjust_pos_for_zoom(start_zoom)
+            if (ev.type == pygame.MULTIGESTURE
+                    or renpy.map_event(ev, "viewport_wheelup")
+                    or renpy.map_event(ev, "viewport_wheeldown")
+            ):
+                self.update_adjustment_limits()
+                self.clamp_rotate()
+                self.clamp_zoom()
+                self.adjust_pos_for_zoom(start_zoom)
+
             self.clamp_pos()
             self.update_adjustments()
 
