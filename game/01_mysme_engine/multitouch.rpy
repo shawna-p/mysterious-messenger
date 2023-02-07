@@ -423,17 +423,11 @@ init python:
             xpadding = (padding - dimensions[0])//2
             ypadding = (padding - dimensions[1])//2
 
-            ## When the image is against the right side, the left side will
-            ## be at -(padding-screen_width) + xpadding
-            xmin = (padding-xpadding-config.screen_width)*-1
-            xmin = max(0, xmin)
-            ## When the image is against the left side, the right side will
-            ## be at -xpadding
-            xmax = min(padding, -xpadding)
+            xmin = xpadding
+            xmax = (padding - xpadding - config.screen_width)
 
-            ymin = (padding-ypadding-config.screen_height)*-1
-            ymin = max(0, ymin)
-            ymax = min(padding, -ypadding)
+            ymin = ypadding
+            ymax = padding - ypadding - config.screen_height
 
             self.xadjustment.range_limits = (xmin, xmax)
             self.yadjustment.range_limits = (ymin, ymax)
@@ -637,6 +631,7 @@ init python:
             self.text += "\nxadjustment: {}/{}".format(self.xadjustment.value, self.xadjustment.range)
             self.text += "\nyadjustment: {}/{}".format(self.yadjustment.value, self.yadjustment.range)
             self.text += "\ndrag_speed: {}".format(self.drag_speed)
+            self.text += "\nrange limits: x {}, y {}".format(self.xadjustment.range_limits, self.yadjustment.range_limits)
 
     class GalleryZoom(MultiTouch):
         """
