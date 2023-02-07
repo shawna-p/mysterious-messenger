@@ -216,7 +216,7 @@ init python:
         def redraw_adjustments(self, st):
             redraw = self.xadjustment.periodic(st)
 
-            padding = self.get_padding()
+            padding = self.padding
 
             if redraw is not None:
                 renpy.redraw(self, redraw)
@@ -268,7 +268,7 @@ init python:
             """
 
             ## Range: the whole width of the padded displayable
-            range = self.get_padding()
+            range = self.padding
 
             self.xadjustment.range = range
             self.yadjustment.range = range
@@ -288,7 +288,7 @@ init python:
         def left_corner(self):
             """Return the coordinates of the padded top-left corner of the image."""
             # Currently, the xpos/ypos are indicating the center of the image
-            padding = self.get_padding()
+            padding = self.padding
             return (self.xpos - padding//2, self.ypos - padding//2)
 
         def get_xypadding(self):
@@ -350,7 +350,7 @@ init python:
 
         def calculate_drag_offset(self, x, y):
 
-            padding = self.get_padding()
+            padding = self.padding
             dx = x - int(padding//2 - self.xadjustment.value)
             dy = y - int(padding//2 - self.yadjustment.value)
             self.drag_offset = (dx, dy)
@@ -478,7 +478,6 @@ init python:
                 x = event_x
                 y = event_y
 
-            self.padding = self.get_padding()
             xadj_x = int(self.padding//2 - x)
             yadj_y = int(self.padding//2 - y)
 
@@ -694,7 +693,7 @@ init python:
             ## against the right side of the screen
             ## So, how far is that?
             dimensions = self.get_dimensions()
-            padding = self.get_padding(dimensions)
+            padding = self.padding
 
             xpadding = (padding - dimensions[0])//2
             ypadding = (padding - dimensions[1])//2
