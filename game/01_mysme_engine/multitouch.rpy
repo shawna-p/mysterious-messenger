@@ -478,8 +478,10 @@ init python:
                 x = event_x
                 y = event_y
 
-            xadj_x = int(self.padding//2 - x)
-            yadj_y = int(self.padding//2 - y)
+            # xadj_x = int(self.padding//2 - x)
+            # yadj_y = int(self.padding//2 - y)
+            xadj_x = int(x - self.padding//2)
+            yadj_y = int(y - self.padding//2)
 
 
             start_zoom = self.zoom
@@ -490,8 +492,8 @@ init python:
                 old_yvalue = self.yadjustment.value
 
                 oldx, oldy = self.drag_position # type: ignore
-                dx = x - oldx
-                dy = y - oldy
+                dx = xadj_x - oldx
+                dy = yadj_y - oldy
 
                 dt = st - self.drag_position_time
                 if dt > 0:
@@ -510,13 +512,14 @@ init python:
                 finger = self.register_finger(x, y)
                 if self.drag_finger is None and len(self.fingers) == 1:
                     # Inertia
-                    self.drag_position = (x, y)
+                    self.drag_position = (xadj_x, yadj_y)
                     self.drag_position_time = st
                     self.drag_speed = (0.0, 0.0)
 
                     self.xadjustment.end_animation(instantly=True)
                     self.yadjustment.end_animation(instantly=True)
 
+                    # Normal
                     self.calculate_drag_offset(x, y)
                     self.update_image_pos(x, y)
                     self.drag_finger = finger
@@ -578,7 +581,7 @@ init python:
                         newx = oldx
                     else:
                         self.xadjustment.change(new_xvalue)
-                        newx = x
+                        newx = xadj_x
 
                     new_yvalue = self.yadjustment.round_value(old_yvalue - dy,
                         release=False)
@@ -586,7 +589,7 @@ init python:
                         newy = oldy
                     else:
                         self.yadjustment.change(new_yvalue)
-                        newy = y
+                        newy = yadj_y
 
                     self.drag_position = (newx, newy) # W0201
                     self.drag_position_time = st
