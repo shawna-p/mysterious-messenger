@@ -478,11 +478,8 @@ init python:
                 x = event_x
                 y = event_y
 
-            # xadj_x = int(self.padding//2 - x)
-            # yadj_y = int(self.padding//2 - y)
             xadj_x = int(x - self.padding//2)
             yadj_y = int(y - self.padding//2)
-
 
             start_zoom = self.zoom
 
