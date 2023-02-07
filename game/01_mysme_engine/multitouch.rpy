@@ -193,6 +193,8 @@ init python:
             self.xadjustment = MyAdjustment(1, 0)
             self.yadjustment = MyAdjustment(1, 0)
 
+            self.padding = self.get_padding()
+
             self.update_adjustment_limits()
 
             self.fingers = [ ]
@@ -278,8 +280,9 @@ init python:
             ## Say the left corner is (-400, -300)
             ## The anchor is (10, 50)
 
-            self.xadjustment.value = abs(left_corner[0])
-            self.yadjustment.value = abs(left_corner[1])
+            self.xadjustment.change(abs(left_corner[0]), end_animation=False)
+            self.yadjustment.change(abs(left_corner[1]), end_animation=False)
+
 
         @property
         def left_corner(self):
@@ -475,6 +478,11 @@ init python:
                 x = event_x
                 y = event_y
 
+            self.padding = self.get_padding()
+            xadj_x = int(self.padding//2 - x)
+            yadj_y = int(self.padding//2 - y)
+
+
             start_zoom = self.zoom
 
             if self.drag_finger is not None:
@@ -584,7 +592,9 @@ init python:
                     self.drag_position = (newx, newy) # W0201
                     self.drag_position_time = st
 
-            elif ev.type == pygame.MULTIGESTURE:
+            elif (ev.type == pygame.MULTIGESTURE
+                    and len(self.fingers) > 1):
+
                 self.rotate += ev.dTheta*360/8
                 self.zoom += ev.dDist*4   # *15
 
@@ -614,13 +624,16 @@ init python:
                 else:
                     self.rotate -= 10
 
-            if (ev.type == pygame.MULTIGESTURE
+            if ( (ev.type == pygame.MULTIGESTURE
+                        and len(self.fingers) > 1)
                     or renpy.map_event(ev, "viewport_wheelup")
                     or renpy.map_event(ev, "viewport_wheeldown")
             ):
-                self.update_adjustment_limits()
+
                 self.clamp_rotate()
                 self.clamp_zoom()
+                self.padding = self.get_padding()
+                self.update_adjustment_limits()
                 self.adjust_pos_for_zoom(start_zoom)
 
             self.clamp_pos()
