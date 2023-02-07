@@ -1,5 +1,5 @@
 init python in myconfig:
-    viewport_inertia_amplitude = 20.0
+    viewport_inertia_amplitude = 30.0#20.0
     viewport_inertia_time_constant = 0.325
 
 init python:
@@ -189,6 +189,9 @@ init python:
             self.drag_position_time = None
             self.drag_speed = (0.0, 0.0)
             self.drag_position = (0, 0)
+
+            self.last_actual_speed = (0.0, 0.0)
+            self.stationary_drag_counter = 0
 
             self.xadjustment = MyAdjustment(1, 0)
             self.yadjustment = MyAdjustment(1, 0)
@@ -504,9 +507,19 @@ init python:
                     new_yspeed = old_yspeed + done * (new_yspeed - old_yspeed)
 
                     self.drag_speed = (new_xspeed, new_yspeed)
+                    if (-0.05, -0.05) <= self.drag_speed <= (0.05, 0.05):
+                        self.stationary_drag_counter += 1
+                        if self.stationary_drag_counter < 4 and dt < 0.2:
+                            # Don't update it yet
+                            self.drag_speed = self.last_actual_speed
+
+                    else:
+                        self.last_actual_speed = self.drag_speed
+                        self.stationary_drag_counter = 0
 
             if self.touch_down_event(ev):
                 finger = self.register_finger(x, y)
+
                 if self.drag_finger is None and len(self.fingers) == 1:
                     # Inertia
                     self.drag_position = (xadj_x, yadj_y)
@@ -527,8 +540,12 @@ init python:
                     self.drag_offset = (0, 0)
                     self.drag_finger = None
 
+                    self.xadjustment.end_animation(instantly=True)
+                    self.yadjustment.end_animation(instantly=True)
+
             elif self.touch_up_event(ev):
                 finger = self.remove_finger(x, y)
+
                 if finger and self.drag_finger is finger:
                     self.drag_finger = None
                     self.drag_offset = (0, 0)
@@ -554,12 +571,6 @@ init python:
 
                     self.drag_position = None
                     self.drag_position_time = None
-
-                if finger and len(self.fingers) == 1:
-                    new_drag_finger = self.fingers[0]
-                    self.calculate_drag_offset(new_drag_finger.x, new_drag_finger.y)
-                    self.update_image_pos(new_drag_finger.x, new_drag_finger.y)
-                    self.drag_finger = new_drag_finger
 
             elif not self.touch_screen_mode and renpy.map_event(ev, 'mouseup_3'):
                 # Right mouse click; set the anchor
@@ -746,6 +757,7 @@ screen multitouch_test():
         textbutton "Touch version" action ToggleField(cg_zoom, 'touch_screen_mode')
         if not cg_zoom.touch_screen_mode:
             textbutton "Wheel Zoom" action ToggleField(cg_zoom, 'wheel_zoom')
+        textbutton "Print newlines" action Function(print, "\n\n")
         textbutton "Return" action Hide('multitouch_test')
 
 screen original_touch_test():
