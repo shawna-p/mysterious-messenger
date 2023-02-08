@@ -182,7 +182,7 @@ init python:
 
         def __init__(self, img, width, height, zoom_min=0.25, zoom_max=4.0,
                 rotate_degrees=360, start_zoom=1.0, *args, **kwargs):
-            super().__init__(*args, **kwargs)
+            super(MultiTouch, self).__init__(*args, **kwargs)
             self.img = img
             self.width = width
             self.height = height
@@ -797,7 +797,7 @@ init python:
                 locked_image=None, condition="True"):
 
             self.name = name
-            self.image = image
+            self.image = renpy.easy.displayable(image)
             self.width = width
             self.height = height
             self.locked_image = locked_image
@@ -816,8 +816,9 @@ init python:
         through and view.
         """
 
-        def __init__(self, *images, image_size=None, locked_image=None,
-                show_locked=False, loop_gallery=True):
+        def __init__(self, *images, screen=None,
+                image_size=None, locked_image=None,
+                show_locked=False, loop_gallery=True, **kwargs):
             """
             images : ZoomGalleryImage[]
                 ZoomGalleryImage objects corresponding to images to be added
@@ -837,11 +838,16 @@ init python:
                 if it reaches the last one.
             """
 
+            super(ZoomGallery, self).__init__(**kwargs)
+
             if locked_image is not None and image_size is None:
-                raise("For a ZoomGallery, you must provide an image_size if you provide a locked_img. image_size must be the size of the locked_img")
+                raise Exception("For a ZoomGallery, you must provide an image_size if you provide a locked_img. image_size must be the size of the locked_img")
 
             self.image_size = image_size
             self.locked_image = locked_image
+            self.screen = screen
+            if screen is None:
+                raise Exception("ZoomGallery must be given the name of a screen to use for the gallery.")
 
             for image in images:
                 if image.width is None:
@@ -852,12 +858,16 @@ init python:
 
             # Now create ZoomGalleryImage objects out of all of them
             self.gallery_images = [ ]
+            self.gallery_displayables = [ ]
             self.image_lookup = dict()
+            self.displayable_lookup = dict()
 
             for img in images:
-                gi = ZoomGalleryImage(img.image, img.width, img.height)
-                self.image_lookup[img.name] = gi
-                self.gallery_images.append(gi)
+                gi = ZoomGalleryDisplayable(img.image, img.width, img.height)
+                self.image_lookup[img.name] = img
+                self.displayable_lookup[img.name] = gi
+                self.gallery_displayables.append(gi)
+                self.gallery_images.append(img)
 
             self.previous_image = None
             self.current_image = self.gallery_images[0]
@@ -866,8 +876,19 @@ init python:
             else:
                 self.next_image = None
 
-            self.unlocked_images = self.gallery_images.copy()
+            self.unlocked_displayables = self.gallery_displayables.copy()
             self.loop_gallery = loop_gallery
+            self.show_locked = show_locked
+
+        def is_viewable(self, name):
+            """
+            Return True if this image is viewable in the gallery.
+            """
+            # First find it
+            img = self.image_lookup.get(name, None)
+            if img is None:
+                return False
+            return img.unlocked
 
         def set_up_gallery(self, from_image=None):
             """
@@ -882,40 +903,45 @@ init python:
                 ]
                 ## Otherwise it's just a copy of regular images
 
+            self.unlocked_displayables = [
+                self.displayable_lookup[x.name] for x in self.unlocked_images
+            ]
+
             ## Reset all the values in these gallery images
-            for img in self.unlocked_images:
+            for img in self.unlocked_displayables:
                 img.reset_values()
 
             ## Is there a start image?
             if from_image is not None:
+                from_image = self.displayable_lookup.get(from_image, None)
                 try:
-                    start_index = self.unlocked_images.index(from_image)
+                    start_index = self.unlocked_displayables.index(from_image)
                 except ValueError:
                     start_index = 0
-                self.current_image = self.unlocked_images[start_index]
+                self.current_image = self.unlocked_displayables[start_index]
             else:
                 start_index = 0
-                self.current_image = self.unlocked_images[0]
+                self.current_image = self.unlocked_displayables[0]
 
             ## Set up next and previous images
-            if len(self.unlocked_images) == 1:
+            if len(self.unlocked_displayables) == 1:
                 self.previous_image = None
                 self.next_image = None
             else:
                 if self.loop_gallery:
-                    self.previous_image = self.unlocked_images[start_index-1]
-                    self.next_image = self.unlocked_images[(start_index+1)%len(self.unlocked_images)]
+                    self.previous_image = self.unlocked_displayables[start_index-1]
+                    self.next_image = self.unlocked_displayables[(start_index+1)%len(self.unlocked_displayables)]
                 else:
                     prev_index = max(0, start_index-1)
-                    next_index = min(len(self.unlocked_images)-1, start_index+1)
+                    next_index = min(len(self.unlocked_displayables)-1, start_index+1)
                     if prev_index == start_index:
                         self.previous_image = None
                     else:
-                        self.previous_image = self.unlocked_images[prev_index]
+                        self.previous_image = self.unlocked_displayables[prev_index]
                     if next_index == start_index:
                         self.next_image = None
                     else:
-                        self.next_image = self.unlocked_images[next_index]
+                        self.next_image = self.unlocked_displayables[next_index]
 
         def visit(self):
             return [x.image for x in self.unlocked_images]
@@ -923,12 +949,12 @@ init python:
         def render(self, width, height, st, at):
             r = renpy.Render(width, height)
 
-            text = f"Current image: {self.current_image.name}\n"
-            text += f"Next image: {self.next_image.name}\n"
-            text += f"Previous image: {self.previous_image.name}\n"
+            text = f"Current image: {self.current_image.img}\n"
+            text += f"Next image: {self.next_image.img}\n"
+            text += f"Previous image: {self.previous_image.img}\n"
 
             fix = Fixed(
-                text = Text(text, style='multitouch_text'),
+                Text(text, style='multitouch_text'),
                 xysize=(config.screen_width, config.screen_height),
             )
 
@@ -970,6 +996,19 @@ init python:
         if len(debug_record) > 100:
             debug_record.pop(0)
 
+    class ViewGallery(Action):
+        def __init__(self, gallery, image_name=None):
+            self.gallery = gallery
+            self.image_name = image_name
+        def get_sensitive(self):
+            if self.image_name is None:
+                return True
+            else:
+                return self.gallery.is_viewable(self.image_name)
+        def __call__(self):
+            self.gallery.set_up_gallery(self.image_name)
+            renpy.run(Show(self.gallery.screen))
+
 default debug_record = [ ]
 
 style multitouch_text:
@@ -986,12 +1025,53 @@ default cg_zoom4 = ZoomGalleryDisplayable("city.jpg", 1920, 1200)
 
 default zoom_gallery = ZoomGallery(
     ZoomGalleryImage("jellyfish", "jellyfish.jpg", 1920, 2880),
-    ZoomGalleryImage("flowers", "flowers.jpg", 1920, 2560),
+    ZoomGalleryImage("flowers", "flowers.jpg", 1920, 2560, condition="flowers_unlocked"),
     ZoomGalleryImage("vase", "vase.jpg", 1920, 2560),
     ZoomGalleryImage("city", "city.jpg", 1920, 1200),
+    screen="use_zoom_gallery"
 )
+default flowers_unlocked = False
 
 screen multitouch_test():
+    modal True
+
+    use starry_night()
+
+    vbox:
+        align (0.5, 0.5)
+        spacing 100
+        hbox:
+            align (0.5, 0.5)
+            spacing 40
+            textbutton "Jellyfish" action ViewGallery(zoom_gallery, "jellyfish")
+            textbutton "Flowers" action ViewGallery(zoom_gallery, "flowers")
+            textbutton "Vase" action ViewGallery(zoom_gallery, "vase")
+            textbutton "City" action ViewGallery(zoom_gallery, "city")
+        hbox:
+            align (0.5, 0.5)
+            spacing 40
+            textbutton "Unlock flowers" action ToggleVariable("flowers_unlocked")
+
+
+    frame:
+        align (1.0, 1.0)
+        modal True
+        has vbox
+        textbutton "Return" action Hide()
+
+screen use_zoom_gallery():
+
+    add "#f0f3"
+
+    add zoom_gallery
+
+    frame:
+        align (1.0, 1.0)
+        modal True
+        has vbox
+        textbutton "Return" action Hide()
+
+screen multitouch_test_working():
 
     default show_log = False
 
