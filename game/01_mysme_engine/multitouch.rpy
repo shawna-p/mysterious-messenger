@@ -1091,11 +1091,12 @@ init python:
             # Too zoomed in
             if ((child.zoom > child.fit_screen_zoom_level)
                 # Or trying to zoom
-                or len(child.fingers) > 1
+                or len(self.fingers) > 1
                 or ev.type == pygame.MULTIGESTURE
                 or renpy.map_event(ev, "viewport_wheelup")
                 or renpy.map_event(ev, "viewport_wheeldown")
             ):
+                self.child.fingers = self.fingers
                 self.viewing_child = True
                 return self.current_image.event(ev, event_x, event_y, st)
 
