@@ -886,6 +886,8 @@ init python:
             self.padding = self.get_padding()
             self.xpos = -10
             self.original_values = (self.original_values[0], self.xpos, self.original_values[2], self.original_values[3])
+            self.dragging_direction = None
+            self.switch_image = False
 
         def is_viewable(self, name):
             """
@@ -950,6 +952,8 @@ init python:
                     else:
                         self.next_image = self.unlocked_displayables[next_index]
 
+            self.reset_values()
+
         def visit(self):
             return [x.image for x in self.unlocked_images]
 
@@ -974,8 +978,8 @@ init python:
             ymin = ypadding
             ymax = padding - ypadding - config.screen_height
 
-            self.xadjustment.range_limits = (0, 1500+750)
-            self.yadjustment.range_limits = (7, 7)
+            self.xadjustment.range_limits = (0, config.screen_width*2)
+            self.yadjustment.range_limits = (0, 0)
 
         def redraw_adjustments(self, st):
             redraw = self.xadjustment.periodic(st)
@@ -993,8 +997,30 @@ init python:
 
             text = ""
             child = self.current_image
+
+            if self.xpos < -10 and self.next_image:
+                # Dragging to left to get to next image
+                img2 = Transform(
+                    self.next_image,
+                    anchor=(0.5, 0.5),
+                    pos=(self.xpos+config.screen_width//2+10+config.screen_width+10,
+                        self.ypos)
+                )
+            elif self.xpos > -10 and self.previous_image:
+                # Dragging to right to get to previous image
+                img2 = Transform(
+                    self.previous_image,
+                    anchor=(0.5, 0.5),
+                    pos=(self.xpos+config.screen_width//2+10-config.screen_width-10,
+                        self.ypos)
+                )
+            else:
+                img2 = Null()
+
+
             fix = Fixed(
                 Transform(child, pos=(self.xpos+config.screen_width//2+10, self.ypos), anchor=(0.5, 0.5)),
+                img2,
                 Window(Text(self.text, style="multitouch_text", color="#d4e2f3"),
                     background="#0008", style="frame", yalign=1.0),
                 xysize=(config.screen_width, config.screen_height),
