@@ -150,7 +150,7 @@ init python:
                 self.animation_delay = None
                 self.animation_warper = None
 
-                if not instantly:
+                if not instantly and value is not None:
                     self.change(value, end_animation=False)
 
         def periodic(self, st):
@@ -885,7 +885,8 @@ init python:
             self.xpos = -10
             self.original_values = (self.original_values[0], self.xpos, self.original_values[2], self.original_values[3])
             self.dragging_direction = None
-            self.switch_image = False
+            # In the process of switching images
+            self.is_switching_image = False
 
         def is_viewable(self, name):
             """
@@ -952,6 +953,40 @@ init python:
 
             self.reset_values()
 
+        def gallery_previous_image(self):
+            """
+            Swap to the gallery's previous image.
+            """
+            start_index = self.unlocked_displayables.index(self.previous_image)
+            self.current_image = self.previous_image
+
+            self.gallery_setup_previous_next(start_index)
+
+        def gallery_next_image(self):
+            """
+            Swap to the gallery's next image.
+            """
+            start_index = self.unlocked_displayables.index(self.next_image)
+            self.current_image = self.next_image
+
+            self.gallery_setup_previous_next(start_index)
+
+        def gallery_setup_previous_next(self, start_index):
+            if self.loop_gallery:
+                self.previous_image = self.unlocked_displayables[start_index-1]
+                self.next_image = self.unlocked_displayables[(start_index+1)%len(self.unlocked_displayables)]
+            else:
+                prev_index = max(0, start_index-1)
+                next_index = min(len(self.unlocked_displayables)-1, start_index+1)
+                if prev_index == start_index:
+                    self.previous_image = None
+                else:
+                    self.previous_image = self.unlocked_displayables[prev_index]
+                if next_index == start_index:
+                    self.next_image = None
+                else:
+                    self.next_image = self.unlocked_displayables[next_index]
+
         def visit(self):
             return [x.image for x in self.unlocked_images]
 
@@ -976,7 +1011,7 @@ init python:
             ymin = ypadding
             ymax = padding - ypadding - config.screen_height
 
-            self.xadjustment.range_limits = (0, config.screen_width*2)
+            self.xadjustment.range_limits = (0, padding)
             self.yadjustment.range_limits = (0, 0)
 
         def redraw_adjustments(self, st):
@@ -987,6 +1022,15 @@ init python:
             if redraw is not None:
                 renpy.redraw(self, redraw)
                 self.xpos = int(padding//2 - self.xadjustment.value)
+            elif redraw is None and self.is_switching_image:
+                # Finished switching
+                self.is_switching_image = False
+                # Swap!
+                if self.dragging_direction == "next":
+                    self.gallery_next_image()
+                elif self.dragging_direction == "previous":
+                    self.gallery_previous_image()
+                self.reset_values()
 
         def render(self, width, height, st, at):
             r = renpy.Render(width, height)
@@ -1186,7 +1230,11 @@ init python:
                     # Dragging to left to get to next image
                     ## Have to drag it a quarter of the screen
                     if self.xpos+10 <= (config.screen_width//-3.5):
-                        self.text += "\nShould release to see next image"
+                        self.dragging_direction = "next"
+                        self.xadjustment.inertia(
+                            self.xadjustment.range-self.xadjustment._value,
+                            myconfig.viewport_inertia_time_constant/3, st)
+                        self.is_switching_image = True
                     else:
                         # Animate it back into place
                         # self.animation_target = self._value + amplitude
@@ -1203,7 +1251,11 @@ init python:
                 elif self.xpos > -10 and self.previous_image:
                     # Dragging to right to get to previous image
                     if self.xpos+10 >= (config.screen_width//3.5):
-                        self.text += "\nShould release to see previous image"
+                        self.dragging_direction = "previous"
+                        self.xadjustment.inertia(
+                            10-self.xadjustment._value,
+                            myconfig.viewport_inertia_time_constant/3, st)
+                        self.is_switching_image = True
                     else:
                         # Animate it back into place
                         self.xadjustment.inertia(
