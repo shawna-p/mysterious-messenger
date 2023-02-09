@@ -1040,22 +1040,19 @@ init python:
                 if dt > 0:
                     old_xspeed, old_yspeed = self.drag_speed
                     new_xspeed = -dx / dt / 60
-                    new_yspeed = -dy / dt / 60
 
                     done = min(1.0, dt / (1 / 60))
 
                     new_xspeed = old_xspeed + done * (new_xspeed - old_xspeed)
-                    new_yspeed = old_yspeed + done * (new_yspeed - old_yspeed)
+                    new_yspeed = 0.0
 
                     self.drag_speed = (new_xspeed, new_yspeed)
 
-                    debug_log(f"Old speed: ({old_xspeed:.2f}, {old_yspeed:.2f})\nNew speed ({new_xspeed:.2f}, {new_yspeed:.2f})")
+                    debug_log(f"Old speed: ({old_xspeed:.2f})\nNew speed ({new_xspeed:.2f})")
 
-                    if ((0.05 > new_xspeed > -0.05)
-                                and (0.05 > new_yspeed > -0.05)):
+                    if (0.05 > new_xspeed > -0.05):
                         ## Check if we're just slowing down overall
-                        if ((0.09 > old_xspeed > -0.09)
-                                and (0.09 > old_yspeed > -0.09)):
+                        if (0.09 > old_xspeed > -0.09):
                             debug_log("Slowing down")
                         else:
                             self.stationary_drag_counter += 1
@@ -1063,21 +1060,16 @@ init python:
                             if self.stationary_drag_counter < 4 and dt < 0.1:
                                 # Don't update it yet
                                 # But do correct the speed direction
-                                debug_log(f"Reusing old speed ({old_xspeed:.2f}, {old_yspeed:.2f})")
+                                debug_log(f"Reusing old speed ({old_xspeed:.2f})")
                                 if ((new_xspeed > 0 and old_xspeed < 0)
                                         or (new_xspeed < 0 and old_xspeed > 0)):
                                     adjusted_xspeed = old_xspeed * -1.0
                                 else:
                                     adjusted_xspeed = old_xspeed
-
-                                if ((new_yspeed > 0 and old_yspeed < 0)
-                                        or (new_yspeed < 0 and old_yspeed > 0)):
-                                    adjusted_yspeed = old_yspeed * -1.0
-                                else:
-                                    adjusted_yspeed = old_yspeed
+                                adjusted_yspeed = 0.0
 
                                 #debug_log(f"Adjusted old speed is ({adjusted_xspeed:.2f}, {adjusted_yspeed:.2f}) vs ({new_xspeed:.2f}, {new_yspeed:.2f})")
-                                #self.drag_speed = (adjusted_xspeed, adjusted_yspeed)
+                                self.drag_speed = (adjusted_xspeed, adjusted_yspeed)
                                 debug_log(f"Popping last speed {self.drag_finger.last_speed}")
                                 self.drag_speed = self.drag_finger.last_speed
                     else:
@@ -1131,14 +1123,6 @@ init python:
                         xvalue = self.xadjustment.round_value(old_xvalue, release=True)
                         self.xadjustment.change(xvalue)
 
-                    if yspeed and myconfig.viewport_inertia_amplitude:
-                        self.yadjustment.inertia(
-                            myconfig.viewport_inertia_amplitude * yspeed,
-                                myconfig.viewport_inertia_time_constant, st)
-                    else:
-                        yvalue = self.yadjustment.round_value(old_yvalue, release=True)
-                        self.yadjustment.change(yvalue)
-
                     self.drag_position = None
                     self.drag_position_time = None
                 else:
@@ -1162,13 +1146,7 @@ init python:
                         self.xadjustment.change(new_xvalue)
                         newx = xadj_x
 
-                    new_yvalue = self.yadjustment.round_value(old_yvalue - dy,
-                        release=False)
-                    if old_yvalue == new_yvalue:
-                        newy = oldy
-                    else:
-                        self.yadjustment.change(new_yvalue)
-                        newy = yadj_y
+                    newy = self.yadjustment.value
 
                     self.drag_position = (newx, newy) # W0201
                     self.drag_position_time = st
@@ -1189,14 +1167,6 @@ init python:
             self.text += "\ndrag_speed: ({:.2f}, {:.2f})".format(self.drag_speed[0], self.drag_speed[1])
 
             # raise renpy.IgnoreEvent()
-
-
-
-
-
-
-
-
 
 
 
