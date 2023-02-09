@@ -171,9 +171,11 @@ init python:
             # Did we hit a wall?
             if value <= self.range_limits[0] or value >= self.range_limits[1]:
                 self.end_animation(instantly=True)
+                print("Hit a wall", value, self.range, self.range_limits)
                 return None
             elif st > self.animation_start + self.animation_delay: # type: ignore
                 self.end_animation(instantly=True)
+                print("Hit a wall", value, self.range, self.range_limits)
                 return None
             else:
                 return 0
@@ -881,6 +883,10 @@ init python:
 
             self.viewing_child = False
 
+            self.padding = self.get_padding()
+            self.xpos = -10
+            self.original_values = (self.original_values[0], self.xpos, self.original_values[2], self.original_values[3])
+
         def is_viewable(self, name):
             """
             Return True if this image is viewable in the gallery.
@@ -947,6 +953,30 @@ init python:
         def visit(self):
             return [x.image for x in self.unlocked_images]
 
+        def update_adjustment_limits(self):
+            """
+            Adjust the limits as to how far the xadjustment can *actually* go.
+            """
+
+            ## Clamp
+            ## For the xpos: the minimum it can be will put the right edge
+            ## against the right side of the screen
+            ## So, how far is that?
+            dimensions = self.get_dimensions()
+            padding = self.get_padding(dimensions)
+
+            xpadding = (padding - dimensions[0])//2
+            ypadding = (padding - dimensions[1])//2
+
+            xmin = xpadding
+            xmax = (padding - xpadding - config.screen_width)
+
+            ymin = ypadding
+            ymax = padding - ypadding - config.screen_height
+
+            self.xadjustment.range_limits = (0, 1500+750)
+            self.yadjustment.range_limits = (7, 7)
+
         def redraw_adjustments(self, st):
             redraw = self.xadjustment.periodic(st)
 
@@ -956,12 +986,6 @@ init python:
                 renpy.redraw(self, redraw)
                 self.xpos = int(padding//2 - self.xadjustment.value)
 
-            redraw = self.yadjustment.periodic(st)
-            if redraw is not None:
-                renpy.redraw(self, redraw)
-                self.ypos = int(padding//2 - self.yadjustment.value)
-
-
         def render(self, width, height, st, at):
             r = renpy.Render(width, height)
 
@@ -970,7 +994,7 @@ init python:
             text = ""
             child = self.current_image
             fix = Fixed(
-                Transform(child, pos=(self.xpos, self.ypos), anchor=(0.5, 0.5)),
+                Transform(child, pos=(self.xpos+config.screen_width//2+10, self.ypos), anchor=(0.5, 0.5)),
                 Window(Text(self.text, style="multitouch_text", color="#d4e2f3"),
                     background="#0008", style="frame", yalign=1.0),
                 xysize=(config.screen_width, config.screen_height),
