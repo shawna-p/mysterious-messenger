@@ -737,8 +737,6 @@ init python:
             self.text += "\nyadjustment: {}/{}".format(self.yadjustment.value, self.yadjustment.range)
             self.text += "\ndrag_speed: ({:.2f}, {:.2f})".format(self.drag_speed[0], self.drag_speed[1])
 
-            raise renpy.IgnoreEvent()
-
 
     class ZoomGalleryDisplayable(MultiTouch):
         """
@@ -812,7 +810,7 @@ init python:
             except Exception as e:
                 return True
 
-    class ZoomGallery(renpy.Displayable):
+    class ZoomGallery(MultiTouch):
         """
         A class which holds a list of gallery images to be able to swipe
         through and view.
@@ -839,9 +837,8 @@ init python:
                 True if this gallery should loop around to the first image
                 if it reaches the last one.
             """
-
-            super(ZoomGallery, self).__init__(**kwargs)
-
+            super(ZoomGallery, self).__init__(Null(), config.screen_width,
+                config.screen_height, **kwargs)
             if locked_image is not None and image_size is None:
                 raise Exception("For a ZoomGallery, you must provide an image_size if you provide a locked_img. image_size must be the size of the locked_img")
 
@@ -948,19 +945,34 @@ init python:
         def visit(self):
             return [x.image for x in self.unlocked_images]
 
+
+        def redraw_adjustments(self, st):
+            redraw = self.xadjustment.periodic(st)
+
+            padding = self.padding
+
+            if redraw is not None:
+                renpy.redraw(self, redraw)
+                self.xpos = int(padding//2 - self.xadjustment.value)
+
+            redraw = self.yadjustment.periodic(st)
+            if redraw is not None:
+                renpy.redraw(self, redraw)
+                self.ypos = int(padding//2 - self.yadjustment.value)
+
+
         def render(self, width, height, st, at):
             r = renpy.Render(width, height)
 
-            text = f"Current image: {self.current_image.img}\n"
-            text += f"Next image: {self.next_image.img}\n"
-            text += f"Previous image: {self.previous_image.img}\n"
+            self.redraw_adjustments(st)
 
+            text = ""
+            child = self.current_image
             fix = Fixed(
-                Text(text, style='multitouch_text'),
+                Transform(child, pos=(self.xpos, self.ypos), anchor=(0.5, 0.5)),
                 xysize=(config.screen_width, config.screen_height),
             )
 
-            child = self.current_image
 
             ren = renpy.render(child, width, height, st, at)
             r.blit(ren, (0, 0))
@@ -970,8 +982,201 @@ init python:
 
             return r
 
-        def event(self, ev, x, y, st):
-            return self.current_image.event(ev, x, y, st)
+        def clamp_pos(self):
+            ## Just keep the ypos in the center
+            self.ypos = config.screen_height//2
+
+        def event(self, ev, event_x, event_y, st):
+
+            ## All we're doing is checking if they're swiping the image away
+            child = self.current_image
+
+            # Too zoomed in
+            if ((child.zoom > child.fit_screen_zoom_level)
+                # Or trying to zoom
+                or len(child.fingers) > 1
+                or ev.type == pygame.MULTIGESTURE
+                or renpy.map_event(ev, "viewport_wheelup")
+                or renpy.map_event(ev, "viewport_wheeldown")
+            ):
+                return self.current_image.event(ev, event_x, event_y, st)
+
+
+            # Otherwise, yes, they can drag it. The parent will take over the
+            # touch events.
+            if ev.type in (pygame.FINGERDOWN, pygame.FINGERMOTION, pygame.FINGERUP):
+                x, y = self.normalize_pos(ev.x, ev.y)
+            else:
+                x = event_x
+                y = event_y
+
+            xadj_x = int(x - self.padding//2)
+            yadj_y = int(y - self.padding//2)
+
+            start_zoom = self.zoom
+
+            if self.drag_finger is not None:
+                # Dragging
+                old_xvalue = self.xadjustment.value
+                old_yvalue = self.yadjustment.value
+
+                oldx, oldy = self.drag_position # type: ignore
+                dx = xadj_x - oldx
+                dy = yadj_y - oldy
+
+                dt = st - self.drag_position_time
+                if dt > 0:
+                    old_xspeed, old_yspeed = self.drag_speed
+                    new_xspeed = -dx / dt / 60
+                    new_yspeed = -dy / dt / 60
+
+                    done = min(1.0, dt / (1 / 60))
+
+                    new_xspeed = old_xspeed + done * (new_xspeed - old_xspeed)
+                    new_yspeed = old_yspeed + done * (new_yspeed - old_yspeed)
+
+                    self.drag_speed = (new_xspeed, new_yspeed)
+
+                    debug_log(f"Old speed: ({old_xspeed:.2f}, {old_yspeed:.2f})\nNew speed ({new_xspeed:.2f}, {new_yspeed:.2f})")
+
+                    if ((0.05 > new_xspeed > -0.05)
+                                and (0.05 > new_yspeed > -0.05)):
+                        ## Check if we're just slowing down overall
+                        if ((0.09 > old_xspeed > -0.09)
+                                and (0.09 > old_yspeed > -0.09)):
+                            debug_log("Slowing down")
+                        else:
+                            self.stationary_drag_counter += 1
+                            debug_log("Increasing stationary counter:", self.stationary_drag_counter, color="blue")
+                            if self.stationary_drag_counter < 4 and dt < 0.1:
+                                # Don't update it yet
+                                # But do correct the speed direction
+                                debug_log(f"Reusing old speed ({old_xspeed:.2f}, {old_yspeed:.2f})")
+                                if ((new_xspeed > 0 and old_xspeed < 0)
+                                        or (new_xspeed < 0 and old_xspeed > 0)):
+                                    adjusted_xspeed = old_xspeed * -1.0
+                                else:
+                                    adjusted_xspeed = old_xspeed
+
+                                if ((new_yspeed > 0 and old_yspeed < 0)
+                                        or (new_yspeed < 0 and old_yspeed > 0)):
+                                    adjusted_yspeed = old_yspeed * -1.0
+                                else:
+                                    adjusted_yspeed = old_yspeed
+
+                                #debug_log(f"Adjusted old speed is ({adjusted_xspeed:.2f}, {adjusted_yspeed:.2f}) vs ({new_xspeed:.2f}, {new_yspeed:.2f})")
+                                #self.drag_speed = (adjusted_xspeed, adjusted_yspeed)
+                                debug_log(f"Popping last speed {self.drag_finger.last_speed}")
+                                self.drag_speed = self.drag_finger.last_speed
+                    else:
+                        self.stationary_drag_counter = 0
+                        self.drag_finger.add_speed(self.drag_speed)
+
+            if self.touch_down_event(ev):
+                finger = self.register_finger(x, y)
+
+                if self.drag_finger is None and len(self.fingers) == 1:
+                    debug_log(f"Drag DOWN at ({x}, {y})", color="green")
+                    # Inertia
+                    self.drag_position = (xadj_x, yadj_y)
+                    self.drag_position_time = st
+                    self.drag_speed = (0.0, 0.0)
+
+                    self.xadjustment.end_animation(instantly=True)
+                    self.yadjustment.end_animation(instantly=True)
+
+                    # Normal
+                    self.calculate_drag_offset(x, y)
+                    self.update_image_pos(x, y)
+                    self.drag_finger = finger
+
+                elif self.drag_finger and len(self.fingers) > 1:
+                    debug_log(f"Finger DOWN at ({x}, {y})", color="green")
+                    # More than one finger; turn off dragging
+                    # self.update_image_pos(self.drag_finger.x, self.drag_finger.y)
+                    self.drag_offset = (0, 0)
+                    self.drag_finger = None
+
+                    self.xadjustment.end_animation(instantly=True)
+                    self.yadjustment.end_animation(instantly=True)
+
+            elif self.touch_up_event(ev):
+                finger = self.remove_finger(x, y)
+
+                if finger and self.drag_finger is finger:
+                    debug_log(f"Drag UP at ({x}, {y})\nStarted at ({finger.touchdown_x}, {finger.touchdown_y})", color="red")
+                    self.drag_finger = None
+                    self.drag_offset = (0, 0)
+
+                    ## Inertia
+                    xspeed, yspeed = self.drag_speed
+
+                    if xspeed and myconfig.viewport_inertia_amplitude:
+                        self.xadjustment.inertia(
+                            myconfig.viewport_inertia_amplitude * xspeed,
+                                myconfig.viewport_inertia_time_constant, st)
+                    else:
+                        xvalue = self.xadjustment.round_value(old_xvalue, release=True)
+                        self.xadjustment.change(xvalue)
+
+                    if yspeed and myconfig.viewport_inertia_amplitude:
+                        self.yadjustment.inertia(
+                            myconfig.viewport_inertia_amplitude * yspeed,
+                                myconfig.viewport_inertia_time_constant, st)
+                    else:
+                        yvalue = self.yadjustment.round_value(old_yvalue, release=True)
+                        self.yadjustment.change(yvalue)
+
+                    self.drag_position = None
+                    self.drag_position_time = None
+                else:
+                    if finger is None:
+                        debug_log(f"Finger UP at ({x}, {y}) but couldn't actually find it in self.fingers", color="red")
+                    else:
+                        debug_log(f"Finger UP at ({x}, {y})\nStarted at ({finger.touchdown_x}, {finger.touchdown_y})", color="red")
+
+            elif ev.type in (pygame.FINGERMOTION, pygame.MOUSEMOTION):
+                finger = self.update_finger(x, y)
+                if finger is not None and finger is self.drag_finger:
+                    # They are dragging the image around
+                    self.update_image_pos(x, y)
+
+                    ## Inertia
+                    new_xvalue = self.xadjustment.round_value(old_xvalue - dx,
+                        release=False)
+                    if old_xvalue == new_xvalue:
+                        newx = oldx
+                    else:
+                        self.xadjustment.change(new_xvalue)
+                        newx = xadj_x
+
+                    new_yvalue = self.yadjustment.round_value(old_yvalue - dy,
+                        release=False)
+                    if old_yvalue == new_yvalue:
+                        newy = oldy
+                    else:
+                        self.yadjustment.change(new_yvalue)
+                        newy = yadj_y
+
+                    self.drag_position = (newx, newy) # W0201
+                    self.drag_position_time = st
+
+
+            self.clamp_pos()
+            self.update_adjustments()
+
+            if self.fingers:
+                self.text += '\n'.join([x.finger_info for x in self.fingers])
+            else:
+                self.text = "No fingers recognized"
+
+            self.text += "\nPos: ({}, {})".format(self.xpos, self.ypos)
+            self.text += "\nAnchor: {}".format(self.anchor)
+            self.text += "\nxadjustment: {}/{}".format(self.xadjustment.value, self.xadjustment.range)
+            self.text += "\nyadjustment: {}/{}".format(self.yadjustment.value, self.yadjustment.range)
+            self.text += "\ndrag_speed: ({:.2f}, {:.2f})".format(self.drag_speed[0], self.drag_speed[1])
+
+            # raise renpy.IgnoreEvent()
 
 
 
@@ -1066,14 +1271,35 @@ screen multitouch_test():
 
 screen use_zoom_gallery():
 
+    modal True
+
+    default show_log = False
+
     add "#f0f3"
 
     add zoom_gallery
+
+    if show_log:
+        dismiss action ToggleScreenVariable("show_log")
+        frame:
+            xysize (720, 1000)
+            background "#fff"
+            viewport:
+                draggable True
+                yinitial 1.0
+                scrollbars "vertical"
+                mousewheel True
+                has vbox
+                xpos 25
+                for entry in debug_record:
+                    text entry size 20
+                null height 25
 
     frame:
         align (1.0, 1.0)
         modal True
         has vbox
+        textbutton "Show Debug" action ToggleScreenVariable("show_log")
         textbutton "Return" action Hide()
 
 screen multitouch_test_working():
