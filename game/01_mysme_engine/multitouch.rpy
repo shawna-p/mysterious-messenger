@@ -171,11 +171,9 @@ init python:
             # Did we hit a wall?
             if value <= self.range_limits[0] or value >= self.range_limits[1]:
                 self.end_animation(instantly=True)
-                print("Hit a wall", value, self.range, self.range_limits)
                 return None
             elif st > self.animation_start + self.animation_delay: # type: ignore
                 self.end_animation(instantly=True)
-                print("Hit a wall", value, self.range, self.range_limits)
                 return None
             else:
                 return 0
@@ -1181,6 +1179,39 @@ init python:
                     else:
                         debug_log(f"Finger UP at ({x}, {y})\nStarted at ({finger.touchdown_x}, {finger.touchdown_y})", color="red")
 
+
+                ## Checks for if they've dragged far enough to get to
+                ## the next/previous image
+                if self.xpos < -10 and self.next_image:
+                    # Dragging to left to get to next image
+                    ## Have to drag it a quarter of the screen
+                    if self.xpos+10 <= (config.screen_width//-3.5):
+                        self.text += "\nShould release to see next image"
+                    else:
+                        # Animate it back into place
+                        # self.animation_target = self._value + amplitude
+                        # def inertia(self, amplitude, time_constant, st):
+                        # self.animate(amplitude, time_constant * 6.0, self.inertia_warper)
+                        ## The animation target should be -10
+                        ## So -10 = self._value + amplitude
+                        ## -10 - self._value = amplitude
+                        self.xadjustment.inertia(
+                            775-self.xadjustment._value,
+                            myconfig.viewport_inertia_time_constant/3, st)
+
+
+                elif self.xpos > -10 and self.previous_image:
+                    # Dragging to right to get to previous image
+                    if self.xpos+10 >= (config.screen_width//3.5):
+                        self.text += "\nShould release to see previous image"
+                    else:
+                        # Animate it back into place
+                        self.xadjustment.inertia(
+                            775-self.xadjustment._value,
+                            myconfig.viewport_inertia_time_constant/3, st)
+
+
+
             elif ev.type in (pygame.FINGERMOTION, pygame.MOUSEMOTION):
                 finger = self.update_finger(x, y)
                 if finger is not None and finger is self.drag_finger:
@@ -1208,7 +1239,7 @@ init python:
             if self.fingers:
                 self.text += '\n'.join([x.finger_info for x in self.fingers])
             else:
-                self.text = "No fingers recognized"
+                self.text += "No fingers recognized"
 
             self.text += "\nPos: ({}, {})".format(self.xpos, self.ypos)
             self.text += "\nAnchor: {}".format(self.anchor)
