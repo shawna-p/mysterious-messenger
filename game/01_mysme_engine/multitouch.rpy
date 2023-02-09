@@ -300,7 +300,7 @@ init python:
             text = Text(self.text, style='multitouch_text')
 
             fix = Fixed(
-                the_img, #text,
+                the_img, text,
                 xysize=(config.screen_width, config.screen_height),
             )
 
@@ -1063,8 +1063,8 @@ init python:
             fix = Fixed(
                 Transform(child, pos=(self.xpos+config.screen_width//2+10, self.ypos), anchor=(0.5, 0.5)),
                 img2,
-                # Window(Text(self.text, style="multitouch_text", color="#d4e2f3"),
-                #     background="#0008", style="frame", yalign=1.0),
+                Window(Text(self.text, style="multitouch_text", color="#d4e2f3"),
+                    background="#0008", style="frame", yalign=1.0),
                 xysize=(config.screen_width, config.screen_height),
             )
 
@@ -1096,7 +1096,7 @@ init python:
                 or renpy.map_event(ev, "viewport_wheelup")
                 or renpy.map_event(ev, "viewport_wheeldown")
             ):
-                self.child.fingers = self.fingers
+                child.fingers = self.fingers
                 self.viewing_child = True
                 return self.current_image.event(ev, event_x, event_y, st)
 
@@ -1302,7 +1302,10 @@ init python:
 
             # raise renpy.IgnoreEvent()
 
-
+        def toggle_touch(self):
+            self.touch_screen_mode = not self.touch_screen_mode
+            for child in self.gallery_displayables:
+                child.touch_screen_mode = not child.touch_screen_mode
 
     def debug_log(*args, color=None):
         ret = ' '.join([str(arg) for arg in args])
@@ -1416,6 +1419,8 @@ screen use_zoom_gallery():
         modal True
         has vbox
         textbutton "Show Debug" action ToggleScreenVariable("show_log")
+        textbutton "Touch version {}".format(zoom_gallery.touch_screen_mode):
+            action Function(zoom_gallery.toggle_touch)
         textbutton "Return" action Hide()
 
 screen multitouch_test_working():
