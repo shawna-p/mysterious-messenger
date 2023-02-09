@@ -300,7 +300,7 @@ init python:
             text = Text(self.text, style='multitouch_text')
 
             fix = Fixed(
-                the_img, text,
+                the_img, #text,
                 xysize=(config.screen_width, config.screen_height),
             )
 
@@ -1063,8 +1063,8 @@ init python:
             fix = Fixed(
                 Transform(child, pos=(self.xpos+config.screen_width//2+10, self.ypos), anchor=(0.5, 0.5)),
                 img2,
-                Window(Text(self.text, style="multitouch_text", color="#d4e2f3"),
-                    background="#0008", style="frame", yalign=1.0),
+                # Window(Text(self.text, style="multitouch_text", color="#d4e2f3"),
+                #     background="#0008", style="frame", yalign=1.0),
                 xysize=(config.screen_width, config.screen_height),
             )
 
@@ -1232,7 +1232,7 @@ init python:
                     if self.xpos+10 <= (config.screen_width//-3.5):
                         self.dragging_direction = "next"
                         self.xadjustment.inertia(
-                            self.xadjustment.range-self.xadjustment._value,
+                            self.xadjustment.range+10-self.xadjustment._value,
                             myconfig.viewport_inertia_time_constant/3, st)
                         self.is_switching_image = True
                     else:
@@ -1390,7 +1390,7 @@ screen use_zoom_gallery():
 
     default show_log = False
 
-    add "#f0f3"
+    add "#000d"
 
     add zoom_gallery
 
