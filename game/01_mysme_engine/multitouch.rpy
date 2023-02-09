@@ -300,7 +300,7 @@ init python:
             text = Text(self.text, style='multitouch_text')
 
             fix = Fixed(
-                the_img, text,
+                the_img, # text,
                 xysize=(config.screen_width, config.screen_height),
             )
 
@@ -1063,8 +1063,8 @@ init python:
             fix = Fixed(
                 Transform(child, pos=(self.xpos+config.screen_width//2+10, self.ypos), anchor=(0.5, 0.5)),
                 img2,
-                Window(Text(self.text, style="multitouch_text", color="#d4e2f3"),
-                    background="#0008", style="frame", yalign=1.0),
+                #Window(Text(self.text, style="multitouch_text", color="#d4e2f3"),
+                #    background="#0008", style="frame", yalign=1.0),
                 xysize=(config.screen_width, config.screen_height),
             )
 
