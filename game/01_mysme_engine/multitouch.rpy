@@ -737,6 +737,8 @@ init python:
             self.text += "\nyadjustment: {}/{}".format(self.yadjustment.value, self.yadjustment.range)
             self.text += "\ndrag_speed: ({:.2f}, {:.2f})".format(self.drag_speed[0], self.drag_speed[1])
 
+            raise renpy.IgnoreEvent()
+
 
     class ZoomGalleryDisplayable(MultiTouch):
         """
@@ -958,15 +960,18 @@ init python:
                 xysize=(config.screen_width, config.screen_height),
             )
 
-            ren = renpy.render(fix, width, height, st, at)
+            child = self.current_image
+
+            ren = renpy.render(child, width, height, st, at)
             r.blit(ren, (0, 0))
+            # Note to self: you can make another render and then r.blit(that_render)
 
             renpy.redraw(self, 0)
 
             return r
 
-        def event(self, ev, event_x, event_y, st):
-            return
+        def event(self, ev, x, y, st):
+            return self.current_image.event(ev, x, y, st)
 
 
 
