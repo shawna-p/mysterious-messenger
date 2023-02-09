@@ -879,6 +879,8 @@ init python:
             self.loop_gallery = loop_gallery
             self.show_locked = show_locked
 
+            self.viewing_child = False
+
         def is_viewable(self, name):
             """
             Return True if this image is viewable in the gallery.
@@ -945,7 +947,6 @@ init python:
         def visit(self):
             return [x.image for x in self.unlocked_images]
 
-
         def redraw_adjustments(self, st):
             redraw = self.xadjustment.periodic(st)
 
@@ -973,8 +974,10 @@ init python:
                 xysize=(config.screen_width, config.screen_height),
             )
 
-
-            ren = renpy.render(child, width, height, st, at)
+            if self.viewing_child:
+                ren = renpy.render(child, width, height, st, at)
+            else:
+                ren = renpy.render(fix, width, height, st, at)
             r.blit(ren, (0, 0))
             # Note to self: you can make another render and then r.blit(that_render)
 
@@ -999,7 +1002,13 @@ init python:
                 or renpy.map_event(ev, "viewport_wheelup")
                 or renpy.map_event(ev, "viewport_wheeldown")
             ):
+                self.viewing_child = True
                 return self.current_image.event(ev, event_x, event_y, st)
+
+            if self.viewing_child:
+                self.viewing_child = False
+                # Reset positioning
+                self.reset_values()
 
 
             # Otherwise, yes, they can drag it. The parent will take over the
