@@ -4,6 +4,7 @@ init python in myconfig:
 
 init python:
     import pygame
+    import math
 
     # https://www.pygame.org/docs/ref/event.html
     # https://github.com/renpy/pygame_sdl2/blob/master/src/pygame_sdl2/event.pyx#L259
@@ -678,7 +679,11 @@ init python:
                     and len(self.fingers) > 1):
 
                 self.rotate += ev.dTheta*360/8
-                self.zoom += ev.dDist*4   # *15
+                ## Zoom in slower, but out faster
+                if ev.dDist > 0:
+                    self.zoom += ev.dDist*4   # *15
+                else:
+                    self.zoom -= ev.dDist*4*1.5   # *15
 
                 self.xadjustment.end_animation(instantly=True)
                 self.yadjustment.end_animation(instantly=True)
@@ -852,8 +857,6 @@ init python:
                 if image.width is None:
                     image.width = image_size[0]
                     image.height = image_size[1]
-                if image.locked_image is None:
-                    image.locked_image = locked_image
 
             # Now create ZoomGalleryImage objects out of all of them
             self.gallery_images = [ ]
@@ -875,14 +878,23 @@ init python:
             else:
                 self.next_image = None
 
+            self.current_index = 0
+
+            self.unlocked_images = self.gallery_images.copy()
             self.unlocked_displayables = self.gallery_displayables.copy()
             self.loop_gallery = loop_gallery
             self.show_locked = show_locked
 
+            if self.show_locked:
+                self.locked_displayable = ZoomGalleryDisplayable(
+                    self.locked_image, self.image_size[0], self.image_size[1])
+            else:
+                self.locked_displayable = None
+
             self.viewing_child = False
 
             self.padding = self.get_padding()
-            self.xpos = -10
+            self.xpos = 0
             self.original_values = (self.original_values[0], self.xpos, self.original_values[2], self.original_values[3])
             self.dragging_direction = None
             # In the process of switching images
@@ -896,7 +908,7 @@ init python:
             img = self.image_lookup.get(name, None)
             if img is None:
                 return False
-            return img.unlocked
+            return img.unlocked or self.show_locked
 
         def set_up_gallery(self, from_image=None):
             """
@@ -931,53 +943,14 @@ init python:
                 start_index = 0
                 self.current_image = self.unlocked_displayables[0]
 
+            self.current_index = start_index
+
             ## Set up next and previous images
             if len(self.unlocked_displayables) == 1:
                 self.previous_image = None
                 self.next_image = None
             else:
-                if self.loop_gallery:
-                    self.previous_image = self.unlocked_displayables[start_index-1]
-                    self.next_image = self.unlocked_displayables[(start_index+1)%len(self.unlocked_displayables)]
-                else:
-                    prev_index = max(0, start_index-1)
-                    next_index = min(len(self.unlocked_displayables)-1, start_index+1)
-                    if prev_index == start_index:
-                        self.previous_image = None
-                    else:
-                        self.previous_image = self.unlocked_displayables[prev_index]
-                    if next_index == start_index:
-                        self.next_image = None
-                    else:
-                        self.next_image = self.unlocked_displayables[next_index]
-
-            self.reset_values()
-
-        def gallery_previous_image(self):
-            """
-            Swap to the gallery's previous image.
-            """
-            start_index = self.unlocked_displayables.index(self.previous_image)
-            self.current_image = self.previous_image
-
-            self.gallery_setup_previous_next(start_index)
-
-        def gallery_next_image(self):
-            """
-            Swap to the gallery's next image.
-            """
-            start_index = self.unlocked_displayables.index(self.next_image)
-            self.current_image = self.next_image
-
-            self.gallery_setup_previous_next(start_index)
-
-        def gallery_setup_previous_next(self, start_index):
-            if self.loop_gallery:
-                self.previous_image = self.unlocked_displayables[start_index-1]
-                self.next_image = self.unlocked_displayables[(start_index+1)%len(self.unlocked_displayables)]
-            else:
-                prev_index = max(0, start_index-1)
-                next_index = min(len(self.unlocked_displayables)-1, start_index+1)
+                prev_index, next_index = self.get_next_prev_index(start_index)
                 if prev_index == start_index:
                     self.previous_image = None
                 else:
@@ -986,6 +959,87 @@ init python:
                     self.next_image = None
                 else:
                     self.next_image = self.unlocked_displayables[next_index]
+
+            self.replace_with_locked(prev_index, next_index)
+
+            self.reset_values()
+
+        def get_next_prev_index(self, start_index):
+            if self.loop_gallery:
+                prev_index = start_index-1
+                if prev_index == -1:
+                    prev_index = len(self.unlocked_displayables)-1
+                next_index = (start_index+1)%len(self.unlocked_displayables)
+            else:
+                prev_index = max(0, start_index-1)
+                next_index = min(len(self.unlocked_displayables)-1, start_index+1)
+            return prev_index, next_index
+
+        def replace_with_locked(self, prev_index, next_index):
+
+            ## Determine if next/previous are locked
+            if self.show_locked:
+                if self.previous_image:
+                    img_info = self.unlocked_images[prev_index]
+                    if not img_info.unlocked:
+                        if img_info.locked_image:
+                            self.previous_image = ZoomGalleryDisplayable(
+                                img_info.locked_image, img_info.width, img_info.height)
+                        else:
+                            self.previous_image = self.locked_displayable
+
+                if self.next_image:
+                    img_info = self.unlocked_images[next_index]
+                    if not img_info.unlocked:
+                        if img_info.locked_image:
+                            self.next_image = ZoomGalleryDisplayable(
+                                img_info.locked_image, img_info.width, img_info.height)
+                        else:
+                            self.next_image = self.locked_displayable
+
+            ## Also replace the current image if necessary
+            img_info = self.unlocked_images[self.current_index]
+            if not img_info.unlocked:
+                if img_info.locked_image:
+                    self.current_image = ZoomGalleryDisplayable(
+                        img_info.locked_image, img_info.width, img_info.height)
+                else:
+                    self.current_image = self.locked_displayable
+
+        def gallery_previous_image(self):
+            """
+            Swap to the gallery's previous image.
+            """
+            prev_index, next_index = self.get_next_prev_index(self.current_index)
+            start_index = prev_index
+            self.current_image = self.previous_image
+
+            self.gallery_setup_previous_next(start_index)
+
+        def gallery_next_image(self):
+            """
+            Swap to the gallery's next image.
+            """
+            prev_index, next_index = self.get_next_prev_index(self.current_index)
+            start_index = next_index
+            self.current_image = self.next_image
+
+            self.gallery_setup_previous_next(start_index)
+
+        def gallery_setup_previous_next(self, start_index):
+            prev_index, next_index = self.get_next_prev_index(start_index)
+
+            if prev_index == start_index:
+                self.previous_image = None
+            else:
+                self.previous_image = self.unlocked_displayables[prev_index]
+            if next_index == start_index:
+                self.next_image = None
+            else:
+                self.next_image = self.unlocked_displayables[next_index]
+
+            self.current_index = start_index
+            self.replace_with_locked(prev_index, next_index)
 
         def visit(self):
             return [x.image for x in self.unlocked_images]
@@ -1011,8 +1065,14 @@ init python:
             ymin = ypadding
             ymax = padding - ypadding - config.screen_height
 
-            self.xadjustment.range_limits = (0, padding)
+            self.xadjustment.range_limits = (0, config.screen_width*2)
             self.yadjustment.range_limits = (0, 0)
+
+            self.xadjustment.range = config.screen_width*2
+            self.yadjustment.range = 0
+
+            self.xadjustment.change(config.screen_width, end_animation=False)
+            self.yadjustment.change(0, end_animation=False)
 
         def redraw_adjustments(self, st):
             redraw = self.xadjustment.periodic(st)
@@ -1026,9 +1086,9 @@ init python:
                 # Finished switching
                 self.is_switching_image = False
                 # Swap!
-                if self.dragging_direction == "next":
+                if self.dragging_direction == "next" and self.next_image:
                     self.gallery_next_image()
-                elif self.dragging_direction == "previous":
+                elif self.dragging_direction == "previous" and self.previous_image:
                     self.gallery_previous_image()
                 self.reset_values()
 
@@ -1040,20 +1100,23 @@ init python:
             text = ""
             child = self.current_image
 
-            if self.xpos < -10 and self.next_image:
+            xpos = config.screen_width*2 - int(self.xadjustment.value) - config.screen_width #self.xpos
+
+
+            if xpos < -1 and self.next_image:
                 # Dragging to left to get to next image
                 img2 = Transform(
                     self.next_image,
-                    anchor=(0.5, 0.5),
-                    pos=(self.xpos+config.screen_width//2+10+config.screen_width+10,
+                    anchor=(0.0, 0.5),
+                    pos=(xpos+config.screen_width,
                         self.ypos)
                 )
-            elif self.xpos > -10 and self.previous_image:
+            elif xpos > 1 and self.previous_image:
                 # Dragging to right to get to previous image
                 img2 = Transform(
                     self.previous_image,
-                    anchor=(0.5, 0.5),
-                    pos=(self.xpos+config.screen_width//2+10-config.screen_width-10,
+                    anchor=(0.0, 0.5),
+                    pos=(xpos-config.screen_width,
                         self.ypos)
                 )
             else:
@@ -1061,10 +1124,12 @@ init python:
 
 
             fix = Fixed(
-                Transform(child, pos=(self.xpos+config.screen_width//2+10, self.ypos), anchor=(0.5, 0.5)),
+                Transform(child,
+                    pos=(xpos, self.ypos),
+                    anchor=(0.0, 0.5)),
                 img2,
-                #Window(Text(self.text, style="multitouch_text", color="#d4e2f3"),
-                #    background="#0008", style="frame", yalign=1.0),
+                # Window(Text(self.text, style="multitouch_text", color="#d4e2f3"),
+                #     background="#0008", style="frame", yalign=1.0),
                 xysize=(config.screen_width, config.screen_height),
             )
 
@@ -1079,9 +1144,25 @@ init python:
 
             return r
 
+        def calculate_drag_offset(self, x, y):
+
+            padding = self.padding
+            dx = x - self.xpos# - int(padding//2 - self.xadjustment.value)
+            dy = y - self.ypos# - int(padding//2 - self.yadjustment.value)
+            dx = x - int(self.xadjustment.value)
+            dy = y - int(self.xadjustment.value)
+            self.drag_offset = (dx, dy)
+
         def clamp_pos(self):
             ## Just keep the ypos in the center
             self.ypos = config.screen_height//2
+
+        def return_to_original_pos(self, st, speed_divisor=1.0):
+            # self.animation_target = self._value + amplitude
+            ## The animation target should be screen_width
+            self.xadjustment.inertia(
+                config.screen_width-self.xadjustment._value,
+                myconfig.viewport_inertia_time_constant/speed_divisor, st)
 
         def event(self, ev, event_x, event_y, st):
 
@@ -1115,8 +1196,8 @@ init python:
                 x = event_x
                 y = event_y
 
-            xadj_x = int(x - self.padding//2)
-            yadj_y = int(y - self.padding//2)
+            xadj_x = int(x)
+            yadj_y = int(x)
 
             start_zoom = self.zoom
 
@@ -1224,46 +1305,39 @@ init python:
                     else:
                         debug_log(f"Finger UP at ({x}, {y})\nStarted at ({finger.touchdown_x}, {finger.touchdown_y})", color="red")
 
-
+                xpos = int(self.xadjustment.value) - config.screen_width
+                speed_divisor = 4.0
+                max_drag_dist = min(config.screen_width//3.5, 200)
                 ## Checks for if they've dragged far enough to get to
                 ## the next/previous image
-                if self.xpos < -10 and self.next_image:
-                    # Dragging to left to get to next image
-                    ## Have to drag it a quarter of the screen
-                    if self.xpos+10 <= (config.screen_width//-3.5):
-                        self.dragging_direction = "next"
-                        self.xadjustment.inertia(
-                            self.xadjustment.range+10-self.xadjustment._value,
-                            myconfig.viewport_inertia_time_constant/3, st)
-                        self.is_switching_image = True
-                    else:
-                        # Animate it back into place
-                        # self.animation_target = self._value + amplitude
-                        # def inertia(self, amplitude, time_constant, st):
-                        # self.animate(amplitude, time_constant * 6.0, self.inertia_warper)
-                        ## The animation target should be -10
-                        ## So -10 = self._value + amplitude
-                        ## -10 - self._value = amplitude
-                        self.xadjustment.inertia(
-                            775-self.xadjustment._value,
-                            myconfig.viewport_inertia_time_constant/3, st)
-
-
-                elif self.xpos > -10 and self.previous_image:
-                    # Dragging to right to get to previous image
-                    if self.xpos+10 >= (config.screen_width//3.5):
+                if xpos < 0 and self.previous_image:
+                    # Dragging to get to previous image
+                    ## Have to drag it far enough across the screen
+                    if xpos <= -max_drag_dist:
                         self.dragging_direction = "previous"
                         self.xadjustment.inertia(
-                            10-self.xadjustment._value,
-                            myconfig.viewport_inertia_time_constant/3, st)
+                            0-self.xadjustment._value,
+                            myconfig.viewport_inertia_time_constant/speed_divisor, st)
                         self.is_switching_image = True
                     else:
                         # Animate it back into place
+                        self.return_to_original_pos(st, speed_divisor)
+
+                elif xpos > 0 and self.next_image:
+                    # Dragging to get to next image
+                    if xpos >= max_drag_dist:
+                        self.dragging_direction = "next"
                         self.xadjustment.inertia(
-                            775-self.xadjustment._value,
-                            myconfig.viewport_inertia_time_constant/3, st)
-
-
+                            self.xadjustment.range-self.xadjustment._value,
+                            myconfig.viewport_inertia_time_constant/speed_divisor, st)
+                        self.is_switching_image = True
+                    else:
+                        # Animate it back into place
+                        self.return_to_original_pos(st, speed_divisor)
+                else:
+                    # Just animate it back into place
+                    self.return_to_original_pos(st, speed_divisor)
+                    self.dragging_direction = None
 
             elif ev.type in (pygame.FINGERMOTION, pygame.MOUSEMOTION):
                 finger = self.update_finger(x, y)
@@ -1285,9 +1359,7 @@ init python:
                     self.drag_position = (newx, newy) # W0201
                     self.drag_position_time = st
 
-
             self.clamp_pos()
-            self.update_adjustments()
 
             if self.fingers:
                 self.text += '\n'.join([x.finger_info for x in self.fingers])
@@ -1296,11 +1368,9 @@ init python:
 
             self.text += "\nPos: ({}, {})".format(self.xpos, self.ypos)
             self.text += "\nAnchor: {}".format(self.anchor)
-            self.text += "\nxadjustment: {}/{}".format(self.xadjustment.value, self.xadjustment.range)
-            self.text += "\nyadjustment: {}/{}".format(self.yadjustment.value, self.yadjustment.range)
+            self.text += "\nxadjustment: {:.0f}/{:.0f}".format(self.xadjustment.value, self.xadjustment.range)
+            self.text += "\nyadjustment: {:.0f}/{:.0f}".format(self.yadjustment.value, self.yadjustment.range)
             self.text += "\ndrag_speed: ({:.2f}, {:.2f})".format(self.drag_speed[0], self.drag_speed[1])
-
-            # raise renpy.IgnoreEvent()
 
         def toggle_touch(self):
             self.touch_screen_mode = not self.touch_screen_mode
@@ -1351,20 +1421,28 @@ default cg_zoom = ZoomGalleryDisplayable("jellyfish.jpg", 1920, 2880)
 default cg_zoom2 = ZoomGalleryDisplayable("flowers.jpg", 1920, 2560)
 default cg_zoom3 = ZoomGalleryDisplayable("vase.jpg", 1920, 2560)
 default cg_zoom4 = ZoomGalleryDisplayable("city.jpg", 1920, 1200)
+image locked_img = Window(
+    Text("Locked", style="multitouch_text", size=120, align=(0.5, 0.5)),
+    style="default", background="#380a0a",
+    xysize=(config.screen_width, config.screen_height)
+)
 
 default zoom_gallery = ZoomGallery(
     ZoomGalleryImage("jellyfish", "jellyfish.jpg", 1920, 2880),
     ZoomGalleryImage("flowers", "flowers.jpg", 1920, 2560, condition="flowers_unlocked"),
     ZoomGalleryImage("vase", "vase.jpg", 1920, 2560),
     ZoomGalleryImage("city", "city.jpg", 1920, 1200),
-    screen="use_zoom_gallery"
+    screen="use_zoom_gallery",
+    #loop_gallery=False,
+    locked_image="locked_img",
+    show_locked=True, image_size=(config.screen_width, config.screen_height)
 )
 default flowers_unlocked = False
 
 screen multitouch_test():
     modal True
 
-    use starry_night()
+    add "#000"
 
     vbox:
         align (0.5, 0.5)
@@ -1429,7 +1507,7 @@ screen multitouch_test_working():
 
     modal True
 
-    use starry_night()
+    add "#000"
 
     add cg_zoom
 
