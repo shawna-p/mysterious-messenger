@@ -683,7 +683,7 @@ init python:
                 if ev.dDist > 0:
                     self.zoom += ev.dDist*4   # *15
                 else:
-                    self.zoom -= ev.dDist*4*1.5   # *15
+                    self.zoom += ev.dDist*4*1.5   # *15
 
                 self.xadjustment.end_animation(instantly=True)
                 self.yadjustment.end_animation(instantly=True)
