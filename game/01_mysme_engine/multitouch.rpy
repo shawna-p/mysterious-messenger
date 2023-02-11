@@ -17,7 +17,25 @@ init python:
     ])
 
     class Finger():
+        """
+        A class to track information on a single finger for multi-touch events.
+
+        Attributes:
+        -----------
+        x : int
+            The current x position of the finger.
+        y : int
+            The current y position of the finger.
+        touchdown_x : int
+            The initial x position where the touch began.
+        touchdown_y : int
+            The initial y position where the touch began.
+        last_three_speeds : list((int, int))
+            A list of tuples which contain the last three speeds of this
+            finger as it was dragged around the screen.
+        """
         def __init__(self, x, y):
+            """Initialize a Finger object."""
             self.x = x
             self.y = y
             self.touchdown_x = x
@@ -33,12 +51,17 @@ init python:
             return (dx**2 + dy**2)**0.5
 
         def add_speed(self, speed):
+            """Record a speed for this finger while dragging."""
             self.last_three_speeds.append(speed)
             if len(self.last_three_speeds) > 3:
                 self.last_three_speeds.pop(0)
 
         @property
         def last_speed(self):
+            """
+            Return the average of the last three speeds of this finger.
+            This is to reduce instances of inertia suddenly halting.
+            """
             if self.last_three_speeds:
                 ## Return the average of all three
                 all_xspeeds = [x[0] for x in self.last_three_speeds]
@@ -50,11 +73,14 @@ init python:
 
         @property
         def finger_info(self):
+            """Print info on a finger in an easily-presentable format."""
             return "Finger: ({}, {})".format(self.x, self.y)
 
     class MyAdjustment(renpy.display.behavior.Adjustment):
-        # renpy.display.behavior.Adjustment
-
+        """
+        A subclass of the Adjustment class in Ren'Py which adds inertia
+        and additional range limits.
+        """
         # The amplitude of the inertia.
         animation_amplitude = None # type: float|None
 
@@ -70,23 +96,16 @@ init python:
         # The warper applied to the animation.
         animation_warper = None # type (float) -> float|None
 
-
         def __init__(self, *args, **kwargs):
             super(MyAdjustment, self).__init__(*args, **kwargs)
             self.range_limits = (0, 1)
 
         def round_value(self, value, release):
             # Prevent deadlock border points
-
             if value <= self.range_limits[0]:
                 return type(self._value)(self.range_limits[0])
             elif value >= self.range_limits[1]:
                 return self.range_limits[1]
-
-            # if value <= 0:
-            #     return type(self._value)(0)
-            # elif value >= self._range:
-            #     return self._range
 
             if self.force_step is False:
                 return value
@@ -106,11 +125,6 @@ init python:
             if value > self.range_limits[1]: # type: ignore
                 value = self.range_limits[1]
 
-            # if value < 0:
-            #     value = 0
-            # if value > self._range: # type: ignore
-            #     value = self._range
-
             if value != self._value:
                 self._value = value
                 for d in renpy.display.behavior.adj_registered.setdefault(self, [ ]):
@@ -128,8 +142,6 @@ init python:
                 self.end_animation(True)
             else:
                 self.animation_amplitude = amplitude
-                # self.animation_target = self.round_value(self._value + amplitude,
-                #     release=True)
                 self.animation_target = self._value + amplitude
 
                 self.animation_delay = delay
@@ -180,9 +192,98 @@ init python:
                 return 0
 
     class MultiTouch(renpy.Displayable):
+        """
+        A class which can be used to capture multi-touch information on
+        an image for rotation and zooming.
+
+        Attributes:
+        -----------
+        img : Displayable
+            The image which can be zoomed around and rotated.
+        width : int
+            The width of the image.
+        height : int
+            The height of the image.
+        zoom_min : float
+            The minimum zoom the image can be.
+        zoom_max : float
+            The maximum zoom the image can be.
+        rotate_degrees : int
+            The degrees the image can rotate clockwise and counter-clockwise
+            (so, 360 means free rotation, 15 means -15 to 15 degrees).
+        rotate : int
+            The current rotation of the image.
+        xpos : int
+            The xpos of the image.
+        ypos : int
+            The ypos of the image.
+        anchor : (int, int)
+            The visual anchor point of the image, for when the image is
+            being zoomed in on.
+        fill_screen_level : float
+            The zoom level when the image fully fills the screen.expression
+        fit_screen_level : float
+            The zoom level when the image is fully visible on-screen (possibly
+            with black bars at the top or bottom but not both).
+        touch_screen_mode : bool
+            True if touch functionality (pinch zoom, rotate) are active. If not,
+            mouse input is used.
+        wheel_zoom : bool
+            If True, the mousewheel zooms in on the image. If False, it
+            rotates the image instead. Only relevant for non-touch devices.
+        drag_finger : Finger
+            The finger currently dragging the image around.
+        drag_offset : (int, int)
+            The offset from the anchor of the image to the finger position
+            dragging it around.
+        drag_position_time : float
+            The time the drag began at.
+        drag_speed : (float, float)
+            The xspeed and yspeed of the drag.
+        drag_position : (int, int)
+            The start position of the drag.
+        stationary_drag_counter : int
+            An additional counter to prevent sudden inertia halting. If it is
+            3 or less and the inertia is not slowing down significantly,
+            causes the speed to use the average of the past three speeds.
+        xadjustment : MyAdjustment
+            A MyAdjustment object used for movement inertia in the x axis.
+        yadjustment : MyAdjustment
+            A MyAdjustment object used for movement inertia in the y axis.
+        padding : int
+            The padded size of the image when taking into account
+            rotation padding.
+        fingers : Finger[]
+            A list of Finger objects which correspond to fingers currently
+            tracked on-screen.
+        original_values : (float, int, int, (int, int))
+            A tuple of values corresponding to the original zoom level,
+            xpos, ypos, and anchor.
+        """
 
         def __init__(self, img, width, height, zoom_min=0.25, zoom_max=4.0,
                 rotate_degrees=360, start_zoom=1.0, *args, **kwargs):
+            """
+            Create a MultiTouch object.
+
+            Parameters:
+            -----------
+            img : Displayable
+                The image which can be zoomed around and rotated.
+            width : int
+                The width of the image.
+            height : int
+                The height of the image.
+            zoom_min : float
+                The minimum zoom the image can be.
+            zoom_max : float
+                The maximum zoom the image can be.
+            rotate_degrees : int
+                The degrees the image can rotate clockwise and counter-clockwise
+                (so, 360 means free rotation, 15 means -15 to 15 degrees).
+            start_zoom : float
+                The zoom level that the image begins at when displayed.
+            """
             super(MultiTouch, self).__init__(*args, **kwargs)
             self.img = img
             self.width = width
@@ -258,18 +359,27 @@ init python:
             self.fingers = [ ]
 
         def per_interact(self):
+            """
+            Ensure the MultiTouch object is registered to its adjustment
+            objects.
+            """
             self.xadjustment.register(self)
             self.yadjustment.register(self)
 
         def clamp_zoom(self):
+            """Ensure the zoom level is within the limits"""
             self.zoom = min(max(self.zoom, self.zoom_min), self.zoom_max)
 
         def clamp_rotate(self):
-
+            """Ensure the rotation is within the limits."""
             self.rotate %= 360
             self.rotate = min(max(self.rotate, -self.rotate_degrees), self.rotate_degrees)
 
         def redraw_adjustments(self, st):
+            """
+            Adjust the adjustment objects based on inertia. If they moved,
+            redraw them.
+            """
             redraw = self.xadjustment.periodic(st)
 
             padding = self.padding
@@ -284,6 +394,9 @@ init python:
                 self.ypos = int(padding//2 - self.yadjustment.value)
 
         def render(self, width, height, st, at):
+            """
+            Render the MultiTouch displayable to the screen.
+            """
             r = renpy.Render(width, height)
 
             dimensions = self.get_dimensions()
@@ -298,6 +411,7 @@ init python:
                 anchor=(0.5, 0.5),
                 pos=(xpos, ypos))
 
+            # Debug text
             text = Text(self.text, style='multitouch_text')
 
             fix = Fixed(
@@ -335,15 +449,21 @@ init python:
 
         @property
         def left_corner(self):
-            """Return the coordinates of the padded top-left corner of the image."""
+            """
+            Return the coordinates of the padded top-left corner of the image.
+            """
             # Currently, the xpos/ypos are indicating the center of the image
             padding = self.padding
             return (self.xpos - padding//2, self.ypos - padding//2)
 
         def normalize_pos(self, x, y):
+            """
+            Turn relative positions (% of the screen width) into an integer.
+            """
             return (int(x*config.screen_width), int(y*config.screen_height))
 
         def register_finger(self, x, y):
+            """Register a finger to track."""
             finger = Finger(x, y)
             self.fingers.append(finger)
             return finger
@@ -351,7 +471,7 @@ init python:
         def find_finger(self, x, y):
             """
             Find the finger with the smallest distance between its current
-            position and x, y
+            position and x, y.
             """
             if not self.fingers:
                 return None
@@ -376,6 +496,7 @@ init python:
             return finger
 
         def remove_finger(self, x, y):
+            """Remove a finger from being tracked."""
             finger = self.find_finger(x, y)
             if not finger:
                 return
@@ -383,34 +504,58 @@ init python:
             return finger
 
         def touch_down_event(self, ev):
+            """
+            Return True if the provided event counts as a touch for the purpose
+            of registering a finger. Differs for touch and desktop devices.
+            """
             if self.touch_screen_mode:
                 return ev.type == pygame.FINGERDOWN
             else:
                 return renpy.map_event(ev, "viewport_drag_start")
 
         def touch_up_event(self, ev):
+            """
+            Return True if the provided event counts as a touch release for the
+            purpose of registering a finger. Differs for touch and desktop
+            devices.
+            """
             if self.touch_screen_mode:
                 return ev.type == pygame.FINGERUP
             else:
                 return renpy.map_event(ev, "viewport_drag_end")
 
         def calculate_drag_offset(self, x, y):
+            """
+            Save the offset between the touched coordinates and the actual
+            anchor of the image so it can be dragged around.
+            """
 
             padding = self.padding
-            dx = x - self.xpos# - int(padding//2 - self.xadjustment.value)
-            dy = y - self.ypos# - int(padding//2 - self.yadjustment.value)
+            dx = x - self.xpos
+            dy = y - self.ypos
             self.drag_offset = (dx, dy)
 
         def get_dimensions(self):
+            """
+            Return the current dimensions of the image, according to
+            the current zoom level.
+            """
             return (int(self.width*self.zoom), int(self.height*self.zoom))
 
         def get_padding(self, dimensions=None):
+            """
+            Return the current rotation padding of the image, according to the
+            current zoom level.
+            """
             if dimensions is None:
                 dimensions = self.get_dimensions()
             return int((dimensions[0]**2+dimensions[1]**2)**0.5)
 
         def clamp_pos(self):
-
+            """
+            Provided for subclasses. Clamps the position of the image so,
+            for example, it can't be moved off-screen.
+            """
             return
 
         def adjust_pos_for_zoom(self, start_zoom):
@@ -430,33 +575,14 @@ init python:
             x_dist_from_zoom1 = dx / start_zoom
             y_dist_from_zoom1 = dy / start_zoom
 
-            ## Okay, we're trying to keep that particular pixel in place while
-            ## the image gets bigger. How much bigger/smaller has it gotten?
-
-            ## So let's say we zoomed in from 0.75 zoom to 1.2 zoom.
-            ## If the image was 100x100, it went from 75x75 to 120x120
-            ## If our anchor point was at 25x25 on the original image, now
-            ## it should be at 40x40 on the new size
-            ## 25 / 0.75 * 1.2 = 40 (new_dx)
-            ## Relative to the top-left corner of the unpadded image, in order
-            ## to keep the 25x25 anchor point at the same place on the screen,
-            ## it has to move -15, -15
-
-            ## Goal: where does the original anchor point end up, after zooming?
-            ## How about step 1 is just to have the anchor point follow the zoomed image
-
             ## First task: find where the anchor pixel position is on the new size
             new_dx = x_dist_from_zoom1*self.zoom
             new_dy = y_dist_from_zoom1*self.zoom
 
-            # new_xanchor = int(self.xpos - new_dx)
-            # new_yanchor = int(self.ypos - new_dy)
-
             new_xanchor = self.xpos - new_dx
             new_yanchor = self.ypos - new_dy
 
-            # These are some wild guesses but let's say that all worked out,
-            # now we gotta adjust the position to put that back at the
+            # Adjust the position to put that back at the
             # original anchor location
             xpos_adj = self.anchor[0] - new_xanchor
             ypos_adj = self.anchor[1] - new_yanchor
@@ -516,6 +642,24 @@ init python:
             return
 
         def event(self, ev, event_x, event_y, st):
+            """
+            Captures events for the MultiTouch object. Notably, the events
+            being paid attention to are:
+
+            FINGERDOWN/mousedown_1
+                For detecting the start of a drag (or zoom, with touch enabled).
+            FINGERUP/mouseup_1
+                For detecting the end of a drag or zoom.
+            MOUSEMOTION/FINGERMOTION
+                For dragging the image around.
+            MULTIGESTURE
+                For detecting rotation and pinch events.
+            viewport_wheelup
+                For zooming in/clockwise rotation, on a non-touch device.
+            viewport_wheeldown
+                For zooming out/counter-clockwise rotation, on a non-touch
+                device.
+            """
             self.text = ""
 
             if ev.type in (pygame.FINGERDOWN, pygame.FINGERMOTION, pygame.FINGERUP):
@@ -746,9 +890,24 @@ init python:
     class ZoomGalleryDisplayable(MultiTouch):
         """
         A class which allows zooming in on full-screen gallery images.
+        Subclasses MultiTouch in order to provide more specific clamped
+        positioning and zooming.
         """
-        def __init__(self, img, width, height, zoom_max=4.0, use_container=False,
-            *args, **kwargs):
+        def __init__(self, img, width, height, zoom_max=3.0, *args, **kwargs):
+            """
+            Initialize a ZoomGalleryDisplayable object.
+
+            Parameters:
+            -----------
+            img : Displayable
+                A displayable which is used for zooming and panning around.
+            width : int
+                The width of the displayable, in pixels.
+            height : int
+                The height of the displayable, in pixels.
+            zoom_max : float
+                The maximum zoom level this image can be viewed at.
+            """
 
             ## Calculate zoom_min. It should always fill the screen in one
             ## dimension
@@ -760,6 +919,10 @@ init python:
                 zoom_max, rotate_degrees=0, start_zoom=min_ratio, *args, **kwargs)
 
         def clamp_pos(self):
+            """
+            Clamp the position of the image such that it never goes off-screen
+            while the user is dragging it around.
+            """
 
             ## Clamp
             ## For the xpos: the minimum it can be will put the right edge
@@ -771,16 +934,19 @@ init python:
             xpadding = (padding - dimensions[0])//2
             ypadding = (padding - dimensions[1])//2
 
-            has_black_bars = ((self.fill_screen_zoom_level > self.fit_screen_zoom_level)
-                and (self.zoom < self.fill_screen_zoom_level))
+            has_black_bars = (
+                (self.fill_screen_zoom_level > self.fit_screen_zoom_level)
+                and (self.zoom < self.fill_screen_zoom_level)
+            )
 
             ## Are we zoomed out enough that we're going to start getting
             ## black bars? Is that possible?
             if has_black_bars and dimensions[0] <= config.screen_width:
-                    self.xpos = config.screen_width//2
+                ## Yes; center the image
+                self.xpos = config.screen_width//2
             else:
                 ## When the image is against the right side, the left side will
-                ## be at -(padding-screen_width) + xpadding
+                ## be at -(padding-screen_width-xpadding)
                 xmin = (padding-xpadding-config.screen_width)*-1 + padding//2
                 self.xpos = max(self.xpos, xmin)
                 ## When the image is against the left side, the right side will
@@ -788,6 +954,7 @@ init python:
                 self.xpos = min(self.xpos, -xpadding+padding//2)
 
             if has_black_bars and dimensions[1] <= config.screen_height:
+                # Just center it in the screen
                 self.ypos = config.screen_height//2
             else:
                 ymin = (padding-ypadding-config.screen_height)*-1 + padding//2
@@ -797,6 +964,25 @@ init python:
     class ZoomGalleryImage():
         """
         A class to facilitate declaring images to be used in a ZoomGallery.
+
+        Attributes:
+        -----------
+        name : string
+            A name to refer to this image by. Used so you can easily begin
+            the gallery on a particular image.
+        image : Displayable
+            The actual image to be shown.
+        width : int
+            The width of the image, in pixels.
+        height : int
+            The height of the image, in pixels.
+        locked_image : Displayable
+            A locked image to be shown if this particular image is not yet
+            unlocked and the gallery allows you to view locked images. It
+            should be the same dimensions as (width, height)
+        condition : string
+            A string which evaluates to an expression that can be checked to
+            determine whether the image is unlocked or not.
         """
         def __init__(self, name, image, width=None, height=None,
                 locked_image=None, condition="True"):
@@ -810,6 +996,7 @@ init python:
 
         @property
         def unlocked(self):
+            """Return True if this image is unlocked and can be viewed."""
             try:
                 return eval(self.condition)
             except Exception as e:
@@ -819,6 +1006,58 @@ init python:
         """
         A class which holds a list of gallery images to be able to swipe
         through and view.
+
+        Attributes:
+        -----------
+        image_size : (int, int)
+            The (width, height) of images in this gallery which are not given
+            a more specific size.
+        locked_image : Displayable
+            A displayable to show when a gallery image is locked. Should be
+            image_size in dimensions.
+        screen : string
+            The name of the screen where the ZoomGallery object is added.
+        gallery_images : ZoomGalleryImage[]
+            A list of ZoomGalleryImage objects corresponding to images in this
+            gallery. Used to check unlocked status.
+        gallery_displayables : ZoomGalleryDisplayable[]
+            A list of ZoomGalleryDisplayable objects corresponding to images
+            in this gallery. Used for zooming and panning.
+        image_lookup : dict
+            A dictionary of string : ZoomGalleryImage pairs corresponding to
+            the name of the ZoomGalleryImage and its associated object.
+        displayable_lookup : dict
+            A dictionary of string : ZoomGalleryDisplayable pairs corresponding
+            to the name of the ZoomGalleryDisplayable and its associated object.
+        previous_image : ZoomGalleryDisplayable
+            The image which will be shown if the user swipes to see the previous
+            image in the gallery.
+        next_image : ZoomGalleryDisplayable
+            The image which will be shown if the user swipes to see the next
+            image in the gallery.
+        unlocked_images : ZoomGalleryImage[]
+            A list of ZoomGalleryImage objects which are unlocked in the gallery.
+        unlocked_displayables : ZoomGalleryDisplayable[]
+            A list of ZoomGalleryDisplayable objects which are unlocked in
+            the gallery.
+        current_index : int
+            The index of the currently-shown image in the gallery, from
+            the unlocked_displayables list.
+        loop_gallery : bool
+            True if this gallery should loop around to show the first image
+            after the player swipes to see the image after the final one.
+        show_locked : bool
+            True if the gallery should show locked images if an image is
+            not unlocked, False if it should skip over them.
+        viewing_child : bool
+            True if the user is zoomed in on the currently displayed gallery
+            image and thus events should be passed to the child.
+        dragging_direction : string
+            One of "next", "previous", or None, corresponding to which direction
+            the user is dragging the gallery image in.
+        is_switching_image : bool
+            True if the gallery is in the process of switching to display
+            a new image to the player.
         """
 
         def __init__(self, *images, screen=None,
@@ -1435,7 +1674,8 @@ default zoom_gallery = ZoomGallery(
     screen="use_zoom_gallery",
     #loop_gallery=False,
     locked_image="locked_img",
-    show_locked=True, image_size=(config.screen_width, config.screen_height)
+    #show_locked=True,
+    image_size=(config.screen_width, config.screen_height)
 )
 default flowers_unlocked = False
 
@@ -1500,50 +1740,3 @@ screen use_zoom_gallery():
         textbutton "Touch version {}".format(zoom_gallery.touch_screen_mode):
             action Function(zoom_gallery.toggle_touch)
         textbutton "Return" action Hide()
-
-screen multitouch_test_working():
-
-    default show_log = False
-
-    modal True
-
-    add "#000"
-
-    add cg_zoom
-
-    if show_log:
-        dismiss action ToggleScreenVariable("show_log")
-        frame:
-            xysize (720, 1000)
-            background "#fff"
-            viewport:
-                draggable True
-                yinitial 1.0
-                scrollbars "vertical"
-                mousewheel True
-                has vbox
-                xpos 25
-                for entry in debug_record:
-                    text entry size 20
-                null height 25
-
-    frame:
-        align (1.0, 1.0)
-        modal True
-        has vbox
-        spacing 20
-        textbutton "Touch version" action ToggleField(cg_zoom, 'touch_screen_mode')
-        if not cg_zoom.touch_screen_mode:
-            textbutton "Wheel Zoom" action ToggleField(cg_zoom, 'wheel_zoom')
-        textbutton "Show Debug" action ToggleScreenVariable("show_log")
-        textbutton "Return" action Hide('multitouch_test')
-
-screen original_touch_test():
-    add multi_touch
-
-    vbox:
-        align (1.0, 1.0) spacing 20
-        textbutton "Touch version" action ToggleField(multi_touch, 'touch_screen_mode')
-        if not multi_touch.touch_screen_mode:
-            textbutton "Wheel Zoom" action ToggleField(multi_touch, 'wheel_zoom')
-        textbutton "Return" action Hide('multitouch_test')
