@@ -1219,6 +1219,10 @@ init python:
             return prev_index, next_index
 
         def replace_with_locked(self, prev_index, next_index):
+            """
+            Ensure that any images which aren't unlocked are replaced with
+            the locked image equivalent when they are swiped through.
+            """
 
             ## Determine if next/previous are locked
             if self.show_locked:
