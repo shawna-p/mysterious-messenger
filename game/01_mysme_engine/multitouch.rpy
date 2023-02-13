@@ -1204,6 +1204,10 @@ init python:
             self.reset_values()
 
         def get_next_prev_index(self, start_index):
+            """
+            Return the indices of the previous and next items, based on
+            the passed start_index.
+            """
             if self.loop_gallery:
                 prev_index = start_index-1
                 if prev_index == -1:
