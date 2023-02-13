@@ -890,7 +890,7 @@ style guest_count_hbox:
 
 style guest_count_text:
     color "#fff"
-    font "fonts/DigitalRegular.ttf"
+    font "fonts/segment14-regular.ttf"
     size 95
 
 style guest_count_fixed:
