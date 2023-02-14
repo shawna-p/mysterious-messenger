@@ -695,21 +695,17 @@ init python:
 
                     self.drag_speed = (new_xspeed, new_yspeed)
 
-                    debug_log(f"Old speed: ({old_xspeed:.2f}, {old_yspeed:.2f})\nNew speed ({new_xspeed:.2f}, {new_yspeed:.2f})")
-
                     if ((0.05 > new_xspeed > -0.05)
                                 and (0.05 > new_yspeed > -0.05)):
                         ## Check if we're just slowing down overall
                         if ((0.09 > old_xspeed > -0.09)
                                 and (0.09 > old_yspeed > -0.09)):
-                            debug_log("Slowing down")
+                            pass
                         else:
                             self.stationary_drag_counter += 1
-                            debug_log("Increasing stationary counter:", self.stationary_drag_counter, color="blue")
                             if self.stationary_drag_counter < 4 and dt < 0.1:
                                 # Don't update it yet
                                 # But do correct the speed direction
-                                debug_log(f"Reusing old speed ({old_xspeed:.2f}, {old_yspeed:.2f})")
                                 if ((new_xspeed > 0 and old_xspeed < 0)
                                         or (new_xspeed < 0 and old_xspeed > 0)):
                                     adjusted_xspeed = old_xspeed * -1.0
@@ -722,9 +718,6 @@ init python:
                                 else:
                                     adjusted_yspeed = old_yspeed
 
-                                #debug_log(f"Adjusted old speed is ({adjusted_xspeed:.2f}, {adjusted_yspeed:.2f}) vs ({new_xspeed:.2f}, {new_yspeed:.2f})")
-                                #self.drag_speed = (adjusted_xspeed, adjusted_yspeed)
-                                debug_log(f"Popping last speed {self.drag_finger.last_speed}")
                                 self.drag_speed = self.drag_finger.last_speed
                     else:
                         self.stationary_drag_counter = 0
@@ -734,7 +727,6 @@ init python:
                 finger = self.register_finger(x, y)
 
                 if self.drag_finger is None and len(self.fingers) == 1:
-                    debug_log(f"Drag DOWN at ({x}, {y})", color="green")
                     # Inertia
                     self.drag_position = (xadj_x, yadj_y)
                     self.drag_position_time = st
@@ -749,7 +741,6 @@ init python:
                     self.drag_finger = finger
 
                 elif self.drag_finger and len(self.fingers) > 1:
-                    debug_log(f"Finger DOWN at ({x}, {y})", color="green")
                     # More than one finger; turn off dragging
                     # self.update_image_pos(self.drag_finger.x, self.drag_finger.y)
                     self.drag_offset = (0, 0)
@@ -762,7 +753,6 @@ init python:
                 finger = self.remove_finger(x, y)
 
                 if finger and self.drag_finger is finger:
-                    debug_log(f"Drag UP at ({x}, {y})\nStarted at ({finger.touchdown_x}, {finger.touchdown_y})", color="red")
                     self.drag_finger = None
                     self.drag_offset = (0, 0)
 
@@ -787,11 +777,6 @@ init python:
 
                     self.drag_position = None
                     self.drag_position_time = None
-                else:
-                    if finger is None:
-                        debug_log(f"Finger UP at ({x}, {y}) but couldn't actually find it in self.fingers", color="red")
-                    else:
-                        debug_log(f"Finger UP at ({x}, {y})\nStarted at ({finger.touchdown_x}, {finger.touchdown_y})", color="red")
 
             elif ev.type in (pygame.FINGERMOTION, pygame.MOUSEMOTION):
                 finger = self.update_finger(x, y)
@@ -1505,19 +1490,15 @@ init python:
 
                     self.drag_speed = (new_xspeed, new_yspeed)
 
-                    debug_log(f"Old speed: ({old_xspeed:.2f})\nNew speed ({new_xspeed:.2f})")
-
                     if (0.05 > new_xspeed > -0.05):
                         ## Check if we're just slowing down overall
                         if (0.09 > old_xspeed > -0.09):
-                            debug_log("Slowing down")
+                            pass
                         else:
                             self.stationary_drag_counter += 1
-                            debug_log("Increasing stationary counter:", self.stationary_drag_counter, color="blue")
                             if self.stationary_drag_counter < 4 and dt < 0.1:
                                 # Don't update it yet
                                 # But do correct the speed direction
-                                debug_log(f"Reusing old speed ({old_xspeed:.2f})")
                                 if ((new_xspeed > 0 and old_xspeed < 0)
                                         or (new_xspeed < 0 and old_xspeed > 0)):
                                     adjusted_xspeed = old_xspeed * -1.0
@@ -1525,9 +1506,6 @@ init python:
                                     adjusted_xspeed = old_xspeed
                                 adjusted_yspeed = 0.0
 
-                                #debug_log(f"Adjusted old speed is ({adjusted_xspeed:.2f}, {adjusted_yspeed:.2f}) vs ({new_xspeed:.2f}, {new_yspeed:.2f})")
-                                self.drag_speed = (adjusted_xspeed, adjusted_yspeed)
-                                debug_log(f"Popping last speed {self.drag_finger.last_speed}")
                                 self.drag_speed = self.drag_finger.last_speed
                     else:
                         self.stationary_drag_counter = 0
@@ -1537,7 +1515,6 @@ init python:
                 finger = self.register_finger(x, y)
 
                 if self.drag_finger is None and len(self.fingers) == 1:
-                    debug_log(f"Drag DOWN at ({x}, {y})", color="green")
                     # Inertia
                     self.drag_position = (xadj_x, yadj_y)
                     self.drag_position_time = st
@@ -1552,7 +1529,6 @@ init python:
                     self.drag_finger = finger
 
                 elif self.drag_finger and len(self.fingers) > 1:
-                    debug_log(f"Finger DOWN at ({x}, {y})", color="green")
                     # More than one finger; turn off dragging
                     # self.update_image_pos(self.drag_finger.x, self.drag_finger.y)
                     self.drag_offset = (0, 0)
@@ -1565,7 +1541,6 @@ init python:
                 finger = self.remove_finger(x, y)
 
                 if finger and self.drag_finger is finger:
-                    debug_log(f"Drag UP at ({x}, {y})\nStarted at ({finger.touchdown_x}, {finger.touchdown_y})", color="red")
                     self.drag_finger = None
                     self.drag_offset = (0, 0)
 
@@ -1582,11 +1557,6 @@ init python:
 
                     self.drag_position = None
                     self.drag_position_time = None
-                else:
-                    if finger is None:
-                        debug_log(f"Finger UP at ({x}, {y}) but couldn't actually find it in self.fingers", color="red")
-                    else:
-                        debug_log(f"Finger UP at ({x}, {y})\nStarted at ({finger.touchdown_x}, {finger.touchdown_y})", color="red")
 
                 xpos = int(self.xadjustment.value) - config.screen_width
                 speed_divisor = 4.0
@@ -1664,28 +1634,6 @@ init python:
             for child in self.gallery_displayables:
                 child.touch_screen_mode = not child.touch_screen_mode
 
-    def debug_log(*args, color=None):
-        """
-        Record debug information in a list of strings to display in a viewport
-        later.
-        """
-        ret = ' '.join([str(arg) for arg in args])
-        ret += "\n"
-        if color is not None:
-            if color == "red":
-                color = "#860c0c"
-            elif color == "blue":
-                color = "#121277"
-            elif color == "green":
-                color = "#0a630a"
-            else:
-                color = "#000"
-            ret = "{{b}}{{color={}}}{}{{/color}}{{/b}}".format(color, ret)
-
-        debug_record.append(ret)
-        if len(debug_record) > 100:
-            debug_record.pop(0)
-
     class ViewGallery(Action):
         """
         A class with an action to simplify viewing a particular image in the
@@ -1718,15 +1666,12 @@ init python:
             self.gallery.set_up_gallery(self.image_name)
             renpy.run(Show(self.gallery.screen))
 
-default debug_record = [ ]
-
 style multitouch_text:
     color "#fff"
     size 35
     outlines [ (1, "#000", 0, 0)]
 
 default multi_touch = MultiTouch("Profile Pics/Zen/zen-10-b.webp", 314, 314)
-#default cg_zoom = ZoomGalleryImage("CGs/ju_album/cg-1.webp", 750, 1334)
 default cg_zoom = ZoomGalleryDisplayable("jellyfish.jpg", 1920, 2880)
 default cg_zoom2 = ZoomGalleryDisplayable("flowers.jpg", 1920, 2560)
 default cg_zoom3 = ZoomGalleryDisplayable("vase.jpg", 1920, 2560)
@@ -1787,27 +1732,10 @@ screen display_zoom_gallery():
 
     add zoom_gallery
 
-    if show_log:
-        dismiss action ToggleScreenVariable("show_log")
-        frame:
-            xysize (720, 1000)
-            background "#fff"
-            viewport:
-                draggable True
-                yinitial 1.0
-                scrollbars "vertical"
-                mousewheel True
-                has vbox
-                xpos 25
-                for entry in debug_record:
-                    text entry size 20
-                null height 25
-
     frame:
         align (1.0, 1.0)
         modal True
         has vbox
-        textbutton "Show Debug" action ToggleScreenVariable("show_log")
         textbutton "Touch version {}".format(zoom_gallery.touch_screen_mode):
             action Function(zoom_gallery.toggle_touch)
         textbutton "Return" action Hide()
