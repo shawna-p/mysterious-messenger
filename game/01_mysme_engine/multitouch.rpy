@@ -1274,6 +1274,11 @@ init python:
             self.gallery_setup_previous_next(start_index)
 
         def gallery_setup_previous_next(self, start_index):
+            """
+            Set up the current_index, the next and previous images, and ensure
+            any images that need to be replaced with locked equivalents
+            are replaced.
+            """
             prev_index, next_index = self.get_next_prev_index(start_index)
 
             if prev_index == start_index:
@@ -1289,28 +1294,16 @@ init python:
             self.replace_with_locked(prev_index, next_index)
 
         def visit(self):
+            """Return the images for Ren'Py to predict."""
             return [x.image for x in self.unlocked_images]
 
         def update_adjustment_limits(self):
             """
             Adjust the limits as to how far the xadjustment can *actually* go.
+            In this case, the xadjustment can move one screen to the left
+            and right, meaning it has a range of config.screen_width*2. The
+            yadjustment cannot move at all.
             """
-
-            ## Clamp
-            ## For the xpos: the minimum it can be will put the right edge
-            ## against the right side of the screen
-            ## So, how far is that?
-            dimensions = self.get_dimensions()
-            padding = self.get_padding(dimensions)
-
-            xpadding = (padding - dimensions[0])//2
-            ypadding = (padding - dimensions[1])//2
-
-            xmin = xpadding
-            xmax = (padding - xpadding - config.screen_width)
-
-            ymin = ypadding
-            ymax = padding - ypadding - config.screen_height
 
             self.xadjustment.range_limits = (0, config.screen_width*2)
             self.yadjustment.range_limits = (0, 0)
@@ -1322,6 +1315,11 @@ init python:
             self.yadjustment.change(0, end_animation=False)
 
         def redraw_adjustments(self, st):
+            """
+            Adjust the adjustment objects based on inertia. If they moved,
+            redraw them. If the player has dragged the image far enough,
+            switch to the next or previous image in the gallery.
+            """
             redraw = self.xadjustment.periodic(st)
 
             padding = self.padding
@@ -1337,9 +1335,13 @@ init python:
                     self.gallery_next_image()
                 elif self.dragging_direction == "previous" and self.previous_image:
                     self.gallery_previous_image()
+                # Ensure the image starts back at the "home" position
                 self.reset_values()
 
         def render(self, width, height, st, at):
+            """
+            Render the ZoomGallery displayable to the screen.
+            """
             r = renpy.Render(width, height)
 
             self.redraw_adjustments(st)
@@ -1349,7 +1351,8 @@ init python:
 
             xpos = config.screen_width*2 - int(self.xadjustment.value) - config.screen_width #self.xpos
 
-
+            ## Note: using off-by-1 numbers here since due to rounding
+            ## the next/previous images can end up 1 pixel on-screen
             if xpos < -1 and self.next_image:
                 # Dragging to left to get to next image
                 img2 = Transform(
@@ -1392,19 +1395,29 @@ init python:
             return r
 
         def calculate_drag_offset(self, x, y):
-
+            """
+            Calculate the offset between where the player touched down to start
+            dragging and the actual x/y position of the displayable.
+            """
             padding = self.padding
-            dx = x - self.xpos# - int(padding//2 - self.xadjustment.value)
-            dy = y - self.ypos# - int(padding//2 - self.yadjustment.value)
             dx = x - int(self.xadjustment.value)
             dy = y - int(self.xadjustment.value)
             self.drag_offset = (dx, dy)
 
         def clamp_pos(self):
+            """
+            Clamp the position of the displayable.
+            """
             ## Just keep the ypos in the center
             self.ypos = config.screen_height//2
 
         def return_to_original_pos(self, st, speed_divisor=1.0):
+            """
+            Return the ZoomGallery displayable to its "home" position. Typically
+            used after the player has not dragged it far enough to count as a
+            swipe to view the next/previous image, or if the gallery does not
+            loop and there is no next/previous image.
+            """
             # self.animation_target = self._value + amplitude
             ## The animation target should be screen_width
             self.xadjustment.inertia(
@@ -1412,6 +1425,29 @@ init python:
                 myconfig.viewport_inertia_time_constant/speed_divisor, st)
 
         def event(self, ev, event_x, event_y, st):
+            """
+            Captures events for the ZoomGallery object. Notably, the events
+            being paid attention to are:
+
+            FINGERDOWN/mousedown_1
+                For detecting the start of a drag (or zoom, with touch enabled).
+            FINGERUP/mouseup_1
+                For detecting the end of a drag or zoom.
+            MOUSEMOTION/FINGERMOTION
+                For dragging the image around.
+            MULTIGESTURE
+                For detecting rotation and pinch events.
+            viewport_wheelup
+                For zooming in/clockwise rotation, on a non-touch device.
+            viewport_wheeldown
+                For zooming out/counter-clockwise rotation, on a non-touch
+                device.
+
+            MULTIGESTURE and wheel up/down events are passed along to the child
+            of the ZoomGallery, as the gallery itself only supports swiping
+            between images. Once the player has zoomed in, they can no longer
+            swipe between images, hence events are passed to the child.
+            """
 
             ## All we're doing is checking if they're swiping the image away
             child = self.current_image
@@ -1620,11 +1656,19 @@ init python:
             self.text += "\ndrag_speed: ({:.2f}, {:.2f})".format(self.drag_speed[0], self.drag_speed[1])
 
         def toggle_touch(self):
+            """
+            Turn touch input on/off. In general this is auto-detected, but
+            may be useful for laptops which have touch screens for pinch-zoom.
+            """
             self.touch_screen_mode = not self.touch_screen_mode
             for child in self.gallery_displayables:
                 child.touch_screen_mode = not child.touch_screen_mode
 
     def debug_log(*args, color=None):
+        """
+        Record debug information in a list of strings to display in a viewport
+        later.
+        """
         ret = ' '.join([str(arg) for arg in args])
         ret += "\n"
         if color is not None:
@@ -1643,15 +1687,34 @@ init python:
             debug_record.pop(0)
 
     class ViewGallery(Action):
+        """
+        A class with an action to simplify viewing a particular image in the
+        gallery.
+
+        Attributes:
+        -----------
+        gallery : ZoomGallery
+            The ZoomGallery object which holds the images.
+        image_name : string
+            Optional. The name of the image to begin the gallery viewing. If
+            not provided, defaults to the first available image.
+        """
         def __init__(self, gallery, image_name=None):
             self.gallery = gallery
             self.image_name = image_name
         def get_sensitive(self):
+            """
+            This button is sensitive if the specified image is viewable in
+            the gallery (unlocked, or locked with show_locked True).
+            """
             if self.image_name is None:
                 return True
             else:
                 return self.gallery.is_viewable(self.image_name)
         def __call__(self):
+            """
+            Set up the gallery and display the specified image.
+            """
             self.gallery.set_up_gallery(self.image_name)
             renpy.run(Show(self.gallery.screen))
 
@@ -1679,7 +1742,7 @@ default zoom_gallery = ZoomGallery(
     ZoomGalleryImage("flowers", "flowers.jpg", 1920, 2560, condition="flowers_unlocked"),
     ZoomGalleryImage("vase", "vase.jpg", 1920, 2560),
     ZoomGalleryImage("city", "city.jpg", 1920, 1200),
-    screen="use_zoom_gallery",
+    screen="display_zoom_gallery",
     #loop_gallery=False,
     locked_image="locked_img",
     #show_locked=True,
@@ -1714,7 +1777,7 @@ screen multitouch_test():
         has vbox
         textbutton "Return" action Hide()
 
-screen use_zoom_gallery():
+screen display_zoom_gallery():
 
     modal True
 
