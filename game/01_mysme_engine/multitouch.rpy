@@ -306,8 +306,10 @@ init python:
             self.zoom = start_zoom
             self.rotate = 0
 
-            self.xpos = config.screen_width//2
-            self.ypos = config.screen_height//2
+            self.padding = self.get_padding()
+
+            self.xpos = config.screen_width//2 - self.padding//2
+            self.ypos = config.screen_height//2 - self.padding//2
 
             self.anchor = (config.screen_width//2, config.screen_height//2)
 
@@ -343,8 +345,6 @@ init python:
 
             self.xadjustment = MyAdjustment(1, 0)
             self.yadjustment = MyAdjustment(1, 0)
-
-            self.padding = self.get_padding()
 
             self.update_adjustment_limits()
 
@@ -405,12 +405,12 @@ init python:
             redraw = self.xadjustment.periodic(st)
             if redraw is not None:
                 renpy.redraw(self, redraw)
-                self.xpos = int(self.padding//2 - self.xadjustment.value)
+                self.xpos = int(self.xadjustment.value*-1)
 
             redraw = self.yadjustment.periodic(st)
             if redraw is not None:
                 renpy.redraw(self, redraw)
-                self.ypos = int(self.padding//2 - self.yadjustment.value)
+                self.ypos = int(self.yadjustment.value*-1)
 
             # redraw = self.zadjustment.periodic(st)
             # if redraw is not None:
@@ -427,7 +427,8 @@ init python:
 
             dimensions = self.get_dimensions()
 
-            xpos, ypos = self.xpos, self.ypos
+            xpos = self.xpos + self.padding//2
+            ypos = self.ypos + self.padding//2
 
             the_img = Transform(self.img,
                 xysize=dimensions,
@@ -461,24 +462,13 @@ init python:
             self.xadjustment.range = range
             self.yadjustment.range = range
 
-            ## Value: where the top-left of the screen is relative to the
-            ## top-left of the displayable
-            left_corner = self.left_corner
+            ## The xadjustment value is the distance between the padded left
+            ## and the left side of the screen
+            ## so if the xpos is left of the left edge, then -xpos
+            ## it *can't* be right of the left edge
 
-            ## Say the left corner is (-400, -300)
-            ## The anchor is (10, 50)
-
-            self.xadjustment.change(abs(left_corner[0]), end_animation=False)
-            self.yadjustment.change(abs(left_corner[1]), end_animation=False)
-
-        @property
-        def left_corner(self):
-            """
-            Return the coordinates of the padded top-left corner of the image.
-            """
-            # Currently, the xpos/ypos are indicating the center of the image
-            padding = self.padding
-            return (self.xpos - padding//2, self.ypos - padding//2)
+            self.xadjustment.change(-self.xpos, end_animation=False)
+            self.yadjustment.change(-self.ypos, end_animation=False)
 
         def normalize_pos(self, x, y):
             """
@@ -923,7 +913,6 @@ init python:
                     or renpy.map_event(ev, "viewport_wheeldown")
                     or double_tap
             ):
-
                 self.clamp_rotate()
                 self.clamp_zoom()
                 self.padding = self.get_padding()
@@ -1001,23 +990,23 @@ init python:
             ## black bars? Is that possible?
             if has_black_bars and dimensions[0] <= config.screen_width:
                 ## Yes; center the image
-                self.xpos = config.screen_width//2
+                self.xpos = config.screen_width//2 - padding//2
             else:
                 ## When the image is against the right side, the left side will
                 ## be at -(padding-screen_width-xpadding)
-                xmin = (padding-xpadding-config.screen_width)*-1 + padding//2
+                xmin = (padding-xpadding-config.screen_width)*-1
                 self.xpos = max(self.xpos, xmin)
                 ## When the image is against the left side, the right side will
                 ## be at -xpadding
-                self.xpos = min(self.xpos, -xpadding+padding//2)
+                self.xpos = min(self.xpos, -xpadding)
 
             if has_black_bars and dimensions[1] <= config.screen_height:
                 # Just center it in the screen
-                self.ypos = config.screen_height//2
+                self.ypos = config.screen_height//2 - padding//2
             else:
-                ymin = (padding-ypadding-config.screen_height)*-1 + padding//2
+                ymin = (padding-ypadding-config.screen_height)*-1
                 self.ypos = max(self.ypos, ymin)
-                self.ypos = min(self.ypos, -ypadding+padding//2)
+                self.ypos = min(self.ypos, -ypadding)
 
     class ZoomGalleryImage():
         """
@@ -1192,7 +1181,8 @@ init python:
 
             self.padding = self.get_padding()
             self.xpos = 0
-            self.original_values = (self.original_values[0], self.xpos, self.original_values[2], self.original_values[3])
+            self.ypos = config.screen_height//2
+            self.original_values = (self.original_values[0], self.xpos, self.ypos, self.original_values[3])
             self.dragging_direction = None
             # In the process of switching images
             self.is_switching_image = False
@@ -1384,7 +1374,7 @@ init python:
 
             if redraw is not None:
                 renpy.redraw(self, redraw)
-                self.xpos = int(padding//2 - self.xadjustment.value)
+                self.xpos = int(self.xadjustment.value)
             elif redraw is None and self.is_switching_image:
                 # Finished switching
                 self.is_switching_image = False
