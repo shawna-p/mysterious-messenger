@@ -384,6 +384,7 @@ init python:
             """
             self.xadjustment.register(self)
             self.yadjustment.register(self)
+            self.zadjustment.register(self)
 
         def clamp_zoom(self):
             """Ensure the zoom level is within the limits"""
@@ -454,7 +455,7 @@ init python:
 
             return r
 
-        def update_adjustments(self):
+        def update_adjustments(self, with_inertia=False, st=None):
             """
             Update the x/yadjustments after updating the xypos.
             """
@@ -471,9 +472,17 @@ init python:
 
             ## Say the left corner is (-400, -300)
             ## The anchor is (10, 50)
+            if not with_inertia:
+                self.xadjustment.change(abs(left_corner[0]), end_animation=False)
+                self.yadjustment.change(abs(left_corner[1]), end_animation=False)
+            else:
+                self.xadjustment.inertia(
+                    abs(left_corner[0])-self.xadjustment._value,
+                    myconfig.viewport_inertia_time_constant/2.0, st)
+                self.yadjustment.inertia(
+                    abs(left_corner[1])-self.yadjustment._value,
+                    myconfig.viewport_inertia_time_constant/2.0, st)
 
-            self.xadjustment.change(abs(left_corner[0]), end_animation=False)
-            self.yadjustment.change(abs(left_corner[1]), end_animation=False)
 
         @property
         def left_corner(self):
@@ -617,6 +626,8 @@ init python:
 
             self.xpos += int(xpos_adj)
             self.ypos += int(ypos_adj)
+
+
 
         def update_adjustment_limits(self):
             """
@@ -891,6 +902,8 @@ init python:
 
                 self.xadjustment.end_animation(instantly=True)
                 self.yadjustment.end_animation(instantly=True)
+                self.zadjustment.end_animation(instantly=True)
+                # self.zoom = self.zadjustment.value
 
                 if self.wheel_zoom:
                     # self.zoom += 0.05 #0.25
@@ -899,18 +912,9 @@ init python:
                     self.rotate += 10
 
                 self.clamp_zoom()
-                print("zoom target", self.zoom-self.zoom_min)
-                # self.yadjustment.inertia(
-                #             myconfig.viewport_inertia_amplitude * yspeed,
-                #                 myconfig.viewport_inertia_time_constant, st)
-                store.USE_DEBUG = True
                 self.zadjustment.inertia(
-                    # amplitude, delay*6
-                    # self.animation_target = self._value + amplitude
                     self.zoom-self.zoom_min-self.zadjustment._value,
-                    #myconfig.viewport_inertia_amplitude * 1.2,
-                    myconfig.viewport_inertia_time_constant, st)
-                store.USE_DEBUG = False
+                    myconfig.viewport_inertia_time_constant/2.0, st)
 
             elif renpy.map_event(ev, "viewport_wheeldown"):
                 # Set the anchor to wherever they're hovering
@@ -918,11 +922,18 @@ init python:
 
                 self.xadjustment.end_animation(instantly=True)
                 self.yadjustment.end_animation(instantly=True)
+                self.zadjustment.end_animation(instantly=True)
+                # self.zoom = self.zadjustment.value
 
                 if self.wheel_zoom:
                     self.zoom -= 0.25
                 else:
                     self.rotate -= 10
+
+                self.clamp_zoom()
+                self.zadjustment.inertia(
+                    self.zoom-self.zoom_min-self.zadjustment._value,
+                    myconfig.viewport_inertia_time_constant/2.0, st)
 
             if ( (ev.type == pygame.MULTIGESTURE
                         and len(self.fingers) > 1)
@@ -938,7 +949,7 @@ init python:
                 self.adjust_pos_for_zoom(start_zoom)
 
             self.clamp_pos()
-            self.update_adjustments()
+            self.update_adjustments(start_zoom!=self.zoom, st)
 
             if self.fingers:
                 self.text += '\n'.join([x.finger_info for x in self.fingers])
