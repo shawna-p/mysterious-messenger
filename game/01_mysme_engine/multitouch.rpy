@@ -187,7 +187,9 @@ init python:
             self.change(value, end_animation=False)
 
             # Did we hit a wall?
-            if value <= self.range_limits[0] or value >= self.range_limits[1]:
+            if value < self.range_limits[0] or value > self.range_limits[1]:
+                value = self.round_value(value, release=False)
+                self.change(value, end_animation=False)
                 self.end_animation(instantly=True)
                 return None
             elif st > self.animation_start + self.animation_delay: # type: ignore
@@ -195,6 +197,12 @@ init python:
                 return None
             else:
                 return 0
+
+    def special_debug(*args):
+        if store.USE_DEBUG:
+            print(*args)
+
+    USE_DEBUG = False
 
     class MultiTouch(renpy.Displayable):
         """
@@ -307,6 +315,9 @@ init python:
             self.zoom_max = zoom_max
             self.zoom_min = zoom_min
 
+            self.zadjustment = MyAdjustment(zoom_max-zoom_min, start_zoom-zoom_min)
+            self.zadjustment.range_limits = (0.0, zoom_max-zoom_min)
+
             min_width_ratio = config.screen_width / float(width)
             min_height_ratio = config.screen_height / float(height)
             max_ratio = max(min_width_ratio, min_height_ratio)
@@ -377,6 +388,7 @@ init python:
         def clamp_zoom(self):
             """Ensure the zoom level is within the limits"""
             self.zoom = min(max(self.zoom, self.zoom_min), self.zoom_max)
+            #self.zadjustment.change(self.zoom-self.zoom_min)
 
         def clamp_rotate(self):
             """Ensure the rotation is within the limits."""
@@ -401,15 +413,23 @@ init python:
                 renpy.redraw(self, redraw)
                 self.ypos = int(padding//2 - self.yadjustment.value)
 
+            store.USE_DEBUG = True
+            redraw = self.zadjustment.periodic(st)
+            if redraw is not None:
+                renpy.redraw(self, redraw)
+                self.zoom = self.zadjustment.value + self.zoom_min
+                print("zadjustment", self.zoom)
+            store.USE_DEBUG = False
+
         def render(self, width, height, st, at):
             """
             Render the MultiTouch displayable to the screen.
             """
             r = renpy.Render(width, height)
 
-            dimensions = self.get_dimensions()
-
             self.redraw_adjustments(st)
+
+            dimensions = self.get_dimensions()
 
             xpos, ypos = self.xpos, self.ypos
 
@@ -873,9 +893,24 @@ init python:
                 self.yadjustment.end_animation(instantly=True)
 
                 if self.wheel_zoom:
-                    self.zoom += 0.05 #0.25
+                    # self.zoom += 0.05 #0.25
+                    self.zoom += 0.15 #0.25
                 else:
                     self.rotate += 10
+
+                self.clamp_zoom()
+                print("zoom target", self.zoom-self.zoom_min)
+                # self.yadjustment.inertia(
+                #             myconfig.viewport_inertia_amplitude * yspeed,
+                #                 myconfig.viewport_inertia_time_constant, st)
+                store.USE_DEBUG = True
+                self.zadjustment.inertia(
+                    # amplitude, delay*6
+                    # self.animation_target = self._value + amplitude
+                    self.zoom-self.zoom_min-self.zadjustment._value,
+                    #myconfig.viewport_inertia_amplitude * 1.2,
+                    myconfig.viewport_inertia_time_constant, st)
+                store.USE_DEBUG = False
 
             elif renpy.map_event(ev, "viewport_wheeldown"):
                 # Set the anchor to wherever they're hovering
