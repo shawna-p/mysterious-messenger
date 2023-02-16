@@ -191,8 +191,6 @@ init python:
 
             # Did we hit a wall?
             if value < self.range_limits[0] or value > self.range_limits[1]:
-                value = self.round_value(value, release=False)
-                self.change(value, end_animation=False)
                 self.end_animation(instantly=True)
                 return None
             elif st > self.animation_start + self.animation_delay: # type: ignore
@@ -278,6 +276,10 @@ init python:
             A tuple of values corresponding to the original zoom level,
             xpos, ypos, and anchor.
         """
+
+        ## The speed at which adjustments reset positions, such as when
+        ## switching gallery images or zooming in
+        drift_speed = myconfig.viewport_inertia_time_constant/4.0
 
         def __init__(self, img, width, height, zoom_min=0.25, zoom_max=4.0,
                 rotate_degrees=360, start_zoom=1.0, *args, **kwargs):
@@ -373,6 +375,8 @@ init python:
 
             self.xadjustment = MyAdjustment(1, 0)
             self.yadjustment = MyAdjustment(1, 0)
+            self.zadjustment = MyAdjustment(self.zoom_max-self.zoom_min, self.zoom-self.zoom_min)
+            self.zadjustment.range_limits = (0.0, self.zoom_max-self.zoom_min)
 
             self.padding = self.get_padding()
 
@@ -404,26 +408,24 @@ init python:
             Adjust the adjustment objects based on inertia. If they moved,
             redraw them.
             """
-            redraw = self.xadjustment.periodic(st)
 
             padding = self.padding
 
+            redraw = self.xadjustment.periodic(st)
             if redraw is not None:
                 renpy.redraw(self, redraw)
-                self.xpos = int(padding//2 - self.xadjustment.value)
+                self.xpos = int(padding//2 + self.xadjustment.value)
 
             redraw = self.yadjustment.periodic(st)
             if redraw is not None:
                 renpy.redraw(self, redraw)
-                self.ypos = int(padding//2 - self.yadjustment.value)
+                self.ypos = int(padding//2 + self.yadjustment.value)
 
-            store.USE_DEBUG = True
             redraw = self.zadjustment.periodic(st)
             if redraw is not None:
                 renpy.redraw(self, redraw)
                 self.zoom = self.zadjustment.value + self.zoom_min
                 print("zadjustment", self.zoom)
-            store.USE_DEBUG = False
 
         def render(self, width, height, st, at):
             """
@@ -436,6 +438,8 @@ init python:
             dimensions = self.get_dimensions()
 
             xpos, ypos = self.xpos, self.ypos
+            xpos = config.screen_width//2
+            ypos = config.screen_height//2
 
             the_img = Transform(self.img,
                 xysize=dimensions,
@@ -473,16 +477,14 @@ init python:
             ## top-left of the displayable
             left_corner = self.left_corner
 
-            ## Say the left corner is (-400, -300)
-            ## The anchor is (10, 50)
             if not with_inertia:
                 self.xadjustment.change(abs(left_corner[0]), end_animation=False)
                 self.yadjustment.change(abs(left_corner[1]), end_animation=False)
             else:
                 self.xadjustment.drift_to_target(abs(left_corner[0]),
-                    myconfig.viewport_inertia_time_constant/2.0, st)
-                self.yadjustment.inertia(abs(left_corner[1]),
-                    myconfig.viewport_inertia_time_constant/2.0, st)
+                    self.drift_speed, st)
+                self.yadjustment.drift_to_target(abs(left_corner[1]),
+                    self.drift_speed, st)
 
 
         @property
@@ -493,6 +495,7 @@ init python:
             # Currently, the xpos/ypos are indicating the center of the image
             padding = self.padding
             return (self.xpos - padding//2, self.ypos - padding//2)
+
 
         def normalize_pos(self, x, y):
             """
@@ -596,7 +599,7 @@ init python:
             """
             return
 
-        def adjust_pos_for_zoom(self, start_zoom):
+        def adjust_pos_for_zoom(self, start_zoom, st):
             """
             Adjust the position of the image such that it appears to be
             zooming in from the anchor point.
@@ -625,8 +628,14 @@ init python:
             xpos_adj = self.anchor[0] - new_xanchor
             ypos_adj = self.anchor[1] - new_yanchor
 
-            self.xpos += int(xpos_adj)
-            self.ypos += int(ypos_adj)
+            # self.xpos += int(xpos_adj)
+            # self.ypos += int(ypos_adj)
+
+            new_x = self.xpos + int(xpos_adj) - self.padding//2
+            new_y = self.ypos + int(ypos_adj) - self.padding//2
+
+            self.xadjustment.drift_to_target(new_x, self.drift_speed, st)
+            self.yadjustment.drift_to_target(new_y, self.drift_speed, st)
 
 
 
@@ -908,13 +917,13 @@ init python:
 
                 if self.wheel_zoom:
                     # self.zoom += 0.05 #0.25
-                    self.zoom += 0.15 #0.25
+                    self.zoom += 0.25 #0.25
                 else:
                     self.rotate += 10
 
                 self.clamp_zoom()
                 self.zadjustment.drift_to_target(self.zoom-self.zoom_min,
-                    myconfig.viewport_inertia_time_constant/2.0, st)
+                    self.drift_speed, st)
 
             elif renpy.map_event(ev, "viewport_wheeldown"):
                 # Set the anchor to wherever they're hovering
@@ -926,13 +935,13 @@ init python:
                 # self.zoom = self.zadjustment.value
 
                 if self.wheel_zoom:
-                    self.zoom -= 0.25
+                    self.zoom -= 0.35
                 else:
                     self.rotate -= 10
 
                 self.clamp_zoom()
                 self.zadjustment.drift_to_target(self.zoom-self.zoom_min,
-                    myconfig.viewport_inertia_time_constant/2.0, st)
+                    self.drift_speed, st)
 
             if ( (ev.type == pygame.MULTIGESTURE
                         and len(self.fingers) > 1)
@@ -945,7 +954,7 @@ init python:
                 self.clamp_zoom()
                 self.padding = self.get_padding()
                 self.update_adjustment_limits()
-                self.adjust_pos_for_zoom(start_zoom)
+                self.adjust_pos_for_zoom(start_zoom, st)
 
             self.clamp_pos()
             self.update_adjustments(start_zoom!=self.zoom, st)
@@ -992,6 +1001,51 @@ init python:
 
             super(ZoomGalleryDisplayable, self).__init__(img, width, height, min_ratio,
                 zoom_max, rotate_degrees=0, start_zoom=min_ratio, *args, **kwargs)
+
+        def update_adjustment_limits(self):
+            """
+            Adjust the limits as to how far the xadjustment can *actually* go.
+            """
+
+            ## Clamp
+            ## For the xpos: the minimum it can be will put the right edge
+            ## against the right side of the screen
+            ## So, how far is that?
+            dimensions = self.get_dimensions()
+            padding = self.padding
+
+            xpadding = (padding - dimensions[0])//2
+            ypadding = (padding - dimensions[1])//2
+
+            has_black_bars = (
+                (self.fill_screen_zoom_level > self.fit_screen_zoom_level)
+                and (self.zoom < self.fill_screen_zoom_level)
+            )
+
+            ## Are we zoomed out enough that we're going to start getting
+            ## black bars? Is that possible?
+            if has_black_bars and dimensions[0] <= config.screen_width:
+                ## Yes; center the image
+                xmin = config.screen_width//2-padding//2
+                xmax = config.screen_width//2-padding//2
+            else:
+                ## When the image is against the right side, the left side will
+                ## be at -(padding-screen_width-xpadding)
+                xmin = (padding-xpadding-config.screen_width)*-1
+                ## When the image is against the left side, the right side will
+                ## be at -xpadding
+                xmax = -xpadding
+
+            if has_black_bars and dimensions[1] <= config.screen_height:
+                # Just center it in the screen
+                ymin = config.screen_height//2-padding//2
+                ymax = config.screen_height//2-padding//2
+            else:
+                ymin = (padding-ypadding-config.screen_height)*-1
+                ymax = -ypadding
+
+            self.xadjustment.range_limits = (xmin, xmax)
+            self.yadjustment.range_limits = (ymin, ymax)
 
         def clamp_pos(self):
             """
@@ -1401,7 +1455,7 @@ init python:
 
             if redraw is not None:
                 renpy.redraw(self, redraw)
-                self.xpos = int(padding//2 - self.xadjustment.value)
+                self.xpos = int(self.xadjustment.value + padding//2)
             elif redraw is None and self.is_switching_image:
                 # Finished switching
                 self.is_switching_image = False
@@ -1493,7 +1547,6 @@ init python:
             swipe to view the next/previous image, or if the gallery does not
             loop and there is no next/previous image.
             """
-            # self.animation_target = self._value + amplitude
             ## The animation target should be screen_width
             self.xadjustment.drift_to_target(config.screen_width,
                 myconfig.viewport_inertia_time_constant/speed_divisor, st)
