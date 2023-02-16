@@ -190,7 +190,7 @@ init python:
             self.change(value, end_animation=False)
 
             # Did we hit a wall?
-            if value < self.range_limits[0] or value > self.range_limits[1]:
+            if value <= self.range_limits[0] or value >= self.range_limits[1]:
                 self.end_animation(instantly=True)
                 return None
             elif st > self.animation_start + self.animation_delay: # type: ignore
@@ -198,12 +198,6 @@ init python:
                 return None
             else:
                 return 0
-
-    def special_debug(*args):
-        if store.USE_DEBUG:
-            print(*args)
-
-    USE_DEBUG = False
 
     class MultiTouch(renpy.Displayable):
         """
@@ -394,7 +388,6 @@ init python:
         def clamp_zoom(self):
             """Ensure the zoom level is within the limits"""
             self.zoom = min(max(self.zoom, self.zoom_min), self.zoom_max)
-            #self.zadjustment.change(self.zoom-self.zoom_min)
 
         def clamp_rotate(self):
             """Ensure the rotation is within the limits."""
@@ -412,17 +405,17 @@ init python:
             redraw = self.xadjustment.periodic(st)
             if redraw is not None:
                 renpy.redraw(self, redraw)
-            self.xpos = int(self.xadjustment.value)
+                self.xpos = int(self.padding//2 - self.xadjustment.value)
 
             redraw = self.yadjustment.periodic(st)
             if redraw is not None:
                 renpy.redraw(self, redraw)
-            self.ypos = int(self.yadjustment.value)
+                self.ypos = int(self.padding//2 - self.yadjustment.value)
 
-            redraw = self.zadjustment.periodic(st)
-            if redraw is not None:
-                renpy.redraw(self, redraw)
-            self.zoom = self.zadjustment.value + self.zoom_min
+            # redraw = self.zadjustment.periodic(st)
+            # if redraw is not None:
+            #     renpy.redraw(self, redraw)
+            # self.zoom = self.zadjustment.value + self.zoom_min
 
         def render(self, width, height, st, at):
             """
@@ -457,7 +450,7 @@ init python:
 
             return r
 
-        def update_adjustments(self, with_inertia=False, st=None):
+        def update_adjustments(self):
             """
             Update the x/yadjustments after updating the xypos.
             """
@@ -474,15 +467,9 @@ init python:
 
             ## Say the left corner is (-400, -300)
             ## The anchor is (10, 50)
-            if not with_inertia:
-                self.xadjustment.change(abs(left_corner[0]), end_animation=False)
-                self.yadjustment.change(abs(left_corner[1]), end_animation=False)
-            else:
-                self.xadjustment.drift_to_target(abs(left_corner[0]),
-                    self.drift_speed, st)
-                self.yadjustment.drift_to_target(abs(left_corner[1]),
-                    self.drift_speed, st)
 
+            self.xadjustment.change(abs(left_corner[0]), end_animation=False)
+            self.yadjustment.change(abs(left_corner[1]), end_animation=False)
 
         @property
         def left_corner(self):
@@ -625,8 +612,6 @@ init python:
 
             self.xpos += int(xpos_adj)
             self.ypos += int(ypos_adj)
-
-
 
         def update_adjustment_limits(self):
             """
@@ -946,7 +931,7 @@ init python:
                 self.adjust_pos_for_zoom(start_zoom)
 
             self.clamp_pos()
-            self.update_adjustments(start_zoom!=self.zoom, st)
+            self.update_adjustments()
 
             if self.fingers:
                 self.text += '\n'.join([x.finger_info for x in self.fingers])
