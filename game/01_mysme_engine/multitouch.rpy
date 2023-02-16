@@ -461,6 +461,7 @@ init python:
 
             self.xadjustment.range = range
             self.yadjustment.range = range
+            #return
 
             ## The xadjustment value is the distance between the padded left
             ## and the left side of the screen
@@ -705,8 +706,8 @@ init python:
                 x = event_x
                 y = event_y
 
-            xadj_x = int(x - self.padding//2)
-            yadj_y = int(y - self.padding//2)
+            xadj_x = int(x)
+            yadj_y = int(y)
 
             start_zoom = self.zoom
             double_tap = False
