@@ -312,10 +312,8 @@ init python:
             self.zoom = start_zoom
             self.rotate = 0
 
-            self.padding = self.get_padding()
-
-            self.xpos = config.screen_width//2 - self.padding//2
-            self.ypos = config.screen_height//2 - self.padding//2
+            self.xpos = config.screen_width//2
+            self.ypos = config.screen_height//2
 
             self.anchor = (config.screen_width//2, config.screen_height//2)
 
@@ -349,22 +347,10 @@ init python:
 
             self.stationary_drag_counter = 0
 
-            xdim, ydim = self.get_dimensions()
-            xpadding = (self.padding - xdim) // 2
-            ypadding = (self.padding - ydim) // 2
+            self.xadjustment = MyAdjustment(1, 0)
+            self.yadjustment = MyAdjustment(1, 0)
 
-            if xdim <= config.screen_width:
-                # Value starts so it's centered
-                xadj_start = (config.screen_width - xdim)//2 - xpadding
-            else:
-                xadj_start = config.screen_width//2 - self.padding//2
-            if ydim < config.screen_height:
-                yadj_start = (config.screen_height - ydim)//2 - ypadding
-            else:
-                yadj_start = config.screen_height//2 - self.padding//2
-
-            self.xadjustment = MyAdjustment(self.padding, xadj_start)
-            self.yadjustment = MyAdjustment(self.padding, yadj_start)
+            self.padding = self.get_padding()
 
             self.update_adjustment_limits()
 
@@ -387,25 +373,10 @@ init python:
 
             self.stationary_drag_counter = 0
 
+            self.xadjustment = MyAdjustment(1, 0)
+            self.yadjustment = MyAdjustment(1, 0)
+
             self.padding = self.get_padding()
-            xdim, ydim = self.get_dimensions()
-            xpadding = (self.padding - xdim) // 2
-            ypadding = (self.padding - ydim) // 2
-
-            if xdim <= config.screen_width:
-                # Value starts so it's centered
-                xadj_start = (config.screen_width - xdim)//2 - xpadding
-            else:
-                xadj_start = config.screen_width//2 - self.padding//2
-            if ydim < config.screen_height:
-                yadj_start = (config.screen_height - ydim)//2 - ypadding
-            else:
-                yadj_start = config.screen_height//2 - self.padding//2
-
-            self.xadjustment = MyAdjustment(self.padding, xadj_start)
-            self.yadjustment = MyAdjustment(self.padding, yadj_start)
-            self.zadjustment = MyAdjustment(self.zoom_max-self.zoom_min, self.zoom-self.zoom_min)
-            self.zadjustment.range_limits = (0.0, self.zoom_max-self.zoom_min)
 
             self.update_adjustment_limits()
 
@@ -463,10 +434,7 @@ init python:
 
             dimensions = self.get_dimensions()
 
-            xpos = self.xpos + self.padding//2
-            ypos = self.ypos + self.padding//2
-            # xpos = config.screen_width//2
-            # ypos = config.screen_height//2
+            xpos, ypos = self.xpos, self.ypos
 
             the_img = Transform(self.img,
                 xysize=dimensions,
@@ -504,6 +472,8 @@ init python:
             ## top-left of the displayable
             left_corner = self.left_corner
 
+            ## Say the left corner is (-400, -300)
+            ## The anchor is (10, 50)
             if not with_inertia:
                 self.xadjustment.change(abs(left_corner[0]), end_animation=False)
                 self.yadjustment.change(abs(left_corner[1]), end_animation=False)
@@ -522,7 +492,6 @@ init python:
             # Currently, the xpos/ypos are indicating the center of the image
             padding = self.padding
             return (self.xpos - padding//2, self.ypos - padding//2)
-
 
         def normalize_pos(self, x, y):
             """
@@ -625,7 +594,7 @@ init python:
             """
             return
 
-        def adjust_pos_for_zoom(self, start_zoom, st):
+        def adjust_pos_for_zoom(self, start_zoom):
             """
             Adjust the position of the image such that it appears to be
             zooming in from the anchor point.
@@ -654,14 +623,8 @@ init python:
             xpos_adj = self.anchor[0] - new_xanchor
             ypos_adj = self.anchor[1] - new_yanchor
 
-            # self.xpos += int(xpos_adj)
-            # self.ypos += int(ypos_adj)
-
-            new_x = self.xpos + int(xpos_adj) - self.padding//2
-            new_y = self.ypos + int(ypos_adj) - self.padding//2
-
-            self.xadjustment.drift_to_target(new_x, self.drift_speed, st)
-            self.yadjustment.drift_to_target(new_y, self.drift_speed, st)
+            self.xpos += int(xpos_adj)
+            self.ypos += int(ypos_adj)
 
 
 
@@ -711,13 +674,8 @@ init python:
             drag itself is supposed to come along with it.
             """
 
-            # self.xpos = int(x - self.drag_offset[0])
-            # self.ypos = int(y - self.drag_offset[1])
-            new_x = int(x - self.drag_offset[0])
-            new_y = int(y - self.drag_offset[1])
-            self.xadjustment.change(new_x, end_animation=True)
-            self.yadjustment.change(new_y, end_animation=True)
-
+            self.xpos = int(x - self.drag_offset[0])
+            self.ypos = int(y - self.drag_offset[1])
 
             return
 
@@ -772,8 +730,8 @@ init python:
                 x = event_x
                 y = event_y
 
-            xadj_x = int(x)# - self.padding//2)
-            yadj_y = int(y)# - self.padding//2)
+            xadj_x = int(x - self.padding//2)
+            yadj_y = int(y - self.padding//2)
 
             start_zoom = self.zoom
             double_tap = False
@@ -948,7 +906,7 @@ init python:
 
                 if self.wheel_zoom:
                     # self.zoom += 0.05 #0.25
-                    self.zoom += 0.25 #0.25
+                    self.zoom += 0.15 #0.25
                 else:
                     self.rotate += 10
 
@@ -966,13 +924,13 @@ init python:
                 # self.zoom = self.zadjustment.value
 
                 if self.wheel_zoom:
-                    self.zoom -= 0.35
+                    self.zoom -= 0.25
                 else:
                     self.rotate -= 10
 
                 self.clamp_zoom()
                 self.zadjustment.drift_to_target(self.zoom-self.zoom_min,
-                    self.drift_speed, st)
+                    myconfig.viewport_inertia_time_constant/2.0, st)
 
             if ( (ev.type == pygame.MULTIGESTURE
                         and len(self.fingers) > 1)
@@ -985,10 +943,10 @@ init python:
                 self.clamp_zoom()
                 self.padding = self.get_padding()
                 self.update_adjustment_limits()
-                # self.adjust_pos_for_zoom(start_zoom, st)
+                self.adjust_pos_for_zoom(start_zoom)
 
-            # self.clamp_pos()
-            # self.update_adjustments(start_zoom!=self.zoom, st)
+            self.clamp_pos()
+            self.update_adjustments(start_zoom!=self.zoom, st)
 
             if self.fingers:
                 self.text += '\n'.join([x.finger_info for x in self.fingers])
@@ -1032,51 +990,6 @@ init python:
 
             super(ZoomGalleryDisplayable, self).__init__(img, width, height, min_ratio,
                 zoom_max, rotate_degrees=0, start_zoom=min_ratio, *args, **kwargs)
-
-        def update_adjustment_limits(self):
-            """
-            Adjust the limits as to how far the xadjustment can *actually* go.
-            """
-
-            ## Clamp
-            ## For the xpos: the minimum it can be will put the right edge
-            ## against the right side of the screen
-            ## So, how far is that?
-            dimensions = self.get_dimensions()
-            padding = self.padding
-
-            xpadding = (padding - dimensions[0])//2
-            ypadding = (padding - dimensions[1])//2
-
-            has_black_bars = (
-                (self.fill_screen_zoom_level > self.fit_screen_zoom_level)
-                and (self.zoom < self.fill_screen_zoom_level)
-            )
-
-            ## Are we zoomed out enough that we're going to start getting
-            ## black bars? Is that possible?
-            if has_black_bars and dimensions[0] <= config.screen_width:
-                ## Yes; center the image
-                xmin = config.screen_width//2-padding//2
-                xmax = config.screen_width//2-padding//2
-            else:
-                ## When the image is against the right side, the left side will
-                ## be at -(padding-screen_width-xpadding)
-                xmin = (padding-xpadding-config.screen_width)*-1
-                ## When the image is against the left side, the right side will
-                ## be at -xpadding
-                xmax = -xpadding
-
-            if has_black_bars and dimensions[1] <= config.screen_height:
-                # Just center it in the screen
-                ymin = config.screen_height//2-padding//2
-                ymax = config.screen_height//2-padding//2
-            else:
-                ymin = (padding-ypadding-config.screen_height)*-1
-                ymax = -ypadding
-
-            self.xadjustment.range_limits = (xmin, xmax)
-            self.yadjustment.range_limits = (ymin, ymax)
 
         def clamp_pos(self):
             """
@@ -1486,7 +1399,7 @@ init python:
 
             if redraw is not None:
                 renpy.redraw(self, redraw)
-                self.xpos = int(self.xadjustment.value + padding//2)
+                self.xpos = int(padding//2 - self.xadjustment.value)
             elif redraw is None and self.is_switching_image:
                 # Finished switching
                 self.is_switching_image = False
