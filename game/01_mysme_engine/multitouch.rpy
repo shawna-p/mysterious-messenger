@@ -1,6 +1,8 @@
 init python in myconfig:
     viewport_inertia_amplitude = 30.0#20.0
     viewport_inertia_time_constant = 0.325
+    viewport_drag_radius = 10
+    viewport_doubletap_delay = 0.4
 
 init python:
     import pygame
@@ -30,16 +32,19 @@ init python:
             The initial x position where the touch began.
         touchdown_y : int
             The initial y position where the touch began.
+        touchdown_st : float
+            The time when this finger first touched down.
         last_three_speeds : list((int, int))
             A list of tuples which contain the last three speeds of this
             finger as it was dragged around the screen.
         """
-        def __init__(self, x, y):
+        def __init__(self, x, y, st):
             """Initialize a Finger object."""
             self.x = x
             self.y = y
             self.touchdown_x = x
             self.touchdown_y = y
+            self.touchdown_st = st
             self.last_three_speeds = [ ]
 
         def dist(self, x, y):
@@ -256,6 +261,8 @@ init python:
         fingers : Finger[]
             A list of Finger objects which correspond to fingers currently
             tracked on-screen.
+        last_tap_st : float
+            The last timestamp when the player "tapped" the screen.
         original_values : (float, int, int, (int, int))
             A tuple of values corresponding to the original zoom level,
             xpos, ypos, and anchor.
@@ -332,6 +339,7 @@ init python:
             self.update_adjustment_limits()
 
             self.fingers = [ ]
+            self.last_tap_st = None
 
             self.original_values = (start_zoom, self.xpos, self.ypos, self.anchor)
 
@@ -462,9 +470,9 @@ init python:
             """
             return (int(x*config.screen_width), int(y*config.screen_height))
 
-        def register_finger(self, x, y):
+        def register_finger(self, x, y, st):
             """Register a finger to track."""
-            finger = Finger(x, y)
+            finger = Finger(x, y, st)
             self.fingers.append(finger)
             return finger
 
@@ -641,6 +649,30 @@ init python:
 
             return
 
+        def check_double_tap(self, finger, x, y, st):
+            """
+            Return True if the player double-tapped the screen.
+            """
+            if finger is None:
+                return False
+
+            oldx, oldy = finger.touchdown_x, finger.touchdown_y
+
+            if math.hypot(oldx - x, oldy - y) < myconfig.viewport_drag_radius:
+                # This counts as a tap
+                old_tap_st = self.last_tap_st
+                self.last_tap_st = st
+                # Double-tap?
+                if (old_tap_st is not None
+                        and (self.last_tap_st - old_tap_st)
+                            <= myconfig.viewport_doubletap_delay):
+                    # Double-tap!
+                    self.last_tap_st = None
+                    return True
+            else:
+                self.last_tap_st = None
+            return False
+
         def event(self, ev, event_x, event_y, st):
             """
             Captures events for the MultiTouch object. Notably, the events
@@ -672,6 +704,7 @@ init python:
             yadj_y = int(y - self.padding//2)
 
             start_zoom = self.zoom
+            double_tap = False
 
             if self.drag_finger is not None:
                 # Dragging
@@ -724,7 +757,7 @@ init python:
                         self.drag_finger.add_speed(self.drag_speed)
 
             if self.touch_down_event(ev):
-                finger = self.register_finger(x, y)
+                finger = self.register_finger(x, y, st)
 
                 if self.drag_finger is None and len(self.fingers) == 1:
                     # Inertia
@@ -752,7 +785,18 @@ init python:
             elif self.touch_up_event(ev):
                 finger = self.remove_finger(x, y)
 
-                if finger and self.drag_finger is finger:
+                if self.check_double_tap(finger, x, y, st):
+                    print("Double tap (child)!")
+                    # Yes double tap! Zoom in or out
+                    self.anchor = (x, y)
+                    zoom_amount = (self.zoom_max - self.zoom_min) / 3.0
+                    if self.zoom > self.zoom_min:
+                        # Zoomed in; can zoom back out
+                        self.zoom -= zoom_amount
+                    else:
+                        self.zoom += zoom_amount
+                    double_tap = True
+                elif finger and self.drag_finger is finger:
                     self.drag_finger = None
                     self.drag_offset = (0, 0)
 
@@ -849,6 +893,7 @@ init python:
                         and len(self.fingers) > 1)
                     or renpy.map_event(ev, "viewport_wheelup")
                     or renpy.map_event(ev, "viewport_wheeldown")
+                    or double_tap
             ):
 
                 self.clamp_rotate()
@@ -1512,7 +1557,7 @@ init python:
                         self.drag_finger.add_speed(self.drag_speed)
 
             if self.touch_down_event(ev):
-                finger = self.register_finger(x, y)
+                finger = self.register_finger(x, y, st)
 
                 if self.drag_finger is None and len(self.fingers) == 1:
                     # Inertia
@@ -1540,7 +1585,16 @@ init python:
             elif self.touch_up_event(ev):
                 finger = self.remove_finger(x, y)
 
-                if finger and self.drag_finger is finger:
+                child.last_tap_st = self.last_tap_st
+                if self.check_double_tap(finger, x, y, st):
+                    print("Double tap (parent)!")
+                    # Yes double tap! Pass it off to the child
+                    self.fingers.append(finger)
+                    child.fingers = self.fingers
+                    self.viewing_child = True
+                    return self.current_image.event(ev, event_x, event_y, st)
+
+                elif finger and self.drag_finger is finger:
                     self.drag_finger = None
                     self.drag_offset = (0, 0)
 
@@ -1613,17 +1667,6 @@ init python:
                     self.drag_position_time = st
 
             self.clamp_pos()
-
-            if self.fingers:
-                self.text += '\n'.join([x.finger_info for x in self.fingers])
-            else:
-                self.text += "No fingers recognized"
-
-            self.text += "\nPos: ({}, {})".format(self.xpos, self.ypos)
-            self.text += "\nAnchor: {}".format(self.anchor)
-            self.text += "\nxadjustment: {:.0f}/{:.0f}".format(self.xadjustment.value, self.xadjustment.range)
-            self.text += "\nyadjustment: {:.0f}/{:.0f}".format(self.yadjustment.value, self.yadjustment.range)
-            self.text += "\ndrag_speed: ({:.2f}, {:.2f})".format(self.drag_speed[0], self.drag_speed[1])
 
         def toggle_touch(self):
             """
