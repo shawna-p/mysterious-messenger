@@ -158,6 +158,9 @@ init python:
             self.animate(amplitude, time_constant * 6.0, self.inertia_warper)
             self.periodic(st)
 
+        def drift_to_target(self, target, time_constant, st):
+            self.inertia(target-self._value, time_constant, st)
+
         def end_animation(self, always=False, instantly=False):
             if always or self.animation_target is not None:
                 value = self.animation_target
@@ -476,11 +479,9 @@ init python:
                 self.xadjustment.change(abs(left_corner[0]), end_animation=False)
                 self.yadjustment.change(abs(left_corner[1]), end_animation=False)
             else:
-                self.xadjustment.inertia(
-                    abs(left_corner[0])-self.xadjustment._value,
+                self.xadjustment.drift_to_target(abs(left_corner[0]),
                     myconfig.viewport_inertia_time_constant/2.0, st)
-                self.yadjustment.inertia(
-                    abs(left_corner[1])-self.yadjustment._value,
+                self.yadjustment.inertia(abs(left_corner[1]),
                     myconfig.viewport_inertia_time_constant/2.0, st)
 
 
@@ -912,8 +913,7 @@ init python:
                     self.rotate += 10
 
                 self.clamp_zoom()
-                self.zadjustment.inertia(
-                    self.zoom-self.zoom_min-self.zadjustment._value,
+                self.zadjustment.drift_to_target(self.zoom-self.zoom_min,
                     myconfig.viewport_inertia_time_constant/2.0, st)
 
             elif renpy.map_event(ev, "viewport_wheeldown"):
@@ -931,8 +931,7 @@ init python:
                     self.rotate -= 10
 
                 self.clamp_zoom()
-                self.zadjustment.inertia(
-                    self.zoom-self.zoom_min-self.zadjustment._value,
+                self.zadjustment.drift_to_target(self.zoom-self.zoom_min,
                     myconfig.viewport_inertia_time_constant/2.0, st)
 
             if ( (ev.type == pygame.MULTIGESTURE
@@ -1496,8 +1495,7 @@ init python:
             """
             # self.animation_target = self._value + amplitude
             ## The animation target should be screen_width
-            self.xadjustment.inertia(
-                config.screen_width-self.xadjustment._value,
+            self.xadjustment.drift_to_target(config.screen_width,
                 myconfig.viewport_inertia_time_constant/speed_divisor, st)
 
         def event(self, ev, event_x, event_y, st):
@@ -1528,8 +1526,24 @@ init python:
             ## All we're doing is checking if they're swiping the image away
             child = self.current_image
 
+            # If the child is really close to being fully zoomed out,
+            # just snap it to the zoomed out position
+            swipe_threshold = config.screen_width//100
+            cx, cy = child.get_dimensions()
+            if (cy < config.screen_height
+                    and cx-swipe_threshold <= config.screen_width):
+                can_swipe = True
+            elif (cx < config.screen_width
+                    and cy-swipe_threshold <= config.screen_height):
+                can_swipe = True
+            elif (cx-swipe_threshold <= config.screen_width
+                    and cy-swipe_threshold <= config.screen_height):
+                can_swipe = True
+            else:
+                can_swipe = False
+
             # Too zoomed in
-            if ((child.zoom > child.fit_screen_zoom_level)
+            if ((child.zoom > child.fit_screen_zoom_level and not can_swipe)
                 # Or trying to zoom
                 or len(self.fingers) > 1
                 or ev.type == pygame.MULTIGESTURE
@@ -1668,8 +1682,7 @@ init python:
                     ## Have to drag it far enough across the screen
                     if xpos <= -max_drag_dist:
                         self.dragging_direction = "previous"
-                        self.xadjustment.inertia(
-                            0-self.xadjustment._value,
+                        self.xadjustment.drift_to_target(0,
                             myconfig.viewport_inertia_time_constant/speed_divisor, st)
                         self.is_switching_image = True
                     else:
@@ -1680,8 +1693,7 @@ init python:
                     # Dragging to get to next image
                     if xpos >= max_drag_dist:
                         self.dragging_direction = "next"
-                        self.xadjustment.inertia(
-                            self.xadjustment.range-self.xadjustment._value,
+                        self.xadjustment.drift_to_target(self.xadjustment.range,
                             myconfig.viewport_inertia_time_constant/speed_divisor, st)
                         self.is_switching_image = True
                     else:
