@@ -312,8 +312,10 @@ init python:
             self.zoom = start_zoom
             self.rotate = 0
 
-            self.xpos = config.screen_width//2
-            self.ypos = config.screen_height//2
+            self.padding = self.get_padding()
+
+            self.xpos = config.screen_width//2 - self.padding//2
+            self.ypos = config.screen_height//2 - self.padding//2
 
             self.anchor = (config.screen_width//2, config.screen_height//2)
 
@@ -347,10 +349,22 @@ init python:
 
             self.stationary_drag_counter = 0
 
-            self.xadjustment = MyAdjustment(1, 0)
-            self.yadjustment = MyAdjustment(1, 0)
+            xdim, ydim = self.get_dimensions()
+            xpadding = (self.padding - xdim) // 2
+            ypadding = (self.padding - ydim) // 2
 
-            self.padding = self.get_padding()
+            if xdim <= config.screen_width:
+                # Value starts so it's centered
+                xadj_start = (config.screen_width - xdim)//2 - xpadding
+            else:
+                xadj_start = config.screen_width//2 - self.padding//2
+            if ydim < config.screen_height:
+                yadj_start = (config.screen_height - ydim)//2 - ypadding
+            else:
+                yadj_start = config.screen_height//2 - self.padding//2
+
+            self.xadjustment = MyAdjustment(self.padding, xadj_start)
+            self.yadjustment = MyAdjustment(self.padding, yadj_start)
 
             self.update_adjustment_limits()
 
@@ -373,12 +387,25 @@ init python:
 
             self.stationary_drag_counter = 0
 
-            self.xadjustment = MyAdjustment(1, 0)
-            self.yadjustment = MyAdjustment(1, 0)
+            self.padding = self.get_padding()
+            xdim, ydim = self.get_dimensions()
+            xpadding = (self.padding - xdim) // 2
+            ypadding = (self.padding - ydim) // 2
+
+            if xdim <= config.screen_width:
+                # Value starts so it's centered
+                xadj_start = (config.screen_width - xdim)//2 - xpadding
+            else:
+                xadj_start = config.screen_width//2 - self.padding//2
+            if ydim < config.screen_height:
+                yadj_start = (config.screen_height - ydim)//2 - ypadding
+            else:
+                yadj_start = config.screen_height//2 - self.padding//2
+
+            self.xadjustment = MyAdjustment(self.padding, xadj_start)
+            self.yadjustment = MyAdjustment(self.padding, yadj_start)
             self.zadjustment = MyAdjustment(self.zoom_max-self.zoom_min, self.zoom-self.zoom_min)
             self.zadjustment.range_limits = (0.0, self.zoom_max-self.zoom_min)
-
-            self.padding = self.get_padding()
 
             self.update_adjustment_limits()
 
@@ -414,18 +441,17 @@ init python:
             redraw = self.xadjustment.periodic(st)
             if redraw is not None:
                 renpy.redraw(self, redraw)
-                self.xpos = int(padding//2 + self.xadjustment.value)
+            self.xpos = int(self.xadjustment.value)
 
             redraw = self.yadjustment.periodic(st)
             if redraw is not None:
                 renpy.redraw(self, redraw)
-                self.ypos = int(padding//2 + self.yadjustment.value)
+            self.ypos = int(self.yadjustment.value)
 
             redraw = self.zadjustment.periodic(st)
             if redraw is not None:
                 renpy.redraw(self, redraw)
-                self.zoom = self.zadjustment.value + self.zoom_min
-                print("zadjustment", self.zoom)
+            self.zoom = self.zadjustment.value + self.zoom_min
 
         def render(self, width, height, st, at):
             """
@@ -437,9 +463,10 @@ init python:
 
             dimensions = self.get_dimensions()
 
-            xpos, ypos = self.xpos, self.ypos
-            xpos = config.screen_width//2
-            ypos = config.screen_height//2
+            xpos = self.xpos + self.padding//2
+            ypos = self.ypos + self.padding//2
+            # xpos = config.screen_width//2
+            # ypos = config.screen_height//2
 
             the_img = Transform(self.img,
                 xysize=dimensions,
@@ -571,7 +598,6 @@ init python:
             anchor of the image so it can be dragged around.
             """
 
-            padding = self.padding
             dx = x - self.xpos
             dy = y - self.ypos
             self.drag_offset = (dx, dy)
@@ -685,8 +711,13 @@ init python:
             drag itself is supposed to come along with it.
             """
 
-            self.xpos = int(x - self.drag_offset[0])
-            self.ypos = int(y - self.drag_offset[1])
+            # self.xpos = int(x - self.drag_offset[0])
+            # self.ypos = int(y - self.drag_offset[1])
+            new_x = int(x - self.drag_offset[0])
+            new_y = int(y - self.drag_offset[1])
+            self.xadjustment.change(new_x, end_animation=True)
+            self.yadjustment.change(new_y, end_animation=True)
+
 
             return
 
@@ -741,8 +772,8 @@ init python:
                 x = event_x
                 y = event_y
 
-            xadj_x = int(x - self.padding//2)
-            yadj_y = int(y - self.padding//2)
+            xadj_x = int(x)# - self.padding//2)
+            yadj_y = int(y)# - self.padding//2)
 
             start_zoom = self.zoom
             double_tap = False
@@ -954,10 +985,10 @@ init python:
                 self.clamp_zoom()
                 self.padding = self.get_padding()
                 self.update_adjustment_limits()
-                self.adjust_pos_for_zoom(start_zoom, st)
+                # self.adjust_pos_for_zoom(start_zoom, st)
 
-            self.clamp_pos()
-            self.update_adjustments(start_zoom!=self.zoom, st)
+            # self.clamp_pos()
+            # self.update_adjustments(start_zoom!=self.zoom, st)
 
             if self.fingers:
                 self.text += '\n'.join([x.finger_info for x in self.fingers])
