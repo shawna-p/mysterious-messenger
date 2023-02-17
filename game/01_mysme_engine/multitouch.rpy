@@ -273,7 +273,7 @@ init python:
 
         ## The speed at which adjustments reset positions, such as when
         ## switching gallery images or zooming in
-        drift_speed = myconfig.viewport_inertia_time_constant/4.0
+        drift_speed = myconfig.viewport_inertia_time_constant*4.0
 
         def __init__(self, img, width, height, zoom_min=0.25, zoom_max=4.0,
                 rotate_degrees=360, start_zoom=1.0, *args, **kwargs):
@@ -412,10 +412,23 @@ init python:
                 renpy.redraw(self, redraw)
                 self.ypos = int(self.yadjustment.value*-1)
 
-            # redraw = self.zadjustment.periodic(st)
-            # if redraw is not None:
-            #     renpy.redraw(self, redraw)
-            # self.zoom = self.zadjustment.value + self.zoom_min
+            redraw = self.zadjustment.periodic(st)
+            if redraw is not None:
+                renpy.redraw(self, redraw)
+                start_zoom = self.zoom
+                self.zoom = self.zadjustment.value + self.zoom_min
+
+                # zoom_xadj, zoom_yadj = self.adjust_pos_for_zoom(start_zoom, self.zoom)
+                # self.xpos += zoom_xadj
+                # self.ypos += zoom_yadj
+                # self.xpos = int(self.xpos)
+                # self.ypos = int(self.ypos)
+
+                # print("Zoom changed from", start_zoom, "to", self.zoom, "nudged", zoom_xadj, zoom_yadj)
+
+                # self.clamp_pos()
+                # self.update_adjustments()
+
 
         def render(self, width, height, st, at):
             """
@@ -429,6 +442,8 @@ init python:
 
             xpos = self.xpos + self.padding//2
             ypos = self.ypos + self.padding//2
+            # xpos = int(-self.xadjustment.value) + self.padding//2
+            # ypos = int(-self.yadjustment.value) + self.padding//2
 
             the_img = Transform(self.img,
                 xysize=dimensions,
@@ -440,7 +455,7 @@ init python:
             text = Text(self.text, style='multitouch_text')
 
             fix = Fixed(
-                the_img, # text,
+                the_img, text,
                 xysize=(config.screen_width, config.screen_height),
             )
 
@@ -461,7 +476,7 @@ init python:
 
             self.xadjustment.range = range
             self.yadjustment.range = range
-            #return
+            # return
 
             ## The xadjustment value is the distance between the padded left
             ## and the left side of the screen
@@ -572,15 +587,15 @@ init python:
             """
             return
 
-        def adjust_pos_for_zoom(self, start_zoom):
+        def adjust_pos_for_zoom(self, start_zoom, end_zoom):
             """
             Adjust the position of the image such that it appears to be
             zooming in from the anchor point.
             """
 
-            if start_zoom == self.zoom:
+            if start_zoom == end_zoom:
                 # No change
-                return
+                return (0, 0)
             ## First, where is the anchor point relative to the actual
             ## center anchor of the image?
             dx =  self.xpos - self.anchor[0]
@@ -589,9 +604,9 @@ init python:
             x_dist_from_zoom1 = dx / start_zoom
             y_dist_from_zoom1 = dy / start_zoom
 
-            ## First task: find where the anchor pixel position is on the new size
-            new_dx = x_dist_from_zoom1*self.zoom
-            new_dy = y_dist_from_zoom1*self.zoom
+            ## Next task: find where the anchor pixel position is on the new size
+            new_dx = x_dist_from_zoom1*end_zoom
+            new_dy = y_dist_from_zoom1*end_zoom
 
             new_xanchor = self.xpos - new_dx
             new_yanchor = self.ypos - new_dy
@@ -601,8 +616,10 @@ init python:
             xpos_adj = self.anchor[0] - new_xanchor
             ypos_adj = self.anchor[1] - new_yanchor
 
-            self.xpos += int(xpos_adj)
-            self.ypos += int(ypos_adj)
+            # self.xpos += int(xpos_adj)
+            # self.ypos += int(ypos_adj)
+
+            return (xpos_adj, ypos_adj)
 
         def update_adjustment_limits(self):
             """
@@ -912,10 +929,21 @@ init python:
                 self.clamp_zoom()
                 self.padding = self.get_padding()
                 self.update_adjustment_limits()
-                self.adjust_pos_for_zoom(start_zoom)
 
-            self.clamp_pos()
-            self.update_adjustments()
+                # if not double_tap and self.touch_screen_mode:
+                zoom_xadj, zoom_yadj = self.adjust_pos_for_zoom(start_zoom, self.zoom)
+                self.xpos += int(zoom_xadj)
+                self.ypos += int(zoom_yadj)
+
+                self.clamp_pos()
+                self.update_adjustments()
+
+                # if start_zoom != self.zoom and (not self.touch_screen_mode or double_tap):
+                #     self.zadjustment.drift_to_target(self.zoom-self.zoom_min, self.drift_speed, st)
+            else:
+                self.clamp_pos()
+                self.update_adjustments()
+
 
             if self.fingers:
                 self.text += '\n'.join([x.finger_info for x in self.fingers])
@@ -926,7 +954,8 @@ init python:
             self.text += "\nAnchor: {}".format(self.anchor)
             self.text += "\nxadjustment: {}/{}".format(self.xadjustment.value, self.xadjustment.range)
             self.text += "\nyadjustment: {}/{}".format(self.yadjustment.value, self.yadjustment.range)
-            self.text += "\ndrag_speed: ({:.2f}, {:.2f})".format(self.drag_speed[0], self.drag_speed[1])
+            self.text += "\nzadjustment: {}/{}".format(self.zadjustment.value, self.zadjustment.range)
+            #self.text += "\ndrag_speed: ({:.2f}, {:.2f})".format(self.drag_speed[0], self.drag_speed[1])
 
 
     class ZoomGalleryDisplayable(MultiTouch):
@@ -1761,7 +1790,7 @@ default zoom_gallery = ZoomGallery(
     #show_locked=True,
     image_size=(config.screen_width, config.screen_height)
 )
-default flowers_unlocked = False
+default flowers_unlocked = True
 
 screen multitouch_test():
     modal True
