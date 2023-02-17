@@ -276,7 +276,7 @@ init python:
 
         ## The speed at which adjustments reset positions, such as when
         ## switching gallery images or zooming in
-        drift_speed = myconfig.viewport_inertia_time_constant/2.0
+        drift_speed = myconfig.viewport_inertia_time_constant/4.0
 
         def __init__(self, img, width, height, zoom_min=0.25, zoom_max=4.0,
                 rotate_degrees=360, start_zoom=1.0, *args, **kwargs):
@@ -433,21 +433,7 @@ init python:
                 self.clamp_pos()
                 self.update_adjustments()
 
-                print(f"updated xypos ({zoom_xadj:.2f}, {zoom_yadj:.2f}) now ({self.xpos:.2f}, {self.ypos:.2f})")
-
                 renpy.redraw(self, redraw)
-            #     zoom_xadj, zoom_yadj = self.adjust_pos_for_zoom(start_zoom, self.zoom)
-            #     if self.xpos != 0 or self.ypos != 0:
-            #         # It moved
-            #         self.xpos += zoom_xadj
-            #         self.ypos += zoom_yadj
-            #         self.xpos = int(self.xpos)
-            #         self.ypos = int(self.ypos)
-            #         self.clamp_pos()
-            #         self.update_adjustments()
-
-                # print("Zoom changed from", start_zoom, "to", self.zoom, "nudged", zoom_xadj, zoom_yadj)
-
 
 
         def render(self, width, height, st, at):
@@ -475,7 +461,7 @@ init python:
             text = Text(self.text, style='multitouch_text')
 
             fix = Fixed(
-                the_img, text,
+                the_img, # text,
                 xysize=(config.screen_width, config.screen_height),
             )
 
@@ -849,11 +835,11 @@ init python:
                     # Yes double tap! Zoom in or out
                     self.anchor = (x, y)
                     zoom_amount = (self.zoom_max - self.zoom_min) / 3.0
-                    if self.zoom > self.zoom_min:
+                    if start_zoom > (self.zoom_min + zoom_amount/3.0):
                         # Zoomed in; can zoom back out
-                        self.zoom -= zoom_amount
+                        self.zoom = start_zoom - zoom_amount
                     else:
-                        self.zoom += zoom_amount
+                        self.zoom = start_zoom + zoom_amount
                     double_tap = True
                     self.drag_finger = None
                 elif finger and self.drag_finger is finger:
@@ -962,28 +948,19 @@ init python:
                 self.clamp_rotate()
                 self.clamp_zoom()
 
-                #self.zadjustment.change(self.zoom-self.zoom_min, end_animation=False)
-                self.zadjustment.drift_to_target(self.zoom-self.zoom_min, self.drift_speed, st)
+                if not double_tap and self.touch_screen_mode:
+                    zoom_xadj, zoom_yadj = self.adjust_pos_for_zoom(start_zoom, self.zoom)
+                    self.xpos += int(zoom_xadj)
+                    self.ypos += int(zoom_yadj)
+                    self.zadjustment.change(self.zoom-self.zoom_min, end_animation=False)
+                else:
+                    self.zadjustment.drift_to_target(self.zoom-self.zoom_min, self.drift_speed, st)
 
                 self.padding = self.get_padding()
                 self.update_adjustment_limits()
 
-
-                # if not double_tap and self.touch_screen_mode:
-                # zoom_xadj, zoom_yadj = self.adjust_pos_for_zoom(start_zoom, self.zoom)
-                # self.xpos += int(zoom_xadj)
-                # self.ypos += int(zoom_yadj)
-
-
                 self.clamp_pos()
                 self.update_adjustments()
-
-                # if start_zoom != self.zoom and (not self.touch_screen_mode or double_tap):
-                #     # self.zadjustment.change(start_zoom-self.zoom_min, end_animation=True)
-                #     self.zadjustment.drift_to_target(self.zoom-self.zoom_min, self.drift_speed, st)
-                #     self.zoom = start_zoom
-                #print("END ZADJUSTMENT GOAL:", self.zoom)
-                #self.zadjustment.drift_to_target(self.zoom-self.zoom_min, 0.2, st)
             else:
                 self.clamp_pos()
                 self.update_adjustments()
@@ -1692,6 +1669,7 @@ init python:
                     self.fingers.append(finger)
                     child.fingers = self.fingers
                     self.viewing_child = True
+                    self.drag_finger = None
                     return self.current_image.event(ev, event_x, event_y, st)
 
                 elif finger and self.drag_finger is finger:
