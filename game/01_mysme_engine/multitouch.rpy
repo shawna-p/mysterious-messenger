@@ -190,7 +190,7 @@ init python:
             self.change(value, end_animation=False)
 
             # Did we hit a wall?
-            if value <= self.range_limits[0] or value >= self.range_limits[1]:
+            if value < self.range_limits[0] or value > self.range_limits[1]:
                 self.end_animation(instantly=True)
                 return None
             elif st > self.animation_start + self.animation_delay: # type: ignore
@@ -802,6 +802,7 @@ init python:
                     else:
                         self.zoom += zoom_amount
                     double_tap = True
+                    self.drag_finger = None
                 elif finger and self.drag_finger is finger:
                     self.drag_finger = None
                     self.drag_offset = (0, 0)
@@ -886,10 +887,6 @@ init python:
                 else:
                     self.rotate += 10
 
-                self.clamp_zoom()
-                self.zadjustment.drift_to_target(self.zoom-self.zoom_min,
-                    self.drift_speed, st)
-
             elif renpy.map_event(ev, "viewport_wheeldown"):
                 # Set the anchor to wherever they're hovering
                 self.anchor = (x, y)
@@ -904,10 +901,7 @@ init python:
                 else:
                     self.rotate -= 10
 
-                self.clamp_zoom()
-                self.zadjustment.drift_to_target(self.zoom-self.zoom_min,
-                    myconfig.viewport_inertia_time_constant/2.0, st)
-
+            ## Zooming/rotating
             if ( (ev.type == pygame.MULTIGESTURE
                         and len(self.fingers) > 1)
                     or renpy.map_event(ev, "viewport_wheelup")
