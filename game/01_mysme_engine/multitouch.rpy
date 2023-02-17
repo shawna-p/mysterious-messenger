@@ -461,7 +461,7 @@ init python:
             text = Text(self.text, style='multitouch_text')
 
             fix = Fixed(
-                the_img, # text,
+                the_img, text,
                 xysize=(config.screen_width, config.screen_height),
             )
 
@@ -835,11 +835,11 @@ init python:
                     # Yes double tap! Zoom in or out
                     self.anchor = (x, y)
                     zoom_amount = (self.zoom_max - self.zoom_min) / 3.0
-                    if start_zoom > (self.zoom_min + zoom_amount/3.0):
+                    if self.zoom > (self.zoom_min + zoom_amount/3.0):
                         # Zoomed in; can zoom back out
-                        self.zoom = start_zoom - zoom_amount
+                        self.zoom -= zoom_amount
                     else:
-                        self.zoom = start_zoom + zoom_amount
+                        self.zoom += zoom_amount
                     double_tap = True
                     self.drag_finger = None
                 elif finger and self.drag_finger is finger:
