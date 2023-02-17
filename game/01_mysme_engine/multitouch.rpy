@@ -601,27 +601,41 @@ init python:
                 # No change
                 return (0, 0)
             ## First, where is the anchor point relative to the actual
-            ## center anchor of the image?
+            ## pos of the image?
+            ## Note that x/ypos starts at the top-left corner of the
+            ## *starting zoom*
+            ## Example: pos (-200, -300), anchor (300, 100)
+            ## dx = -500, dy = -400
             dx =  self.xpos - self.anchor[0]
             dy =  self.ypos - self.anchor[1]
 
+            ## If this was zoomed in 200%, then
+            ## x_dist_from_zoom1 = -250, y_dist_from_zoom1 = -200
             x_dist_from_zoom1 = dx / start_zoom
             y_dist_from_zoom1 = dy / start_zoom
 
             ## Next task: find where the anchor pixel position is on the new size
+            ## new_dx = distance between the anchor point and left corner on
+            ## the new zoomed image
+            ## If the new zoom is 150%, then
+            ## new_dx = -375, new_dy = -300
             new_dx = x_dist_from_zoom1*end_zoom
             new_dy = y_dist_from_zoom1*end_zoom
 
+            ## new_xanchor = 175, new_yanchor = 0
             new_xanchor = self.xpos - new_dx
             new_yanchor = self.ypos - new_dy
 
             # Adjust the position to put that back at the
             # original anchor location
+            ## xpos_adj = 125, ypos_adj = 100
             xpos_adj = self.anchor[0] - new_xanchor
             ypos_adj = self.anchor[1] - new_yanchor
 
             # self.xpos += int(xpos_adj)
             # self.ypos += int(ypos_adj)
+
+            # self.xpos + xpos_adj is the xpos of the zoomed-in final position
 
             return (xpos_adj, ypos_adj)
 
