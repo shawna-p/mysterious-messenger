@@ -309,18 +309,18 @@ init python:
             self.zoom = start_zoom
             self.rotate = 0
 
+            self.zoom_max = zoom_max
+            self.zoom_min = zoom_min
+
+            self.zadjustment = MyAdjustment(zoom_max-zoom_min, start_zoom-zoom_min)
+            self.zadjustment.range_limits = (0.0, zoom_max-zoom_min)
+
             self.padding = self.get_padding()
 
             self.xpos = config.screen_width//2 - self.padding//2
             self.ypos = config.screen_height//2 - self.padding//2
 
             self.anchor = (config.screen_width//2, config.screen_height//2)
-
-            self.zoom_max = zoom_max
-            self.zoom_min = zoom_min
-
-            self.zadjustment = MyAdjustment(zoom_max-zoom_min, start_zoom-zoom_min)
-            self.zadjustment.range_limits = (0.0, zoom_max-zoom_min)
 
             min_width_ratio = config.screen_width / float(width)
             min_height_ratio = config.screen_height / float(height)
@@ -415,23 +415,39 @@ init python:
                 renpy.redraw(self, redraw)
                 self.ypos = int(self.yadjustment.value*-1)
 
+            start_zoom = self.zadjustment.value+self.zoom_min
             redraw = self.zadjustment.periodic(st)
             if redraw is not None:
                 renpy.redraw(self, redraw)
-                start_zoom = self.zoom
             self.zoom = self.zadjustment.value + self.zoom_min
             self.clamp_zoom()
 
-                # zoom_xadj, zoom_yadj = self.adjust_pos_for_zoom(start_zoom, self.zoom)
-                # self.xpos += zoom_xadj
-                # self.ypos += zoom_yadj
-                # self.xpos = int(self.xpos)
-                # self.ypos = int(self.ypos)
+            if redraw is not None:
+                self.padding = self.get_padding()
+                self.update_adjustment_limits()
+
+                # if not double_tap and self.touch_screen_mode:
+                zoom_xadj, zoom_yadj = self.adjust_pos_for_zoom(start_zoom, self.zoom)
+                self.xpos += zoom_xadj
+                self.ypos += zoom_yadj
+                self.clamp_pos()
+                self.update_adjustments()
+
+                print(f"updated xypos ({zoom_xadj:.2f}, {zoom_yadj:.2f}) now ({self.xpos:.2f}, {self.ypos:.2f})")
+
+                renpy.redraw(self, redraw)
+            #     zoom_xadj, zoom_yadj = self.adjust_pos_for_zoom(start_zoom, self.zoom)
+            #     if self.xpos != 0 or self.ypos != 0:
+            #         # It moved
+            #         self.xpos += zoom_xadj
+            #         self.ypos += zoom_yadj
+            #         self.xpos = int(self.xpos)
+            #         self.ypos = int(self.ypos)
+            #         self.clamp_pos()
+            #         self.update_adjustments()
 
                 # print("Zoom changed from", start_zoom, "to", self.zoom, "nudged", zoom_xadj, zoom_yadj)
 
-                # self.clamp_pos()
-                # self.update_adjustments()
 
 
         def render(self, width, height, st, at):
@@ -444,8 +460,8 @@ init python:
 
             dimensions = self.get_dimensions()
 
-            xpos = self.xpos + self.padding//2
-            ypos = self.ypos + self.padding//2
+            xpos = int(self.xpos + self.padding//2)
+            ypos = int(self.ypos + self.padding//2)
             # xpos = int(-self.xadjustment.value) + self.padding//2
             # ypos = int(-self.yadjustment.value) + self.padding//2
 
@@ -573,7 +589,9 @@ init python:
             Return the current dimensions of the image, according to
             the current zoom level.
             """
-            return (int(self.width*self.zoom), int(self.height*self.zoom))
+            current_zoom = self.zadjustment.value + self.zoom_min
+            return (int(self.width*current_zoom), int(self.height*current_zoom))
+            #return (int(self.width*self.zoom), int(self.height*self.zoom))
 
         def get_padding(self, dimensions=None):
             """
@@ -943,13 +961,19 @@ init python:
             ):
                 self.clamp_rotate()
                 self.clamp_zoom()
+
+                #self.zadjustment.change(self.zoom-self.zoom_min, end_animation=False)
+                self.zadjustment.drift_to_target(self.zoom-self.zoom_min, self.drift_speed, st)
+
                 self.padding = self.get_padding()
                 self.update_adjustment_limits()
 
+
                 # if not double_tap and self.touch_screen_mode:
-                zoom_xadj, zoom_yadj = self.adjust_pos_for_zoom(start_zoom, self.zoom)
-                self.xpos += int(zoom_xadj)
-                self.ypos += int(zoom_yadj)
+                # zoom_xadj, zoom_yadj = self.adjust_pos_for_zoom(start_zoom, self.zoom)
+                # self.xpos += int(zoom_xadj)
+                # self.ypos += int(zoom_yadj)
+
 
                 self.clamp_pos()
                 self.update_adjustments()
@@ -958,9 +982,8 @@ init python:
                 #     # self.zadjustment.change(start_zoom-self.zoom_min, end_animation=True)
                 #     self.zadjustment.drift_to_target(self.zoom-self.zoom_min, self.drift_speed, st)
                 #     self.zoom = start_zoom
-                self.zadjustment.change(self.zoom-self.zoom_min, end_animation=False)
-                # self.zadjustment.drift_to_target(self.zoom-self.zoom_min, self.drift_speed, st)
-                # self.zadjustment.drift_to_target(self.zoom-self.zoom_min, 0.01, st)
+                #print("END ZADJUSTMENT GOAL:", self.zoom)
+                #self.zadjustment.drift_to_target(self.zoom-self.zoom_min, 0.2, st)
             else:
                 self.clamp_pos()
                 self.update_adjustments()
@@ -975,7 +998,7 @@ init python:
             self.text += "\nAnchor: {}".format(self.anchor)
             self.text += "\nxadjustment: {}/{}".format(self.xadjustment.value, self.xadjustment.range)
             self.text += "\nyadjustment: {}/{}".format(self.yadjustment.value, self.yadjustment.range)
-            self.text += "\nzadjustment: {}/{}".format(self.zadjustment.value, self.zadjustment.range)
+            self.text += "\nzadjustment: ({:.2f}/{:.2f})".format(self.zadjustment.value, self.zadjustment.range)
             #self.text += "\ndrag_speed: ({:.2f}, {:.2f})".format(self.drag_speed[0], self.drag_speed[1])
 
 
