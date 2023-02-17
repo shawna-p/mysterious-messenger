@@ -182,8 +182,11 @@ init python:
             if self.animation_start is None:
                 self.animation_start = st
 
-            done = (st - self.animation_start) / self.animation_delay
-            done = self.animation_warper(done)
+            if self.animation_delay == 0:
+                done = 1.0
+            else:
+                done = (st - self.animation_start) / self.animation_delay
+                done = self.animation_warper(done)
 
             value = self.animation_target - self.animation_amplitude * (1.0 - done)
 
@@ -416,7 +419,8 @@ init python:
             if redraw is not None:
                 renpy.redraw(self, redraw)
                 start_zoom = self.zoom
-                self.zoom = self.zadjustment.value + self.zoom_min
+            self.zoom = self.zadjustment.value + self.zoom_min
+            self.clamp_zoom()
 
                 # zoom_xadj, zoom_yadj = self.adjust_pos_for_zoom(start_zoom, self.zoom)
                 # self.xpos += zoom_xadj
@@ -937,10 +941,12 @@ init python:
                 self.update_adjustments()
 
                 # if start_zoom != self.zoom and (not self.touch_screen_mode or double_tap):
-                #     self.zadjustment.change(start_zoom-self.zoom_min, end_animation=True)
+                #     # self.zadjustment.change(start_zoom-self.zoom_min, end_animation=True)
                 #     self.zadjustment.drift_to_target(self.zoom-self.zoom_min, self.drift_speed, st)
                 #     self.zoom = start_zoom
                 self.zadjustment.change(self.zoom-self.zoom_min, end_animation=False)
+                # self.zadjustment.drift_to_target(self.zoom-self.zoom_min, self.drift_speed, st)
+                # self.zadjustment.drift_to_target(self.zoom-self.zoom_min, 0.01, st)
             else:
                 self.clamp_pos()
                 self.update_adjustments()
@@ -965,7 +971,7 @@ init python:
         Subclasses MultiTouch in order to provide more specific clamped
         positioning and zooming.
         """
-        def __init__(self, img, width, height, zoom_max=3.0, *args, **kwargs):
+        def __init__(self, img, width, height, zoom_max=2.1, *args, **kwargs):
             """
             Initialize a ZoomGalleryDisplayable object.
 
