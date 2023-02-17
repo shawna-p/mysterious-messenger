@@ -277,6 +277,9 @@ init python:
         show_ui : bool
             Toggled between True and False if the player single-taps the screen.
             Can be used to display UI.
+        parent : MultiTouch
+            Used for some organization, such as ZoomGallery. The parent of
+            this MultiTouch object.
         original_values : (float, int, int, (int, int))
             A tuple of values corresponding to the original zoom level,
             xpos, ypos, and anchor.
@@ -363,6 +366,7 @@ init python:
             self.last_tap_st = None
             self.show_ui_st = None
             self.show_ui = True
+            self.parent = None
 
             self.original_values = (start_zoom, self.xpos, self.ypos, self.anchor)
 
@@ -850,13 +854,12 @@ init python:
 
                 num_taps = self.check_tap(finger, x, y, st)
                 if num_taps == 2:
-                    print("Double tap (child)!")
                     # Yes double tap! Zoom in or out
                     self.anchor = (x, y)
                     zoom_amount = (self.zoom_max - self.zoom_min) / 3.0
                     if self.zoom > (self.zoom_min + zoom_amount/3.0):
                         # Zoomed in; can zoom back out
-                        self.zoom -= zoom_amount
+                        self.zoom = self.zoom_min
                     else:
                         self.zoom += zoom_amount
                     double_tap = True
@@ -864,12 +867,18 @@ init python:
                     self.drag_position = None
                     self.drag_position_time = None
 
+                    if self.parent is not None:
+                        self.parent.show_ui_st = None
+
                 elif num_taps == 1:
-                    print("Single tap (child)!")
                     self.drag_offset = (0, 0)
                     self.drag_finger = None
                     self.drag_position = None
                     self.drag_position_time = None
+                    if self.parent is not None:
+                        single_tap_wait = myconfig.viewport_doubletap_delay
+                        self.parent.show_ui_st = st + single_tap_wait
+                        renpy.redraw(self.parent, single_tap_wait)
 
                 elif finger and self.drag_finger is finger:
                     self.drag_finger = None
@@ -1470,6 +1479,7 @@ init python:
 
             text = ""
             child = self.current_image
+            child.parent = self
 
             xpos = config.screen_width*2 - int(self.xadjustment.value) - config.screen_width
 
@@ -1702,7 +1712,6 @@ init python:
                 child.last_tap_st = self.last_tap_st
                 num_taps = self.check_tap(finger, x, y, st)
                 if num_taps == 2:
-                    print("Double tap (parent)!")
                     # Yes double tap! Pass it off to the child
                     self.fingers.append(finger)
                     child.fingers = self.fingers
@@ -1711,11 +1720,15 @@ init python:
                     return self.current_image.event(ev, event_x, event_y, st)
 
                 elif num_taps == 1:
-                    print("Single tap (parent)!")
                     # Just a regular tap; keep in mind they might double-tap
                     single_tap_wait = myconfig.viewport_doubletap_delay
                     self.show_ui_st = st + single_tap_wait
                     renpy.redraw(self, single_tap_wait)
+                    self.drag_finger = None
+                    self.drag_offset = (0, 0)
+                    self.drag_position = None
+                    self.drag_position_time = None
+
 
                 elif finger and self.drag_finger is finger:
                     self.drag_finger = None
@@ -1851,6 +1864,7 @@ default zoom_gallery = ZoomGallery(
     ZoomGalleryImage("flowers", "flowers.jpg", 1920, 2560, condition="flowers_unlocked"),
     ZoomGalleryImage("vase", "vase.jpg", 1920, 2560),
     ZoomGalleryImage("city", "city.jpg", 1920, 1200),
+    ZoomGalleryImage("parakeet", "parakeet.jpg", 840, 1493),
     screen="display_zoom_gallery",
     #loop_gallery=False,
     locked_image="locked_img",
@@ -1874,6 +1888,7 @@ screen multitouch_test():
             textbutton "Flowers" action ViewGallery(zoom_gallery, "flowers")
             textbutton "Vase" action ViewGallery(zoom_gallery, "vase")
             textbutton "City" action ViewGallery(zoom_gallery, "city")
+            textbutton "Parakeet" action ViewGallery(zoom_gallery, "parakeet")
         hbox:
             align (0.5, 0.5)
             spacing 40
@@ -1892,15 +1907,16 @@ screen display_zoom_gallery():
 
     default show_log = True
 
-    add "#000d"
+    add "#1d1d1d"
 
     add zoom_gallery
 
     showif zoom_gallery.show_ui:
         frame:
             at smooth_in()
-            padding (40, 40) background "#0005"
+            padding (30, 30) background "#0005"
             align (0.5, 0.0)
+            xfill True
             modal True
             has hbox
             spacing 40 xalign 0.5
