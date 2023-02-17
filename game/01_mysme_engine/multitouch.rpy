@@ -2,7 +2,10 @@ init python in myconfig:
     viewport_inertia_amplitude = 30.0#20.0
     viewport_inertia_time_constant = 0.325
     viewport_drag_radius = 10
-    viewport_doubletap_delay = 0.4
+    # Time between two successive taps
+    viewport_doubletap_delay = 0.25
+    # Time between touchdown and touchup to be considered a tap
+    viewport_tap_length = 0.25
 
 init python:
     import pygame
@@ -269,6 +272,11 @@ init python:
             tracked on-screen.
         last_tap_st : float
             The last timestamp when the player "tapped" the screen.
+        show_ui_st : float
+            The timestamp when the UI should be toggled.
+        show_ui : bool
+            Toggled between True and False if the player single-taps the screen.
+            Can be used to display UI.
         original_values : (float, int, int, (int, int))
             A tuple of values corresponding to the original zoom level,
             xpos, ypos, and anchor.
@@ -353,6 +361,8 @@ init python:
 
             self.fingers = [ ]
             self.last_tap_st = None
+            self.show_ui_st = None
+            self.show_ui = True
 
             self.original_values = (start_zoom, self.xpos, self.ypos, self.anchor)
 
@@ -461,7 +471,7 @@ init python:
             text = Text(self.text, style='multitouch_text')
 
             fix = Fixed(
-                the_img, text,
+                the_img, # text,
                 xysize=(config.screen_width, config.screen_height),
             )
 
@@ -694,14 +704,19 @@ init python:
 
             return
 
-        def check_double_tap(self, finger, x, y, st):
+        def check_tap(self, finger, x, y, st):
             """
-            Return True if the player double-tapped the screen.
+            Return the number of taps the player has made on the screen in
+            a row (max 2).
             """
             if finger is None:
                 return False
 
             oldx, oldy = finger.touchdown_x, finger.touchdown_y
+            if  (st - finger.touchdown_st) > myconfig.viewport_tap_length:
+                # Too long for a tap
+                self.last_tap_st = None
+                return 0
 
             if math.hypot(oldx - x, oldy - y) < myconfig.viewport_drag_radius:
                 # This counts as a tap
@@ -713,10 +728,12 @@ init python:
                             <= myconfig.viewport_doubletap_delay):
                     # Double-tap!
                     self.last_tap_st = None
-                    return True
+                    self.show_ui_st = None
+                    return 2
+                return 1
             else:
                 self.last_tap_st = None
-            return False
+            return 0
 
         def event(self, ev, event_x, event_y, st):
             """
@@ -737,6 +754,7 @@ init python:
                 For zooming out/counter-clockwise rotation, on a non-touch
                 device.
             """
+            # print("CHILD EVENT", ev)
             self.text = ""
 
             if ev.type in (pygame.FINGERDOWN, pygame.FINGERMOTION, pygame.FINGERUP):
@@ -830,7 +848,8 @@ init python:
             elif self.touch_up_event(ev):
                 finger = self.remove_finger(x, y)
 
-                if self.check_double_tap(finger, x, y, st):
+                num_taps = self.check_tap(finger, x, y, st)
+                if num_taps == 2:
                     print("Double tap (child)!")
                     # Yes double tap! Zoom in or out
                     self.anchor = (x, y)
@@ -842,6 +861,16 @@ init python:
                         self.zoom += zoom_amount
                     double_tap = True
                     self.drag_finger = None
+                    self.drag_position = None
+                    self.drag_position_time = None
+
+                elif num_taps == 1:
+                    print("Single tap (child)!")
+                    self.drag_offset = (0, 0)
+                    self.drag_finger = None
+                    self.drag_position = None
+                    self.drag_position_time = None
+
                 elif finger and self.drag_finger is finger:
                     self.drag_finger = None
                     self.drag_offset = (0, 0)
@@ -1442,7 +1471,14 @@ init python:
             text = ""
             child = self.current_image
 
-            xpos = config.screen_width*2 - int(self.xadjustment.value) - config.screen_width #self.xpos
+            xpos = config.screen_width*2 - int(self.xadjustment.value) - config.screen_width
+
+            if (self.show_ui_st is not None) and (st > self.show_ui_st):
+                # Toggle the UI
+                self.show_ui = not self.show_ui
+                print("Toggling UI", self.show_ui_st)
+                self.show_ui_st = None
+                renpy.restart_interaction()
 
             ## Note: using off-by-1 numbers here since due to rounding
             ## the next/previous images can end up 1 pixel on-screen
@@ -1539,6 +1575,7 @@ init python:
             between images. Once the player has zoomed in, they can no longer
             swipe between images, hence events are passed to the child.
             """
+            # print("PARENT EVENT", ev)
 
             ## All we're doing is checking if they're swiping the image away
             child = self.current_image
@@ -1663,7 +1700,8 @@ init python:
                 finger = self.remove_finger(x, y)
 
                 child.last_tap_st = self.last_tap_st
-                if self.check_double_tap(finger, x, y, st):
+                num_taps = self.check_tap(finger, x, y, st)
+                if num_taps == 2:
                     print("Double tap (parent)!")
                     # Yes double tap! Pass it off to the child
                     self.fingers.append(finger)
@@ -1671,6 +1709,13 @@ init python:
                     self.viewing_child = True
                     self.drag_finger = None
                     return self.current_image.event(ev, event_x, event_y, st)
+
+                elif num_taps == 1:
+                    print("Single tap (parent)!")
+                    # Just a regular tap; keep in mind they might double-tap
+                    single_tap_wait = myconfig.viewport_doubletap_delay
+                    self.show_ui_st = st + single_tap_wait
+                    renpy.redraw(self, single_tap_wait)
 
                 elif finger and self.drag_finger is finger:
                     self.drag_finger = None
@@ -1751,7 +1796,7 @@ init python:
             """
             self.touch_screen_mode = not self.touch_screen_mode
             for child in self.gallery_displayables:
-                child.touch_screen_mode = not child.touch_screen_mode
+                child.touch_screen_mode = self.touch_screen_mode
 
     class ViewGallery(Action):
         """
@@ -1845,16 +1890,31 @@ screen display_zoom_gallery():
 
     modal True
 
-    default show_log = False
+    default show_log = True
 
     add "#000d"
 
     add zoom_gallery
 
-    frame:
-        align (1.0, 1.0)
-        modal True
-        has vbox
-        textbutton "Touch version {}".format(zoom_gallery.touch_screen_mode):
-            action Function(zoom_gallery.toggle_touch)
-        textbutton "Return" action Hide()
+    showif zoom_gallery.show_ui:
+        frame:
+            at smooth_in()
+            padding (40, 40) background "#0005"
+            align (0.5, 0.0)
+            modal True
+            has hbox
+            spacing 40 xalign 0.5
+            textbutton "Touch version {}".format(zoom_gallery.touch_screen_mode):
+                action Function(zoom_gallery.toggle_touch)
+            textbutton "Return" action Hide()
+
+transform smooth_in():
+    xalign 0.5
+    on show:
+        ypos 0.0 yanchor 1.0
+        easein 0.5 yanchor 0.0
+    on hide:
+        easeout 0.5 yanchor 1.0
+    on appear:
+        ypos 0.0 yanchor 0.0
+
