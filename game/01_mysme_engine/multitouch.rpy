@@ -273,7 +273,7 @@ init python:
 
         ## The speed at which adjustments reset positions, such as when
         ## switching gallery images or zooming in
-        drift_speed = myconfig.viewport_inertia_time_constant*4.0
+        drift_speed = myconfig.viewport_inertia_time_constant/2.0
 
         def __init__(self, img, width, height, zoom_min=0.25, zoom_max=4.0,
                 rotate_degrees=360, start_zoom=1.0, *args, **kwargs):
@@ -726,7 +726,7 @@ init python:
             xadj_x = int(x)
             yadj_y = int(y)
 
-            start_zoom = self.zoom
+            start_zoom = self.zadjustment.value+self.zoom_min#self.zoom
             double_tap = False
 
             if self.drag_finger is not None:
@@ -896,11 +896,10 @@ init python:
                 self.xadjustment.end_animation(instantly=True)
                 self.yadjustment.end_animation(instantly=True)
                 self.zadjustment.end_animation(instantly=True)
-                # self.zoom = self.zadjustment.value
 
                 if self.wheel_zoom:
                     # self.zoom += 0.05 #0.25
-                    self.zoom += 0.15 #0.25
+                    self.zoom = start_zoom + 0.15 #0.25
                 else:
                     self.rotate += 10
 
@@ -911,10 +910,9 @@ init python:
                 self.xadjustment.end_animation(instantly=True)
                 self.yadjustment.end_animation(instantly=True)
                 self.zadjustment.end_animation(instantly=True)
-                # self.zoom = self.zadjustment.value
 
                 if self.wheel_zoom:
-                    self.zoom -= 0.25
+                    self.zoom = start_zoom - 0.25
                 else:
                     self.rotate -= 10
 
@@ -939,7 +937,10 @@ init python:
                 self.update_adjustments()
 
                 # if start_zoom != self.zoom and (not self.touch_screen_mode or double_tap):
+                #     self.zadjustment.change(start_zoom-self.zoom_min, end_animation=True)
                 #     self.zadjustment.drift_to_target(self.zoom-self.zoom_min, self.drift_speed, st)
+                #     self.zoom = start_zoom
+                self.zadjustment.change(self.zoom-self.zoom_min, end_animation=False)
             else:
                 self.clamp_pos()
                 self.update_adjustments()
