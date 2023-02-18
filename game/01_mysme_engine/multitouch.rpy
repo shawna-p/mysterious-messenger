@@ -1899,6 +1899,8 @@ screen multitouch_test():
         align (1.0, 1.0)
         modal True
         has vbox
+        textbutton "Touch version {}".format(zoom_gallery.touch_screen_mode):
+            action Function(zoom_gallery.toggle_touch)
         textbutton "Return" action Hide()
 
 screen display_zoom_gallery():
@@ -1919,18 +1921,31 @@ screen display_zoom_gallery():
             xfill True
             modal True
             has hbox
-            spacing 40 xalign 0.5
-            textbutton "Touch version {}".format(zoom_gallery.touch_screen_mode):
-                action Function(zoom_gallery.toggle_touch)
-            textbutton "Return" action Hide()
+            xalign 0.0
+            fixed:
+                xysize (50,50)
+                align (0.5, 0.5)
+                imagebutton:
+                    align (0.5, 0.5)
+                    idle 'back_arrow_btn'
+                    hover Transform('back_arrow_btn', zoom=1.2)
+                    keysym "K_BACKSPACE"
+                    action Hide()
+
 
 transform smooth_in():
     xalign 0.5
     on show:
-        ypos 0.0 yanchor 1.0
-        easein 0.5 yanchor 0.0
+        parallel:
+            ypos 0.0 yanchor 1.0
+            easein 0.5 yanchor 0.0
+        parallel:
+            easeout 0.35 alpha 1.0
     on hide:
-        easeout 0.5 yanchor 1.0
+        parallel:
+            easeout 0.5 yanchor 1.0
+        parallel:
+            easeout 0.35 alpha 0.0
     on appear:
-        ypos 0.0 yanchor 0.0
+        ypos 0.0 yanchor 0.0 alpha 1.0
 
