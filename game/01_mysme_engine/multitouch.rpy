@@ -1907,6 +1907,9 @@ screen display_zoom_gallery():
 
     modal True
 
+    key 'rollback' action NullAction()
+    key 'rollforward' action NullAction()
+
     default show_log = True
 
     add "#1d1d1d"
