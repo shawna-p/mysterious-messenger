@@ -1843,6 +1843,21 @@ init python:
             self.gallery.set_up_gallery(self.image_name)
             renpy.run(Show(self.gallery.screen))
 
+    class NextGalleryImage(Action):
+        """
+        A class to simplify viewing the next gallery image in a ZoomGallery.
+
+        Attributes:
+        -----------
+        gallery : ZoomGallery
+            The ZoomGallery object with the images being displayed.
+        """
+        def __init__(self, gallery):
+            self.gallery = gallery
+        def get_sensitive(self):
+            return (self.gallery.next_image is not None)
+
+
 style multitouch_text:
     color "#fff"
     size 35
