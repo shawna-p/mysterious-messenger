@@ -1188,7 +1188,13 @@ init python:
         is_switching_image : bool
             True if the gallery is in the process of switching to display
             a new image to the player.
+        st : float
+            The shown timebase of this displayable.
         """
+
+        ## The speed at which adjustments reset positions, such as when
+        ## switching gallery images or zooming in
+        drift_speed = myconfig.viewport_inertia_time_constant/4.0
 
         def __init__(self, *images, screen=None,
                 image_size=None, locked_image=None,
@@ -1269,6 +1275,7 @@ init python:
             self.dragging_direction = None
             # In the process of switching images
             self.is_switching_image = False
+            self.st = None
 
         def is_viewable(self, name):
             """
@@ -1404,6 +1411,19 @@ init python:
 
             self.gallery_setup_previous_next(start_index)
 
+        def swap_gallery_next(self, st):
+            self.dragging_direction = "next"
+            self.xadjustment.drift_to_target(self.xadjustment.range,
+                self.drift_speed, st)
+            self.is_switching_image = True
+
+        def swap_gallery_previous(self, st):
+            self.dragging_direction = "previous"
+            self.xadjustment.drift_to_target(0,
+                self.drift_speed, st)
+            self.is_switching_image = True
+
+
         def gallery_setup_previous_next(self, start_index):
             """
             Set up the current_index, the next and previous images, and ensure
@@ -1473,6 +1493,7 @@ init python:
             """
             Render the ZoomGallery displayable to the screen.
             """
+            self.st = st
             r = renpy.Render(width, height)
 
             self.redraw_adjustments(st)
@@ -1550,7 +1571,7 @@ init python:
             ## Just keep the ypos in the center
             self.ypos = config.screen_height//2
 
-        def return_to_original_pos(self, st, speed_divisor=1.0):
+        def return_to_original_pos(self, st):
             """
             Return the ZoomGallery displayable to its "home" position. Typically
             used after the player has not dragged it far enough to count as a
@@ -1559,7 +1580,7 @@ init python:
             """
             ## The animation target should be screen_width
             self.xadjustment.drift_to_target(config.screen_width,
-                myconfig.viewport_inertia_time_constant/speed_divisor, st)
+                self.drift_speed, st)
 
         def event(self, ev, event_x, event_y, st):
             """
@@ -1729,7 +1750,6 @@ init python:
                     self.drag_position = None
                     self.drag_position_time = None
 
-
                 elif finger and self.drag_finger is finger:
                     self.drag_finger = None
                     self.drag_offset = (0, 0)
@@ -1757,27 +1777,21 @@ init python:
                     # Dragging to get to previous image
                     ## Have to drag it far enough across the screen
                     if xpos <= -max_drag_dist:
-                        self.dragging_direction = "previous"
-                        self.xadjustment.drift_to_target(0,
-                            myconfig.viewport_inertia_time_constant/speed_divisor, st)
-                        self.is_switching_image = True
+                        self.swap_gallery_previous(st)
                     else:
                         # Animate it back into place
-                        self.return_to_original_pos(st, speed_divisor)
+                        self.return_to_original_pos(st)
 
                 elif xpos > 0 and self.next_image:
                     # Dragging to get to next image
                     if xpos >= max_drag_dist:
-                        self.dragging_direction = "next"
-                        self.xadjustment.drift_to_target(self.xadjustment.range,
-                            myconfig.viewport_inertia_time_constant/speed_divisor, st)
-                        self.is_switching_image = True
+                        self.swap_gallery_next(st)
                     else:
                         # Animate it back into place
-                        self.return_to_original_pos(st, speed_divisor)
+                        self.return_to_original_pos(st)
                 else:
                     # Just animate it back into place
-                    self.return_to_original_pos(st, speed_divisor)
+                    self.return_to_original_pos(st)
                     self.dragging_direction = None
 
             elif ev.type in (pygame.FINGERMOTION, pygame.MOUSEMOTION):
@@ -1856,7 +1870,30 @@ init python:
             self.gallery = gallery
         def get_sensitive(self):
             return (self.gallery.next_image is not None)
+        def __call__(self):
+            # Update the st
+            renpy.redraw(self.gallery, 0)
+            # Move it
+            self.gallery.swap_gallery_next(self.gallery.st)
 
+    class PreviousGalleryImage(Action):
+        """
+        A class to simplify viewing the previous gallery image in a ZoomGallery.
+
+        Attributes:
+        -----------
+        gallery : ZoomGallery
+            The ZoomGallery object with the images being displayed.
+        """
+        def __init__(self, gallery):
+            self.gallery = gallery
+        def get_sensitive(self):
+            return (self.gallery.previous_image is not None)
+        def __call__(self):
+            # Update the st
+            renpy.redraw(self.gallery, 0)
+            # Move it
+            self.gallery.swap_gallery_previous(self.gallery.st)
 
 style multitouch_text:
     color "#fff"
@@ -1939,7 +1976,7 @@ screen display_zoom_gallery():
             xfill True
             modal True
             has hbox
-            xalign 0.0
+            xalign 0.0 spacing 50
             fixed:
                 xysize (50,50)
                 align (0.5, 0.5)
@@ -1949,6 +1986,9 @@ screen display_zoom_gallery():
                     hover Transform('back_arrow_btn', zoom=1.2)
                     keysym "K_BACKSPACE"
                     action Hide()
+
+            textbutton "Previous" action PreviousGalleryImage(zoom_gallery)
+            textbutton "Next" action NextGalleryImage(zoom_gallery)
 
 
 transform smooth_in():
