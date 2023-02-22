@@ -202,7 +202,7 @@ init python:
             # Did we hit a wall?
             if value < self.range_limits[0] or value > self.range_limits[1]:
                 self.end_animation(instantly=True)
-                return None
+                return 0
             elif st > self.animation_start + self.animation_delay: # type: ignore
                 self.end_animation(instantly=True)
                 return None
@@ -494,19 +494,6 @@ init python:
             """
             Update the x/yadjustments after updating the xypos.
             """
-
-            ## Range: the whole width of the padded displayable
-            range = self.padding
-
-            self.xadjustment.range = range
-            self.yadjustment.range = range
-            # return
-
-            ## The xadjustment value is the distance between the padded left
-            ## and the left side of the screen
-            ## so if the xpos is left of the left edge, then -xpos
-            ## it *can't* be right of the left edge
-
             self.xadjustment.change(-self.xpos, end_animation=False)
             self.yadjustment.change(-self.ypos, end_animation=False)
 
@@ -666,24 +653,8 @@ init python:
             Adjust the limits as to how far the xadjustment can *actually* go.
             """
 
-            ## Clamp
-            ## For the xpos: the minimum it can be will put the right edge
-            ## against the right side of the screen
-            ## So, how far is that?
-            dimensions = self.get_dimensions()
-            padding = self.get_padding(dimensions)
-
-            xpadding = (padding - dimensions[0])//2
-            ypadding = (padding - dimensions[1])//2
-
-            xmin = xpadding
-            xmax = (padding - xpadding - config.screen_width)
-
-            ymin = ypadding
-            ymax = padding - ypadding - config.screen_height
-
-            self.xadjustment.range_limits = (xmin, xmax)
-            self.yadjustment.range_limits = (ymin, ymax)
+            self.xadjustment.range_limits = (0, self.xadjustment.range)
+            self.yadjustment.range_limits = (0, self.yadjustment.range)
 
         def update_anchor(self):
             """
@@ -1094,6 +1065,43 @@ init python:
                 ymin = (padding-ypadding-config.screen_height)*-1
                 self.ypos = max(self.ypos, ymin)
                 self.ypos = min(self.ypos, -ypadding)
+
+        def update_adjustments(self):
+            """
+            Update the x/yadjustments after updating the xypos.
+            """
+
+            ## Range: the whole width of the padded displayable
+            range = self.padding
+
+            self.xadjustment.range = range
+            self.yadjustment.range = range
+
+            super(ZoomGalleryDisplayable, self).update_adjustments()
+
+        def update_adjustment_limits(self):
+            """
+            Adjust the limits as to how far the xadjustment can *actually* go.
+            """
+
+            ## Clamp
+            ## For the xpos: the minimum it can be will put the right edge
+            ## against the right side of the screen
+            ## So, how far is that?
+            dimensions = self.get_dimensions()
+            padding = self.get_padding(dimensions)
+
+            xpadding = (padding - dimensions[0])//2
+            ypadding = (padding - dimensions[1])//2
+
+            xmin = xpadding
+            xmax = (padding - xpadding - config.screen_width)
+
+            ymin = ypadding
+            ymax = padding - ypadding - config.screen_height
+
+            self.xadjustment.range_limits = (xmin, xmax)
+            self.yadjustment.range_limits = (ymin, ymax)
 
     class ZoomGalleryImage():
         """
