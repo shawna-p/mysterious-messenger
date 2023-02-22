@@ -1,6 +1,9 @@
 init python in myconfig:
-    viewport_inertia_amplitude = 30.0#20.0
+    # The amplitude of an inertial flick (aka how speedy it is)
+    viewport_inertia_amplitude = 30.0
+    # Controls how quickly the flick gesture decays
     viewport_inertia_time_constant = 0.325
+    # How many pixels to drag before it's considered a drag not a tap
     viewport_drag_radius = 10
     # Time between two successive taps
     viewport_doubletap_delay = 0.25
@@ -83,6 +86,7 @@ init python:
         def finger_info(self):
             """Print info on a finger in an easily-presentable format."""
             return "Finger: ({}, {})".format(self.x, self.y)
+
 
     class MyAdjustment(renpy.display.behavior.Adjustment):
         """
@@ -204,6 +208,7 @@ init python:
                 return None
             else:
                 return 0
+
 
     class MultiTouch(renpy.Displayable):
         """
@@ -448,7 +453,6 @@ init python:
                 self.update_adjustments()
 
                 renpy.redraw(self, redraw)
-
 
         def render(self, width, height, st, at):
             """
@@ -1132,6 +1136,7 @@ init python:
             except Exception as e:
                 return True
 
+
     class ZoomGallery(MultiTouch):
         """
         A class which holds a list of gallery images to be able to swipe
@@ -1423,7 +1428,6 @@ init python:
                 self.drift_speed, st)
             self.is_switching_image = True
 
-
         def gallery_setup_previous_next(self, start_index):
             """
             Set up the current_index, the next and previous images, and ensure
@@ -1507,7 +1511,6 @@ init python:
             if (self.show_ui_st is not None) and (st > self.show_ui_st):
                 # Toggle the UI
                 self.show_ui = not self.show_ui
-                print("Toggling UI", self.show_ui_st)
                 self.show_ui_st = None
                 renpy.restart_interaction()
 
@@ -1825,6 +1828,7 @@ init python:
             for child in self.gallery_displayables:
                 child.touch_screen_mode = self.touch_screen_mode
 
+
     class ViewGallery(Action):
         """
         A class with an action to simplify viewing a particular image in the
@@ -1857,6 +1861,7 @@ init python:
             self.gallery.set_up_gallery(self.image_name)
             renpy.run(Show(self.gallery.screen))
 
+
     class NextGalleryImage(Action):
         """
         A class to simplify viewing the next gallery image in a ZoomGallery.
@@ -1876,6 +1881,7 @@ init python:
             # Move it
             self.gallery.swap_gallery_next(self.gallery.st)
 
+
     class PreviousGalleryImage(Action):
         """
         A class to simplify viewing the previous gallery image in a ZoomGallery.
@@ -1894,6 +1900,7 @@ init python:
             renpy.redraw(self.gallery, 0)
             # Move it
             self.gallery.swap_gallery_previous(self.gallery.st)
+
 
 style multitouch_text:
     color "#fff"
@@ -1916,7 +1923,7 @@ default zoom_gallery = ZoomGallery(
     ZoomGalleryImage("flowers", "flowers.jpg", 1920, 2560, condition="flowers_unlocked"),
     ZoomGalleryImage("vase", "vase.jpg", 1920, 2560),
     ZoomGalleryImage("city", "city.jpg", 1920, 1200),
-    ZoomGalleryImage("parakeet", "parakeet.jpg", 840, 1493),
+    #ZoomGalleryImage("parakeet", "parakeet.jpg", 840, 1493),
     screen="display_zoom_gallery",
     #loop_gallery=False,
     locked_image="locked_img",
