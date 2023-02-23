@@ -168,8 +168,8 @@ init python:
         def drift_to_target(self, target, time_constant, st):
             self.inertia(target-self._value, time_constant, st)
 
-        def end_animation(self, always=False, instantly=False):
-            if always or self.animation_target is not None:
+        def end_animation(self, instantly=False):
+            if self.animation_target is not None:
                 value = self.animation_target
 
                 self.animation_amplitude = None
