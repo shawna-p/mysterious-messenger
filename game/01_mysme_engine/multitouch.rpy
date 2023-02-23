@@ -1103,6 +1103,7 @@ init python:
             self.xadjustment.range_limits = (xmin, xmax)
             self.yadjustment.range_limits = (ymin, ymax)
 
+
     class ZoomGalleryImage():
         """
         A class to facilitate declaring images to be used in a ZoomGallery.
@@ -1983,6 +1984,7 @@ screen display_zoom_gallery():
 
     add zoom_gallery
 
+    ## Ensures the UI gets the smooth_in show/hide events when toggled
     showif zoom_gallery.show_ui:
         frame:
             at smooth_in()
@@ -2005,7 +2007,7 @@ screen display_zoom_gallery():
             textbutton "Previous" action PreviousGalleryImage(zoom_gallery)
             textbutton "Next" action NextGalleryImage(zoom_gallery)
 
-
+## A transform to transition the UI in and out
 transform smooth_in():
     xalign 0.5
     on show:
