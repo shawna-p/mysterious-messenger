@@ -27,11 +27,21 @@ init python:
             A string representing a condition which, if checked, should
             indicate whether this image should be shown in the gallery
             or not. Usually a persistent variable e.g. "persistent.dlc1"
+        zoom_gallery : ZoomGallery
+            Automatically provided. The ZoomGallery object associated with
+            this GalleryImage.
+        zoom_image : ZoomGalleryImage
+            Automatically provided. The ZoomGalleryImage associated with this
+            GalleryImage.
+        width : int
+            The width of this image.
+        height : int
+            The height of this image.
         """
 
         def __init__(self, name, img=None, thumbnail=None,
                 locked_img="CGs/album_unlock.webp", chat_img=None,
-                chat_preview=None, condition=None):
+                chat_preview=None, condition=None, width=750, height=1334):
             """Create a GalleryImage object."""
 
             self.name = name
@@ -62,6 +72,10 @@ init python:
             self.p_chat_preview = chat_preview
 
             self.condition = condition or "True"
+            self.zoom_gallery = None
+            self.zoom_image = None
+            self.width = width
+            self.height = height
 
         def evaluate_condition(self):
             """Evaluate whether this image should be shown in the gallery."""
@@ -208,6 +222,49 @@ init python:
             else:
                 return False
 
+
+    class GalleryAlbum():
+        """
+        A class made to simplify turning the original Gallery method into
+        a suitable format for a ZoomGallery.
+
+        Attributes:
+        -----------
+        images : GalleryImage[]
+            A list of GalleryImage objects that make up this album.
+        zg : ZoomGallery
+            The ZoomGallery which holds these images.
+        """
+        def __init__(self, images):
+            self.images = images
+            self.images_to_zoom_gallery()
+
+        def images_to_zoom_gallery(self):
+            """
+            Turn the provided GalleryImage objects into a ZoomGallery.
+            """
+            zoom_images = [ ]
+            for image in self.images:
+                # Create a ZoomGalleryImage
+                zi = ZoomGalleryImage(image.name, image.img, image.width,
+                    image.height, condition=image.condition)
+                zoom_images.append(zi)
+
+            self.zg = ZoomGallery(*zoom_images, screen='display_zoom_gallery',
+                image_size=None, locked_image=None,
+                show_locked=False, loop_gallery=True)
+            for image, zi in zip(self.images, zoom_images):
+                image.zoom_gallery = self.zg
+                image.zoom_image = zi
+
+        def __iter__(self):
+            return iter(self.images)
+
+    def get_album_len(album):
+        if isinstance(album, GalleryAlbum):
+            return len(album.images)
+        else:
+            return len(album)
 
     def check_for_old_albums(set_popup=True):
         """Check if we need to update old albums to the new style."""
