@@ -1868,7 +1868,7 @@ init python:
             Set up the gallery and display the specified image.
             """
             self.gallery.set_up_gallery(self.image_name)
-            renpy.run(Show(self.gallery.screen))
+            renpy.run(Show(self.gallery.screen, None, self.gallery))
 
 
     class NextGalleryImage(Action):
@@ -1916,11 +1916,6 @@ style multitouch_text:
     size 35
     outlines [ (1, "#000", 0, 0)]
 
-default multi_touch = MultiTouch("Profile Pics/Zen/zen-10-b.webp", 314, 314)
-default cg_zoom = ZoomGalleryDisplayable("jellyfish.jpg", 1920, 2880)
-default cg_zoom2 = ZoomGalleryDisplayable("flowers.jpg", 1920, 2560)
-default cg_zoom3 = ZoomGalleryDisplayable("vase.jpg", 1920, 2560)
-default cg_zoom4 = ZoomGalleryDisplayable("city.jpg", 1920, 1200)
 image locked_img = Window(
     Text("Locked", style="multitouch_text", size=120, align=(0.5, 0.5)),
     style="default", background="#380a0a",
@@ -1971,7 +1966,7 @@ screen multitouch_test():
             action Function(zoom_gallery.toggle_touch)
         textbutton "Return" action Hide()
 
-screen display_zoom_gallery():
+screen display_zoom_gallery(zg):
 
     modal True
 
@@ -1982,10 +1977,10 @@ screen display_zoom_gallery():
 
     add "#1d1d1d"
 
-    add zoom_gallery
+    add zg
 
     ## Ensures the UI gets the smooth_in show/hide events when toggled
-    showif zoom_gallery.show_ui:
+    showif zg.show_ui:
         frame:
             at smooth_in()
             padding (30, 30) background "#0005"
@@ -2004,8 +1999,8 @@ screen display_zoom_gallery():
                     keysym "K_BACKSPACE"
                     action Hide()
 
-            textbutton "Previous" action PreviousGalleryImage(zoom_gallery)
-            textbutton "Next" action NextGalleryImage(zoom_gallery)
+            textbutton "Previous" action PreviousGalleryImage(zg)
+            textbutton "Next" action NextGalleryImage(zg)
 
 ## A transform to transition the UI in and out
 transform smooth_in():
