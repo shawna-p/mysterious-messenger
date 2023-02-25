@@ -1871,46 +1871,6 @@ init python:
             renpy.run(Show(self.gallery.screen, None, self.gallery))
 
 
-    class NextGalleryImage(Action):
-        """
-        A class to simplify viewing the next gallery image in a ZoomGallery.
-
-        Attributes:
-        -----------
-        gallery : ZoomGallery
-            The ZoomGallery object with the images being displayed.
-        """
-        def __init__(self, gallery):
-            self.gallery = gallery
-        def get_sensitive(self):
-            return (self.gallery.next_image is not None)
-        def __call__(self):
-            # Update the st
-            renpy.redraw(self.gallery, 0)
-            # Move it
-            self.gallery.swap_gallery_next(self.gallery.st)
-
-
-    class PreviousGalleryImage(Action):
-        """
-        A class to simplify viewing the previous gallery image in a ZoomGallery.
-
-        Attributes:
-        -----------
-        gallery : ZoomGallery
-            The ZoomGallery object with the images being displayed.
-        """
-        def __init__(self, gallery):
-            self.gallery = gallery
-        def get_sensitive(self):
-            return (self.gallery.previous_image is not None)
-        def __call__(self):
-            # Update the st
-            renpy.redraw(self.gallery, 0)
-            # Move it
-            self.gallery.swap_gallery_previous(self.gallery.st)
-
-
 style multitouch_text:
     color "#fff"
     size 35
@@ -1999,8 +1959,6 @@ screen display_zoom_gallery(zg):
                     keysym "K_BACKSPACE"
                     action Hide()
 
-            textbutton "Previous" action PreviousGalleryImage(zg)
-            textbutton "Next" action NextGalleryImage(zg)
 
 ## A transform to transition the UI in and out
 transform smooth_in():
