@@ -58,11 +58,11 @@ define u_album = []
 define v_album = []
 define y_album = []
 define z_album = []
-define common_album = [
+define common_album = GalleryAlbum([
     GalleryImage("cg common_1"),
     GalleryImage("cg common_2"),
     GalleryImage("cg common_3")
-]
+])
 
 
 init offset = 0
