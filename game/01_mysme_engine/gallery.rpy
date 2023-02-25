@@ -713,10 +713,10 @@ screen char_album(caption, name=None, album=None, cover=None):
                 background caption
                 hover_background Fixed(caption, caption)
                 if len(name) > 6:
-                    text name + ' (' + str(len(album)) + ')':
+                    text name + ' (' + str(get_album_len(album)) + ')':
                         style 'album_text_long'
                 else:
-                    text name + ' (' + str(len(album)) + ')':
+                    text name + ' (' + str(get_album_len(album)) + ')':
                         style 'album_text_short'
 
         action Show('character_gallery', album=album,
@@ -728,7 +728,6 @@ screen char_album(caption, name=None, album=None, cover=None):
 screen character_gallery(album, caption, name):
 
     tag menu
-    $ num_rows = max(len(album) // 4 + (len(album) % 4 > 0), 1)
 
     use menu_header('Photo Album', Show('photo_album', Dissolve(0.5))):
 
@@ -741,20 +740,19 @@ screen character_gallery(album, caption, name):
                 xalign 0.01
                 add caption
                 if len(name) > 6:
-                    text name + ' (' + str(len(album)) + ')':
+                    text name + ' (' + str(get_album_len(album)) + ')':
                         style 'album_text_long'
                 else:
-                    text name + ' (' + str(len(album)) + ')':
+                    text name + ' (' + str(get_album_len(album)) + ')':
                         style 'album_text_short'
 
             vpgrid id 'gallery_vp':
                 xysize (740, config.screen_height-234)
                 yfill True
-                rows num_rows
                 cols 4
                 draggable True
                 mousewheel True
-                if len(album):
+                if get_album_len(album):
                     scrollbars "vertical"
                 side_xalign 1.0
                 side_spacing 15
@@ -767,20 +765,26 @@ screen character_gallery(album, caption, name):
                         idle photo.thumbnail
                         if not photo.seen_in_album and photo.unlocked:
                             foreground 'new_sign'
-                        action If(photo.unlocked,
-                            [SetVariable("fullsizeCG", photo.img),
-                            SetField(photo, 'seen_in_album', True),
-                            SetVariable('close_visible', True),
-                            SetVariable('album_info_for_CG',
-                                [album, caption, name, index]),
-                            Show('viewCG_fullsize_album', album=album,
-                                caption=caption, name=name)],
+                        action MMViewGallery(index, photo, album, caption, name)
 
-                            CConfirm("This image is not yet unlocked"))
 
-                # This fills out the rest of the grid
-                for i in range((4*num_rows) - len(album)):
-                    null
+init python:
+    def MMViewGallery(index, photo, album, caption, name):
+        if isinstance(album, GalleryAlbum):
+            final_action = ViewGallery(album.zg, photo.name)
+        else:
+            final_action = Show('viewCG_fullsize_album', album=album,
+                caption=caption, name=name)
+
+        return If(photo.unlocked,
+            [SetVariable("fullsizeCG", photo.img),
+            SetField(photo, 'seen_in_album', True),
+            SetVariable('close_visible', True),
+            SetVariable('album_info_for_CG',
+                [album, caption, name, index]),
+            final_action],
+
+            CConfirm("This image is not yet unlocked"))
 
 style album_text_short:
     align (0.5, 0.5)
