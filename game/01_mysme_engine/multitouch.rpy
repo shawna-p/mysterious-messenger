@@ -1261,7 +1261,10 @@ init python:
                 self.gallery_images.append(img)
 
             self.previous_image = None
-            self.current_image = self.gallery_images[0]
+            if self.gallery_images:
+                self.current_image = self.gallery_images[0]
+            else:
+                self.current_image= None
             if len(self.gallery_images) > 1:
                 self.next_image = self.gallery_images[1]
             else:
@@ -1337,9 +1340,11 @@ init python:
             self.current_index = start_index
 
             ## Set up next and previous images
-            if len(self.unlocked_displayables) == 1:
+            if len(self.unlocked_displayables) <= 1:
                 self.previous_image = None
                 self.next_image = None
+                prev_index = -1
+                next_index = -1
             else:
                 prev_index, next_index = self.get_next_prev_index(start_index)
                 if prev_index == start_index:
