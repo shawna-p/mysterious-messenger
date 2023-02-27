@@ -246,6 +246,11 @@ init python:
             zoom_images = [ ]
             for image in self.images:
                 # Create a ZoomGalleryImage
+                if image.condition == "True":
+                    image.condition = "'{}' in store.persistent.gallery_unlocked".format(image.name)
+                else:
+                    image.condition = "{} and '{}' in store.persistent.gallery_unlocked".format(
+                        image.condition, image.name)
                 zi = ZoomGalleryImage(image.name, image.img, image.width,
                     image.height, condition=image.condition)
                 zoom_images.append(zi)

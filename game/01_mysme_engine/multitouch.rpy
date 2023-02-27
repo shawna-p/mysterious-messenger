@@ -1854,6 +1854,7 @@ init python:
         def __init__(self, gallery, image_name=None):
             self.gallery = gallery
             self.image_name = image_name
+
         def get_sensitive(self):
             """
             This button is sensitive if the specified image is viewable in
@@ -1863,6 +1864,7 @@ init python:
                 return True
             else:
                 return self.gallery.is_viewable(self.image_name)
+
         def __call__(self):
             """
             Set up the gallery and display the specified image.
