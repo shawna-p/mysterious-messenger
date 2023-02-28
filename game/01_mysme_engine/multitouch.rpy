@@ -1136,6 +1136,7 @@ init python:
             self.height = height
             self.locked_image = locked_image
             self.condition = condition
+            self.original_image = None
 
         @property
         def unlocked(self):
@@ -1145,6 +1146,15 @@ init python:
             except Exception as e:
                 return True
 
+        def mark_seen(self):
+            """
+            Mark this image as seen in the album.
+            """
+            if not self.original_image:
+                return
+            if not self.unlocked:
+                return
+            self.original_image.seen_in_album = True
 
     class ZoomGallery(MultiTouch):
         """
@@ -1304,6 +1314,17 @@ init python:
                 return False
             return img.unlocked or self.show_locked
 
+        def mark_current_seen(self):
+            """
+            Mark the current displayable as seen.
+            """
+            if not self.unlocked_images:
+                return
+            img = self.image_lookup.get(self.unlocked_images[self.current_index].name, None)
+            if img is None:
+                return
+            img.mark_seen()
+
         def set_up_gallery(self, from_image=None):
             """
             Set up the gallery to begin from a particular image, or from
@@ -1359,6 +1380,8 @@ init python:
             self.replace_with_locked(prev_index, next_index)
 
             self.reset_values()
+
+            self.mark_current_seen()
 
         def get_next_prev_index(self, start_index):
             """
@@ -1506,6 +1529,8 @@ init python:
                     self.gallery_previous_image()
                 # Ensure the image starts back at the "home" position
                 self.reset_values()
+                # Mark the swiped-to image as seen
+                self.mark_current_seen()
 
         def render(self, width, height, st, at):
             """
@@ -1949,22 +1974,19 @@ screen display_zoom_gallery(zg):
     ## Ensures the UI gets the smooth_in show/hide events when toggled
     showif zg.show_ui:
         frame:
-            at smooth_in()
-            padding (30, 30) background "#0005"
-            align (0.5, 0.0)
-            xfill True
+            background Solid("#00000066")
+            xysize (config.screen_width, 99)
             modal True
-            has hbox
-            xalign 0.0 spacing 50
-            fixed:
-                xysize (50,50)
-                align (0.5, 0.5)
-                imagebutton:
-                    align (0.5, 0.5)
-                    idle 'back_arrow_btn'
-                    hover Transform('back_arrow_btn', zoom=1.2)
-                    keysym "K_BACKSPACE"
-                    action Hide()
+            at smooth_in()
+
+            textbutton "Close":
+                style_prefix "CG_close"
+                keysym "K_BACKSPACE"
+                if persistent.dialogue_outlines:
+                    text_outlines [ (2, "#000",
+                                absolute(0), absolute(0)) ]
+                    text_font gui.sans_serif_1b
+                action Hide()
 
 
 ## A transform to transition the UI in and out
