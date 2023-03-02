@@ -30,7 +30,7 @@ The important part is that it's called ``em_album_cover`` where ``em`` is the ch
 
 Next, you need to define the album::
 
-    define em_album = []
+    define em_album = GalleryAlbum([])
 
 The album should be the character's file_id + album, so in this case it's ``em_album``.
 
@@ -73,7 +73,7 @@ The program uses a specific naming scheme to process strings into file and varia
 2. Apostrophes are removed (e.g. "valentine's day -> "valentines_day")
 3. Entire word is in lowercase (e.g. "RFA Bonus" -> "rfa_bonus")
 
-So, using the rules above, "new year's" in the ``all_albums`` definition will become "new_years". You can then define the two images and album definition like you did for Emma above::
+So, using the rules above, "New Year's" in the ``all_albums`` definition will become "new_years". You can then define the two images and album definition like you did for Emma above::
 
     image cg_label_new_years = "Image for your label.png"
     image new_years_album_cover = "Image for your album cover.png"
@@ -98,12 +98,12 @@ After defining your image, you must add it to the correct album. See :ref:`Addin
 
 ::
 
-    define common_album = [
+    define common_album = GalleryAlbum([
         GalleryImage("cg common_1"),
         GalleryImage("cg common_2"),
         GalleryImage("cg common_3"),
         GalleryImage("cg common_4")
-    ]
+    ])
 
 In this example, no unique thumbnail was specified. If the program can find an image with the suffix ``-thumb`` before the file extension, it will use that as the thumbnail. So, since the image is found at "CGs/common_album/cg-4.webp", the program will look for a thumbnail image at "CGs/common_album/cg-4-thumb.webp".
 
@@ -177,12 +177,12 @@ In some cases, you may not want a CG to appear in a character's album unless som
 For example, say you have a variable, ``persistent.new_years_dlc``, which tracks whether the player has the New Year's DLC or not. You only want to show "missing" New Year's DLC images in their album if they already have the DLC. In such a case, you can do::
 
     image ja_ny1 = "CGs/Jaehee/ny1.webp"
-    define ja_album = [ GalleryImage(
+    define ja_album = GalleryAlbum([ GalleryImage(
             "ja_ny1",
             locked_img="CGs/new_years_locked.webp",
             condition="persistent.new_years_dlc"
         )
-    ]
+    ])
 
 This will define a gallery image named "ja_ny1" with the locked thumbnail at "CGs/new_years_locked.webp" and the condition of ``"persistent.new_years_dlc"``. The fact that ``persistent.new_years_dlc`` is in quotes is important - the program uses this to evaluate the condition when it's going to show the gallery (as opposed to right at the start of the game).
 
