@@ -23,6 +23,8 @@ Major New Features
       - **Description**
     * - Achievements
       - An achievement system will allow you to easily add and display player achievements.
+    * - Gallery Zoom Update
+      - The gallery has been updated to allow for multi-touch gestures, such as pinch zoom and swiping between images.
 
 .. _minor-3-4-0:
 
