@@ -253,6 +253,7 @@ init python:
                         image.condition, image.name)
                 zi = ZoomGalleryImage(image.name, image.img, image.width,
                     image.height, condition=image.condition)
+                zi.original_image = image
                 zoom_images.append(zi)
 
             self.zg = ZoomGallery(*zoom_images, screen='display_zoom_gallery',

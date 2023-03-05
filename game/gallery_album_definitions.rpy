@@ -50,14 +50,14 @@ init offset = 1000
 ## In order to allow for albums to be easily expanded,
 ## these constants are used. This is where you actually
 ## declare all of the Album objects you need.
-define ja_album = [ ]
-define ju_album = [ ]
-define r_album = [ GalleryImage("cg r_1") ]
-define s_album = [ GalleryImage("cg s_1") ]
-define u_album = []
-define v_album = []
-define y_album = []
-define z_album = []
+define ja_album = GalleryAlbum([ ])
+define ju_album = GalleryAlbum([ ])
+define r_album = GalleryAlbum([ GalleryImage("cg r_1") ])
+define s_album = GalleryAlbum([ GalleryImage("cg s_1") ])
+define u_album = GalleryAlbum([])
+define v_album = GalleryAlbum([])
+define y_album = GalleryAlbum([])
+define z_album = GalleryAlbum([])
 define common_album = GalleryAlbum([
     GalleryImage("cg common_1"),
     GalleryImage("cg common_2"),
