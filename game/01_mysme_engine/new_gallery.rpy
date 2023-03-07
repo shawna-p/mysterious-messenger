@@ -236,6 +236,7 @@ init python:
             The ZoomGallery which holds these images.
         """
         def __init__(self, images):
+            """Create a ZoomGallery to store the provided images."""
             self.images = images
             self.images_to_zoom_gallery()
 
@@ -260,13 +261,20 @@ init python:
                 image_size=None, locked_image=None,
                 show_locked=False, loop_gallery=True)
             for image, zi in zip(self.images, zoom_images):
+                # Make sure the ZoomGalleryImages have a link back to
+                # this image for display/unlocking
                 image.zoom_gallery = self.zg
                 image.zoom_image = zi
 
         def __iter__(self):
+            """Method to allow this object to be iterated over like a list."""
             return iter(self.images)
 
     def get_album_len(album):
+        """
+        A convenience function to return the length of an album, depending
+        on whether it is a list or a GalleryAlbum.
+        """
         if isinstance(album, GalleryAlbum):
             return len(album.images)
         else:
