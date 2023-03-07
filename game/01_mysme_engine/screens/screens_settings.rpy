@@ -380,7 +380,9 @@ screen pick_mc_pfp():
                         action SpendHourglass(
                             "Would you like to unlock this profile picture for 1 hourglass?",
                             1, [AddToSet(persistent.mc_unlocked_pfps, img),
-                                change_your_pfp_achievement.Achieve()]
+                                If(not change_pfp_achievement.has(),
+                                [change_your_pfp_achievement.Grant(),
+                                progress_stat_achievement.Progress(1)])]
                         )
 
 
@@ -956,13 +958,17 @@ screen preferences():
                         textbutton _("Modified UI"):
                             action [ToggleField(persistent, "custom_footers"),
                                 If(not persistent.custom_footers,
-                                    ui_achievement.Achieve())]
+                                    If(not ui_achievement.has(),
+                                        [ui_achievement.Grant(),
+                                        progress_stat_achievement.Progress(1)]))]
                         textbutton _("Animated Backgrounds"):
                             text_size 26
                             action [ToggleField(persistent,
                                     'animated_backgrounds'),
                                     If(not persistent.animated_backgrounds,
-                                        animated_bg_achievement.Achieve())]
+                                        If(not animated_bg_achievement.has(),
+                                            [animated_bg_achievement.Grant(),
+                                            progress_stat_achievement.Progress(1)]))]
                             selected persistent.animated_backgrounds
 
             frame:

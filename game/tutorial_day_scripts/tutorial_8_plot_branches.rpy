@@ -194,10 +194,14 @@ label tutorial_bad_end():
 
     # Some achievements for various endings. If they already have this
     # achievement, this does nothing.
-    $ tutorial_ending1.grant()
+    if not tutorial_ending1.has():
+        $ tutorial_ending1.grant()
+        $ progress_stat_achievement.increment_progress(1)
     # Check if they have all the endings
     if tutorial_route.seen_all_endings:
-        $ tutorial_ending2.grant()
+        if not tutorial_ending2.has():
+            $ tutorial_ending2.grant()
+            $ progress_stat_achievement.increment_progress(1)
 
     return
 
@@ -217,10 +221,14 @@ label tutorial_bad_end_expired():
     $ ending = 'bad'
     # Some achievements for various endings. If they already have this
     # achievement, this does nothing.
-    $ tutorial_ending1.grant()
+    if not tutorial_ending1.has():
+        $ tutorial_ending1.grant()
+        $ progress_stat_achievement.increment_progress(1)
     # Check if they have all the endings
     if tutorial_route.seen_all_endings:
-        $ tutorial_ending2.grant()
+        if not tutorial_ending2.has():
+            $ tutorial_ending2.grant()
+            $ progress_stat_achievement.increment_progress(1)
     return
 
 ## You get this Story Mode after the Plot Branch Tutorial
@@ -353,10 +361,14 @@ label plot_branch_normal_end():
     $ ending = 'normal'
     # Some achievements for various endings. If they already have this
     # achievement, this does nothing.
-    $ tutorial_ending1.grant()
+    if not tutorial_ending1.has():
+        $ tutorial_ending1.grant()
+        $ progress_stat_achievement.increment_progress(1)
     # Check if they have all the endings
     if tutorial_route.seen_all_endings:
-        $ tutorial_ending2.grant()
+        if not tutorial_ending2.has():
+            $ tutorial_ending2.grant()
+            $ progress_stat_achievement.increment_progress(1)
     return
 
 ## This is a convenience label to have 'who' explain the different endings
@@ -477,10 +489,14 @@ label tutorial_good_end_party():
     $ ending = 'good'
     # Some achievements for various endings. If they already have this
     # achievement, this does nothing.
-    $ tutorial_ending1.grant()
+    if not tutorial_ending1.has():
+        $ tutorial_ending1.grant()
+        $ progress_stat_achievement.increment_progress(1)
     # Check if they have all the endings
     if tutorial_route.seen_all_endings:
-        $ tutorial_ending2.grant()
+        if not tutorial_ending2.has():
+            $ tutorial_ending2.grant()
+            $ progress_stat_achievement.increment_progress(1)
     return
 
 
@@ -504,10 +520,14 @@ label plot_branch_bre():
     $ ending = 'bad'
     # Some achievements for various endings. If they already have this
     # achievement, this does nothing.
-    $ tutorial_ending1.grant()
+    if not tutorial_ending1.has():
+        $ tutorial_ending1.grant()
+        $ progress_stat_achievement.increment_progress(1)
     # Check if they have all the endings
     if tutorial_route.seen_all_endings:
-        $ tutorial_ending2.grant()
+        if not tutorial_ending2.has():
+            $ tutorial_ending2.grant()
+            $ progress_stat_achievement.increment_progress(1)
     return
 
 

@@ -1171,7 +1171,9 @@ label play_timeline_item():
                 and not current_timeline_item.played
                 and not current_timeline_item.buyback):
             ## Achievement for playing an expired chatroom
-            $ expired_achievement.grant()
+            if not expired_achievement.has():
+                $ expired_achievement.grant()
+                $ progress_stat_achievement.increment_progress(1)
             ##
             $ renpy.call(current_timeline_item.expired_label)
         elif (current_timeline_item.played
