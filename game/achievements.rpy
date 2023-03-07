@@ -84,7 +84,17 @@ screen achievement_gallery():
                     vbox:
                         text a.name font gui.curly_font size 40
                         text a.description
-                        text a.timestamp size 22
+                        if a.has():
+                            text a.timestamp size 22
+                        elif a.stat_max:
+                            # Has a bar
+                            fixed:
+                                fit_first True
+                                bar value a.stat_progress range a.stat_max
+                                text "[a.stat_progress]/[a.stat_max]":
+                                    color "#fff" size 20
+                                    outlines [(1, "#000")]
+                                    align (0.5, 0.5)
 
             null height 10
 
