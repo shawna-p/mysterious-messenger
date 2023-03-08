@@ -61,7 +61,6 @@ init python:
 
             self.stat_max = stat_max
             self.stat_modulo = stat_modulo
-            self.stat_progress = 0
 
             self.hidden = hidden
             if persistent.achievement_timestamp is not None:
@@ -106,6 +105,19 @@ init python:
                 return "???"
             else:
                 return self._description
+
+        def Progress(self, amount=1):
+            return Function(self.increment_progress, amount=amount)
+
+        @property
+        def stat_progress(self):
+            return self.get_progress()
+
+        def increment_progress(self, amount=1):
+            """
+            Increment the progress towards this achievement by amount.
+            """
+            self.progress(min(self.stat_progress+amount, self.stat_max))
 
         ## Wrappers for various achievement functionality
         def clear(self):
@@ -161,21 +173,11 @@ init python:
                     Function(self.clear),
                     Function(self.grant))]
 
-        def Achieve(self):
+        def Grant(self):
             """
             An action to easily achieve a particular achievement.
             """
             return Function(self.grant)
-
-    ## Declare achievements here. The order you declare them in is the order
-    ## they will appear on the Achievements page.
-    test_achievement = Achievement("A Test", "a_test", "A test achievement!",
-        "CGs/ju_album/cg-1-thumb.webp")
-    hidden_achievement = Achievement("Hidden", "hidden", "You got the hidden achievement!",
-        "CGs/ju_album/cg-1-thumb.webp", hidden=True)
-    third_achievement = Achievement("A longer achievement name",
-        description="I want this to be long enough to possibly expand this bubble",
-        )
 
     ## Actual achievements, for the tutorial
     ## These *can't* be removed (or else you'd need to comb through the
@@ -241,6 +243,11 @@ init python:
         Crop((0, 0, 155, 155),
             Transform("CGs/common_album/cg-2.webp", xsize=155, fit="contain")),
         hidden=True)
+    progress_stat_achievement = Achievement("Finish all the test achievements",
+        "all_tutorial_achieve", "Complete all the achievements included with the base game.",
+        "Menu Screens/Main Menu/menu_gift.webp",
+        stat_max=13
+    )
 
 
 
