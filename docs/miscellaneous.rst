@@ -1061,6 +1061,19 @@ Thus, a few example achievements::
     bad_end = Achievement("Happily Never After", "bad_end",
         "Reach a bad end", "achievements/bad_end.webp")
 
+Granting Achievements
+---------------------
+
+Now that you've set up the achievement, you will need to specify when it should be granted to the player. To do this, there are two different methods you can use.
+
+The first method is to use ``my_achievement.grant()``, where ``my_achievement`` is the name of the Achievement object you declared earlier (in :ref:`Setting Up Achievements`). Note that you *do not need* to check if the achievement has already been granted before running this function; if the achievement has already been granted, this line will do nothing. It won't grant the achievement again, and the player won't see another popup for the achievement. This method is most useful for achievements earned during the script (where you can write ``$ my_achievement.grant()`` inside the label), or inside Python functions.
+
+The second method is to use the convenience screen action ``my_achievement.Grant()``, which works the same way, but is intended to be used as a screen action. Thus, you can write buttons such as::
+
+    textbutton _("Start") action [start_game.Grant(), Start()]
+
+This will grant the ``start_game`` achievement to the player when they press the Start button to start a new game. As with before, ``Grant()`` will only grant the player the achievement once; if the player has already earned this achievement, they will not get it again and they won't see a popup about getting the achievement.
+
 
 Reserved Names
 ===============
