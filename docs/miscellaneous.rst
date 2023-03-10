@@ -1074,6 +1074,10 @@ The second method is to use the convenience screen action ``my_achievement.Grant
 
 This will grant the ``start_game`` achievement to the player when they press the Start button to start a new game. As with before, ``Grant()`` will only grant the player the achievement once; if the player has already earned this achievement, they will not get it again and they won't see a popup about getting the achievement.
 
+Tracking Achievement Progress
+-----------------------------
+
+For some achievements, you may want to track the player's progress towards completing them. There are two main ways of updating the player's progress, depending on whether you are doing so as a screen action or as part of the script.
 
 Reserved Names
 ===============
