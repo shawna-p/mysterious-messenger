@@ -1074,10 +1074,52 @@ The second method is to use the convenience screen action ``my_achievement.Grant
 
 This will grant the ``start_game`` achievement to the player when they press the Start button to start a new game. As with before, ``Grant()`` will only grant the player the achievement once; if the player has already earned this achievement, they will not get it again and they won't see a popup about getting the achievement.
 
+Checking if an Achievement was Granted
+--------------------------------------
+
+To check if the player has a particular achievement, use the ``has`` method, e.g.
+
+::
+
+    if good_ending_achievement.has():
+        jump epilogue
+
 Tracking Achievement Progress
 -----------------------------
 
 For some achievements, you may want to track the player's progress towards completing them. There are two main ways of updating the player's progress, depending on whether you are doing so as a screen action or as part of the script.
+
+Updating Progress
+^^^^^^^^^^^^^^^^^
+
+If you would like to update the current progress value, you can use the ``add_progress`` method in script or Python, and the ``AddProgress`` screen action in screens. It takes one number, the amount of progress to add to the current progress stat.
+
+::
+
+    if not bad_end_achievement.has():
+        $ bad_end_achievement.grant()
+        $ ending_achievements.add_progress(1)
+
+In this example, the achievement is for getting all of the game endings, which the player can achieve in any order. If the player reaches the bad end, it should only progress their progress towards achieving the ``ending_achievements`` achievement if they haven't seen the bad end before (otherwise we'd end up counting it twice, and it's possible they would be granted the achievement without actually seeing all the endings).
+
+.. warning::
+
+    It's incredibly important that you have a persistent check in place, either through persistent variables or through checking if another achievement has been granted, to ensure you are not "double-updating" an achievement's progress. The ``add_progress`` methods have *no way of knowing* if this progress has been added to the achievement in the past, so it is up to you the creator to ensure it is protected from adding progress more than once.
+
+The second way uses a screen action. Like with the ``add_progress`` method, it is *very* important that you put checks in place to ensure you are not updating progress towards the achievement multiple times.
+
+::
+
+    textbutton _("Start"):
+        action [
+            If(not start_game.has(),
+            [start_game.Grant(),
+            all_achievements.AddProgress(1)]
+            ),
+            Start()
+        ]
+
+This is an updated version of the Start button from before. Here, the game first checks if the player has achieved the ``start_game`` achievement before via ``start_game.has()``. If they have not, then it grants them that achievement and increases progress towards the ``all_achievements`` achievement by 1 (with the ``all_achievements`` achievement tracking how many achievements the player has gotten, total). After that, it runs the ``Start()`` action like normal.
 
 Reserved Names
 ===============
