@@ -412,7 +412,7 @@ init -6 python:
                     ## An achievement for making your first outgoing call
                     If(not make_a_call_achievement.has(),
                         [make_a_call_achievement.Grant(),
-                        progress_stat_achievement.Progress(1)]),
+                        progress_stat_achievement.AddProgress(1)]),
 
                     Show('outgoing_call',
                         phonecall=call_available(i))]
@@ -425,7 +425,7 @@ init -6 python:
                     ## An achievement for making your first outgoing call
                     If(not make_a_call_achievement.has(),
                         [make_a_call_achievement.Grant(),
-                        progress_stat_achievement.Progress(1)]),
+                        progress_stat_achievement.AddProgress(1)]),
 
                     Show('outgoing_call',
                         phonecall=i.voicemail,

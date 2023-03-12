@@ -1815,7 +1815,7 @@ screen developer_settings():
                         If(not persistent.real_time,
                             If(not try_real_time_achievement.has(),
                                 [try_real_time_achievement.Grant(),
-                                progress_stat_achievement.Progress(1)]))]
+                                progress_stat_achievement.AddProgress(1)]))]
                 if not main_menu:
                     textbutton _("Hacked Effect"):
                         action ToggleVariable('hacked_effect')

@@ -819,7 +819,7 @@ label guest_party_showcase():
     if num_guests > 0:
         if not first_guest_achievement.has():
             $ first_guest_achievement.grant()
-            $ progress_stat_achievement.increment_progress(1)
+            $ progress_stat_achievement.add_progress(1)
 
     hide screen guest_count
     $ viewing_guest = False

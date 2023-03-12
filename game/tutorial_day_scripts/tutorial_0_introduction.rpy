@@ -283,7 +283,7 @@ label zen_pfp_callback_unknown1():
     $ create_incoming_call("zen_pfp_callback_unknown1_incoming", who=z)
     if not hidden_pfp_achieve.has():
         $ hidden_pfp_achievement.grant()
-        $ progress_stat_achievement.increment_progress(1)
+        $ progress_stat_achievement.add_progress(1)
     return
 
 label zen_pfp_callback_unknown1_incoming():

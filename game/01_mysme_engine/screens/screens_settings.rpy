@@ -382,7 +382,7 @@ screen pick_mc_pfp():
                             1, [AddToSet(persistent.mc_unlocked_pfps, img),
                                 If(not change_pfp_achievement.has(),
                                 [change_your_pfp_achievement.Grant(),
-                                progress_stat_achievement.Progress(1)])]
+                                progress_stat_achievement.AddProgress(1)])]
                         )
 
 
@@ -960,7 +960,7 @@ screen preferences():
                                 If(not persistent.custom_footers,
                                     If(not ui_achievement.has(),
                                         [ui_achievement.Grant(),
-                                        progress_stat_achievement.Progress(1)]))]
+                                        progress_stat_achievement.AddProgress(1)]))]
                         textbutton _("Animated Backgrounds"):
                             text_size 26
                             action [ToggleField(persistent,
@@ -968,7 +968,7 @@ screen preferences():
                                     If(not persistent.animated_backgrounds,
                                         If(not animated_bg_achievement.has(),
                                             [animated_bg_achievement.Grant(),
-                                            progress_stat_achievement.Progress(1)]))]
+                                            progress_stat_achievement.AddProgress(1)]))]
                             selected persistent.animated_backgrounds
 
             frame:

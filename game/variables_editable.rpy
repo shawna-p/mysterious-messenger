@@ -328,7 +328,7 @@ label ray_test_call_callback():
     # to call them back directly.
     if not malfunction_achieve.has():
         $ malfunction_achieve.grant()
-        $ progress_stat_achievement.increment_progress(1)
+        $ progress_stat_achievement.add_progress(1)
     $ create_incoming_call("ray_test_call_callback_phone", who=r)
     # Return at the end of the label like usual
     return
