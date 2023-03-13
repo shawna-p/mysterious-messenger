@@ -106,14 +106,17 @@ init python:
             else:
                 return self._description
 
-        def Progress(self, amount=1):
-            return Function(self.increment_progress, amount=amount)
+        def AddProgress(self, amount=1):
+            return Function(self.add_progress, amount=amount)
+
+        def Progress(self, amount):
+            return Function(self.progress, amount)
 
         @property
         def stat_progress(self):
             return self.get_progress()
 
-        def increment_progress(self, amount=1):
+        def add_progress(self, amount=1):
             """
             Increment the progress towards this achievement by amount.
             """
