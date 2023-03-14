@@ -1084,6 +1084,8 @@ To check if the player has a particular achievement, use the ``has`` method, e.g
     if good_ending_achievement.has():
         jump epilogue
 
+This will return True if the achievement has been granted to the player, and False if it has not.
+
 Tracking Achievement Progress
 -----------------------------
 
