@@ -107,9 +107,11 @@ init python:
                 return self._description
 
         def AddProgress(self, amount=1):
+            """Add amount of progress to this achievement."""
             return Function(self.add_progress, amount=amount)
 
         def Progress(self, amount):
+            """Set this achievement's progress to amount."""
             return Function(self.progress, amount)
 
         @property
@@ -125,8 +127,10 @@ init python:
         ## Wrappers for various achievement functionality
         def clear(self):
             return achievement.clear(self.id)
+
         def get_progress(self):
             return achievement.get_progress(self.id)
+
         def grant(self):
             has_achievement = self.has()
             x = achievement.grant(self.id)
@@ -137,8 +141,10 @@ init python:
                 self._timestamp = time.time()
                 store.persistent.achievement_timestamp[self.id] = self._timestamp
             return x
+
         def has(self):
             return achievement.has(self.id)
+
         def progress(self, complete):
             has_achievement = self.has()
             x = achievement.progress(self.id, complete)
