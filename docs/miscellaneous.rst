@@ -1091,6 +1091,13 @@ Tracking Achievement Progress
 
 For some achievements, you may want to track the player's progress towards completing them. There are two main ways of updating the player's progress, depending on whether you are doing so as a screen action or as part of the script.
 
+Setting Progress
+^^^^^^^^^^^^^^^^
+
+The easiest way to update the progress value of an achievement is to use the ``progress`` method, or the ``Progress`` screen action method. This will allow you to *set* the current progress value of the achievement.
+
+Note that, because this *sets* the progress value, it is best suited for achievements which are tracking things such as the number of chapters the player has played through in a linear game. For example, regardless of the previous value of the progress variable, it makes sense to write ``$ chapter_achievement.progress(12)`` when the player reaches Chapter 12 in your linear story. It is not suitable for achievements that are attempting to track cumulative progress across multiple different playthroughs or branching choice paths.
+
 Updating Progress
 ^^^^^^^^^^^^^^^^^
 
