@@ -47,6 +47,8 @@ init python:
             True if this achievement is being ignored (generally only
             relevant in order to omit tutorial achievements).
         """
+        ## A list of all the achievements that exist in this game,
+        ## to loop over in the achievements screen.
         all_achievements = [ ]
         def __init__(self, name, id=None, description=None, unlocked_image=None,
                 locked_image=None, stat_max=None, stat_modulo=0, hidden=False):
