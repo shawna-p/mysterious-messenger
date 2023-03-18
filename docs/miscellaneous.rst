@@ -1098,6 +1098,14 @@ The easiest way to update the progress value of an achievement is to use the ``p
 
 Note that, because this *sets* the progress value, it is best suited for achievements which are tracking things such as the number of chapters the player has played through in a linear game. For example, regardless of the previous value of the progress variable, it makes sense to write ``$ chapter_achievement.progress(12)`` when the player reaches Chapter 12 in your linear story. It is not suitable for achievements that are attempting to track cumulative progress across multiple different playthroughs or branching choice paths.
 
+The ``Progress`` screen action method acts similarly, but is used as a screen action e.g.
+
+::
+
+    action chapter_achievement.Progress(12)
+
+Remember that this will update the progress to the provided value regardless of when the player presses this button, so without further checks it's possible you could "reset" a player's achievement progress by using this method.
+
 Updating Progress
 ^^^^^^^^^^^^^^^^^
 
@@ -1123,8 +1131,7 @@ The second way uses a screen action. Like with the ``add_progress`` method, it i
         action [
             If(not start_game.has(),
             [start_game.Grant(),
-            all_achievements.AddProgress(1)]
-            ),
+            all_achievements.AddProgress(1)]),
             Start()
         ]
 
