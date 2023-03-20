@@ -1096,7 +1096,7 @@ Setting Progress
 
 The easiest way to update the progress value of an achievement is to use the ``progress`` method, or the ``Progress`` screen action method. This will allow you to *set* the current progress value of the achievement.
 
-Note that, because this *sets* the progress value, it is best suited for achievements which are tracking things such as the number of chapters the player has played through in a linear game. For example, regardless of the previous value of the progress variable, it makes sense to write ``$ chapter_achievement.progress(12)`` when the player reaches Chapter 12 in your linear story. It is not suitable for achievements that are attempting to track cumulative progress across multiple different playthroughs or branching choice paths.
+Note that, because this *sets* the progress value, it is best suited for achievements which are tracking things such as the number of chapters the player has played through in a linear game. For example, regardless of the previous value of the progress variable, it makes sense to write ``$ chapter_achievement.progress(12)`` when the player reaches Chapter 12 in your linear story. It is **not** suitable for achievements that are attempting to track cumulative progress across multiple different playthroughs or branching choice paths.
 
 The ``Progress`` screen action method acts similarly, but is used as a screen action e.g.
 
@@ -1136,6 +1136,17 @@ The second way uses a screen action. Like with the ``add_progress`` method, it i
         ]
 
 This is an updated version of the Start button from before. Here, the game first checks if the player has achieved the ``start_game`` achievement before via ``start_game.has()``. If they have not, then it grants them that achievement and increases progress towards the ``all_achievements`` achievement by 1 (with the ``all_achievements`` achievement tracking how many achievements the player has gotten, total). After that, it runs the ``Start()`` action like normal.
+
+Resetting Achievement Progress
+-------------------------------
+
+You can reset an individual achievement's progress via the ``clear`` method, e.g.
+
+::
+
+    $ my_achievement.clear()
+
+This is largely for testing purposes; to clear all achievement progress, you can use **Delete Persistent** from the Ren'Py launcher (as achievements are saved via persistent data).
 
 Reserved Names
 ===============
