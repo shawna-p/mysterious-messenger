@@ -1137,6 +1137,16 @@ The second way uses a screen action. Like with the ``add_progress`` method, it i
 
 This is an updated version of the Start button from before. Here, the game first checks if the player has achieved the ``start_game`` achievement before via ``start_game.has()``. If they have not, then it grants them that achievement and increases progress towards the ``all_achievements`` achievement by 1 (with the ``all_achievements`` achievement tracking how many achievements the player has gotten, total). After that, it runs the ``Start()`` action like normal.
 
+Checking Progress
+^^^^^^^^^^^^^^^^^
+
+You can retrieve the current achievement progress via the ``get_progress`` method, e.g.
+
+::
+
+    if all_achievements.get_progress() >= 10:
+        $ ten_achievements.grant() # Achievement for getting 10+ achievements
+
 Resetting Achievement Progress
 -------------------------------
 
