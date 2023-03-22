@@ -162,9 +162,14 @@ init python:
             return x
 
         def has(self):
+            """Return True if the player has achieved this achievement."""
             return achievement.has(self.id)
 
         def progress(self, complete):
+            """
+            A plugin to the original Achievement class. Sets the current
+            achievement progress to "complete".
+            """
             has_achievement = self.has()
             x = achievement.progress(self.id, complete)
             if not has_achievement and self.has():
@@ -285,8 +290,10 @@ init python:
     IGNORE_ACHIEVEMENTS = False
 
 
-
+## Track the time each achievement was earned at
 default persistent.achievement_timestamp = dict()
+## Tracks the number of onscreen achievements, for offsetting when
+## multiple achievements are earned at once
 default onscreen_achievements = 0
 
 image blue_ui_bg = Frame("Menu Screens/Day Select/daychat01_2.webp", 20, 15, 20, 15)
