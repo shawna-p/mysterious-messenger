@@ -79,6 +79,7 @@ init python:
 
         @property
         def timestamp(self):
+            """Return the timestamp when this achievement was granted."""
             if self.has():
                 return "Unlocked {}".format(
                     datetime.fromtimestamp(
@@ -89,6 +90,7 @@ init python:
 
         @property
         def idle_img(self):
+            """Return the idle image based on its locked status."""
             if self.has():
                 return self.unlocked_image
             else:
@@ -96,6 +98,10 @@ init python:
 
         @property
         def name(self):
+            """
+            Returns the name of the achievement based on whether it's
+            hidden or not.
+            """
             if self.hidden and not self.has():
                 return "???"
             else:
@@ -103,6 +109,10 @@ init python:
 
         @property
         def description(self):
+            """
+            Returns the description of the achievement based on whether it's
+            hidden or not.
+            """
             if self.hidden and not self.has():
                 return "???"
             else:
@@ -118,6 +128,7 @@ init python:
 
         @property
         def stat_progress(self):
+            """Return this achievement's progress stat."""
             return self.get_progress()
 
         def add_progress(self, amount=1):
@@ -128,12 +139,18 @@ init python:
 
         ## Wrappers for various achievement functionality
         def clear(self):
+            """Clear this achievement from memory."""
             return achievement.clear(self.id)
 
         def get_progress(self):
+            """Return this achievement's progress."""
             return achievement.get_progress(self.id)
 
         def grant(self):
+            """
+            Grant the player this achievement, and show a popup if this is
+            the first time they've gotten it.
+            """
             has_achievement = self.has()
             x = achievement.grant(self.id)
             if not has_achievement:
