@@ -1158,6 +1158,26 @@ You can reset an individual achievement's progress via the ``clear`` method, e.g
 
 This is largely for testing purposes; to clear all achievement progress, you can use **Delete Persistent** from the Ren'Py launcher (as achievements are saved via persistent data).
 
+Toggling Achievements (For Testing)
+-----------------------------------
+
+To easily test your achievements, you can use the developer Toggle method, e.g.
+
+::
+
+    for a in Achievement.all_achievements:
+        button:
+            # Manually toggle achievements, for development
+            if config.developer:
+                action a.Toggle()
+
+This is included in the default achievement gallery screen, so you can click on achievements and grant/clear them. This allows you to see the pre-achieved state and what the achievement looks like after it's been achieved.
+
+Displaying Achievements
+-----------------------
+
+There are two screens relating to achievements, both found in ``game/achievements.rpy``. The first is ``scree achievement_popup``, a screen which receives a popup as an argument and is expected to display itself for some time and then hide itself again. The second is ``achievement_gallery``, which is receives no arguments and is expected to display a list of the player's achievements.
+
 Reserved Names
 ===============
 

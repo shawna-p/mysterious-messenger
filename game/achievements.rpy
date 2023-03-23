@@ -22,7 +22,7 @@ screen achievement_popup(a):
             text a.name font gui.curly_font
             text a.description size 25
 
-    # Hide the screen after 6 seconds
+    # Hide the screen after 5 seconds
     timer 5.0:
         action [SetVariable('onscreen_achievements', onscreen_achievements-1),
                 Hide("achievement_popup")]
