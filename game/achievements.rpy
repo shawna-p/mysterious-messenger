@@ -9,6 +9,7 @@ screen achievement_popup(a):
 
     zorder 190
 
+    ## Allows multiple achievements to be slightly offset from each other
     default achievement_yoffset = (onscreen_achievements-1)*135
 
     frame:
