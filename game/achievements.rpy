@@ -55,6 +55,19 @@ transform achievement_popout():
     on hide:
         easeout_back 1.0 xpos 0.0 xanchor 1.0
 
+## The screen that displays a gallery of the player's achievements.
+## You may modify this however you like.
+## The relevant information is:
+## a.name = the human-readable name of the achievement
+## a.description = the description
+## a.idle_img = the image of the achievement if achieved, or the locked if not
+## a.timestamp = the time the achievement was unlocked at
+## a.stat_progress = the progress the player has earned towards this achievement
+##                   (if it includes the progress stat)
+## a.stat_max = the number at which the achievement is considered "achieved"
+##              if progress reaches that number.
+## You can use a.stat_max and a.stat_progress to display a bar tracking
+## how far along the player has progressed, or in text to display text like 3/10
 screen achievement_gallery():
 
     tag menu
@@ -93,9 +106,8 @@ screen achievement_gallery():
                                 fit_first True
                                 bar value a.stat_progress range a.stat_max
                                 text "[a.stat_progress]/[a.stat_max]":
-                                    color "#fff" size 20
-                                    outlines [(1, "#000")]
-                                    align (0.5, 0.5)
+                                    style_suffix "progress_text"
+
 
             null height 10
 
@@ -120,3 +132,7 @@ style achieve_hbox:
     spacing 25
 style achieve_text:
     color "#fff"
+style achieve_progress_text:
+    color "#fff" size 20
+    outlines [(1, "#000")]
+    align (0.5, 0.5)
