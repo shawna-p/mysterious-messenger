@@ -42,6 +42,7 @@ style achieve_popup_text:
 
 
 ## Replace this with whatever locked image you want to use as the default
+## for a locked achievement.
 image locked_achievement = "CGs/album_unlock.webp"
 
 ## A transform that pops the achievement out from the left side of
@@ -108,9 +109,7 @@ screen achievement_gallery():
                                 text "[a.stat_progress]/[a.stat_max]":
                                     style_suffix "progress_text"
 
-
             null height 10
-
 
 style achieve_viewport:
     xysize (config.screen_width-20, config.screen_height-154)
@@ -123,7 +122,6 @@ style achieve_side:
     spacing -5
 style achieve_vbox:
     spacing 20
-
 style achieve_button:
     background 'history_chat_active'
     padding (8, 8)
