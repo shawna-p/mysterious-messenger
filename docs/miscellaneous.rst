@@ -1183,6 +1183,13 @@ Achievement Popup
 
 The ``achievement_popup`` screen is passed one argument, the Achievement object which is being granted. This screen can look like or do whatever you like, though it should generally have a timer to hide itself after some time has passed, as there is no call for the game to hide the screen again after it's been shown. The default screen includes a sliding-out animation with some achievement information, like its name, description, and icon, and hides itself again after 5 seconds.
 
+Achievement Gallery
+^^^^^^^^^^^^^^^^^^^
+
+The ``achievement_gallery`` screen is linked on the main menu. It can be opened to view the player's achievements, both earned and yet-to-be-earned.
+
+The convenience list ``Achievement.all_achievements`` can be used, which has a list of all the achievements declared in the game (in the order they were defined in). By iterating over this list, you can use the fields of the Achievement object to display its idle image, name, description, timestamp, and more.
+
 
 Reserved Names
 ===============
