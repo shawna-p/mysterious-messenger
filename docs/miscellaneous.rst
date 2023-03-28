@@ -1176,7 +1176,13 @@ This is included in the default achievement gallery screen, so you can click on 
 Displaying Achievements
 -----------------------
 
-There are two screens relating to achievements, both found in ``game/achievements.rpy``. The first is ``scree achievement_popup``, a screen which receives a popup as an argument and is expected to display itself for some time and then hide itself again. The second is ``achievement_gallery``, which is receives no arguments and is expected to display a list of the player's achievements.
+There are two screens relating to achievements, both found in ``game/achievements.rpy``. The first is ``screen achievement_popup``, a screen which receives a popup as an argument and is expected to display itself for some time and then hide itself again. The second is ``achievement_gallery``, which is receives no arguments and is expected to display a list of the player's achievements.
+
+Achievement Popup
+^^^^^^^^^^^^^^^^^
+
+The ``achievement_popup`` screen is passed one argument, the Achievement object which is being granted. This screen can look like or do whatever you like, though it should generally have a timer to hide itself after some time has passed, as there is no call for the game to hide the screen again after it's been shown. The default screen includes a sliding-out animation with some achievement information, like its name, description, and icon, and hides itself again after 5 seconds.
+
 
 Reserved Names
 ===============
