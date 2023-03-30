@@ -1198,6 +1198,7 @@ Mysterious Messenger uses several variables, transforms, class names, and other 
 
 Transform Names
 ---------------
+* achievement_popout
 * album_tilt
 * alpha_dissolve
 * cg_swipe_left
