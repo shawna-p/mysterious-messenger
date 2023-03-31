@@ -1190,6 +1190,9 @@ The ``achievement_gallery`` screen is linked on the main menu. It can be opened 
 
 The convenience list ``Achievement.all_achievements`` can be used, which has a list of all the achievements declared in the game (in the order they were defined in). By iterating over this list, you can use the fields of the Achievement object to display its idle image, name, description, timestamp, and more.
 
+Disabling Tutorial Achievements
+-------------------------------
+
 
 Reserved Names
 ===============
