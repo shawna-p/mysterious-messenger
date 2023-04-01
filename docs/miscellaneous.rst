@@ -1193,6 +1193,96 @@ The convenience list ``Achievement.all_achievements`` can be used, which has a l
 Disabling Tutorial Achievements
 -------------------------------
 
+In ``game/01_mysme_engine/achievements_systems.rpy``, several achievements are declared for Tutorial Day. The triggers to "achieve" these achievements can be found throughout the engine, so instead of forcing you to remove all references to the tutorial achievements, you can remove them from triggering or displaying by using the special ``IGNORE_ACHIEVEMENTS`` constant.
+
+There are two places that have the line
+
+::
+    IGNORE_ACHIEVEMENTS = False
+
+The first is **before** all the tutorial achievements are declared, and the second is **after** all the tutorial achievements are declared. You need to change the **first** one, the one **before** all the achievements, to the following::
+
+    ## Actual achievements, for the tutorial
+    ## These *can't* be removed (or else you'd need to comb through the
+    ## rest of the game to get rid of the triggers, too), but if you change
+    ## this value to True, it'll prevent them from activating or appearing
+    ## in the achievements list.
+    IGNORE_ACHIEVEMENTS = True ## THIS LINE HAS CHANGED!
+    ui_achievement = Achievement("Farewell, Old UI", "modified_ui",
+        "Turn on the modified UI from the settings.",
+        # Size ~(155, 155)
+        Crop((0, 0, 155, 155), Transform("Phone UI/bg_secure.webp", xsize=155, fit="contain"))
+    )
+    animated_bg_achievement = Achievement("Now for some Pizazz!", "animated_bgs",
+        "Turn on the animated chatroom backgrounds from the settings.",
+        Crop((0, 0, 155, 155), Transform("Phone UI/bg-rainy-day.webp", xsize=155, fit="contain"))
+    )
+    tutorial_ending1 = Achievement("Made it to the End", "tut_end_1",
+        "See at least one ending on Tutorial Day.",
+        Crop((0, 55, 155, 155), Transform("VN Mode/Backgrounds/normal_end.webp", xsize=155, fit="contain"))
+    )
+    tutorial_ending2 = Achievement("Gotta See 'Em All", "tut_end_2",
+        "See all the endings on Tutorial Day.",
+        Crop((0, 55, 155, 155), Transform("VN Mode/Backgrounds/good_end.webp", xsize=155, fit="contain"))
+    )
+    make_a_call_achievement = Achievement("Ring Ring", "make_a_call",
+        "Try calling someone on the phone.",
+        Transform("Phone Calls/call_contact_empty.webp", xsize=155, fit="contain")
+    )
+    try_real_time_achievement = Achievement("IRL", "irl",
+        "Turn on real-time mode from the settings.",
+        Fixed(
+            Transform("Menu Screens/Main Menu/dlc.webp", xsize=155, fit="contain"),
+            Transform("Phone Calls/call_icon_history.webp", align=(0.5, 0.53), matrixcolor=InvertMatrix(1.0))
+        )
+    )
+    expired_achievement = Achievement("Missed it by That Much", "expired",
+        "Play through a chatroom that's expired.",
+        "Menu Screens/Main Menu/save_load.webp"
+    )
+    first_cg_achievement = Achievement("New Image", "unlock_first_cg",
+        "Unlock an image in the CG Gallery.",
+        "CGs/common_album_cover.webp",
+    )
+    change_pfp_achievement = Achievement("Wait, I didn't pick that", "change_pfp",
+        "Change a character's profile picture.",
+        "Menu Screens/Main Menu/s_greeting.webp",
+    )
+    first_guest_achievement = Achievement("Get this Party Started", "first_guest",
+        "Have one or more guests attend the party.",
+        "Email/a_grade.webp",
+        )
+    change_your_pfp_achievement = Achievement("New Look, New Me", "change_my_pfp",
+        "Unlock a bonus image for your own profile picture.",
+        Crop((0, 60, 155, 155),
+            Transform("CGs/common_album/cg-3.webp", xsize=155, fit="contain"))
+        )
+    malfunctioning_achievement = Achievement("I-it's malfunctioning!",
+        "malfunction_achieve", "Hang up on Ray's Tutorial Day call.",
+        "Phone Calls/call_button_hang_up.webp"
+        )
+    hidden_pfp_achievement = Achievement("Who Are You?",
+        "hidden_pfp_achieve", "Change your profile picture to the black-haired man.",
+        Crop((0, 0, 155, 155),
+            Transform("CGs/common_album/cg-2.webp", xsize=155, fit="contain")),
+        hidden=True)
+    progress_stat_achievement = Achievement("Finish all the test achievements",
+        "all_tutorial_achieve", "Complete all the achievements included with the base game.",
+        "Menu Screens/Main Menu/menu_gift.webp",
+        stat_max=13
+    )
+
+
+
+
+
+    ## Don't change this one or your achievements won't work
+    IGNORE_ACHIEVEMENTS = False
+
+
+In short, the first ``IGNORE_ACHIEVEMENTS`` should be switched to ``True``, but the **last** ``IGNORE_ACHIEVEMENTS`` should stay as ``False`` in order for your own achievements to work.
+
+This will effectively exclude all the tutorial achievements from working, and they won't be included in the special ``Achievement.all_achievements`` list.
 
 Reserved Names
 ===============
