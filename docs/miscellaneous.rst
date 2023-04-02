@@ -1282,7 +1282,7 @@ The first is **before** all the tutorial achievements are declared, and the seco
 
 In short, the first ``IGNORE_ACHIEVEMENTS`` should be switched to ``True``, but the **last** ``IGNORE_ACHIEVEMENTS`` should stay as ``False`` in order for your own achievements to work.
 
-This will effectively exclude all the tutorial achievements from working, and they won't be included in the special ``Achievement.all_achievements`` list.
+This will effectively exclude all the tutorial achievements from working, and they won't be included in the special ``Achievement.all_achievements`` list. That means you can iterate over ``Achievement.all_achievements`` for your achievement gallery and it won't include the tutorial achievements.
 
 Reserved Names
 ===============
