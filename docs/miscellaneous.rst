@@ -1273,16 +1273,13 @@ The first is **before** all the tutorial achievements are declared, and the seco
     )
 
 
-
-
-
     ## Don't change this one or your achievements won't work
     IGNORE_ACHIEVEMENTS = False
 
 
 In short, the first ``IGNORE_ACHIEVEMENTS`` should be switched to ``True``, but the **last** ``IGNORE_ACHIEVEMENTS`` should stay as ``False`` in order for your own achievements to work.
 
-This will effectively exclude all the tutorial achievements from working, and they won't be included in the special ``Achievement.all_achievements`` list. That means you can iterate over ``Achievement.all_achievements`` for your achievement gallery and it won't include the tutorial achievements.
+This will effectively exclude all the tutorial achievements from being granted, and they won't be included in the special ``Achievement.all_achievements`` list. That means you can iterate over ``Achievement.all_achievements`` for your achievement gallery and it won't include the tutorial achievements. You also won't have to worry about the tutorial achievements being granted for things like turning on animated backgrounds, though the code to trigger those achievements will still be in the game.
 
 Reserved Names
 ===============
