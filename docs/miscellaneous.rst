@@ -1198,6 +1198,7 @@ In ``game/01_mysme_engine/achievements_systems.rpy``, several achievements are d
 There are two places that have the line
 
 ::
+
     IGNORE_ACHIEVEMENTS = False
 
 The first is **before** all the tutorial achievements are declared, and the second is **after** all the tutorial achievements are declared. You need to change the **first** one, the one **before** all the achievements, to the following::
