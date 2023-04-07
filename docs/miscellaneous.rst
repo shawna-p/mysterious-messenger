@@ -1417,6 +1417,7 @@ Variable Names
 * malfunctioning_achievement
 * new_cg
 * novoice_chars
+* onscreen_achievements
 * progress_stat_achievement
 * r
 * rainbow2
