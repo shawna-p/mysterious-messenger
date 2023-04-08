@@ -49,11 +49,13 @@ image locked_achievement = "CGs/album_unlock.webp"
 ## the screen and bounces it slightly into place, then does the
 ## reverse when the achievement is hidden.
 transform achievement_popout():
-    # Align it off-screen
     on show:
+        # Align it off-screen
         xpos 0.0 xanchor 1.0
+        # Ease it back on-screen
         easein_back 1.0 xpos 0.0 xanchor 0.0
     on hide:
+        # Ease it off-screen again
         easeout_back 1.0 xpos 0.0 xanchor 1.0
 
 ## The screen that displays a gallery of the player's achievements.
