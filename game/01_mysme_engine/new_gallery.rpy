@@ -268,6 +268,7 @@ init python:
 
         def __iter__(self):
             """Method to allow this object to be iterated over like a list."""
+            ## (This is for previous code compatibility)
             return iter(self.images)
 
     def get_album_len(album):
