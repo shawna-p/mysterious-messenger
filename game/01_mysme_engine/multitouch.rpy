@@ -1,4 +1,6 @@
 init python in myconfig:
+    ## Although some features will be included as config values in a future
+    ## Ren'Py update, custom "myconfig" versions are declared here until then.
     # The amplitude of an inertial flick (aka how speedy it is)
     viewport_inertia_amplitude = 30.0
     # Controls how quickly the flick gesture decays
