@@ -443,6 +443,8 @@ init python:
             self.zoom = self.zadjustment.value + self.zoom_min
             self.clamp_zoom()
 
+            ## If zoom changed, we also need to update the padding and offset
+            ## the position slightly based on the anchor
             if redraw is not None:
                 self.padding = self.get_padding()
                 self.update_adjustment_limits()
