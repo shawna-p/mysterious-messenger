@@ -1,4 +1,4 @@
-﻿## This file contains options that can be changed to customize your game.
+## This file contains options that can be changed to customize your game.
 
 ## Basics ######################################################################
 
@@ -201,6 +201,8 @@ init python:
     build.classify('**/.**', None)
     build.classify('**/#**', None)
     build.classify('**/thumbs.db', None)
+    build.classify('**.psd', None)
+    build.classify('game/cache/**', None)
 
     build.classify('docs/**', None)
     build.classify('.git/**', None)
@@ -216,6 +218,8 @@ init python:
     # Put script files into the scripts archive.
     build.classify("game/**.rpy", "scripts")
     build.classify("game/**.rpyc", "scripts")
+    build.classify("game/**.rpym", "scripts")
+    build.classify("game/**.rpymc", "scripts")
 
     # Put images into the images archive.
     build.classify("game/**.jpg", "images")
