@@ -209,31 +209,25 @@ init python:
 
     ## To archive files, classify them as 'archive'.
 
-    # Declare archives.
-    build.archive("scripts", "all")
-    build.archive("images", "all")
-    build.archive("music", "all")
-    build.archive("fonts", "all")
-
     # Put script files into the scripts archive.
-    build.classify("game/**.rpy", "scripts")
-    build.classify("game/**.rpyc", "scripts")
-    build.classify("game/**.rpym", "scripts")
-    build.classify("game/**.rpymc", "scripts")
+    build.classify("game/**.rpy", "archive")
+    build.classify("game/**.rpyc", "archive")
+    build.classify("game/**.rpym", "archive")
+    build.classify("game/**.rpymc", "archive")
 
     # Put images into the images archive.
-    build.classify("game/**.jpg", "images")
-    build.classify("game/**.png", "images")
-    build.classify("game/**.webp", "images")
+    build.classify("game/**.jpg", "archive")
+    build.classify("game/**.png", "archive")
+    build.classify("game/**.webp", "archive")
 
     # Put music into the music archive.
-    build.classify("game/**.mp3", "music")
-    build.classify("game/**.wav", "music")
-    build.classify("game/**.ogg", "music")
+    build.classify("game/**.mp3", "archive")
+    build.classify("game/**.wav", "archive")
+    build.classify("game/**.ogg", "archive")
 
     # Put fonts into the fonts archive
-    build.classify("game/**.ttf", "fonts")
-    build.classify("game/**.otf", "fonts")
+    build.classify("game/**.ttf", "archive")
+    build.classify("game/**.otf", "archive")
 
 
     ## Files matching documentation patterns are duplicated in a mac app build,
