@@ -192,9 +192,13 @@ init python:
 
             # Otherwise, show the achievement screen
             # TODO: onlayer?
-            store.onscreen_achievements += 1
-            renpy.show_screen('achievement_popup', a=self,
-                _tag=get_random_screen_tag(6, return_after_tag=True))
+            for i in range(10):
+                if store.onscreen_achievements.get(i, None) is None:
+                    store.onscreen_achievements[i] = True
+                    break
+            tag = get_random_screen_tag(6, return_after_tag=True)
+            renpy.show_screen('achievement_popup', a=self, tag=tag, num=i,
+                _tag=tag)
 
         def Toggle(self):
             """
@@ -294,6 +298,6 @@ init python:
 default persistent.achievement_timestamp = dict()
 ## Tracks the number of onscreen achievements, for offsetting when
 ## multiple achievements are earned at once
-default onscreen_achievements = 0
+default onscreen_achievements = dict()
 
 image blue_ui_bg = Frame("Menu Screens/Day Select/daychat01_2.webp", 20, 15, 20, 15)

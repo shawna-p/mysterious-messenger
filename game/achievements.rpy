@@ -5,12 +5,12 @@
 ## a.description = the description
 ## a.unlocked_image = the image of the achievement, now that it's unlocked
 ## a.timestamp = the time the achievement was unlocked at
-screen achievement_popup(a):
+screen achievement_popup(a, tag, num):
 
     zorder 190
 
     ## Allows multiple achievements to be slightly offset from each other
-    default achievement_yoffset = (onscreen_achievements-1)*135
+    default achievement_yoffset = num*135
 
     frame:
         style_prefix 'achieve_popup'
@@ -25,8 +25,12 @@ screen achievement_popup(a):
 
     # Hide the screen after 5 seconds
     timer 5.0:
-        action [SetVariable('onscreen_achievements', onscreen_achievements-1),
-                Hide("achievement_popup")]
+        action [Hide("achievement_popup"),
+            Show('finish_animating_achievement', num=num, _tag=tag+"1")]
+
+# Ensure
+screen finish_animating_achievement(num):
+    timer 1.0 action [SetDict(onscreen_achievements, num, None), Hide()]
 
 style achieve_popup_frame:
     background 'blue_ui_bg'
@@ -54,7 +58,7 @@ transform achievement_popout():
         xpos 0.0 xanchor 1.0
         # Ease it back on-screen
         easein_back 1.0 xpos 0.0 xanchor 0.0
-    on hide:
+    on hide, replaced:
         # Ease it off-screen again
         easeout_back 1.0 xpos 0.0 xanchor 1.0
 
