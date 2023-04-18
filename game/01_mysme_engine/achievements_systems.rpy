@@ -247,7 +247,8 @@ init python:
         "Turn on real-time mode from the settings.",
         Fixed(
             Transform("Menu Screens/Main Menu/dlc.webp", xsize=155, fit="contain"),
-            Transform("Phone Calls/call_icon_history.webp", align=(0.5, 0.53), matrixcolor=InvertMatrix(1.0))
+            Transform("Phone Calls/call_icon_history.webp", align=(0.5, 0.53), matrixcolor=InvertMatrix(1.0)),
+            fit_first=True
         )
     )
     expired_achievement = Achievement("Missed it by That Much", "expired",

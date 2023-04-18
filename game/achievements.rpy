@@ -28,7 +28,11 @@ screen achievement_popup(a, tag, num):
         action [Hide("achievement_popup"),
             Show('finish_animating_achievement', num=num, _tag=tag+"1")]
 
-# Ensure
+# This, coupled with the action above, ensures that the achievement
+# is properly hidden before another achievement can be shown in that "slot".
+# If this was done as part of the timer in the previous screen, then it would
+# consider that slot empty during the 1 second the achievement is hiding itself.
+# That's why this timer is 1 second long.
 screen finish_animating_achievement(num):
     timer 1.0 action [SetDict(onscreen_achievements, num, None), Hide()]
 
