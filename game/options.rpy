@@ -209,23 +209,23 @@ init python:
 
     ## To archive files, classify them as 'archive'.
 
-    # Put script files into the scripts archive.
+    # Scripts
     build.classify("game/**.rpy", "archive")
     build.classify("game/**.rpyc", "archive")
     build.classify("game/**.rpym", "archive")
     build.classify("game/**.rpymc", "archive")
 
-    # Put images into the images archive.
+    # Images
     build.classify("game/**.jpg", "archive")
     build.classify("game/**.png", "archive")
     build.classify("game/**.webp", "archive")
 
-    # Put music into the music archive.
+    # Music
     build.classify("game/**.mp3", "archive")
     build.classify("game/**.wav", "archive")
     build.classify("game/**.ogg", "archive")
 
-    # Put fonts into the fonts archive
+    # Fonts
     build.classify("game/**.ttf", "archive")
     build.classify("game/**.otf", "archive")
 
