@@ -1912,56 +1912,6 @@ style multitouch_text:
     size 35
     outlines [ (1, "#000", 0, 0)]
 
-image locked_img = Window(
-    Text("Locked", style="multitouch_text", size=120, align=(0.5, 0.5)),
-    style="default", background="#380a0a",
-    xysize=(config.screen_width, config.screen_height)
-)
-
-default zoom_gallery = ZoomGallery(
-    ZoomGalleryImage("jellyfish", "jellyfish.jpg", 1920, 2880),
-    ZoomGalleryImage("flowers", "flowers.jpg", 1920, 2560, condition="flowers_unlocked"),
-    ZoomGalleryImage("vase", "vase.jpg", 1920, 2560),
-    ZoomGalleryImage("city", "city.jpg", 1920, 1200),
-    #ZoomGalleryImage("parakeet", "parakeet.jpg", 840, 1493),
-    screen="display_zoom_gallery",
-    #loop_gallery=False,
-    locked_image="locked_img",
-    #show_locked=True,
-    image_size=(config.screen_width, config.screen_height)
-)
-default flowers_unlocked = True
-
-screen multitouch_test():
-    modal True
-
-    add "#000"
-
-    vbox:
-        align (0.5, 0.5)
-        spacing 100
-        hbox:
-            align (0.5, 0.5)
-            spacing 40
-            textbutton "Jellyfish" action ViewGallery(zoom_gallery, "jellyfish")
-            textbutton "Flowers" action ViewGallery(zoom_gallery, "flowers")
-            textbutton "Vase" action ViewGallery(zoom_gallery, "vase")
-            textbutton "City" action ViewGallery(zoom_gallery, "city")
-            textbutton "Parakeet" action ViewGallery(zoom_gallery, "parakeet")
-        hbox:
-            align (0.5, 0.5)
-            spacing 40
-            textbutton "Unlock flowers" action ToggleVariable("flowers_unlocked")
-
-
-    frame:
-        align (1.0, 1.0)
-        modal True
-        has vbox
-        textbutton "Touch version {}".format(zoom_gallery.touch_screen_mode):
-            action Function(zoom_gallery.toggle_touch)
-        textbutton "Return" action Hide()
-
 screen display_zoom_gallery(zg):
 
     modal True
