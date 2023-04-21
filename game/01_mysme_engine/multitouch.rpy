@@ -1919,8 +1919,6 @@ screen display_zoom_gallery(zg):
     key 'rollback' action NullAction()
     key 'rollforward' action NullAction()
 
-    default show_log = True
-
     add "#1d1d1d"
 
     add zg
