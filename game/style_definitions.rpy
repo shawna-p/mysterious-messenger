@@ -4,6 +4,8 @@
 
 init offset = -1
 
+## These have been phased out in favour of the `gui.font_name` versions,
+## but are retained for compatibility.
 define curly_font = "fonts/Sandoll Misaeng (Curly Font).ttf"
 define serif_1 = "fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf"
 define serif_1b = "fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Bold.ttf"
