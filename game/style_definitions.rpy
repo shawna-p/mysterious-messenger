@@ -185,7 +185,7 @@ style text_num:
     text_align 0.5
     xalign 0.5
     yalign 0.5
-    font sans_serif_1b
+    font gui.sans_serif_1b
 
 
 

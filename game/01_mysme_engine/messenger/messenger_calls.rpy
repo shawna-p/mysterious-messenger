@@ -294,7 +294,7 @@ style sig_points_text:
     yalign 1.0
     xalign 1.0
     text_align 1.0
-    font sans_serif_1
+    font gui.sans_serif_1
     color "#ffffff"
 
 style sig_screen_text:

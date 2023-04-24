@@ -735,7 +735,7 @@ style contact_text:
     color '#fff'
     xalign 0.5
     text_align 0.5
-    font sans_serif_1b
+    font gui.sans_serif_1b
 
 style caller_id:
     color '#fff'
