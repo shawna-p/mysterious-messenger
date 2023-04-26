@@ -1017,21 +1017,6 @@ screen preferences():
                     use toggle_buttons('dialogue_outlines',
                                         "Dialogue Outlines")
 
-
-            # This will let you recompile the fonts in the game
-            # to be more readable
-            # frame:
-            #     style_prefix 'tone_selection'
-            #     text "Font Selection" style "settings_style" xpos 55 ypos 5
-            #     vbox:
-            #         null height 30
-            #         button:
-            #             vbox:
-            #                 align (0.5, 0.5)
-            #                 text "Change Fonts" style 'ringtone_change'
-            #             action Show('adjust_fonts')
-
-
 style ringtone_change:
     color '#fff'
     size 28
