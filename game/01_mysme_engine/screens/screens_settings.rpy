@@ -1032,9 +1032,6 @@ screen preferences():
             #             action Show('adjust_fonts')
 
 
-                # Additional vboxes of type "radio_pref" or "check_pref" can be
-                # added here, to add additional creator-defined preferences.
-
 style ringtone_change:
     color '#fff'
     size 28
