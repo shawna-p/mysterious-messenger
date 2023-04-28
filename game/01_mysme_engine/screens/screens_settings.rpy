@@ -1433,15 +1433,9 @@ screen ringtone_dropdown(title):
 
     modal True
 
-    if title == 'Text Sound':
-        default full_tone_list = text_tones
-        default p_field = 'text_tone'
-    elif title == 'Email Sound':
-        default full_tone_list = email_tones
-        default p_field = 'email_tone'
-    elif title == 'Ringtone':
-        default full_tone_list = ringtones
-        default p_field = 'phone_tone'
+    default full_tone_list = text_tones if title == "Text Sound" else email_tones if title == "Email Sound" else ringtones
+    default p_field = 'text_tone' if title == "Text Sound" else 'email_tone' if title == "Email Sound" else 'phone_tone'
+
     # Only include tones for which the condition evaluates to True
     default tone_list = [t for t in full_tone_list if t.eval_condition()]
 
