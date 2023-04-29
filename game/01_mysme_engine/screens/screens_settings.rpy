@@ -1010,12 +1010,9 @@ screen preferences():
                     use toggle_buttons('hacking_effects', "Hacking Effects")
                     use toggle_buttons('screenshake', "Screen Shake")
                     use toggle_buttons('banners', "Chatroom Banners")
-                    use toggle_buttons('use_timed_menus',
-                                        "Timed Menus")
-                    use toggle_buttons('animated_icons',
-                                        "Animated Icons")
-                    use toggle_buttons('dialogue_outlines',
-                                        "Dialogue Outlines")
+                    use toggle_buttons('use_timed_menus', "Timed Menus")
+                    use toggle_buttons('animated_icons', "Animated Icons")
+                    use toggle_buttons('dialogue_outlines', "Dialogue Outlines")
 
 style ringtone_change:
     color '#fff'
