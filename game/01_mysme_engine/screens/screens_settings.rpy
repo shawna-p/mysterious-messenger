@@ -827,7 +827,7 @@ screen other_settings():
                         + " start over? You'll be unable to return to this"
                         + " point except through a save file."),
                         If(main_menu,
-                            Function(renpy.jump_out_of_context, 'restart_game'),
+                            Start('restart_game'),
                             Jump("restart_game")))
         # null height 459
     hbox:
@@ -905,9 +905,8 @@ screen preferences():
             scrollbars "vertical"
             style_prefix "other_settings"
             has vbox
-            #null height -5
             frame:
-                xysize (675,550)#480)
+                xysize (675,550)
                 background "menu_settings_panel"
                 text "Other Settings" style "settings_style" xpos 45 ypos 2
                 style_prefix "settings_slider"
