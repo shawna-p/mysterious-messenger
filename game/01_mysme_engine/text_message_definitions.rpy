@@ -209,7 +209,6 @@ init -6 python:
             if (c.text_msg.msg_queue):
                 c.text_msg.deliver()
 
-
     def new_message_count():
         """Return the number of unread messages from all characters."""
 
@@ -367,8 +366,6 @@ init -6 python:
                 upTime(), textbackup.img))
         renpy.checkpoint()
 
-
-
     def text_popup_preview(last_msg, num_char=48):
         """
         Parse the contents of last_msg to display a popup notification with
@@ -385,8 +382,6 @@ init -6 python:
         global name
         name_cut = num_char + 6 - len(name)
         if not last_msg:
-            # print("ERROR: Couldn't find a text message to preview")
-            # renpy.show_screen('messenger_error')
             return "Couldn't find a message"
         last_msg.what = renpy.filter_text_tags(last_msg.what, allow=['image'])
 
