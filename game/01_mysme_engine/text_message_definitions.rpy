@@ -468,6 +468,7 @@ label play_text_message():
         collected_hg = 0
         # Send temporary texts for real
         send_temp_texts()
+        # Reset text person and text backup
         textbackup = ChatEntry(filler,"","")
         who = text_person
         text_person = None
