@@ -333,12 +333,10 @@ image cannot_find_img = 'rounded-rectangle-mask.webp'
 
 screen pick_mc_pfp():
     modal True
-    python:
-        pfp_list = [ pic for pic
+
+    default pfp_list = [ pic for pic
             in renpy.list_files() if 'Drop Your Profile Picture Here/' in pic
-            and isImg(pic) ]
-        if not persistent.first_boot:
-            pfp_list.extend(persistent.unlocked_prof_pics)
+            and isImg(pic) ] + (persistent.unlocked_prof_pics if not persistent.first_boot else [])
 
     default can_pick = can_pick_image()
 
