@@ -491,8 +491,6 @@ screen points_and_saveload():
                 null height 20
                 #for r in [r2 for r2 in all_routes if not r2 in [fan_route, everlasting_party, my_new_route]]:
                 for r in all_routes:
-                    $ num_routes = len(r.ending_labels)
-                    $ num_completed = completed_branches(r)
                     hbox:
                         xalign 0.5
                         frame:
@@ -503,8 +501,8 @@ screen points_and_saveload():
                         frame:
                             xsize 75
                             xalign 1.0
-                            text ("[[" + str(num_completed)
-                                    + "/" + str(num_routes) + "]"):
+                            text ("[[{}/{}]".format(completed_branches(r),
+                                    len(r.ending_labels))):
                                 color "#fff" size 28
 
         vbox:
