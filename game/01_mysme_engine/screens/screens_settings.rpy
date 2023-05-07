@@ -336,7 +336,7 @@ screen pick_mc_pfp():
 
     default pfp_list = [ pic for pic
             in renpy.list_files() if 'Drop Your Profile Picture Here/' in pic
-            and isImg(pic) ] + (persistent.unlocked_prof_pics if not persistent.first_boot else [])
+            and isImg(pic) ] + (list(persistent.unlocked_prof_pics) if not persistent.first_boot else [])
 
     default can_pick = can_pick_image()
 
@@ -612,11 +612,7 @@ default old_name = "Rainbow"
 
 screen input_popup(prompt=''):
 
-    python:
-
-        input = Input(value=NameInput(),
-                style="my_input", length=20,
-                allow=allowed_alphabet)
+    default my_input = NameInput()
 
     zorder 100
     modal True
@@ -636,7 +632,9 @@ screen input_popup(prompt=''):
             text prompt
             fixed:
                 add 'input_square'
-                add input xalign 0.5 yalign 0.5
+                input value my_input xalign 0.5 yalign 0.5:
+                    style "my_input" length 20
+                    allow allowed_alphabet
             textbutton _('Confirm'):
                 text_style 'mode_select'
                 style 'my_input_textbutton'
