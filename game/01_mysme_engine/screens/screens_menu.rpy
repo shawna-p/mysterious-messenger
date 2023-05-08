@@ -1388,25 +1388,16 @@ screen chat_home(reshow=False):
     on 'show' action MMRefreshHome()
     on 'replace' action MMRefreshHome()
 
+    default sub_num = 1 if m in character_list else 0
+    default char_list_len = len(character_list) - sub_num + 1
+    default pfp_size = 95 if char_list_len > 6 else 105 if char_list_len > 5 else 115
+    default num_col = (config.screen_width-9-8-16-pfp_size) // pfp_size
+    default num_row = -(-(len(character_list)-sub_num) // num_col)
+    default extra_space = (config.screen_width-9-8-8-pfp_size) - (num_col * pfp_size)
+
     use menu_header("Original Story"):
         # Note that only characters in the list 'character_list' will
         # show up here as profile pictures
-        python:
-            if m in character_list:
-                sub_num = 1
-            else:
-                sub_num = 0
-            char_list_len = len(character_list) - sub_num + 1
-            if char_list_len > 6:
-                pfp_size = 95
-            elif char_list_len > 5:
-                pfp_size = 105
-            else:
-                pfp_size = 115
-            num_col = (config.screen_width-9-8-16-pfp_size) // pfp_size
-            num_row = -(-(len(character_list)-sub_num) // num_col)
-            extra_space = (config.screen_width-9-8-8-pfp_size) - (num_col * pfp_size)
-
         frame:
             xysize(config.screen_width-9, 206)
             xalign 0.5
