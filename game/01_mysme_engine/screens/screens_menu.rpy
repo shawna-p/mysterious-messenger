@@ -692,12 +692,11 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
                 null width 65 height 68
 
             for index in range(begin_page, end_page):
-                $ zoomval = 0.7
                 textbutton _(str(index+1)):
-                    xysize (int(130*zoomval), int(149*zoomval))
-                    background Transform('white_hex', zoom=zoomval)
-                    hover_background Transform('white_hex_hover', zoom=zoomval)
-                    selected_background Transform('blue_hex', zoom=zoomval)
+                    xysize (int(130*0.7), int(149*0.7))
+                    background Transform('white_hex', zoom=0.7)
+                    hover_background Transform('white_hex_hover', zoom=0.7)
+                    selected_background Transform('blue_hex', zoom=0.7)
                     text_size 38
                     text_align (0.5, 0.5)
                     action [SetScreenVariable('current_page', index),
