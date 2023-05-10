@@ -46,22 +46,13 @@ style hscrollbar:
 style scrollbar:
     unscrollable "hide"
 
-
-## This screen shows each day as well as a percentage bar showing what
-## percent of items on that day have been viewed
-screen day_display(day, day_num):
-
-    python:
-        most_recent_day = False
-        is_today = False
-
-        if day_num == today_day_num:
-            most_recent_day = True
-
-        # On the main menu, is_today and playable are calculated differently.
+init python:
+    def determine_playable(day):
+        """
+        A convenience function to reduce screen code. Determines whether
+        a given day is playable or not (i.e. has playable TimelineItems).
+        """
         if main_menu:
-            # There is no 'today' on the History screen.
-            is_today = False
             # This day is selectable if the player has seen at least the
             # first item of the day
             if (day.archive_list
@@ -74,42 +65,48 @@ screen day_display(day, day_num):
                 playable = False
         else:
             playable = day.has_playable
-            # If nothing has been played, the first day is 'today'
-            if day_num == 0 and not day.archive_list[0].was_played(ever=False):
-                is_today = True
-            # Otherwise, this day is today if not everything was played yet
-            # or if there's a plot branch
-            elif day.is_today:
-                # Make sure the last item on the previous day was also played.
-                if (day_num > 0 and story_archive[day_num-1
-                        ].archive_list[-1].was_played(ever=False)):
-                    is_today = True
-                elif day_num == 0:
-                    is_today = True
-                else:
-                    is_today = False
-            elif persistent.real_time and not day.is_today:
-                # This might still be today if running in real-time
-                if (len(story_archive) > day_num+1
-                        and story_archive[day_num+1].archive_list
-                        and not story_archive[
-                            day_num+1].archive_list[0].available
-                        and playable):
-                    is_today = True
+        return playable
 
-        # Background is determined by whether this day is today
-        # and whether or not it is playable
-        if is_today:
-            day_bkgr = 'day_selected'
-            day_bkgr_hover = 'day_selected_hover'
-        elif playable:
-            day_bkgr = 'day_active'
-            day_bkgr_hover = 'day_active_hover'
-        else:
-            day_bkgr = 'day_inactive'
-            day_bkgr_hover = 'day_inactive'
+    def determine_today(day, day_num, playable):
+        """
+        A convenience function to reduce screen code. Determines whether
+        a given day is "today" or not.
+        """
+        if main_menu:
+            return False
+        if day_num == 0 and not day.archive_list[0].was_played(ever=False):
+            return True
+        elif day.is_today:
+            # Make sure the last item on the previous day was also played.
+            if (day_num > 0 and story_archive[day_num-1
+                    ].archive_list[-1].was_played(ever=False)):
+                return True
+            elif day_num == 0:
+                return True
+            else:
+                return False
+        elif persistent.real_time and not day.is_today:
+            # This might still be today if running in real-time
+            if (len(story_archive) > day_num+1
+                    and story_archive[day_num+1].archive_list
+                    and not story_archive[
+                        day_num+1].archive_list[0].available
+                    and playable):
+                return True
 
-        partic_percent = day.participated_percentage()
+
+## This screen shows each day as well as a percentage bar showing what
+## percent of items on that day have been viewed
+screen day_display(day, day_num):
+
+    default most_recent_day = (day_num == today_day_num)
+    default playable = determine_playable(day)
+    default is_today = determine_today(day, day_num, playable)
+    # Background is determined by whether this day is today
+    # and whether or not it is playable
+    default day_bkgr = 'day_selected' if is_today else 'day_active' if playable else 'day_inactive'
+    default day_bkgr_hover = 'day_selected_hover' if is_today else 'day_active_hover' if playable else 'day_inactive'
+    default partic_percent = day.participated_percentage()
 
     if not main_menu:
         on 'show' action [AutoSave()]
