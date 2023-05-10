@@ -1431,9 +1431,7 @@ screen chat_home(reshow=False):
                 idle m.get_pfp(pfp_size)
                 background m.get_pfp(pfp_size)
                 action Show('profile_pic')
-                xalign 1.0
-                xoffset -8
-                yalign 0.0
+                xalign 1.0 yalign 0.0 xoffset -8
 
     frame:
         xysize (config.screen_width, config.screen_height-172)
@@ -2084,22 +2082,14 @@ init python:
 
 screen program_updates(update=None):
 
-    if update:
-        default ver_name = update[0]
-        default ver_tag = update[1]
-        default publish_time = update[2]
-        default is_prerelease = update[3]
-        default dl_link = update[4]
-    else:
-        default ver_name = ""
-        default ver_tag = ""
-        default publish_time = ""
-        default is_prerelease = ""
-        default dl_link = ""
+    default ver_name = update[0] if update else ""
+    default ver_tag = update[1] if update else ""
+    default publish_time = update[2] if update else ""
+    default is_prerelease = update[3] if update else ""
+    default dl_link = update[4] if update else ""
+    default clear_update = False
 
     modal True
-
-    default clear_update = False
 
     add "#000a"
     frame:
