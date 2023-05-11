@@ -215,12 +215,10 @@ screen timeline(day, day_num):
         on 'show' action [AutoSave()]
         on 'replace' action [AutoSave()]
 
-        $ story_time = next_story_time()
-        $ return_action = Show('day_select', Dissolve(0.5))
-    else:
-        $ story_time = None
-        $ return_action = Show('day_select', Dissolve(0.5),
-                            days=which_history_route)
+
+    default story_time = None if main_menu else next_story_time()
+    default return_action = Show('day_select', Dissolve(0.5),
+        days=which_history_route) if main_menu else Show('day_select', Dissolve(0.5))
 
     use menu_header(day.day_title, return_action):
         fixed:
