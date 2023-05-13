@@ -927,8 +927,7 @@ screen email_choice(items, email):
     vbox:
         style_prefix 'email_choice'
         for num, i in enumerate(items):
-            $ fnum = float(num*0.2)
-            textbutton i[0] at the_anim(fnum):
+            textbutton i[0] at the_anim(float(num*0.2)):
                 if show_email_answers and email.is_correct_choice(i[1]):
                     foreground 'seen_choice_check'
                 action [Function(email.finish_choice, i[1]),
@@ -960,10 +959,8 @@ screen guestbook():
         on 'replace' action [AutoSave()]
         on 'show' action [AutoSave()]
 
-    if main_menu:
-        $ return_action = Show('select_history', Dissolve(0.5))
-    else:
-        $ return_action = Show('chat_home', Dissolve(0.5))
+    default return_action = Show('select_history', dissolve) if main_menu else Show('chat_home', dissolve)
+
     use menu_header("Guest", return_action):
         vpgrid id 'guest_vp':
             xysize (740, config.screen_height-134-30)
