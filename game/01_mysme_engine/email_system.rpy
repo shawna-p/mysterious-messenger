@@ -921,10 +921,7 @@ screen email_choice(items, email):
     zorder 150
     modal True
 
-    if persistent.custom_footers and not renpy.is_skipping():
-        default the_anim = choice_anim
-    else:
-        default the_anim = null_anim
+    default the_anim = choice_anim if persistent.custom_footers and not renpy.is_skipping() else null_anim
 
     add "#000c"
     vbox:
