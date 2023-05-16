@@ -754,6 +754,9 @@ style email_hub_button_text:
 ## open and read your emails
 ########################################################
 screen email_button(e):
+
+    default icon_zoom = 0.6 if len(e.email_status_list) > 5 else 0.7 if len(e.email_status_list) > 4 else 0.8 if len(e.email_status_list) > 3 else 1.0
+
     button:
         style_prefix 'email_btn'
         if e.read:
@@ -780,14 +783,6 @@ screen email_button(e):
                     align(0.3, 0.5)
                     spacing 8
                     for icon in e.email_status_list:
-                        if len(e.email_status_list) > 5:
-                            $ icon_zoom = 0.6
-                        elif len(e.email_status_list) > 4:
-                            $ icon_zoom = 0.7
-                        elif len(e.email_status_list) > 3:
-                            $ icon_zoom = 0.8
-                        else:
-                            $ icon_zoom = 1.0
                         add Transform(icon, zoom=icon_zoom) align (0.5, 0.5)
             frame:
                 xysize(240,90)
