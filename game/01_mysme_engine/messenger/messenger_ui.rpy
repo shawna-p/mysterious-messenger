@@ -253,6 +253,7 @@ screen phone_overlay(is_menu_pause=False):
     zorder 2
     add 'phone_ui'
 
+    ## Python because we want this to update as the screen updates
     $ battery = renpy.display.behavior.pygame.power.get_power_info()
 
     fixed:
