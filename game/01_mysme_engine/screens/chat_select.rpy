@@ -11,9 +11,7 @@ screen day_select(days=story_archive):
     if not main_menu:
         on 'show' action [AutoSave()]
         on 'replace' action [AutoSave()]
-        $ return_action = Show('chat_home', Dissolve(0.5))
-    else:
-        $ return_action = Show('select_history_route', Dissolve(0.5))
+    default return_action = Show('select_history_route', Dissolve(0.5)) if main_menu else Show('chat_home', Dissolve(0.5))
 
     use menu_header("Day List", return_action):
         viewport:
