@@ -122,10 +122,8 @@ screen play_button_pause_chat():
 screen stop_chat_screen(wait_for_interact=False):
     zorder 4
     tag chat_footer
-    if wait_for_interact:
-        default wait_text = str(wait_for_interact)
-    else:
-        default wait_text = "Click the link to proceed"
+
+    default wait_text = str(wait_for_interact) if wait_for_interact else "Click the link to proceed"
 
     viewport:
         # Use this viewport to "consume" the mouse input so the player
