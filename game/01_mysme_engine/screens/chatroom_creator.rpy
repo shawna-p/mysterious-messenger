@@ -672,16 +672,6 @@ screen dialogue_tab(show_fonts, compact_ver=False):
                     text the_entry.who.name size 27
         if not compact_ver:
             use add_enter_exit_msg()
-    # if compact_ver:
-    #     hbox:
-    #         use add_enter_exit_msg()
-    # button:
-    #     xysize (280, 85)
-    #     hbox:
-    #         align (0.5, 0.5)
-    #         spacing 8
-    #         add Transform('album_icon', zoom=0.85) align (0.5, 0.5)
-    #         text "Change background" color "#fff" size 30
 
     hbox:
         style_prefix 'font_options'
