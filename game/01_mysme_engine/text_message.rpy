@@ -452,16 +452,8 @@ screen text_message_screen(sender, animate=True):
 
 
 screen text_animation(i, animate=False, anti=False):
-    python:
-        transformVar = incoming_message
 
-        if anti:
-            transformVar = invisible
-        else:
-            transformVar = incoming_message
-
-        if not animate and not anti:
-            transformVar = null_anim
+    default transformVar = null_anim if (not animate and not anti) else invisible if anti else incoming_message
 
 
     if i.who != 'answer' and i.who != 'pause':
