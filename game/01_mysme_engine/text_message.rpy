@@ -194,10 +194,7 @@ screen text_msg_popup(c, last_msg=False, hide_screen='text_msg_popup',
     zorder 100
 
     default send_next = not last_msg
-
-    if not last_msg:
-        if len(c.text_msg.msg_list) > 0:
-            $ last_msg = c.text_msg.msg_list[-1]
+    default last_msg = last_msg if last_msg else c.text_msg.msg_list[-1] if len(c.text_msg.msg_list) > 0 else False
 
     frame:
         style_prefix 'text_popup'
@@ -454,7 +451,6 @@ screen text_message_screen(sender, animate=True):
 screen text_animation(i, animate=False, anti=False):
 
     default transformVar = null_anim if (not animate and not anti) else invisible if anti else incoming_message
-
 
     if i.who != 'answer' and i.who != 'pause':
         # Add the dialogue
