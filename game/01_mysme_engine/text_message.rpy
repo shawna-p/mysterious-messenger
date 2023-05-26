@@ -403,7 +403,7 @@ screen text_message_screen(sender, animate=True):
     python:
         if not _menu or main_menu:
             yadj.value = yadjValue
-        textlog = sender.text_msg.msg_list
+    default textlog = sender.text_msg.msg_list
 
     viewport:
         yinitial 1.0
