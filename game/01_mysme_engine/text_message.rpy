@@ -452,7 +452,7 @@ screen text_animation(i, animate=False, anti=False):
 
     default transformVar = null_anim if (not animate and not anti) else invisible if anti else incoming_message
 
-    if i.who != 'answer' and i.who != 'pause':
+    if i.who not in ('answer', 'pause'):
         # Add the dialogue
         hbox:
             spacing 5
