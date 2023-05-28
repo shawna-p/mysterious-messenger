@@ -394,8 +394,6 @@ screen text_message_screen(sender, animate=True):
         on 'replace':
             action [Function(award_text_hp, who=sender)]
 
-    default prev_msg = None
-
     use menu_header(sender.name, [SetVariable('CG_who', None),
                                 Show('text_message_hub', Dissolve(0.5))], True,
                                 hide_bkgr=(_menu and not main_menu) or animate)
@@ -417,10 +415,10 @@ screen text_message_screen(sender, animate=True):
         has vbox
         spacing 20
 
-        for i index id(i) in textlog[-bubbles_to_keep:]:
+        for ind, i index id(i) in enumerate(textlog[-bubbles_to_keep:]):
             # Show the date separator if applicable
-            if (len(textlog) > 0 and (prev_msg is not None)
-                    and i.thetime.time_diff_minimum(prev_msg.thetime, day=1)):
+            if (len(textlog) > 0 and ind > 0
+                    and i.thetime.time_diff_minimum(textlog[ind-1].thetime, day=1)):
                 use text_date_separator(i.thetime)
             if (len(textlog) > 0 and textlog[0] == i):
                 use text_date_separator(i.thetime)
@@ -435,7 +433,7 @@ screen text_message_screen(sender, animate=True):
                 use text_animation(i, (sender.real_time_text
                     and i == textlog[-1] and animate
                     and (not _menu or main_menu)))
-            $ prev_msg = i
+
         null height 5
     if not sender.real_time_text:
         use text_message_footer(sender)
