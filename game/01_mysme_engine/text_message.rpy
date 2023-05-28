@@ -383,6 +383,12 @@ screen text_message_screen(sender, animate=True):
 
     tag menu
 
+    default textlog = sender.text_msg.msg_list
+
+    python:
+        if not _menu or main_menu:
+            yadj.value = yadjValue
+
     # If this text message is supposed to trigger a heart icon,
     # display the correctly-coloured heart, award
     # a heart point, and increase the appropriate totals.
@@ -397,12 +403,6 @@ screen text_message_screen(sender, animate=True):
     use menu_header(sender.name, [SetVariable('CG_who', None),
                                 Show('text_message_hub', Dissolve(0.5))], True,
                                 hide_bkgr=(_menu and not main_menu) or animate)
-
-    python:
-        if not _menu or main_menu:
-            yadj.value = yadjValue
-    default textlog = sender.text_msg.msg_list
-
     viewport:
         yinitial 1.0
         yadjustment yadj
