@@ -1,4 +1,4 @@
-init python:
+init -50 python:
 
     class Achievement():
         """
