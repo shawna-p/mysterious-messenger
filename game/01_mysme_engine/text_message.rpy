@@ -202,6 +202,8 @@ screen text_msg_popup(c, last_msg=False, hide_screen='text_msg_popup',
         imagebutton:
             align (1.0, 0.22)
             auto 'input_close_%s'
+            # Randomly decide whether to send another message each time
+            # the player closes the popup
             if not randint(0,3) and send_next:
                 action [Hide(hide_screen),
                         Function(reset_text_popup, popup_tag),
