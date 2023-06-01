@@ -234,6 +234,9 @@ screen text_msg_popup(c, last_msg=False, hide_screen='text_msg_popup',
                 textbutton _('Go to') action MMGoToText(c, popup_tag)
             else:
                 null height 70
+
+    ## Another timer which goes off every few seconds to see if it should
+    ## send another text message. Has a 50% chance.
     timer 3.25:
         action If(randint(0,1) and send_next,
             [Hide(hide_screen, Dissolve(0.25)),
