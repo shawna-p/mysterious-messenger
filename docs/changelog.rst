@@ -68,6 +68,8 @@ Fixes
       - Fixed an issue where you could only edit a special speech bubble's style and not set it beforehand.
     * - ``hide_albums``
       - Fix an issue with ``hide_albums`` not working properly.
+    * - Screen optimization
+      - Screens have been better optimized to reduce repeated Python code. 
 
 
 .. _qol-3-4-0:
