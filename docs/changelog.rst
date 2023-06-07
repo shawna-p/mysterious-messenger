@@ -38,7 +38,7 @@ Minor New Features
     * - **Feature**
       - **Description**
     * - Chatroom scrolling
-      - You can now scroll backwards in a chatroom without pausing and the game will not attempt to drag you back down towards the recent messages.
+      - You can now scroll backwards in a chatroom without pausing and the game will not attempt to drag you back down towards the recent messages. A banner at the bottom of the screen will let you jump to the recent messages.
     * - Android Back Button
       - The Android back button will now correctly activate the "back" action in the UI when available.
     * - Hearts to Hourglasses
@@ -69,7 +69,7 @@ Fixes
     * - ``hide_albums``
       - Fix an issue with ``hide_albums`` not working properly.
     * - Screen optimization
-      - Screens have been better optimized to reduce repeated Python code. 
+      - Screens have been better optimized to reduce repeated Python code.
 
 
 .. _qol-3-4-0:
