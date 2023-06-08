@@ -224,7 +224,6 @@ init -50 python:
     IGNORE_ACHIEVEMENTS = False
     ui_achievement = Achievement("Farewell, Old UI", "modified_ui",
         "Turn on the modified UI from the settings.",
-        # Size ~(155, 155)
         Crop((0, 0, 155, 155), Transform("Phone UI/bg_secure.webp", xsize=155, fit="contain"))
     )
     animated_bg_achievement = Achievement("Now for some Pizazz!", "animated_bgs",
