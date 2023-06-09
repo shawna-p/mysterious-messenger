@@ -1,4 +1,4 @@
-## This file contains options that can be changed to customize your game.
+﻿## This file contains options that can be changed to customize your game.
 
 ## Basics ######################################################################
 
@@ -52,6 +52,8 @@ define config.missing_label_callback = handle_missing_label
 
 # Only predicts the current image in a ConditionSwitch
 define config.conditionswitch_predict_all = False
+
+define config.search_prefixes += [ "images/" ]
 
 # init python:
 #     def label_debug(title, reg_reached):
@@ -177,6 +179,7 @@ define config.window_icon = "gui/window_icon.png"
 ## This section controls how Ren'Py turns your project into distribution files.
 
 init python:
+    config.developer = True
     ## The following functions take file patterns. File patterns are case-
     ## insensitive, and matched against the path relative to the base directory,
     ## with and without a leading /. If multiple patterns match, the first is
