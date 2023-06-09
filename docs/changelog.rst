@@ -70,6 +70,8 @@ Fixes
       - Fix an issue with ``hide_albums`` not working properly.
     * - Screen optimization
       - Screens have been better optimized to reduce repeated Python code.
+    * - 8.1 Upgrade
+      - The code has been updated for compatibility with v8.1+ of Ren'Py
 
 
 .. _qol-3-4-0:
