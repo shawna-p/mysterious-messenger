@@ -1,4 +1,10 @@
 init -50 python:
+    ## Note: for this class to be standalone, you must import time and datetime
+    ## You also need the get_random_screen_tag function from
+    ## 01_mysme_engine/messenger/messenger_animations.rpy
+    ## You only need the bit up to return_after_tag
+    ## You can also use renpy.random instead of the random library if you
+    ## don't want to import it
 
     class Achievement():
         """
