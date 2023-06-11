@@ -26,7 +26,13 @@ style gui_text:
 
 
 style button:
-    properties gui.button_properties("button")
+    xysize (None, None)
+    padding (4, 4, 4, 4)
+    background None
+    hover_background None
+    selected_idle_background None
+    selected_hover_background None
+    insensitive_background None
 
 style button_text is gui_text:
     properties gui.text_properties("button")
