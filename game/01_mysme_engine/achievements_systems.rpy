@@ -197,7 +197,6 @@ init -50 python:
                 return
 
             # Otherwise, show the achievement screen
-            # TODO: onlayer?
             for i in range(10):
                 if store.onscreen_achievements.get(i, None) is None:
                     store.onscreen_achievements[i] = True
