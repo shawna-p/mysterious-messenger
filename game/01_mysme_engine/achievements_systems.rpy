@@ -201,6 +201,8 @@ init -50 python:
                 if store.onscreen_achievements.get(i, None) is None:
                     store.onscreen_achievements[i] = True
                     break
+            ## Pick a random tag so that multiples of this screen can be
+            ## shown at the same time
             tag = get_random_screen_tag(6, return_after_tag=True)
             renpy.show_screen('achievement_popup', a=self, tag=tag, num=i,
                 _tag=tag)
