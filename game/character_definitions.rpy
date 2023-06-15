@@ -24,6 +24,7 @@ define phone_character = Character(None,
     what_xalign=0.5,
     what_yalign=0.5,
     what_text_align=0.5,
+    what_layout="subtitle",
     voice_tag="other_voice",
     screen='phone_say')
 
