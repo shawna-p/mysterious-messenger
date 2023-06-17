@@ -72,6 +72,8 @@ Fixes
       - Screens have been better optimized to reduce repeated Python code.
     * - 8.1 Upgrade
       - The code has been updated for compatibility with v8.1+ of Ren'Py
+    * - Phone UI
+      - Phone dialogue has been slightly updated to even out the length of lines.
 
 
 .. _qol-3-4-0:
