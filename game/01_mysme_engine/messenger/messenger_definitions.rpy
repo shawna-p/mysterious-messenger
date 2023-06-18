@@ -524,69 +524,86 @@ init -4 python:
             else:
                 full_style = self.who.file_id + '_' + self.specBubble
 
+            ret = None
             if full_style == 'ju_square_m':
-                return (140, 5)
+                ret =(140, 5)
             elif full_style == 'ju_round_l':
-                return (110, 27)
+                ret =(110, 27)
             elif full_style == 'ju_square_s':
-                return (140, 10)
+                ret =(140, 10)
             elif full_style == 'ju_square_l':
-                return (135, 0)
+                ret =(135, 0)
             elif full_style == 'ju_round_m':
-                return (130, 30)
+                ret =(130, 30)
             elif full_style == 'ja_square_l':
-                return (120, 10)
+                ret =(120, 10)
             elif full_style == 'ja_cloud_m':
-                return (125, 35)
+                ret =(125, 35)
             elif full_style == 'ja_round_l':
-                return (110, 8)
+                ret =(110, 8)
             elif full_style == 'ja_square_m':
-                return (135, 15)
+                ret =(135, 15)
             elif full_style == 'r_square_l':
-                return (120, 5)
+                ret =(120, 5)
             elif full_style == 'r_square2_l':
-                return (110, 2)
+                ret =(110, 2)
             elif full_style == 'r_square_m' or full_style == 'r_square2_m':
-                return (135, 10)
+                ret =(135, 10)
             elif full_style == 'v_square_l':
-                return (120, 15)
+                ret =(120, 15)
             elif full_style == 'v_round_s':
-                return (150, 25)
+                ret =(150, 25)
             elif full_style == 'v_square_s':
-                return (135, 30)
+                ret =(135, 30)
             elif full_style == 's_cloud_l':
-                return (128, 34)
+                ret =(128, 34)
             elif full_style == 's_round2_s':
-                return (120, 28)
+                ret =(120, 28)
             elif full_style == 's_round2_l' or full_style == 's_round_l':
-                return (110, 15)
+                ret =(110, 15)
             elif full_style == 'sa_square_m':
-                return (125, 15)
+                ret =(125, 15)
             elif full_style == 'sa_square_s':
-                return (125, 18)
+                ret =(125, 18)
             elif full_style == 'sa_square_l':
-                return (120, 0)
+                ret =(120, 0)
             elif full_style == 'y_cloud_l':
-                return (100, 22)
+                ret =(100, 22)
             elif full_style == 'y_cloud_m':
-                return (110, 25)
+                ret =(110, 25)
             elif full_style == 'y_round_l':
-                return (120, 20)
+                ret =(120, 20)
             elif full_style == 'z_square_l':
-                return (105, 10)
+                ret =(105, 10)
             elif full_style == 'z_flower_l':
-                return (115, 10)
+                ret =(115, 10)
+
+            if ret is not None:
+                if self.who.right_msgr:
+                    ret = (ret[0] * -1, ret[1])
+                return ret
 
             # Try for the specific style
             try:
-                return getattr(store.gui, self.who.file_id + "_" + bubble_style)
+                ret = getattr(store.gui, self.who.file_id + "_" + bubble_style)
             except:
                 pass
 
+            if ret is not None:
+                if self.who.right_msgr:
+                    ret = (ret[0] * -1, ret[1])
+                return ret
+
             try:
-                return getattr(store.gui, bubble_style)
+                ret = getattr(store.gui, bubble_style)
             except:
                 pass
+
+            if ret is not None:
+                if self.who.right_msgr:
+                    ret = (ret[0] * -1, ret[1])
+                return ret
+
             return (0, 0)
 
         @property

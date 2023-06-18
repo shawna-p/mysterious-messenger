@@ -175,11 +175,11 @@ screen chat_animation(i, anti=False, no_anim=False):
     # Now add the dialogue
     if not i.has_new: # Not a "regular" dialogue bubble
         # Not an image; check if it's a special bubble
-        if i.specBubble != None and i.specBubble not in ('glow2', 'glow3'):
+        if i.specBubble is not None and i.specBubble not in ('glow2', 'glow3'):
             fixed at i.msg_animation(anti, no_anim):
                 offset i.spec_bubble_offset
                 if i.who.right_msgr:
-                    anchor (1.0, 0.0)
+                    align (1.0, 0.0)
                 fit_first True
                 add i.bubble_bg
                 frame:
@@ -208,6 +208,8 @@ screen chat_animation(i, anti=False, no_anim=False):
                 # no variant for them
                 style 'glow_bubble'
                 background i.bubble_bg
+                if i.who.right_msgr:
+                    anchor (1.0, 0.0) pos (config.screen_width-138, 38)
                 # This checks if the text needs to wrap or not
                 if i.dialogue_width > gui.longer_than:
                     text i.what:
