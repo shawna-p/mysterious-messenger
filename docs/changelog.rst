@@ -74,6 +74,8 @@ Fixes
       - The code has been updated for compatibility with v8.1+ of Ren'Py
     * - Phone UI
       - Phone dialogue has been slightly updated to even out the length of lines.
+    * - Dialogue bubble fix
+      - Special bubbles used by a character on the right side of the screen appear properly.
 
 
 .. _qol-3-4-0:
