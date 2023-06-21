@@ -10,10 +10,27 @@ screen custom_route_select_screen():
             # The image that goes on the left of the button
             add 'Menu Screens/Main Menu/route_select_tutorial.webp':
                 align (0.08, 0.5)
-            action Start()
+            action Start("my_route_introduction")
             # The box with text on the right side of the button
             frame:
-                text "Tutorial Day"
+                text "My New Route"
+        button:
+            ysize 210 # Set the height of the button
+            # The image that goes on the left of the button
+            add 'Menu Screens/Main Menu/route_select_tutorial.webp':
+                align (0.08, 0.5)
+            action Start("prologue")
+            # The box with text on the right side of the button
+            frame:
+                text "Prologue"
+
+        button:
+            action Start("casual_start")
+            add 'Menu Screens/Main Menu/route_select_casual.webp':
+                align (0.08, 0.5)
+            frame:
+                text "Casual Story"
+
 
 
 
