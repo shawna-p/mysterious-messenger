@@ -287,7 +287,7 @@ init -4 python:
             try:
                 c = Color(self.who.bubble_color)
                 c = self.who.bubble_color
-            except:
+            except Exception as e:
                 # Couldn't initialize this as a colour
                 c = "#fff"
 
@@ -388,7 +388,7 @@ init -4 python:
         def link_action(self, new_action):
             try:
                 self.__link_action = new_action
-            except:
+            except Exception as e:
                 return
 
         @property
@@ -397,7 +397,7 @@ init -4 python:
 
             try:
                 return self.__link
-            except:
+            except Exception as e:
                 return False
 
         @property
@@ -407,7 +407,7 @@ init -4 python:
             try:
                 if self.saved_bubble_style is not None:
                     return self.saved_bubble_style
-            except:
+            except Exception as e:
                 pass
 
             # Allow for custom bubble styling
@@ -416,7 +416,7 @@ init -4 python:
                 if custom_style:
                     self.saved_bubble_style = custom_style
                     return custom_style
-            except:
+            except Exception as e:
                 ScriptError("Could not evaluate the function",
                     "'custom_bubble_style'.",
                     header="Chatrooms",
