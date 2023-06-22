@@ -234,7 +234,7 @@ screen chat_animation(i, anti=False, no_anim=False):
                     fixed:
                         xysize (82, 82)
                         add i.link_img align (0.5, 0.5):
-                            xysize (82, 82) fit "contain"
+                            xysize (82, 82) fit "scale-down"
                 vbox:
                     if i.link_title:
                         frame:
