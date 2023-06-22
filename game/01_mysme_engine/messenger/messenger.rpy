@@ -232,8 +232,9 @@ screen chat_animation(i, anti=False, no_anim=False):
                 # Check if there's actually a link image
                 if not isinstance(i.link_img, Null):
                     fixed:
-                        xysize (82, 82) fit "contain"
-                        add i.link_img align (0.5, 0.5)
+                        xysize (82, 82)
+                        add i.link_img align (0.5, 0.5):
+                            xysize (82, 82) fit "contain"
                 vbox:
                     if i.link_title:
                         frame:
