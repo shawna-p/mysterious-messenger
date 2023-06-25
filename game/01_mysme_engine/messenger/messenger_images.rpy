@@ -18,6 +18,11 @@ image custom_answerbutton:
         1.0
         repeat
 
+image answer_ui = ConditionSwitch(
+    "persistent.custom_footers", "custom_answerbutton",
+    "True", "answerbutton"
+)
+
 image darklight_continue_button:
     block:
         "Phone UI/Continue-light.webp" with Dissolve(1.0)
@@ -57,6 +62,12 @@ image custom_pausebutton:
     "transparent_img" with Dissolve(0.5)
     1.0
     repeat
+
+image pause_ui = ConditionSwitch(
+    "persistent.custom_footers", "custom_pausebutton",
+    "True", "pausebutton"
+)
+
 
 image pause_square = ConditionSwitch(
     "persistent.custom_footers", Frame("Phone UI/custom-pause-square.webp", 15, 15),
