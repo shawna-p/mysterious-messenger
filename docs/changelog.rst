@@ -71,9 +71,9 @@ Fixes
     * - Screen optimization
       - Screens have been better optimized to reduce repeated Python code.
     * - 8.1 Upgrade
-      - The code has been updated for compatibility with v8.1+ of Ren'Py
+      - The code has been updated for compatibility with v8.1+ of Ren'Py.
     * - Phone UI
-      - Phone dialogue has been slightly updated to even out the length of lines.
+      - Phone dialogue has been slightly updated to even out the length of lines using subtitle breaking.
     * - Dialogue bubble fix
       - Special bubbles used by a character on the right side of the screen appear properly.
 
