@@ -7,7 +7,7 @@ screen answer_button(act=None):
     tag chat_footer
     add 'pause_square' ysize config.screen_height-113-165 yalign 0.0 yoffset 165
 
-    add "pause_ui" xalign 1.0 xoffset -25 yoffset 190
+    add "pause_ui" xalign 1.0 xoffset -25 yoffset 190 yalign 0.0
     add "answer_ui" yalign 1.0
 
     imagebutton:
