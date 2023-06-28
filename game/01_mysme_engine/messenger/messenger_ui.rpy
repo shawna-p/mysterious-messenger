@@ -32,10 +32,8 @@ screen answer_button(act=None):
 screen continue_button():
     zorder 4
     tag chat_footer
-    if persistent.custom_footers:
-        add 'custom_darklight_continue_button' yalign 1.0
-    else:
-        add 'darklight_continue_button' yalign 1.0
+    add "continue_ui" yalign 1.0
+
     imagebutton:
         yalign 1.0
         focus_mask None

@@ -39,6 +39,11 @@ image custom_darklight_continue_button:
         1.0
         repeat
 
+image continue_ui = ConditionSwitch(
+    "persistent.custom_footers", "custom_darklight_continue_button",
+    "True", "darklight_continue_button"
+)
+
 
 image phone_continue_button = ConditionSwitch(
     "persistent.custom_footers", "Phone UI/custom-continue.webp",
