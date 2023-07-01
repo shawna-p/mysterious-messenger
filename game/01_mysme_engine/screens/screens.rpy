@@ -731,7 +731,6 @@ style radio_vbox:
     spacing gui.pref_button_spacing
 
 style radio_button:
-    properties gui.button_properties("radio_button")
     foreground "gui/button/check_[prefix_]foreground.png"
 
 style radio_button_text:
@@ -741,7 +740,8 @@ style check_vbox:
     spacing gui.pref_button_spacing
 
 style check_button:
-    properties gui.button_properties("check_button")
+    # properties gui.button_properties("check_button")
+    padding gui.check_button_borders.padding
     foreground "gui/button/check_[prefix_]foreground.png"
 
 style check_button_text:
