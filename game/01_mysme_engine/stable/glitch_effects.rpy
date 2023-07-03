@@ -196,14 +196,12 @@ screen tear2(num_pieces=10, xoffset_min=-10, xoffset_max=10,
             img=None, width=None, height=None, w_timer=False):
     zorder 150
 
-    # Declare a screenshot
-    default screen_sh = BasicScreenshot(img, width, height, create_tears=True,
+    # Add the torn screenshot to the screen
+    add DynamicDisplayable(create_torn_screen, screenshot=BasicScreenshot(
+            img, width, height, create_tears=True,
             num_pieces=num_pieces, xoffset_min=xoffset_min,
             xoffset_max=xoffset_max, idle_len_multiplier=idle_len_multiplier,
-            move_len_multiplier=move_len_multiplier)
-
-    # Add the torn screenshot to the screen
-    add DynamicDisplayable(create_torn_screen, screenshot=screen_sh):
+            move_len_multiplier=move_len_multiplier)):
         xysize (width or config.screen_width, height or config.screen_height)
         align (0.5, 0.5)
 
