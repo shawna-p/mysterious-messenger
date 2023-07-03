@@ -732,6 +732,8 @@ label after_load():
     if in_chat_creator:
         # Don't update variables as is usually done
         return
+    if config.developer and renpy.get_autoreload():
+        return
 
     $ renpy.set_return_stack([])
     jump reload_game_restart
