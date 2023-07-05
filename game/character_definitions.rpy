@@ -437,6 +437,8 @@ layeredimage jumin front:
         attribute party "VN Mode/Jumin/jumin_body_2.webp"
 
     group face:
+        ## Body: 599x1206
+        ## Face: 162, 126
         align(0.39, align_new_dimensions(0.121))
         attribute happy "VN Mode/Jumin/jumin_face_0.webp"
         attribute upset "VN Mode/Jumin/jumin_face_1.webp"
