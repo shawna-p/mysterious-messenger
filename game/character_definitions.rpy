@@ -396,10 +396,6 @@ layeredimage jaehee:
 
     group face:
         if_not "glasses"
-        ## Dimensions: 180x121 -> 13.067
-        ## Sprite: 455x1113 -> 120.204
-        #align (0.298, align_new_dimensions(0.108))
-        xpos 170 ypos 133
         attribute happy "VN Mode/Jaehee/jaehee_face_1.webp"
         attribute sad "VN Mode/Jaehee/jaehee_face_3.webp"
         attribute neutral default "VN Mode/Jaehee/jaehee_face_5.webp"
@@ -408,7 +404,6 @@ layeredimage jaehee:
 
     group face:
         if_any "glasses"
-        xpos 170 ypos 133
         attribute happy "VN Mode/Jaehee/jaehee_face_0.webp"
         attribute angry "VN Mode/Jaehee/jaehee_face_2.webp"
         attribute sad "VN Mode/Jaehee/jaehee_face_4.webp"
