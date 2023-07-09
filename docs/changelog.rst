@@ -92,6 +92,12 @@ QoL Improvements
     * - Animated Background Performance
       - Improved the performance of the stars in the animated backgrounds for night, early morning, and morning.
 
+.. _incompat-3-4-0:
+
+Incompatible
+--------------------
+
+* The character sprite expressions have been updated to not require positioning properties.
 
 3.3.0
 =====
