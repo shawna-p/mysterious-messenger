@@ -99,7 +99,7 @@ QoL Improvements
 Incompatible
 --------------------
 
-* The character sprite expressions have been updated to not require positioning properties.
+* The character sprite expressions have been updated to not require positioning properties. You will need to download the latest assets and overwrite any existing VN sprites to avoid odd positioning issues. If you need the old VN assets, you need to restore the layeredimage definitions with the old positioning information.
 
 3.3.0
 =====
