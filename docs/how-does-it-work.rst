@@ -300,7 +300,6 @@ In most cases, you'll want to simulate the characters typing/reading before they
 The new lines here are ``wait_time = len(what)/6.0/100.0*60.0`` and ``renpy.pause(wait_time)``. The first line calculates a time to wait for before posting a message to the chatlog. The second actually waits for that number of seconds. Note that ``len(what)`` is the number of characters in the message - so, "Hello!" is 6 characters long, and according to the formula, would take 0.6 seconds to post.
 
 .. tip::
-
     The actual wait times can be much more involved, and include calculations on more than just the length of the current message. For example, you might consider looking at the current chatlog to see if the last message was posted by a different character, in which case perhaps they take a little extra time to send because they need to read the message first before they start to type.
 
     Mysterious Messenger uses a logarithmic curve to calculate how long a message takes to send, with very short messages taking a comparatively longer time than a linear function, and longer messages beginning to take similar amounts of time despite increasing length. Gameplay-wise, this prevents very short messages from feeling like they're being posted at lightning speed, and very long messages from feeling like they grind the chatroom speed to a halt.
