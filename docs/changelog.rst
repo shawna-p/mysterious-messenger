@@ -94,6 +94,12 @@ QoL Improvements
     * - Animated Background Performance
       - Improved the performance of the stars in the animated backgrounds for night, early morning, and morning.
 
+.. _incompat-3-4-0:
+
+Incompatible
+--------------------
+
+* The character sprite expressions have been updated to not require positioning properties. You will need to download the latest assets and overwrite any existing VN sprites to avoid odd positioning issues. If you need the old VN assets, you need to restore the layeredimage definitions with the old positioning information.
 
 3.3.0
 =====
