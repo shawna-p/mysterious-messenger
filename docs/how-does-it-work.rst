@@ -4,7 +4,7 @@
 How does it all work?
 ======================
 
-As Mysterious Messenger is the result of over 4 years of work (the past two of which have included daily updates), it now has a rather hefty amount of code, much of which is tailored to be easy-to-use from the front end. That can mean that it's hard to get your head around how it's doing all the "behind the scenes" stuff. This page is intended to walk you through some of the thought processes behind the various parts of Mysterious Messenger, and show examples of simplified versions of the classes and systems that make up the inner workings of the project.
+As Mysterious Messenger is the result of over 5 years of work (the past three of which have included daily updates), it now has a rather hefty amount of code, much of which is tailored to be easy-to-use from the front end. That can mean that it's hard to get your head around how it's doing all the "behind the scenes" stuff. This page is intended to walk you through some of the thought processes behind the various parts of Mysterious Messenger, and show examples of simplified versions of the classes and systems that make up the inner workings of the project.
 
 .. toctree::
     :caption: Navigation
@@ -57,7 +57,7 @@ That sounds kind of confusing, but let me rephrase. When you call a function in 
     # Now to call the function
     y = my_function(3)
 
-The important part is the ```my_function(3)`` bit. To call the function, you use the function's name (``my_function``) and then a set of parentheses, which may or may not contain arguments that get passed to the function (in this case, ``3`` is passed to the function).
+The important part is the ``my_function(3)`` bit. To call the function, you use the function's name (``my_function``) and then a set of parentheses, which may or may not contain arguments that get passed to the function (in this case, ``3`` is passed to the function).
 
 Importantly, you can use an object in place of the function name, and that will cause the ``__call__`` method to be executed. So if you had the following::
 
