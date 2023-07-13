@@ -306,6 +306,9 @@ The new lines here are ``wait_time = len(what)/6.0/100.0*60.0`` and ``renpy.paus
 
     If you'd like to get creative, you might consider both reading and typing times, particularly if you have a way of tracking who is "typing" a message at any given moment.
 
+Adjusting the Viewport
+----------------------
+
 Now when you run your script, there should be pauses between when each message gets posted to the chatlog. The last crucial piece of the puzzle is getting the viewport to stay at the bottom so it displays each new message.
 
 Let's look at that now::
