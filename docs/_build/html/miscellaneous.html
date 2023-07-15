@@ -1,33 +1,71 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
   <title>Miscellaneous &mdash; Mysterious Messenger Wiki v3.3.0 documentation</title>
-      <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
-    <script src="_static/js/theme.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="CG Albums" href="cg-albums.html" /> 
+    <link rel="prev" title="How does it all work?" href="how-does-it-work.html" /> 
 </head>
 
-<body class="wy-body-for-nav"> 
+<body class="wy-body-for-nav">
+
+   
   <div class="wy-grid-for-nav">
+    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
+          
+
+          
             <a href="index.html" class="icon icon-home"> Mysterious Messenger Wiki
+          
+
+          
           </a>
+
+          
+            
+            
+          
+
+          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -35,7 +73,18 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="Home.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Full Changelog</a></li>
@@ -54,6 +103,7 @@
 <li class="toctree-l1"><a class="reference internal" href="plot-branches.html">Plot Branches</a></li>
 <li class="toctree-l1"><a class="reference internal" href="creating-characters.html">Creating Characters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cg-albums.html">CG Albums</a></li>
+<li class="toctree-l1"><a class="reference internal" href="how-does-it-work.html">How does it all work?</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Miscellaneous</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#pronoun-integration">Pronoun Integration</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#defining-additional-pronoun-variables">Defining Additional Pronoun Variables</a></li>
@@ -101,6 +151,26 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#spending-hourglasses">Spending Hourglasses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#achievements">Achievements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#setting-up-achievements">Setting Up Achievements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#granting-achievements">Granting Achievements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#checking-if-an-achievement-was-granted">Checking if an Achievement was Granted</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tracking-achievement-progress">Tracking Achievement Progress</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#setting-progress">Setting Progress</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#updating-progress">Updating Progress</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#checking-progress">Checking Progress</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#resetting-achievement-progress">Resetting Achievement Progress</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#toggling-achievements-for-testing">Toggling Achievements (For Testing)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#displaying-achievements">Displaying Achievements</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#achievement-popup">Achievement Popup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#achievement-gallery">Achievement Gallery</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#disabling-tutorial-achievements">Disabling Tutorial Achievements</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#reserved-names">Reserved Names</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#transform-names">Transform Names</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#variable-names">Variable Names</a></li>
@@ -110,32 +180,73 @@
 </li>
 </ul>
 
+            
+          
         </div>
+        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">Mysterious Messenger Wiki</a>
+        
       </nav>
 
+
       <div class="wy-nav-content">
+        
         <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
+    
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
       <li>Miscellaneous</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
+        
+          
             <a href="_sources/miscellaneous.rst.txt" rel="nofollow"> View page source</a>
+          
+        
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-             
-  <section id="miscellaneous">
-<h1>Miscellaneous<a class="headerlink" href="#miscellaneous" title="Permalink to this heading"></a></h1>
+            
+  <div class="section" id="miscellaneous">
+<h1>Miscellaneous<a class="headerlink" href="#miscellaneous" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Navigation</span></p>
 <ul class="current">
@@ -186,6 +297,26 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#spending-hourglasses">Spending Hourglasses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#achievements">Achievements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#setting-up-achievements">Setting Up Achievements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#granting-achievements">Granting Achievements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#checking-if-an-achievement-was-granted">Checking if an Achievement was Granted</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tracking-achievement-progress">Tracking Achievement Progress</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#setting-progress">Setting Progress</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#updating-progress">Updating Progress</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#checking-progress">Checking Progress</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#resetting-achievement-progress">Resetting Achievement Progress</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#toggling-achievements-for-testing">Toggling Achievements (For Testing)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#displaying-achievements">Displaying Achievements</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#achievement-popup">Achievement Popup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#achievement-gallery">Achievement Gallery</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#disabling-tutorial-achievements">Disabling Tutorial Achievements</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#reserved-names">Reserved Names</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#transform-names">Transform Names</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#variable-names">Variable Names</a></li>
@@ -195,8 +326,8 @@
 </li>
 </ul>
 </div>
-<section id="pronoun-integration">
-<h2>Pronoun Integration<a class="headerlink" href="#pronoun-integration" title="Permalink to this heading"></a></h2>
+<div class="section" id="pronoun-integration">
+<h2>Pronoun Integration<a class="headerlink" href="#pronoun-integration" title="Permalink to this headline">¶</a></h2>
 <p>Mysterious Messenger allows the player to change their pronouns and gender whenever they desire during the game. This means that any reference to the player’s gender or use of pronouns to refer to the player must be taken care of via variables.</p>
 <p>At the top of <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> you will see a function called <code class="docutils literal notranslate"><span class="pre">set_pronouns</span></code> and several existing variables defined under the header <strong>PRONOUN VARIABLES</strong>. These can be used in script:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="s2">&quot;Aw, it doesn&#39;t look like [name] is logged in. I wonder what [they_re] doing?&quot;</span>
@@ -213,8 +344,8 @@
 <p>In Mysterious Messenger, players can pick their gender separately from their pronouns. This means, for example, that a player can identify as nonbinary and use she/her pronouns. You are welcome to extend this functionality as well to have the player further clarify how they want to be referred to.</p>
 <p>Note that because a player’s pronouns will not necessarily directly correlate to their gender, it may be good to ask the player if they would like to be referred to as a woman, man, person, or something else, if that comes up in your writing. You can use input prompts to get more specific information from the player as well (see <a class="reference internal" href="#getting-input-from-the-player"><span class="std std-ref">Getting Input from the Player</span></a>).</p>
 </div>
-<section id="defining-additional-pronoun-variables">
-<h3>Defining Additional Pronoun Variables<a class="headerlink" href="#defining-additional-pronoun-variables" title="Permalink to this heading"></a></h3>
+<div class="section" id="defining-additional-pronoun-variables">
+<h3>Defining Additional Pronoun Variables<a class="headerlink" href="#defining-additional-pronoun-variables" title="Permalink to this headline">¶</a></h3>
 <p>If you would like to define additional variables to help with scripting dialogue, you must define the variable in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> under the <strong>PRONOUN VARIABLES</strong> header and also in the <code class="docutils literal notranslate"><span class="pre">set_pronouns</span></code> function.</p>
 <p>For this example, a variable called <code class="docutils literal notranslate"><span class="pre">go_goes</span></code> will be defined for the three main pronoun options.</p>
 <p>First, in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> under the <strong>PRONOUN VARIABLES</strong> header, add</p>
@@ -241,9 +372,9 @@
 <p>If the player has they/them pronouns, in-game this displays as “Yeah, they said they usually go out on Fridays”, but a player with she/her pronouns will see “Yeah, she said she usually goes out on Fridays.”.</p>
 <p>Variables are capitalization-sensitive; if you need a capitalized version of a variable you can either create another variable (see <code class="docutils literal notranslate"><span class="pre">They</span></code> vs <code class="docutils literal notranslate"><span class="pre">they</span></code> for an example of this), or you can write the variable with <code class="docutils literal notranslate"><span class="pre">[is_are!cl]</span></code> to get the first letter capitalized (so, “Is” or “Are”) or <code class="docutils literal notranslate"><span class="pre">[is_are!u]</span></code> to get the whole word in capitals (so “IS” or “ARE”). See <a class="reference external" href="https://www.renpy.org/doc/html/text.html#interpolating-data">https://www.renpy.org/doc/html/text.html#interpolating-data</a> for more information on interpolation flags.</p>
 <p>There is no limit to how many pronoun variables you can make, so feel free to create as many as you need to write your script more easily while supporting the different pronoun options.</p>
-</section>
-<section id="adding-additional-genders">
-<h3>Adding Additional Genders<a class="headerlink" href="#adding-additional-genders" title="Permalink to this heading"></a></h3>
+</div>
+<div class="section" id="adding-additional-genders">
+<h3>Adding Additional Genders<a class="headerlink" href="#adding-additional-genders" title="Permalink to this headline">¶</a></h3>
 <p>Mysterious Messenger comes with three possible genders that the player can choose from on the profile page: nonbinary, female, and male. You are welcome to add more options to this list via the <code class="docutils literal notranslate"><span class="pre">gender_options</span></code> variable found in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code>. The default list looks like so:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">gender_options</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;nonbinary&quot;</span><span class="p">,</span> <span class="s2">&quot;female&quot;</span><span class="p">,</span> <span class="s2">&quot;male&quot;</span><span class="p">]</span>
 </pre></div>
@@ -262,9 +393,9 @@
     <span class="n">s</span> <span class="s2">&quot;It&#39;s been so much fun having you here since Day 1, [name] ^^&quot;</span>
 </pre></div>
 </div>
-</section>
-<section id="using-gendered-terms">
-<h3>Using Gendered Terms<a class="headerlink" href="#using-gendered-terms" title="Permalink to this heading"></a></h3>
+</div>
+<div class="section" id="using-gendered-terms">
+<h3>Using Gendered Terms<a class="headerlink" href="#using-gendered-terms" title="Permalink to this headline">¶</a></h3>
 <p>Since the program allows players to choose their gender and pronouns, you may need to consider these factors when writing dialogue. The program has a built-in GenderedTerm class to help with this.</p>
 <p>The class can be found in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> and currently functions as follows:</p>
 <ul class="simple">
@@ -283,10 +414,10 @@
 </pre></div>
 </div>
 <p>The variable will update automatically based on the player’s pronouns and gender without you needing to do anything else, so long as you set it up initially with <code class="docutils literal notranslate"><span class="pre">default</span></code>.</p>
-</section>
-</section>
-<section id="custom-emojis">
-<h2>Custom Emojis<a class="headerlink" href="#custom-emojis" title="Permalink to this heading"></a></h2>
+</div>
+</div>
+<div class="section" id="custom-emojis">
+<h2>Custom Emojis<a class="headerlink" href="#custom-emojis" title="Permalink to this headline">¶</a></h2>
 <p>If you’d like to add your own emojis to the program, you need to define it as an image and add a few lines to the <code class="docutils literal notranslate"><span class="pre">emoji_lookup</span></code> dictionary found in <code class="docutils literal notranslate"><span class="pre">emoji_definitions.rpy</span></code>. Emojis are saved as a series of frames, found in the <code class="docutils literal notranslate"><span class="pre">images/Gifs/</span></code> folder.</p>
 <p>The bottom of <code class="docutils literal notranslate"><span class="pre">emoji_definitions.rpy</span></code> contains several image definitions which look like:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">jaehee_angry</span><span class="p">:</span>
@@ -338,11 +469,11 @@
 <p class="admonition-title">Note</p>
 <p>You may also notice that there are a few variables defined under <cite>emoji_lookup</cite> such as <cite>jaehee_emotes</cite>; these are used in the chatroom generator. In a character’s ChatCharacter declaration, you can include the <cite>emote_list</cite> parameter and set it to a list with the names of all their emojis. This is only relevant if you would like a character’s emojis to appear in the chatroom creator; they will work in-game without requiring this list.</p>
 </div>
-</section>
-<section id="spaceship-thoughts-and-chip-prizes">
-<h2>Spaceship Thoughts and Chip Prizes<a class="headerlink" href="#spaceship-thoughts-and-chip-prizes" title="Permalink to this heading"></a></h2>
-<section id="spaceship-thoughts">
-<h3>Spaceship Thoughts<a class="headerlink" href="#spaceship-thoughts" title="Permalink to this heading"></a></h3>
+</div>
+<div class="section" id="spaceship-thoughts-and-chip-prizes">
+<h2>Spaceship Thoughts and Chip Prizes<a class="headerlink" href="#spaceship-thoughts-and-chip-prizes" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="spaceship-thoughts">
+<h3>Spaceship Thoughts<a class="headerlink" href="#spaceship-thoughts" title="Permalink to this headline">¶</a></h3>
 <p>When the floating spaceship on the home screen isn’t giving out chips, you can click it to view a random thought from one of the characters. You can find the initial list of thoughts in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> under the header <strong>SPACESHIP/CHIP BAG VARIABLES</strong> in the variable <code class="docutils literal notranslate"><span class="pre">space_thoughts</span></code>.</p>
 <p>The variable <code class="docutils literal notranslate"><span class="pre">space_thoughts</span></code> can be modified here to change the spaceship thoughts the player sees upon starting the game. They can also be modified in any <code class="docutils literal notranslate"><span class="pre">after_</span></code> label during the game. You can have as many or as few <code class="docutils literal notranslate"><span class="pre">SpaceThought</span></code> objects in the list as you like – even multiple thoughts for the same character. A <code class="docutils literal notranslate"><span class="pre">SpaceThought</span></code> only has two fields:</p>
 <dl>
@@ -377,9 +508,9 @@
 </pre></div>
 </div>
 <p>You can see an example of this in <code class="docutils literal notranslate"><span class="pre">tutorial_0_introduction.rpy</span></code> as part of a profile picture callback (see <a class="reference internal" href="#profile-picture-callbacks"><span class="std std-ref">Profile Picture Callbacks</span></a>).</p>
-</section>
-<section id="chip-prizes">
-<h3>Chip Prizes<a class="headerlink" href="#chip-prizes" title="Permalink to this heading"></a></h3>
+</div>
+<div class="section" id="chip-prizes">
+<h3>Chip Prizes<a class="headerlink" href="#chip-prizes" title="Permalink to this headline">¶</a></h3>
 <p>Occasionally when finishing a timeline item, the chip bag on the home screen will give the player heart points and/or hourglasses. These heart points don’t count toward any particular character. You can add to the list of possible prizes any time you like. The initial list of prizes is in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> under the header <strong>SPACESHIP/CHIP BAG VARIABLES</strong> in the variable <code class="docutils literal notranslate"><span class="pre">chip_prize_list</span></code>.</p>
 <p>You can modify this variable so that the initial chip prizes are different upon starting the game, or modify the list in the <code class="docutils literal notranslate"><span class="pre">after_</span></code> label of any timeline item. You can have as many or as few prizes as you like.</p>
 <p>Prizes are listed in something called a tuple with three items. The first is the text that should be shown when the player gets this prize e.g. “A clump of cat hair”. The second and third items are numbers. The first number is the approximate amount of heart points the player should receive when they get this prize, and the second number is the number of hourglasses they should receive.</p>
@@ -405,10 +536,10 @@
 <span class="p">])</span>
 </pre></div>
 </div>
-</section>
-</section>
-<section id="getting-input-from-the-player">
-<h2>Getting Input from the Player<a class="headerlink" href="#getting-input-from-the-player" title="Permalink to this heading"></a></h2>
+</div>
+</div>
+<div class="section" id="getting-input-from-the-player">
+<h2>Getting Input from the Player<a class="headerlink" href="#getting-input-from-the-player" title="Permalink to this headline">¶</a></h2>
 <p>In addition to choice menus, you can also prompt the player to enter text to get information such as nicknames, age, and other personalized information about the player, and then use this to shape the story later on. These input prompts work in many areas of the game, including chatrooms, story mode, text messages, and phone calls.</p>
 <p>To show an input prompt to the player, you’ll call the special label <code class="docutils literal notranslate"><span class="pre">get_input</span></code>:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">get_input</span><span class="p">(</span><span class="n">the_var</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="k">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="na">length</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="na">allow</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -473,9 +604,9 @@
 <dt><cite>show_answer</cite></dt><dd><p>By default, this is True during chatrooms and text messages and ignored during other times (such as phone calls and Story Mode). It will show the answer button at the bottom of the screen which, when clicked, will display the input prompt. If you set this to False, the input prompt will show up right away, without requiring the player to click to answer at the bottom of the screen.</p>
 </dd>
 </dl>
-</section>
-<section id="hacked-effects">
-<h2>Hacked Effects<a class="headerlink" href="#hacked-effects" title="Permalink to this heading"></a></h2>
+</div>
+<div class="section" id="hacked-effects">
+<h2>Hacked Effects<a class="headerlink" href="#hacked-effects" title="Permalink to this headline">¶</a></h2>
 <p>In your route, you may want to cause the program to appear as though it has been hacked. There are a few features to help you achieve this look. First, there is a variable called <code class="docutils literal notranslate"><span class="pre">hacked_effect</span></code> that, if set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, will cause the chatroom timeline to have additional “broken” backgrounds, and will also show a glitchy screen tear effect every 10 seconds or so. You can set this variable to <code class="docutils literal notranslate"><span class="pre">True</span></code> at any point during your route; simply including the line</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">hacked_effect</span> <span class="o">=</span> <span class="kc">True</span>
 </pre></div>
@@ -486,8 +617,8 @@
 <p class="admonition-title">Warning</p>
 <p>Many players may find the hacked effects distracting or irritating, so they should be used sparingly. There are also options in the Settings screen to turn off these effects, so know that not every player will be able to see or appreciate them.</p>
 </div>
-<section id="the-tear-screen">
-<h3>The tear screen<a class="headerlink" href="#the-tear-screen" title="Permalink to this heading"></a></h3>
+<div class="section" id="the-tear-screen">
+<h3>The tear screen<a class="headerlink" href="#the-tear-screen" title="Permalink to this headline">¶</a></h3>
 <p>There is a special screen called the <code class="docutils literal notranslate"><span class="pre">tear</span></code> screen which will cause the screen to be split into several smaller pieces that are offset a little from their original position. It’s used to create the hacked effect in the chatroom timeline screen, but can also be shown in the middle of any ordinary chatroom/phone call/Story Mode/etc. You can call it like so:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">show_tear_screen</span><span class="p">(</span><span class="n">num_pieces</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">xoffset_min</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span> <span class="n">xoffset_max</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
                 <span class="n">idle_len_multiplier</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">move_len_multiplier</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
@@ -535,9 +666,9 @@
 <p>Prior to v3.3.0, a different label and screen were used to tear the screen into pieces. This label, <code class="docutils literal notranslate"><span class="pre">tear_screen</span></code>, still exists in the program and can be used with its original arguments (aka you don’t have to update it to work on 3.3.0). However, for new torn screen sections, you should use the new label call and arguments as described above.</p>
 <p>The argument names have also been changed for the new label, but remain unchanged for the old method. <code class="docutils literal notranslate"><span class="pre">number</span></code> is now <code class="docutils literal notranslate"><span class="pre">num_pieces</span></code>, <code class="docutils literal notranslate"><span class="pre">offsetMin</span></code>/<code class="docutils literal notranslate"><span class="pre">offsetMax</span></code> is now <code class="docutils literal notranslate"><span class="pre">xoffset_min</span></code>/<code class="docutils literal notranslate"><span class="pre">xoffset_max</span></code>, <code class="docutils literal notranslate"><span class="pre">offtimeMult</span></code>/<code class="docutils literal notranslate"><span class="pre">ontimeMult</span></code> is now <code class="docutils literal notranslate"><span class="pre">idle_len_multiplier</span></code>/<code class="docutils literal notranslate"><span class="pre">move_len_multiplier</span></code>. <code class="docutils literal notranslate"><span class="pre">w_timer</span></code> and <code class="docutils literal notranslate"><span class="pre">p</span></code> remain unchanged.</p>
 </div>
-</section>
-<section id="the-hack-rectangle-screen">
-<h3>The hack_rectangle screen<a class="headerlink" href="#the-hack-rectangle-screen" title="Permalink to this heading"></a></h3>
+</div>
+<div class="section" id="the-hack-rectangle-screen">
+<h3>The hack_rectangle screen<a class="headerlink" href="#the-hack-rectangle-screen" title="Permalink to this headline">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">hack_rectangle</span></code> screen will also help create a “hacked” effect. It will show several random rectangles on the screen, and works well when paired with the tear screen. For example:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">hack_rectangle_screen</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
 <span class="k">call</span> <span class="n">tear_screen</span><span class="p">(</span><span class="n">number</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">offtimeMult</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">ontimeMult</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
@@ -545,17 +676,17 @@
 </pre></div>
 </div>
 <p>This will show the <code class="docutils literal notranslate"><span class="pre">hack_rectangle</span></code> screen for 0.2 seconds (<code class="docutils literal notranslate"><span class="pre">t=0.2</span></code>), and after pausing for 0.01 seconds (<code class="docutils literal notranslate"><span class="pre">p=0.01</span></code>) to give the program time to register the images on-screen, it shows the <cite>tear</cite> screen for 0.18 seconds.</p>
-</section>
-<section id="static-white-squares">
-<h3>Static white squares<a class="headerlink" href="#static-white-squares" title="Permalink to this heading"></a></h3>
+</div>
+<div class="section" id="static-white-squares">
+<h3>Static white squares<a class="headerlink" href="#static-white-squares" title="Permalink to this headline">¶</a></h3>
 <p>The program also has a screen called <code class="docutils literal notranslate"><span class="pre">white_squares</span></code> which randomly shows a sequence of white “static” squares on top of the screen. It is used for the chatroom select screen when <code class="docutils literal notranslate"><span class="pre">hacked_effect</span></code> is True. To call it, use</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">white_square_screen</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="mf">0.16</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.17</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">t=0.16</span></code> is how long to show the screen for (0.16 seconds) and <code class="docutils literal notranslate"><span class="pre">p=0.17</span></code> tells the program how long to pause for before continuing (0.17 seconds).</p>
-</section>
-<section id="inverting-the-screen-colours">
-<h3>Inverting the screen colours<a class="headerlink" href="#inverting-the-screen-colours" title="Permalink to this heading"></a></h3>
+</div>
+<div class="section" id="inverting-the-screen-colours">
+<h3>Inverting the screen colours<a class="headerlink" href="#inverting-the-screen-colours" title="Permalink to this headline">¶</a></h3>
 <p>Finally, there is also a screen called <code class="docutils literal notranslate"><span class="pre">invert</span></code> which will take a screenshot of the currently displayed screen and invert the colours:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">invert_screen</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="mf">0.19</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
 </pre></div>
@@ -568,10 +699,10 @@
 <span class="k">call</span> <span class="n">white_square_screen</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="mf">0.16</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.17</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
-</section>
-<section id="removing-messages-from-the-chatlog">
-<h2>Removing Messages from the Chatlog<a class="headerlink" href="#removing-messages-from-the-chatlog" title="Permalink to this heading"></a></h2>
+</div>
+</div>
+<div class="section" id="removing-messages-from-the-chatlog">
+<h2>Removing Messages from the Chatlog<a class="headerlink" href="#removing-messages-from-the-chatlog" title="Permalink to this headline">¶</a></h2>
 <p>Besides just adding “hacked” effects, above, you may also want to remove entries from the chatlog for dramatic effect. This should typically be used sparingly, as it may be jarring for the reader.</p>
 <p>Here is an example from <code class="docutils literal notranslate"><span class="pre">tutorial_7_hacking.rpy</span></code>:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">menu</span><span class="p">:</span>
@@ -591,12 +722,12 @@
 </div>
 <p>In this case, the automatic message posted by the player (“I don’t want to freak them out exactly…”), as well as Saeran’s next two lines (“You don’t, hmm?” / “Just you wait a moment”) get removed from the chatlog via the line <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">remove_entries(num=4)</span></code>. As can be seen in this case, this number isn’t always precisely the number of message you want to remove, as there are some internal calculations that take place when removing messages. Typically you would put <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">remove_entries</span></code> <em>after</em> the first message which you want to remain on-screen due to the order in which messages are posted.</p>
 <p>You may need to experiment with the placement of this line + the number of messages to delete until you get the desired result.</p>
-</section>
-<section id="adding-new-audio">
-<h2>Adding New Audio<a class="headerlink" href="#adding-new-audio" title="Permalink to this heading"></a></h2>
+</div>
+<div class="section" id="adding-new-audio">
+<h2>Adding New Audio<a class="headerlink" href="#adding-new-audio" title="Permalink to this headline">¶</a></h2>
 <p>In order to support audio captions, defining new music and sound effects to play in the program requires a few extra steps.</p>
-<section id="defining-new-music">
-<h3>Defining New Music<a class="headerlink" href="#defining-new-music" title="Permalink to this heading"></a></h3>
+<div class="section" id="defining-new-music">
+<h3>Defining New Music<a class="headerlink" href="#defining-new-music" title="Permalink to this headline">¶</a></h3>
 <p>All music currently in the game is defined in <code class="docutils literal notranslate"><span class="pre">variables_music_sound.rpy</span></code>. Open that file and you will see several statements for the existing background music.</p>
 <p>For this example, a song called “Jingle Bells” will be added.</p>
 <p>First, define a variable that leads to the audio file:</p>
@@ -619,9 +750,9 @@
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">play</span> <span class="k">music</span> <span class="n">jingle_bells</span>
 </pre></div>
 </div>
-</section>
-<section id="defining-new-sound-effects">
-<h3>Defining New Sound Effects<a class="headerlink" href="#defining-new-sound-effects" title="Permalink to this heading"></a></h3>
+</div>
+<div class="section" id="defining-new-sound-effects">
+<h3>Defining New Sound Effects<a class="headerlink" href="#defining-new-sound-effects" title="Permalink to this headline">¶</a></h3>
 <p>All sound effects currently in the game is defined in <code class="docutils literal notranslate"><span class="pre">variables_music_sound.rpy</span></code>. Open that file and you will see several statements for the existing background music.</p>
 <p>For this example, a sound effect called “glass_breaking” will be added.</p>
 <p>First, define a variable that leads to the audio file:</p>
@@ -642,9 +773,9 @@
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">play</span> <span class="k">sound</span> <span class="n">glass_breaking_sfx</span>
 </pre></div>
 </div>
-</section>
-<section id="adding-new-ringtones-text-tones-email-tones">
-<h3>Adding New Ringtones, Text Tones, &amp; Email Tones<a class="headerlink" href="#adding-new-ringtones-text-tones-email-tones" title="Permalink to this heading"></a></h3>
+</div>
+<div class="section" id="adding-new-ringtones-text-tones-email-tones">
+<h3>Adding New Ringtones, Text Tones, &amp; Email Tones<a class="headerlink" href="#adding-new-ringtones-text-tones-email-tones" title="Permalink to this headline">¶</a></h3>
 <p>In <code class="docutils literal notranslate"><span class="pre">variables_music_sound.rpy</span></code> under the header <strong>RINGTONES</strong> are three variables, one for email tones, text tones, and ringtones. The method of adding a new tone is the same for each, so only adding a new text tone is described below.</p>
 <p>First, you need to add a new category to the corresponding tone variable. In this case, <code class="docutils literal notranslate"><span class="pre">text_tones</span></code>. Categories are handled with a special class called <code class="docutils literal notranslate"><span class="pre">ToneCategory</span></code>, which takes the following arguments:</p>
 <dl>
@@ -699,12 +830,12 @@
 </pre></div>
 </div>
 <p>You can add as many tones and categories as you like. The <code class="docutils literal notranslate"><span class="pre">condition</span></code> field is always optional; if omitted, that category will always be available.</p>
-</section>
-</section>
-<section id="bonus-profile-pictures">
-<h2>Bonus Profile Pictures<a class="headerlink" href="#bonus-profile-pictures" title="Permalink to this heading"></a></h2>
-<section id="profile-pictures-for-the-characters">
-<h3>Profile Pictures for the Characters<a class="headerlink" href="#profile-pictures-for-the-characters" title="Permalink to this heading"></a></h3>
+</div>
+</div>
+<div class="section" id="bonus-profile-pictures">
+<h2>Bonus Profile Pictures<a class="headerlink" href="#bonus-profile-pictures" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="profile-pictures-for-the-characters">
+<h3>Profile Pictures for the Characters<a class="headerlink" href="#profile-pictures-for-the-characters" title="Permalink to this headline">¶</a></h3>
 <p>In this program, the player can change the other characters’ profile pictures on that character’s profile screen by clicking their current profile picture. In-game, this is treated as a “bonus” profile picture and does not affect dialogue. The bonus profile picture is applied “on top of” the existing profile picture that is set by the game during the story. To return to the intended profile picture, there is a button captioned “Revert to default” which will restore the intended story profile picture.</p>
 <p>By default, all the images in a character’s corresponding “Profile Pics/” folder are available to choose as a profile picture, as are all the image in their corresponding CG album. This is set up on a per-character basis in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> under the header <strong>BONUS PROFILE PICTURES</strong>.</p>
 <p>If you want a new character to have bonus profile pictures, you must set up a variable for them in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code>. For this example, the character Emma from <a class="reference internal" href="creating-characters.html#adding-a-new-character-to-chatrooms"><span class="std std-ref">Adding a New Character to Chatrooms</span></a> will be given bonus profile pictures.</p>
@@ -760,9 +891,9 @@
 </div>
 <p>This will include the image “Profile Pics/Bonus/em-bonus.webp”, which will be unlocked when the variable <code class="docutils literal notranslate"><span class="pre">persistent.saw_emma_end</span></code> is True (you are in charge of setting this variable yourself).</p>
 <p>Finally, there is also a variable in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> under the <strong>BONUS PROFILE PICTURES</strong> header called <code class="docutils literal notranslate"><span class="pre">pfp_cost</span></code>; this is the number of heart points the player must earn with a character in order to unlock a profile picture with the “seen” condition. All other conditions unlock automatically once their condition is fulfilled.</p>
-</section>
-<section id="profile-pictures-for-the-player">
-<h3>Profile Pictures for the Player<a class="headerlink" href="#profile-pictures-for-the-player" title="Permalink to this heading"></a></h3>
+</div>
+<div class="section" id="profile-pictures-for-the-player">
+<h3>Profile Pictures for the Player<a class="headerlink" href="#profile-pictures-for-the-player" title="Permalink to this headline">¶</a></h3>
 <p>Whenever the player sees a new CG in-game or a character changes their profile picture, that image is automatically unlocked for the player to use as their own profile picture. Each profile picture requires the player spend 1 hourglass to unlock it.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -795,10 +926,10 @@
 </pre></div>
 </div>
 <p>This will add all the images in the “Profile Pics/MC Bonus/” folder without the string “-b.” in the file name to the list of available profile pictures, and the images will come already unlocked.</p>
-</section>
-</section>
-<section id="profile-picture-callbacks">
-<h2>Profile Picture Callbacks<a class="headerlink" href="#profile-picture-callbacks" title="Permalink to this heading"></a></h2>
+</div>
+</div>
+<div class="section" id="profile-picture-callbacks">
+<h2>Profile Picture Callbacks<a class="headerlink" href="#profile-picture-callbacks" title="Permalink to this headline">¶</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Example files to look at:</p>
@@ -857,8 +988,8 @@
 <li><p>Unlock bonus ringtones or profile pictures</p></li>
 </ul>
 <p>Convenience functions and CDSs are provided to do the most common actions, but the true limit is your own programming ability. You could even use profile picture callbacks to branch the story, add new chatrooms to a route, or show a popup, for example.</p>
-<section id="common-profile-picture-callback-examples">
-<h3>Common Profile Picture Callback Examples<a class="headerlink" href="#common-profile-picture-callback-examples" title="Permalink to this heading"></a></h3>
+<div class="section" id="common-profile-picture-callback-examples">
+<h3>Common Profile Picture Callback Examples<a class="headerlink" href="#common-profile-picture-callback-examples" title="Permalink to this headline">¶</a></h3>
 <p>The following examples will include conditional statements that will go inside a profile picture callback function – while this function can be called anything, for the purposes of these examples assume the callback is set up like so:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">mc_pfp_callback</span> <span class="o">=</span> <span class="n">example_pfp_callback</span>
 
@@ -867,8 +998,8 @@
 </pre></div>
 </div>
 <p>You can assume that unless otherwise specified, the example code should be inside the profile picture callback function.</p>
-<section id="checking-the-last-time-the-picture-was-changed">
-<h4>Checking the Last Time the Picture was Changed<a class="headerlink" href="#checking-the-last-time-the-picture-was-changed" title="Permalink to this heading"></a></h4>
+<div class="section" id="checking-the-last-time-the-picture-was-changed">
+<h4>Checking the Last Time the Picture was Changed<a class="headerlink" href="#checking-the-last-time-the-picture-was-changed" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">time_diff</span><span class="o">.</span><span class="n">minutes</span> <span class="o">&lt;</span> <span class="mi">30</span><span class="p">:</span>
     <span class="c1"># It has been less than 30 minutes since the player changed their</span>
     <span class="c1"># profile picture, so don&#39;t execute a callback.</span>
@@ -901,18 +1032,18 @@
     <span class="k">return</span>
 </pre></div>
 </div>
-</section>
-<section id="checking-if-an-image-is-associated-with-a-character">
-<h4>Checking if an Image is Associated with a Character<a class="headerlink" href="#checking-if-an-image-is-associated-with-a-character" title="Permalink to this heading"></a></h4>
+</div>
+<div class="section" id="checking-if-an-image-is-associated-with-a-character">
+<h4>Checking if an Image is Associated with a Character<a class="headerlink" href="#checking-if-an-image-is-associated-with-a-character" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">who</span> <span class="o">==</span> <span class="n">r</span><span class="p">:</span>
     <span class="c1"># Profile picture is associated with `r` (Ray)</span>
     <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;ray_pfp_change_1&#39;</span><span class="p">,</span> <span class="s1">&#39;ray_pfp_change_2&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>This means that the first time the player changes their profile picture to an image associated with Ray (<code class="docutils literal notranslate"><span class="pre">r</span></code>), the label <code class="docutils literal notranslate"><span class="pre">label</span> <span class="pre">ray_pfp_change_1</span></code> will execute. The second time the player does so, <code class="docutils literal notranslate"><span class="pre">label</span> <span class="pre">ray_pfp_change_2</span></code> will execute.</p>
-</section>
-<section id="checking-for-a-particular-image">
-<h4>Checking For a Particular Image<a class="headerlink" href="#checking-for-a-particular-image" title="Permalink to this heading"></a></h4>
+</div>
+<div class="section" id="checking-for-a-particular-image">
+<h4>Checking For a Particular Image<a class="headerlink" href="#checking-for-a-particular-image" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="s2">&quot;CGs/ja_bonus_cg&quot;</span> <span class="k">in</span> <span class="n">current_pic</span><span class="p">:</span>
     <span class="k">return</span> <span class="s2">&quot;ja_bonus_cg_dialogue&quot;</span>
 </pre></div>
@@ -924,11 +1055,11 @@
 </pre></div>
 </div>
 <p>This would cause <code class="docutils literal notranslate"><span class="pre">label</span> <span class="pre">changed_ray_pfp</span></code> to be executed the first time the player changes their profile picture from an image like “Profile Pics/Ray/ray_03.png” to a different image that isn’t associated with Ray.</p>
-</section>
-</section>
-</section>
-<section id="paraphrased-choices">
-<h2>Paraphrased Choices<a class="headerlink" href="#paraphrased-choices" title="Permalink to this heading"></a></h2>
+</div>
+</div>
+</div>
+<div class="section" id="paraphrased-choices">
+<h2>Paraphrased Choices<a class="headerlink" href="#paraphrased-choices" title="Permalink to this headline">¶</a></h2>
 <p>Inside <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> is a variable called <code class="docutils literal notranslate"><span class="pre">paraphrase_choices</span></code> under the header <strong>MISCELLANEOUS VARIABLES</strong>. If this variable is set to True, choices are treated as “paraphrased” – that is, it is your responsibility to write out exactly what you want the MC to say after a choice. This was the default behaviour prior to v3.0.</p>
 <p>However, if <code class="docutils literal notranslate"><span class="pre">paraphrase_choices</span></code> is set to False, then the main character will automatically say the dialogue provided in a choice caption. This means that the following code is equivalent:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">paraphrase_choices</span> <span class="o">=</span> <span class="kc">True</span>
@@ -998,17 +1129,17 @@
 </pre></div>
 </div>
 <p>In this case, <code class="docutils literal notranslate"><span class="pre">paraphrase_choices</span></code> is set to False for the whole route, but in this menu the choice “(Sympathize)” is paraphrased.</p>
-<section id="changing-the-main-character">
-<h3>Changing the Main Character<a class="headerlink" href="#changing-the-main-character" title="Permalink to this heading"></a></h3>
+<div class="section" id="changing-the-main-character">
+<h3>Changing the Main Character<a class="headerlink" href="#changing-the-main-character" title="Permalink to this headline">¶</a></h3>
 <p>As non-paraphrased dialogue is automatically said by the main character, you may also want to change who the main character is. By default, it is <code class="docutils literal notranslate"><span class="pre">m</span></code>, which uses the name and profile picture set by the player, but you can change it on a per-route basis or change the default definition in <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code>.</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">main_character</span> <span class="o">=</span> <span class="n">m</span>
 </pre></div>
 </div>
 <p>If you set this variable equal to a different character (e.g. <code class="docutils literal notranslate"><span class="pre">em</span></code> from the character examples), then <code class="docutils literal notranslate"><span class="pre">em</span></code> will say non-paraphrased choice dialogue instead of <code class="docutils literal notranslate"><span class="pre">m</span></code>. <code class="docutils literal notranslate"><span class="pre">em</span></code> will also appear on the right side of the screen when saying dialogue in chatrooms or text messages.</p>
-</section>
-</section>
-<section id="spending-hourglasses">
-<h2>Spending Hourglasses<a class="headerlink" href="#spending-hourglasses" title="Permalink to this heading"></a></h2>
+</div>
+</div>
+<div class="section" id="spending-hourglasses">
+<h2>Spending Hourglasses<a class="headerlink" href="#spending-hourglasses" title="Permalink to this headline">¶</a></h2>
 <p>If there’s a part of your game where the player must use hourglasses to proceed, there is a special screen action to help with handling that transaction. It is called <code class="docutils literal notranslate"><span class="pre">SpendHourglass</span></code>.</p>
 <p>To use <code class="docutils literal notranslate"><span class="pre">SpendHourglass</span></code>, pass in a message, the number of required hourglasses, and an action to execute if the player spends the required hourglasses.</p>
 <p>For example, an action to unlock Deep Route might look like so:</p>
@@ -1019,13 +1150,237 @@
 </div>
 <p>In this example, we presume you are checking for whether deep story is unlocked via the variable <code class="docutils literal notranslate"><span class="pre">persistent.deep_story_unlocked</span></code>, which begins as False. Thus, the message the player sees is “Would  you like to unlock the deep story mode?” and they are prompted to spend 300 hourglasses. If they spend the 300 hourglasses, then the action <code class="docutils literal notranslate"><span class="pre">SetField(persistent,</span> <span class="pre">'deep_story_unlocked',</span> <span class="pre">True)</span></code> is run, which sets the variable <code class="docutils literal notranslate"><span class="pre">persistent.deep_story_unlocked</span></code> to True. Note that you can pass in a list of actions here too instead of just one action, if needed.</p>
 <p>The SpendHourglass action takes care of the case where the player attempts to spend more hourglasses than they currently hold (e.g. they have 100 hourglasses but require 300 to unlock deep story mode). In this case, the provided action is not run and the player is simply shown a message saying they don’t have enough hourglasses.</p>
-</section>
-<section id="reserved-names">
-<h2>Reserved Names<a class="headerlink" href="#reserved-names" title="Permalink to this heading"></a></h2>
+</div>
+<div class="section" id="achievements">
+<h2>Achievements<a class="headerlink" href="#achievements" title="Permalink to this headline">¶</a></h2>
+<p>Mysterious Messenger provides an in-game achievement system which also integrates with existing Ren’Py systems, including Steam achievements. Several default achievements are included with the program which trigger when you complete various actions around the messenger and throughout Tutorial Day.</p>
+<p>You will find most of the relevant code in <code class="docutils literal notranslate"><span class="pre">achievements.rpy</span></code>. Here there is an <code class="docutils literal notranslate"><span class="pre">achievement_popup</span></code> screen, which is what will display a preview of the unlocked achievement in-game when the player earns it. It is passed one parameter, which I called <code class="docutils literal notranslate"><span class="pre">a</span></code> in the example screen, which corresponds to the Achievement object representing the achievement the player just earned.</p>
+<p>There is also another screen, <code class="docutils literal notranslate"><span class="pre">achievement_gallery</span></code>, which is what displays the achievements to the player. You are welcome to customize these in whatever way you like.</p>
+<div class="section" id="setting-up-achievements">
+<h3>Setting Up Achievements<a class="headerlink" href="#setting-up-achievements" title="Permalink to this headline">¶</a></h3>
+<p>To set up an achievement, you will use the Achievement class. This takes several parameters:</p>
+<dl>
+<dt><cite>name</cite></dt><dd><p>A string representing the name of this achievement, as it should appear in the popup and in the achievement screen.</p>
+</dd>
+<dt><cite>id</cite></dt><dd><p>A string which does not include spaces, single or double quotes, or dashes (aka just use alphanumeric + underscores). This will be used as the ID for this achievement for backends such as Steam’s backend.</p>
+</dd>
+<dt><cite>description</cite></dt><dd><p>Optional. A string with the description for this achievement.</p>
+</dd>
+<dt><cite>unlocked_image</cite></dt><dd><p>Optional. A displayable which is shown as an icon when this achievement is unlocked.</p>
+</dd>
+<dt><cite>locked_image</cite></dt><dd><p>Optional. A displayable which is shown as an icon when this achievement is locked. By default this is set to the image <code class="docutils literal notranslate"><span class="pre">locked_achievement</span></code>, which you can change.</p>
+</dd>
+<dt><cite>stat_max</cite></dt><dd><p>Optional. If provided, it’s an integer corresponding to the maximum progress of an achievement, if the achievement can be partially completed. For example, if your game has 24 chapters and you want this achievement to have a progress bar displaying the % of chapters the player has completed, you would set <code class="docutils literal notranslate"><span class="pre">stat_max=24</span></code>. The achievement is unlocked when it reaches this value.</p>
+</dd>
+<dt><cite>stat_modulo</cite></dt><dd><p>Optional. Only relevant if using the <code class="docutils literal notranslate"><span class="pre">stat_max</span></code> attribute. The formula <code class="docutils literal notranslate"><span class="pre">(stat_progress</span> <span class="pre">%</span> <span class="pre">stat_modulo)</span></code> is applied whenever achievement progress is updated. If the result of this calculation is 0, then the progress is shown to the user. By default this is 0, so all updates to <code class="docutils literal notranslate"><span class="pre">stat_progress</span></code> are shown.</p>
+<p>This is useful if, for example, for the earlier 24-chapter game progress stat, you only wanted to show updates every time the player got through a quarter of the chapters (0% full -&gt; 25% full -&gt; 50% full -&gt; 75% full -&gt; 100% full). In that case, the <code class="docutils literal notranslate"><span class="pre">stat_modulo</span></code> would be 6 (24/4).</p>
+</dd>
+<dt><cite>hidden</cite></dt><dd><p>If True, then this achievement’s title and description will be replaced with “???” until the player has unlocked it.</p>
+</dd>
+</dl>
+<p>Thus, a few example achievements:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="c1">## An achievement which will unlock when the player starts a new game</span>
+<span class="n">start_game</span> <span class="o">=</span> <span class="n">Achievement</span><span class="p">(</span><span class="s2">&quot;Start of your journey&quot;</span><span class="p">,</span> <span class="s2">&quot;start_game&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Start a new game&quot;</span><span class="p">,</span> <span class="s2">&quot;achievements/new_game.webp&quot;</span><span class="p">)</span>
+<span class="c1">## An achievement for getting to any bad end in the game</span>
+<span class="n">bad_end</span> <span class="o">=</span> <span class="n">Achievement</span><span class="p">(</span><span class="s2">&quot;Happily Never After&quot;</span><span class="p">,</span> <span class="s2">&quot;bad_end&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Reach a bad end&quot;</span><span class="p">,</span> <span class="s2">&quot;achievements/bad_end.webp&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="granting-achievements">
+<h3>Granting Achievements<a class="headerlink" href="#granting-achievements" title="Permalink to this headline">¶</a></h3>
+<p>Now that you’ve set up the achievement, you will need to specify when it should be granted to the player. To do this, there are two different methods you can use.</p>
+<p>The first method is to use <code class="docutils literal notranslate"><span class="pre">my_achievement.grant()</span></code>, where <code class="docutils literal notranslate"><span class="pre">my_achievement</span></code> is the name of the Achievement object you declared earlier (in <a class="reference internal" href="#setting-up-achievements"><span class="std std-ref">Setting Up Achievements</span></a>). Note that you <em>do not need</em> to check if the achievement has already been granted before running this function; if the achievement has already been granted, this line will do nothing. It won’t grant the achievement again, and the player won’t see another popup for the achievement. This method is most useful for achievements earned during the script (where you can write <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">my_achievement.grant()</span></code> inside the label), or inside Python functions.</p>
+<p>The second method is to use the convenience screen action <code class="docutils literal notranslate"><span class="pre">my_achievement.Grant()</span></code>, which works the same way, but is intended to be used as a screen action. Thus, you can write buttons such as:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">textbutton</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Start&quot;</span><span class="p">)</span> <span class="na">action</span> <span class="p">[</span><span class="n">start_game</span><span class="o">.</span><span class="n">Grant</span><span class="p">(),</span> <span class="n">Start</span><span class="p">()]</span>
+</pre></div>
+</div>
+<p>This will grant the <code class="docutils literal notranslate"><span class="pre">start_game</span></code> achievement to the player when they press the Start button to start a new game. As with before, <code class="docutils literal notranslate"><span class="pre">Grant()</span></code> will only grant the player the achievement once; if the player has already earned this achievement, they will not get it again and they won’t see a popup about getting the achievement.</p>
+</div>
+<div class="section" id="checking-if-an-achievement-was-granted">
+<h3>Checking if an Achievement was Granted<a class="headerlink" href="#checking-if-an-achievement-was-granted" title="Permalink to this headline">¶</a></h3>
+<p>To check if the player has a particular achievement, use the <code class="docutils literal notranslate"><span class="pre">has</span></code> method, e.g.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">good_ending_achievement</span><span class="o">.</span><span class="k">has</span><span class="p">():</span>
+    <span class="k">jump</span> <span class="n">epilogue</span>
+</pre></div>
+</div>
+<p>This will return True if the achievement has been granted to the player, and False if it has not.</p>
+</div>
+<div class="section" id="tracking-achievement-progress">
+<h3>Tracking Achievement Progress<a class="headerlink" href="#tracking-achievement-progress" title="Permalink to this headline">¶</a></h3>
+<p>For some achievements, you may want to track the player’s progress towards completing them. There are two main ways of updating the player’s progress, depending on whether you are doing so as a screen action or as part of the script.</p>
+<div class="section" id="setting-progress">
+<h4>Setting Progress<a class="headerlink" href="#setting-progress" title="Permalink to this headline">¶</a></h4>
+<p>The easiest way to update the progress value of an achievement is to use the <code class="docutils literal notranslate"><span class="pre">progress</span></code> method, or the <code class="docutils literal notranslate"><span class="pre">Progress</span></code> screen action method. This will allow you to <em>set</em> the current progress value of the achievement.</p>
+<p>Note that, because this <em>sets</em> the progress value, it is best suited for achievements which are tracking things such as the number of chapters the player has played through in a linear game. For example, regardless of the previous value of the progress variable, it makes sense to write <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">chapter_achievement.progress(12)</span></code> when the player reaches Chapter 12 in your linear story. It is <strong>not</strong> suitable for achievements that are attempting to track cumulative progress across multiple different playthroughs or branching choice paths.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Progress</span></code> screen action method acts similarly, but is used as a screen action e.g.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="na">action</span> <span class="n">chapter_achievement</span><span class="o">.</span><span class="n">Progress</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Remember that this will update the progress to the provided value regardless of when the player presses this button, so without further checks it’s possible you could “reset” a player’s achievement progress by using this method.</p>
+</div>
+<div class="section" id="updating-progress">
+<h4>Updating Progress<a class="headerlink" href="#updating-progress" title="Permalink to this headline">¶</a></h4>
+<p>If you would like to update the current progress value, you can use the <code class="docutils literal notranslate"><span class="pre">add_progress</span></code> method in script or Python, and the <code class="docutils literal notranslate"><span class="pre">AddProgress</span></code> screen action in screens. It takes one number, the amount of progress to add to the current progress stat.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="k">not</span> <span class="n">bad_end_achievement</span><span class="o">.</span><span class="k">has</span><span class="p">():</span>
+    <span class="k">$</span> <span class="n">bad_end_achievement</span><span class="o">.</span><span class="n">grant</span><span class="p">()</span>
+    <span class="k">$</span> <span class="n">ending_achievements</span><span class="o">.</span><span class="n">add_progress</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this example, the achievement is for getting all of the game endings, which the player can achieve in any order. If the player reaches the bad end, it should only progress their progress towards achieving the <code class="docutils literal notranslate"><span class="pre">ending_achievements</span></code> achievement if they haven’t seen the bad end before (otherwise we’d end up counting it twice, and it’s possible they would be granted the achievement without actually seeing all the endings).</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>It’s incredibly important that you have a persistent check in place, either through persistent variables or through checking if another achievement has been granted, to ensure you are not “double-updating” an achievement’s progress. The <code class="docutils literal notranslate"><span class="pre">add_progress</span></code> methods have <em>no way of knowing</em> if this progress has been added to the achievement in the past, so it is up to you the creator to ensure it is protected from adding progress more than once.</p>
+</div>
+<p>The second way uses a screen action. Like with the <code class="docutils literal notranslate"><span class="pre">add_progress</span></code> method, it is <em>very</em> important that you put checks in place to ensure you are not updating progress towards the achievement multiple times.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">textbutton</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Start&quot;</span><span class="p">):</span>
+    <span class="na">action</span> <span class="p">[</span>
+        <span class="n">If</span><span class="p">(</span><span class="k">not</span> <span class="n">start_game</span><span class="o">.</span><span class="k">has</span><span class="p">(),</span>
+        <span class="p">[</span><span class="n">start_game</span><span class="o">.</span><span class="n">Grant</span><span class="p">(),</span>
+        <span class="n">all_achievements</span><span class="o">.</span><span class="n">AddProgress</span><span class="p">(</span><span class="mi">1</span><span class="p">)]),</span>
+        <span class="n">Start</span><span class="p">()</span>
+    <span class="p">]</span>
+</pre></div>
+</div>
+<p>This is an updated version of the Start button from before. Here, the game first checks if the player has achieved the <code class="docutils literal notranslate"><span class="pre">start_game</span></code> achievement before via <code class="docutils literal notranslate"><span class="pre">start_game.has()</span></code>. If they have not, then it grants them that achievement and increases progress towards the <code class="docutils literal notranslate"><span class="pre">all_achievements</span></code> achievement by 1 (with the <code class="docutils literal notranslate"><span class="pre">all_achievements</span></code> achievement tracking how many achievements the player has gotten, total). After that, it runs the <code class="docutils literal notranslate"><span class="pre">Start()</span></code> action like normal.</p>
+</div>
+<div class="section" id="checking-progress">
+<h4>Checking Progress<a class="headerlink" href="#checking-progress" title="Permalink to this headline">¶</a></h4>
+<p>You can retrieve the current achievement progress via the <code class="docutils literal notranslate"><span class="pre">get_progress</span></code> method, e.g.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">all_achievements</span><span class="o">.</span><span class="n">get_progress</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="mi">10</span><span class="p">:</span>
+    <span class="k">$</span> <span class="n">ten_achievements</span><span class="o">.</span><span class="n">grant</span><span class="p">()</span> <span class="c1"># Achievement for getting 10+ achievements</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="resetting-achievement-progress">
+<h3>Resetting Achievement Progress<a class="headerlink" href="#resetting-achievement-progress" title="Permalink to this headline">¶</a></h3>
+<p>You can reset an individual achievement’s progress via the <code class="docutils literal notranslate"><span class="pre">clear</span></code> method, e.g.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">my_achievement</span><span class="o">.</span><span class="k">clear</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This is largely for testing purposes; to clear all achievement progress, you can use <strong>Delete Persistent</strong> from the Ren’Py launcher (as achievements are saved via persistent data).</p>
+</div>
+<div class="section" id="toggling-achievements-for-testing">
+<h3>Toggling Achievements (For Testing)<a class="headerlink" href="#toggling-achievements-for-testing" title="Permalink to this headline">¶</a></h3>
+<p>To easily test your achievements, you can use the developer Toggle method, e.g.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">a</span> <span class="k">in</span> <span class="n">Achievement</span><span class="o">.</span><span class="n">all_achievements</span><span class="p">:</span>
+    <span class="k">button</span><span class="p">:</span>
+        <span class="c1"># Manually toggle achievements, for development</span>
+        <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">developer</span><span class="p">:</span>
+            <span class="na">action</span> <span class="n">a</span><span class="o">.</span><span class="n">Toggle</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This is included in the default achievement gallery screen, so you can click on achievements and grant/clear them. This allows you to see the pre-achieved state and what the achievement looks like after it’s been achieved.</p>
+</div>
+<div class="section" id="displaying-achievements">
+<h3>Displaying Achievements<a class="headerlink" href="#displaying-achievements" title="Permalink to this headline">¶</a></h3>
+<p>There are two screens relating to achievements, both found in <code class="docutils literal notranslate"><span class="pre">game/achievements.rpy</span></code>. The first is <code class="docutils literal notranslate"><span class="pre">screen</span> <span class="pre">achievement_popup</span></code>, a screen which receives a popup as an argument and is expected to display itself for some time and then hide itself again. The second is <code class="docutils literal notranslate"><span class="pre">achievement_gallery</span></code>, which is receives no arguments and is expected to display a list of the player’s achievements.</p>
+<div class="section" id="achievement-popup">
+<h4>Achievement Popup<a class="headerlink" href="#achievement-popup" title="Permalink to this headline">¶</a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">achievement_popup</span></code> screen is passed one argument, the Achievement object which is being granted. This screen can look like or do whatever you like, though it should generally have a timer to hide itself after some time has passed, as there is no call for the game to hide the screen again after it’s been shown. The default screen includes a sliding-out animation with some achievement information, like its name, description, and icon, and hides itself again after 5 seconds.</p>
+</div>
+<div class="section" id="achievement-gallery">
+<h4>Achievement Gallery<a class="headerlink" href="#achievement-gallery" title="Permalink to this headline">¶</a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">achievement_gallery</span></code> screen is linked on the main menu. It can be opened to view the player’s achievements, both earned and yet-to-be-earned.</p>
+<p>The convenience list <code class="docutils literal notranslate"><span class="pre">Achievement.all_achievements</span></code> can be used, which has a list of all the achievements declared in the game (in the order they were defined in). By iterating over this list, you can use the fields of the Achievement object to display its idle image, name, description, timestamp, and more.</p>
+</div>
+</div>
+<div class="section" id="disabling-tutorial-achievements">
+<h3>Disabling Tutorial Achievements<a class="headerlink" href="#disabling-tutorial-achievements" title="Permalink to this headline">¶</a></h3>
+<p>In <code class="docutils literal notranslate"><span class="pre">game/01_mysme_engine/achievements_systems.rpy</span></code>, several achievements are declared for Tutorial Day. The triggers to “achieve” these achievements can be found throughout the engine, so instead of forcing you to remove all references to the tutorial achievements, you can remove them from triggering or displaying by using the special <code class="docutils literal notranslate"><span class="pre">IGNORE_ACHIEVEMENTS</span></code> constant.</p>
+<p>There are two places that have the line</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">IGNORE_ACHIEVEMENTS</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+</div>
+<p>The first is <strong>before</strong> all the tutorial achievements are declared, and the second is <strong>after</strong> all the tutorial achievements are declared. You need to change the <strong>first</strong> one, the one <strong>before</strong> all the achievements, to the following:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="c1">## Actual achievements, for the tutorial</span>
+<span class="c1">## These *can&#39;t* be removed (or else you&#39;d need to comb through the</span>
+<span class="c1">## rest of the game to get rid of the triggers, too), but if you change</span>
+<span class="c1">## this value to True, it&#39;ll prevent them from activating or appearing</span>
+<span class="c1">## in the achievements list.</span>
+<span class="n">IGNORE_ACHIEVEMENTS</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1">## THIS LINE HAS CHANGED!</span>
+<span class="n">ui_achievement</span> <span class="o">=</span> <span class="n">Achievement</span><span class="p">(</span><span class="s2">&quot;Farewell, Old UI&quot;</span><span class="p">,</span> <span class="s2">&quot;modified_ui&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Turn on the modified UI from the settings.&quot;</span><span class="p">,</span>
+    <span class="c1"># Size ~(155, 155)</span>
+    <span class="n">Crop</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">155</span><span class="p">,</span> <span class="mi">155</span><span class="p">),</span> <span class="n">Transform</span><span class="p">(</span><span class="s2">&quot;Phone UI/bg_secure.webp&quot;</span><span class="p">,</span> <span class="na">xsize</span><span class="o">=</span><span class="mi">155</span><span class="p">,</span> <span class="na">fit</span><span class="o">=</span><span class="s2">&quot;contain&quot;</span><span class="p">))</span>
+<span class="p">)</span>
+<span class="n">animated_bg_achievement</span> <span class="o">=</span> <span class="n">Achievement</span><span class="p">(</span><span class="s2">&quot;Now for some Pizazz!&quot;</span><span class="p">,</span> <span class="s2">&quot;animated_bgs&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Turn on the animated chatroom backgrounds from the settings.&quot;</span><span class="p">,</span>
+    <span class="n">Crop</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">155</span><span class="p">,</span> <span class="mi">155</span><span class="p">),</span> <span class="n">Transform</span><span class="p">(</span><span class="s2">&quot;Phone UI/bg-rainy-day.webp&quot;</span><span class="p">,</span> <span class="na">xsize</span><span class="o">=</span><span class="mi">155</span><span class="p">,</span> <span class="na">fit</span><span class="o">=</span><span class="s2">&quot;contain&quot;</span><span class="p">))</span>
+<span class="p">)</span>
+<span class="n">tutorial_ending1</span> <span class="o">=</span> <span class="n">Achievement</span><span class="p">(</span><span class="s2">&quot;Made it to the End&quot;</span><span class="p">,</span> <span class="s2">&quot;tut_end_1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;See at least one ending on Tutorial Day.&quot;</span><span class="p">,</span>
+    <span class="n">Crop</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">155</span><span class="p">,</span> <span class="mi">155</span><span class="p">),</span> <span class="n">Transform</span><span class="p">(</span><span class="s2">&quot;VN Mode/Backgrounds/normal_end.webp&quot;</span><span class="p">,</span> <span class="na">xsize</span><span class="o">=</span><span class="mi">155</span><span class="p">,</span> <span class="na">fit</span><span class="o">=</span><span class="s2">&quot;contain&quot;</span><span class="p">))</span>
+<span class="p">)</span>
+<span class="n">tutorial_ending2</span> <span class="o">=</span> <span class="n">Achievement</span><span class="p">(</span><span class="s2">&quot;Gotta See &#39;Em All&quot;</span><span class="p">,</span> <span class="s2">&quot;tut_end_2&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;See all the endings on Tutorial Day.&quot;</span><span class="p">,</span>
+    <span class="n">Crop</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">155</span><span class="p">,</span> <span class="mi">155</span><span class="p">),</span> <span class="n">Transform</span><span class="p">(</span><span class="s2">&quot;VN Mode/Backgrounds/good_end.webp&quot;</span><span class="p">,</span> <span class="na">xsize</span><span class="o">=</span><span class="mi">155</span><span class="p">,</span> <span class="na">fit</span><span class="o">=</span><span class="s2">&quot;contain&quot;</span><span class="p">))</span>
+<span class="p">)</span>
+<span class="n">make_a_call_achievement</span> <span class="o">=</span> <span class="n">Achievement</span><span class="p">(</span><span class="s2">&quot;Ring Ring&quot;</span><span class="p">,</span> <span class="s2">&quot;make_a_call&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Try calling someone on the phone.&quot;</span><span class="p">,</span>
+    <span class="n">Transform</span><span class="p">(</span><span class="s2">&quot;Phone Calls/call_contact_empty.webp&quot;</span><span class="p">,</span> <span class="na">xsize</span><span class="o">=</span><span class="mi">155</span><span class="p">,</span> <span class="na">fit</span><span class="o">=</span><span class="s2">&quot;contain&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">try_real_time_achievement</span> <span class="o">=</span> <span class="n">Achievement</span><span class="p">(</span><span class="s2">&quot;IRL&quot;</span><span class="p">,</span> <span class="s2">&quot;irl&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Turn on real-time mode from the settings.&quot;</span><span class="p">,</span>
+    <span class="n">Fixed</span><span class="p">(</span>
+        <span class="n">Transform</span><span class="p">(</span><span class="s2">&quot;Menu Screens/Main Menu/dlc.webp&quot;</span><span class="p">,</span> <span class="na">xsize</span><span class="o">=</span><span class="mi">155</span><span class="p">,</span> <span class="na">fit</span><span class="o">=</span><span class="s2">&quot;contain&quot;</span><span class="p">),</span>
+        <span class="n">Transform</span><span class="p">(</span><span class="s2">&quot;Phone Calls/call_icon_history.webp&quot;</span><span class="p">,</span> <span class="na">align</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.53</span><span class="p">),</span> <span class="na">matrixcolor</span><span class="o">=</span><span class="n">InvertMatrix</span><span class="p">(</span><span class="mf">1.0</span><span class="p">))</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+<span class="n">expired_achievement</span> <span class="o">=</span> <span class="n">Achievement</span><span class="p">(</span><span class="s2">&quot;Missed it by That Much&quot;</span><span class="p">,</span> <span class="s2">&quot;expired&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Play through a chatroom that&#39;s expired.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Menu Screens/Main Menu/save_load.webp&quot;</span>
+<span class="p">)</span>
+<span class="n">first_cg_achievement</span> <span class="o">=</span> <span class="n">Achievement</span><span class="p">(</span><span class="s2">&quot;New Image&quot;</span><span class="p">,</span> <span class="s2">&quot;unlock_first_cg&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Unlock an image in the CG Gallery.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;CGs/common_album_cover.webp&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">change_pfp_achievement</span> <span class="o">=</span> <span class="n">Achievement</span><span class="p">(</span><span class="s2">&quot;Wait, I didn&#39;t pick that&quot;</span><span class="p">,</span> <span class="s2">&quot;change_pfp&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Change a character&#39;s profile picture.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Menu Screens/Main Menu/s_greeting.webp&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">first_guest_achievement</span> <span class="o">=</span> <span class="n">Achievement</span><span class="p">(</span><span class="s2">&quot;Get this Party Started&quot;</span><span class="p">,</span> <span class="s2">&quot;first_guest&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Have one or more guests attend the party.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Email/a_grade.webp&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="n">change_your_pfp_achievement</span> <span class="o">=</span> <span class="n">Achievement</span><span class="p">(</span><span class="s2">&quot;New Look, New Me&quot;</span><span class="p">,</span> <span class="s2">&quot;change_my_pfp&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Unlock a bonus image for your own profile picture.&quot;</span><span class="p">,</span>
+    <span class="n">Crop</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">155</span><span class="p">,</span> <span class="mi">155</span><span class="p">),</span>
+        <span class="n">Transform</span><span class="p">(</span><span class="s2">&quot;CGs/common_album/cg-3.webp&quot;</span><span class="p">,</span> <span class="na">xsize</span><span class="o">=</span><span class="mi">155</span><span class="p">,</span> <span class="na">fit</span><span class="o">=</span><span class="s2">&quot;contain&quot;</span><span class="p">))</span>
+    <span class="p">)</span>
+<span class="n">malfunctioning_achievement</span> <span class="o">=</span> <span class="n">Achievement</span><span class="p">(</span><span class="s2">&quot;I-it&#39;s malfunctioning!&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;malfunction_achieve&quot;</span><span class="p">,</span> <span class="s2">&quot;Hang up on Ray&#39;s Tutorial Day call.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Phone Calls/call_button_hang_up.webp&quot;</span>
+    <span class="p">)</span>
+<span class="n">hidden_pfp_achievement</span> <span class="o">=</span> <span class="n">Achievement</span><span class="p">(</span><span class="s2">&quot;Who Are You?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hidden_pfp_achieve&quot;</span><span class="p">,</span> <span class="s2">&quot;Change your profile picture to the black-haired man.&quot;</span><span class="p">,</span>
+    <span class="n">Crop</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">155</span><span class="p">,</span> <span class="mi">155</span><span class="p">),</span>
+        <span class="n">Transform</span><span class="p">(</span><span class="s2">&quot;CGs/common_album/cg-2.webp&quot;</span><span class="p">,</span> <span class="na">xsize</span><span class="o">=</span><span class="mi">155</span><span class="p">,</span> <span class="na">fit</span><span class="o">=</span><span class="s2">&quot;contain&quot;</span><span class="p">)),</span>
+    <span class="n">hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">progress_stat_achievement</span> <span class="o">=</span> <span class="n">Achievement</span><span class="p">(</span><span class="s2">&quot;Finish all the test achievements&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;all_tutorial_achieve&quot;</span><span class="p">,</span> <span class="s2">&quot;Complete all the achievements included with the base game.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Menu Screens/Main Menu/menu_gift.webp&quot;</span><span class="p">,</span>
+    <span class="n">stat_max</span><span class="o">=</span><span class="mi">13</span>
+<span class="p">)</span>
+
+
+<span class="c1">## Don&#39;t change this one or your achievements won&#39;t work</span>
+<span class="n">IGNORE_ACHIEVEMENTS</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+</div>
+<p>In short, the first <code class="docutils literal notranslate"><span class="pre">IGNORE_ACHIEVEMENTS</span></code> should be switched to <code class="docutils literal notranslate"><span class="pre">True</span></code>, but the <strong>last</strong> <code class="docutils literal notranslate"><span class="pre">IGNORE_ACHIEVEMENTS</span></code> should stay as <code class="docutils literal notranslate"><span class="pre">False</span></code> in order for your own achievements to work.</p>
+<p>This will effectively exclude all the tutorial achievements from being granted, and they won’t be included in the special <code class="docutils literal notranslate"><span class="pre">Achievement.all_achievements</span></code> list. That means you can iterate over <code class="docutils literal notranslate"><span class="pre">Achievement.all_achievements</span></code> for your achievement gallery and it won’t include the tutorial achievements. You also won’t have to worry about the tutorial achievements being granted for things like turning on animated backgrounds, though the code to trigger those achievements will still be in the game.</p>
+</div>
+</div>
+<div class="section" id="reserved-names">
+<h2>Reserved Names<a class="headerlink" href="#reserved-names" title="Permalink to this headline">¶</a></h2>
 <p>Mysterious Messenger uses several variables, transforms, class names, and other features in order to work. As a result, you can run into errors if you accidentally use the same name as something already in the engine. If you’re getting mysterious errors, you might try checking if you’ve accidentally replaced one of these reserved names.</p>
-<section id="transform-names">
-<h3>Transform Names<a class="headerlink" href="#transform-names" title="Permalink to this heading"></a></h3>
+<div class="section" id="transform-names">
+<h3>Transform Names<a class="headerlink" href="#transform-names" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
+<li><p>achievement_popout</p></li>
 <li><p>album_tilt</p></li>
 <li><p>alpha_dissolve</p></li>
 <li><p>cg_swipe_left</p></li>
@@ -1113,9 +1468,9 @@
 <li><p>wait_fade</p></li>
 <li><p>yzoom_in</p></li>
 </ul>
-</section>
-<section id="variable-names">
-<h3>Variable Names<a class="headerlink" href="#variable-names" title="Permalink to this heading"></a></h3>
+</div>
+<div class="section" id="variable-names">
+<h3>Variable Names<a class="headerlink" href="#variable-names" title="Permalink to this headline">¶</a></h3>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This list is not exhaustive! If you are running into an error you think may be caused by conflicting variable names, try searching for <code class="docutils literal notranslate"><span class="pre">define</span> <span class="pre">var_name</span></code>, <code class="docutils literal notranslate"><span class="pre">image</span> <span class="pre">var_name</span></code>, <code class="docutils literal notranslate"><span class="pre">transform</span> <span class="pre">var_name</span></code>, <code class="docutils literal notranslate"><span class="pre">default</span> <span class="pre">var_name</span></code>, or <code class="docutils literal notranslate"><span class="pre">var_name</span> <span class="pre">=</span></code> to see if you come across any unexpected matches.</p>
@@ -1123,72 +1478,104 @@
 <ul class="simple">
 <li><p>all_characters</p></li>
 <li><p>all_guests</p></li>
+<li><p>animated_bg_achievement</p></li>
 <li><p>answer</p></li>
 <li><p>available_calls</p></li>
 <li><p>bubble_list</p></li>
 <li><p>call_countdown</p></li>
 <li><p>call_history</p></li>
+<li><p>change_pfp_achievement</p></li>
+<li><p>change_your_pfp_achievement</p></li>
 <li><p>character_list</p></li>
 <li><p>chat_pause</p></li>
 <li><p>current_call</p></li>
 <li><p>email_list</p></li>
 <li><p>example_guest</p></li>
+<li><p>expired_achievement</p></li>
 <li><p>filler</p></li>
+<li><p>first_cg_achievement</p></li>
+<li><p>first_guest_achievement</p></li>
 <li><p>fullsizeCG</p></li>
 <li><p>heart_point_chars</p></li>
+<li><p>hidden_pfp_achievement</p></li>
 <li><p>incoming_call</p></li>
 <li><p>in_phone_call</p></li>
 <li><p>ja</p></li>
 <li><p>ju</p></li>
 <li><p>m</p></li>
 <li><p>main_character</p></li>
+<li><p>make_a_call_achievement</p></li>
+<li><p>malfunctioning_achievement</p></li>
 <li><p>new_cg</p></li>
 <li><p>novoice_chars</p></li>
+<li><p>onscreen_achievements</p></li>
+<li><p>progress_stat_achievement</p></li>
 <li><p>r</p></li>
 <li><p>rainbow2</p></li>
 <li><p>ri</p></li>
 <li><p>s</p></li>
 <li><p>sa</p></li>
 <li><p>special_msg</p></li>
+<li><p>try_real_time_achievement</p></li>
+<li><p>tutorial_ending1</p></li>
+<li><p>tutorial_ending2</p></li>
 <li><p>u</p></li>
+<li><p>ui_achievement</p></li>
 <li><p>unseen_calls</p></li>
 <li><p>v</p></li>
 <li><p>va</p></li>
 <li><p>y</p></li>
 <li><p>z</p></li>
 </ul>
-</section>
-</section>
-</section>
+</div>
+</div>
+</div>
 
 
            </div>
+           
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="cg-albums.html" class="btn btn-neutral float-left" title="CG Albums" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="how-does-it-work.html" class="btn btn-neutral float-left" title="How does it all work?" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Shawna P.</p>
-  </div>
+    <p>
+        &#169; Copyright 2022, Shawna P.
 
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
         </div>
       </div>
+
     </section>
+
   </div>
-  <script>
+  
+
+  <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>
