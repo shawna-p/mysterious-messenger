@@ -950,7 +950,7 @@ layeredimage pastor:
     always "VN Mode/Pastor/pastor_body_0.webp"
 
     group face:
-        xoffset 305 yoffset 75
+        xpos 305 ypos 75
         attribute neutral default "VN Mode/Pastor/pastor_face_3.webp"
         attribute pleased "VN Mode/Pastor/pastor_face_0.webp"
         attribute happy "VN Mode/Pastor/pastor_face_1.webp"
@@ -965,7 +965,7 @@ layeredimage mika:
     always "VN Mode/Rika/mika_body_0.webp"
 
     group face:
-        xoffset 148 yoffset 130
+        xpos 148 ypos 130
         attribute blank "VN Mode/Rika/mika_blank.webp"
         attribute happy "VN Mode/Rika/mika_happy.webp" yoffset 132
         attribute neutral default "VN Mode/Rika/mika_neutral.webp"
@@ -982,7 +982,7 @@ layeredimage rika_mom:
     always "VN Mode/Rika Mom/rikamom_body_0.webp"
 
     group face:
-        xoffset 165 yoffset 85
+        xpos 165 ypos 85
         attribute neutral default "VN Mode/Rika Mom/rikamom_face_0.webp"
         attribute angry "VN Mode/Rika Mom/rikamom_face_1.webp"
         attribute tired "VN Mode/Rika Mom/rikamom_face_2.webp"
