@@ -1012,6 +1012,276 @@ In this example, we presume you are checking for whether deep story is unlocked 
 
 The SpendHourglass action takes care of the case where the player attempts to spend more hourglasses than they currently hold (e.g. they have 100 hourglasses but require 300 to unlock deep story mode). In this case, the provided action is not run and the player is simply shown a message saying they don't have enough hourglasses.
 
+Achievements
+===================
+
+Mysterious Messenger provides an in-game achievement system which also integrates with existing Ren'Py systems, including Steam achievements. Several default achievements are included with the program which trigger when you complete various actions around the messenger and throughout Tutorial Day.
+
+You will find most of the relevant code in ``achievements.rpy``. Here there is an ``achievement_popup`` screen, which is what will display a preview of the unlocked achievement in-game when the player earns it. It is passed one parameter, which I called ``a`` in the example screen, which corresponds to the Achievement object representing the achievement the player just earned.
+
+There is also another screen, ``achievement_gallery``, which is what displays the achievements to the player. You are welcome to customize these in whatever way you like.
+
+Setting Up Achievements
+-----------------------
+
+To set up an achievement, you will use the Achievement class. This takes several parameters:
+
+`name`
+    A string representing the name of this achievement, as it should appear in the popup and in the achievement screen.
+
+`id`
+    A string which does not include spaces, single or double quotes, or dashes (aka just use alphanumeric + underscores). This will be used as the ID for this achievement for backends such as Steam's backend.
+
+`description`
+    Optional. A string with the description for this achievement.
+
+`unlocked_image`
+    Optional. A displayable which is shown as an icon when this achievement is unlocked.
+
+`locked_image`
+    Optional. A displayable which is shown as an icon when this achievement is locked. By default this is set to the image ``locked_achievement``, which you can change.
+
+`stat_max`
+    Optional. If provided, it's an integer corresponding to the maximum progress of an achievement, if the achievement can be partially completed. For example, if your game has 24 chapters and you want this achievement to have a progress bar displaying the % of chapters the player has completed, you would set ``stat_max=24``. The achievement is unlocked when it reaches this value.
+
+`stat_modulo`
+    Optional. Only relevant if using the ``stat_max`` attribute. The formula ``(stat_progress % stat_modulo)`` is applied whenever achievement progress is updated. If the result of this calculation is 0, then the progress is shown to the user. By default this is 0, so all updates to ``stat_progress`` are shown.
+
+    This is useful if, for example, for the earlier 24-chapter game progress stat, you only wanted to show updates every time the player got through a quarter of the chapters (0% full -> 25% full -> 50% full -> 75% full -> 100% full). In that case, the ``stat_modulo`` would be 6 (24/4).
+
+`hidden`
+    If True, then this achievement's title and description will be replaced with "???" until the player has unlocked it.
+
+Thus, a few example achievements::
+
+    ## An achievement which will unlock when the player starts a new game
+    start_game = Achievement("Start of your journey", "start_game",
+        "Start a new game", "achievements/new_game.webp")
+    ## An achievement for getting to any bad end in the game
+    bad_end = Achievement("Happily Never After", "bad_end",
+        "Reach a bad end", "achievements/bad_end.webp")
+
+Granting Achievements
+---------------------
+
+Now that you've set up the achievement, you will need to specify when it should be granted to the player. To do this, there are two different methods you can use.
+
+The first method is to use ``my_achievement.grant()``, where ``my_achievement`` is the name of the Achievement object you declared earlier (in :ref:`Setting Up Achievements`). Note that you *do not need* to check if the achievement has already been granted before running this function; if the achievement has already been granted, this line will do nothing. It won't grant the achievement again, and the player won't see another popup for the achievement. This method is most useful for achievements earned during the script (where you can write ``$ my_achievement.grant()`` inside the label), or inside Python functions.
+
+The second method is to use the convenience screen action ``my_achievement.Grant()``, which works the same way, but is intended to be used as a screen action. Thus, you can write buttons such as::
+
+    textbutton _("Start") action [start_game.Grant(), Start()]
+
+This will grant the ``start_game`` achievement to the player when they press the Start button to start a new game. As with before, ``Grant()`` will only grant the player the achievement once; if the player has already earned this achievement, they will not get it again and they won't see a popup about getting the achievement.
+
+Checking if an Achievement was Granted
+--------------------------------------
+
+To check if the player has a particular achievement, use the ``has`` method, e.g.
+
+::
+
+    if good_ending_achievement.has():
+        jump epilogue
+
+This will return True if the achievement has been granted to the player, and False if it has not.
+
+Tracking Achievement Progress
+-----------------------------
+
+For some achievements, you may want to track the player's progress towards completing them. There are two main ways of updating the player's progress, depending on whether you are doing so as a screen action or as part of the script.
+
+Setting Progress
+^^^^^^^^^^^^^^^^
+
+The easiest way to update the progress value of an achievement is to use the ``progress`` method, or the ``Progress`` screen action method. This will allow you to *set* the current progress value of the achievement.
+
+Note that, because this *sets* the progress value, it is best suited for achievements which are tracking things such as the number of chapters the player has played through in a linear game. For example, regardless of the previous value of the progress variable, it makes sense to write ``$ chapter_achievement.progress(12)`` when the player reaches Chapter 12 in your linear story. It is **not** suitable for achievements that are attempting to track cumulative progress across multiple different playthroughs or branching choice paths.
+
+The ``Progress`` screen action method acts similarly, but is used as a screen action e.g.
+
+::
+
+    action chapter_achievement.Progress(12)
+
+Remember that this will update the progress to the provided value regardless of when the player presses this button, so without further checks it's possible you could "reset" a player's achievement progress by using this method.
+
+Updating Progress
+^^^^^^^^^^^^^^^^^
+
+If you would like to update the current progress value, you can use the ``add_progress`` method in script or Python, and the ``AddProgress`` screen action in screens. It takes one number, the amount of progress to add to the current progress stat.
+
+::
+
+    if not bad_end_achievement.has():
+        $ bad_end_achievement.grant()
+        $ ending_achievements.add_progress(1)
+
+In this example, the achievement is for getting all of the game endings, which the player can achieve in any order. If the player reaches the bad end, it should only progress their progress towards achieving the ``ending_achievements`` achievement if they haven't seen the bad end before (otherwise we'd end up counting it twice, and it's possible they would be granted the achievement without actually seeing all the endings).
+
+.. warning::
+
+    It's incredibly important that you have a persistent check in place, either through persistent variables or through checking if another achievement has been granted, to ensure you are not "double-updating" an achievement's progress. The ``add_progress`` methods have *no way of knowing* if this progress has been added to the achievement in the past, so it is up to you the creator to ensure it is protected from adding progress more than once.
+
+The second way uses a screen action. Like with the ``add_progress`` method, it is *very* important that you put checks in place to ensure you are not updating progress towards the achievement multiple times.
+
+::
+
+    textbutton _("Start"):
+        action [
+            If(not start_game.has(),
+            [start_game.Grant(),
+            all_achievements.AddProgress(1)]),
+            Start()
+        ]
+
+This is an updated version of the Start button from before. Here, the game first checks if the player has achieved the ``start_game`` achievement before via ``start_game.has()``. If they have not, then it grants them that achievement and increases progress towards the ``all_achievements`` achievement by 1 (with the ``all_achievements`` achievement tracking how many achievements the player has gotten, total). After that, it runs the ``Start()`` action like normal.
+
+Checking Progress
+^^^^^^^^^^^^^^^^^
+
+You can retrieve the current achievement progress via the ``get_progress`` method, e.g.
+
+::
+
+    if all_achievements.get_progress() >= 10:
+        $ ten_achievements.grant() # Achievement for getting 10+ achievements
+
+Resetting Achievement Progress
+-------------------------------
+
+You can reset an individual achievement's progress via the ``clear`` method, e.g.
+
+::
+
+    $ my_achievement.clear()
+
+This is largely for testing purposes; to clear all achievement progress, you can use **Delete Persistent** from the Ren'Py launcher (as achievements are saved via persistent data).
+
+Toggling Achievements (For Testing)
+-----------------------------------
+
+To easily test your achievements, you can use the developer Toggle method, e.g.
+
+::
+
+    for a in Achievement.all_achievements:
+        button:
+            # Manually toggle achievements, for development
+            if config.developer:
+                action a.Toggle()
+
+This is included in the default achievement gallery screen, so you can click on achievements and grant/clear them. This allows you to see the pre-achieved state and what the achievement looks like after it's been achieved.
+
+Displaying Achievements
+-----------------------
+
+There are two screens relating to achievements, both found in ``game/achievements.rpy``. The first is ``screen achievement_popup``, a screen which receives a popup as an argument and is expected to display itself for some time and then hide itself again. The second is ``achievement_gallery``, which is receives no arguments and is expected to display a list of the player's achievements.
+
+Achievement Popup
+^^^^^^^^^^^^^^^^^
+
+The ``achievement_popup`` screen is passed one argument, the Achievement object which is being granted. This screen can look like or do whatever you like, though it should generally have a timer to hide itself after some time has passed, as there is no call for the game to hide the screen again after it's been shown. The default screen includes a sliding-out animation with some achievement information, like its name, description, and icon, and hides itself again after 5 seconds.
+
+Achievement Gallery
+^^^^^^^^^^^^^^^^^^^
+
+The ``achievement_gallery`` screen is linked on the main menu. It can be opened to view the player's achievements, both earned and yet-to-be-earned.
+
+The convenience list ``Achievement.all_achievements`` can be used, which has a list of all the achievements declared in the game (in the order they were defined in). By iterating over this list, you can use the fields of the Achievement object to display its idle image, name, description, timestamp, and more.
+
+Disabling Tutorial Achievements
+-------------------------------
+
+In ``game/01_mysme_engine/achievements_systems.rpy``, several achievements are declared for Tutorial Day. The triggers to "achieve" these achievements can be found throughout the engine, so instead of forcing you to remove all references to the tutorial achievements, you can remove them from triggering or displaying by using the special ``IGNORE_ACHIEVEMENTS`` constant.
+
+There are two places that have the line
+
+::
+
+    IGNORE_ACHIEVEMENTS = False
+
+The first is **before** all the tutorial achievements are declared, and the second is **after** all the tutorial achievements are declared. You need to change the **first** one, the one **before** all the achievements, to the following::
+
+    ## Actual achievements, for the tutorial
+    ## These *can't* be removed (or else you'd need to comb through the
+    ## rest of the game to get rid of the triggers, too), but if you change
+    ## this value to True, it'll prevent them from activating or appearing
+    ## in the achievements list.
+    IGNORE_ACHIEVEMENTS = True ## THIS LINE HAS CHANGED!
+    ui_achievement = Achievement("Farewell, Old UI", "modified_ui",
+        "Turn on the modified UI from the settings.",
+        # Size ~(155, 155)
+        Crop((0, 0, 155, 155), Transform("Phone UI/bg_secure.webp", xsize=155, fit="contain"))
+    )
+    animated_bg_achievement = Achievement("Now for some Pizazz!", "animated_bgs",
+        "Turn on the animated chatroom backgrounds from the settings.",
+        Crop((0, 0, 155, 155), Transform("Phone UI/bg-rainy-day.webp", xsize=155, fit="contain"))
+    )
+    tutorial_ending1 = Achievement("Made it to the End", "tut_end_1",
+        "See at least one ending on Tutorial Day.",
+        Crop((0, 55, 155, 155), Transform("VN Mode/Backgrounds/normal_end.webp", xsize=155, fit="contain"))
+    )
+    tutorial_ending2 = Achievement("Gotta See 'Em All", "tut_end_2",
+        "See all the endings on Tutorial Day.",
+        Crop((0, 55, 155, 155), Transform("VN Mode/Backgrounds/good_end.webp", xsize=155, fit="contain"))
+    )
+    make_a_call_achievement = Achievement("Ring Ring", "make_a_call",
+        "Try calling someone on the phone.",
+        Transform("Phone Calls/call_contact_empty.webp", xsize=155, fit="contain")
+    )
+    try_real_time_achievement = Achievement("IRL", "irl",
+        "Turn on real-time mode from the settings.",
+        Fixed(
+            Transform("Menu Screens/Main Menu/dlc.webp", xsize=155, fit="contain"),
+            Transform("Phone Calls/call_icon_history.webp", align=(0.5, 0.53), matrixcolor=InvertMatrix(1.0))
+        )
+    )
+    expired_achievement = Achievement("Missed it by That Much", "expired",
+        "Play through a chatroom that's expired.",
+        "Menu Screens/Main Menu/save_load.webp"
+    )
+    first_cg_achievement = Achievement("New Image", "unlock_first_cg",
+        "Unlock an image in the CG Gallery.",
+        "CGs/common_album_cover.webp",
+    )
+    change_pfp_achievement = Achievement("Wait, I didn't pick that", "change_pfp",
+        "Change a character's profile picture.",
+        "Menu Screens/Main Menu/s_greeting.webp",
+    )
+    first_guest_achievement = Achievement("Get this Party Started", "first_guest",
+        "Have one or more guests attend the party.",
+        "Email/a_grade.webp",
+        )
+    change_your_pfp_achievement = Achievement("New Look, New Me", "change_my_pfp",
+        "Unlock a bonus image for your own profile picture.",
+        Crop((0, 60, 155, 155),
+            Transform("CGs/common_album/cg-3.webp", xsize=155, fit="contain"))
+        )
+    malfunctioning_achievement = Achievement("I-it's malfunctioning!",
+        "malfunction_achieve", "Hang up on Ray's Tutorial Day call.",
+        "Phone Calls/call_button_hang_up.webp"
+        )
+    hidden_pfp_achievement = Achievement("Who Are You?",
+        "hidden_pfp_achieve", "Change your profile picture to the black-haired man.",
+        Crop((0, 0, 155, 155),
+            Transform("CGs/common_album/cg-2.webp", xsize=155, fit="contain")),
+        hidden=True)
+    progress_stat_achievement = Achievement("Finish all the test achievements",
+        "all_tutorial_achieve", "Complete all the achievements included with the base game.",
+        "Menu Screens/Main Menu/menu_gift.webp",
+        stat_max=13
+    )
+
+
+    ## Don't change this one or your achievements won't work
+    IGNORE_ACHIEVEMENTS = False
+
+
+In short, the first ``IGNORE_ACHIEVEMENTS`` should be switched to ``True``, but the **last** ``IGNORE_ACHIEVEMENTS`` should stay as ``False`` in order for your own achievements to work.
+
+This will effectively exclude all the tutorial achievements from being granted, and they won't be included in the special ``Achievement.all_achievements`` list. That means you can iterate over ``Achievement.all_achievements`` for your achievement gallery and it won't include the tutorial achievements. You also won't have to worry about the tutorial achievements being granted for things like turning on animated backgrounds, though the code to trigger those achievements will still be in the game.
+
 Reserved Names
 ===============
 
@@ -1019,6 +1289,7 @@ Mysterious Messenger uses several variables, transforms, class names, and other 
 
 Transform Names
 ---------------
+* achievement_popout
 * album_tilt
 * alpha_dissolve
 * cg_swipe_left
@@ -1116,34 +1387,49 @@ Variable Names
 
 * all_characters
 * all_guests
+* animated_bg_achievement
 * answer
 * available_calls
 * bubble_list
 * call_countdown
 * call_history
+* change_pfp_achievement
+* change_your_pfp_achievement
 * character_list
 * chat_pause
 * current_call
 * email_list
 * example_guest
+* expired_achievement
 * filler
+* first_cg_achievement
+* first_guest_achievement
 * fullsizeCG
 * heart_point_chars
+* hidden_pfp_achievement
 * incoming_call
 * in_phone_call
 * ja
 * ju
 * m
 * main_character
+* make_a_call_achievement
+* malfunctioning_achievement
 * new_cg
 * novoice_chars
+* onscreen_achievements
+* progress_stat_achievement
 * r
 * rainbow2
 * ri
 * s
 * sa
 * special_msg
+* try_real_time_achievement
+* tutorial_ending1
+* tutorial_ending2
 * u
+* ui_achievement
 * unseen_calls
 * v
 * va

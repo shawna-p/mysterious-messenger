@@ -1,32 +1,72 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
   <title>How does it all work? &mdash; Mysterious Messenger Wiki v3.3.0 documentation</title>
-      <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
-    <script src="_static/js/theme.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Miscellaneous" href="miscellaneous.html" />
+    <link rel="prev" title="CG Albums" href="cg-albums.html" /> 
 </head>
 
-<body class="wy-body-for-nav"> 
+<body class="wy-body-for-nav">
+
+   
   <div class="wy-grid-for-nav">
+    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
+          
+
+          
             <a href="index.html" class="icon icon-home"> Mysterious Messenger Wiki
+          
+
+          
           </a>
+
+          
+            
+            
+          
+
+          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -34,7 +74,18 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="Home.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Full Changelog</a></li>
@@ -43,7 +94,7 @@
 <li class="toctree-l1"><a class="reference internal" href="beginners-guide.html">Beginner’s Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git-setup.html">Git Setup</a></li>
 </ul>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="chatrooms.html">Chatrooms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="phone-calls.html">Phone Calls</a></li>
 <li class="toctree-l1"><a class="reference internal" href="text-messages.html">Text Messages</a></li>
@@ -53,36 +104,89 @@
 <li class="toctree-l1"><a class="reference internal" href="plot-branches.html">Plot Branches</a></li>
 <li class="toctree-l1"><a class="reference internal" href="creating-characters.html">Creating Characters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cg-albums.html">CG Albums</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">How does it all work?</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-chatrooms">The Chatrooms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#chatcharacter">ChatCharacter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#chatentry">ChatEntry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#displaying-the-chatrooms">Displaying the Chatrooms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pausing-between-messages">Pausing between messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adjusting-the-viewport">Adjusting the Viewport</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="miscellaneous.html">Miscellaneous</a></li>
 </ul>
 
+            
+          
         </div>
+        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">Mysterious Messenger Wiki</a>
+        
       </nav>
 
+
       <div class="wy-nav-content">
+        
         <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
+    
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
       <li>How does it all work?</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
+        
+          
             <a href="_sources/how-does-it-work.rst.txt" rel="nofollow"> View page source</a>
+          
+        
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-             
-  <section id="how-does-it-all-work">
-<span id="how-does-it-work"></span><h1>How does it all work?<a class="headerlink" href="#how-does-it-all-work" title="Permalink to this heading"></a></h1>
-<p>As Mysterious Messenger is the result of over 4 years of work (the past two of which have included daily updates), it now has a rather hefty amount of code, much of which is tailored to be easy-to-use from the front end. That can mean that it’s hard to get your head around how it’s doing all the “behind the scenes” stuff. This page is intended to walk you through some of the thought processes behind the various parts of Mysterious Messenger, and show examples of simplified versions of the classes and systems that make up the inner workings of the project.</p>
+            
+  <div class="section" id="how-does-it-all-work">
+<span id="how-does-it-work"></span><h1>How does it all work?<a class="headerlink" href="#how-does-it-all-work" title="Permalink to this headline">¶</a></h1>
+<p>As Mysterious Messenger is the result of over 5 years of work (the past three of which have included daily updates), it now has a rather hefty amount of code, much of which is tailored to be easy-to-use from the front end. That can mean that it’s hard to get your head around how it’s doing all the “behind the scenes” stuff. This page is intended to walk you through some of the thought processes behind the various parts of Mysterious Messenger, and show examples of simplified versions of the classes and systems that make up the inner workings of the project.</p>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Navigation</span></p>
 <ul class="current">
@@ -92,6 +196,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#chatentry">ChatEntry</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#displaying-the-chatrooms">Displaying the Chatrooms</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pausing-between-messages">Pausing between messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adjusting-the-viewport">Adjusting the Viewport</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#next-steps">Next Steps</a></li>
 </ul>
 </li>
@@ -99,11 +204,11 @@
 </li>
 </ul>
 </div>
-<section id="the-chatrooms">
-<h2>The Chatrooms<a class="headerlink" href="#the-chatrooms" title="Permalink to this heading"></a></h2>
+<div class="section" id="the-chatrooms">
+<h2>The Chatrooms<a class="headerlink" href="#the-chatrooms" title="Permalink to this headline">¶</a></h2>
 <p>The fundamental parts of the chatrooms are built upon two classes: <code class="docutils literal notranslate"><span class="pre">ChatCharacter</span></code> and <code class="docutils literal notranslate"><span class="pre">ChatEntry</span></code>.</p>
-<section id="chatcharacter">
-<h3>ChatCharacter<a class="headerlink" href="#chatcharacter" title="Permalink to this heading"></a></h3>
+<div class="section" id="chatcharacter">
+<h3>ChatCharacter<a class="headerlink" href="#chatcharacter" title="Permalink to this headline">¶</a></h3>
 <p>The ChatCharacter class, as its name implies, holds information on the characters who speak in chatrooms. The most important information that they hold are things like the character’s name and profile picture. ChatCharacters in this program hold a ton of additional information, too - they store how many heart points the player has with that character, their heart icon and speech bubble colours, their cover photos and status updates, and more.</p>
 <p>That said, this class once started out in an extremely simplified form. Fundamentally, it looked like this:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ChatCharacter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -138,7 +243,7 @@
 <span class="n">y</span> <span class="o">=</span> <span class="n">my_function</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The important part is the <code class="docutils literal notranslate"><span class="pre">`my_function(3)</span></code> bit. To call the function, you use the function’s name (<code class="docutils literal notranslate"><span class="pre">my_function</span></code>) and then a set of parentheses, which may or may not contain arguments that get passed to the function (in this case, <code class="docutils literal notranslate"><span class="pre">3</span></code> is passed to the function).</p>
+<p>The important part is the <code class="docutils literal notranslate"><span class="pre">my_function(3)</span></code> bit. To call the function, you use the function’s name (<code class="docutils literal notranslate"><span class="pre">my_function</span></code>) and then a set of parentheses, which may or may not contain arguments that get passed to the function (in this case, <code class="docutils literal notranslate"><span class="pre">3</span></code> is passed to the function).</p>
 <p>Importantly, you can use an object in place of the function name, and that will cause the <code class="docutils literal notranslate"><span class="pre">__call__</span></code> method to be executed. So if you had the following:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ChatCharacter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -206,9 +311,9 @@
 <p>There’s also a mysterious additional argument, <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code>. This is a special Python convention which means that the <code class="docutils literal notranslate"><span class="pre">__call__</span></code> method can take any number of <em>keyword arguments</em>. This is important because when you piggyback off of Ren’Py’s built-in scripting systems, it wants to pass in a special keyword argument called <code class="docutils literal notranslate"><span class="pre">interact</span></code>. <code class="docutils literal notranslate"><span class="pre">interact</span></code> is almost always True by default, meaning that the game will wait for the player to interact with it in some way before proceeding with the next line. Since you won’t be handling dialogue the way Ren’Py does, you don’t directly need this argument, but you <em>do</em> still have to be prepared for Ren’Py to automatically pass it along (and you’ll get an error if you don’t include this).</p>
 <p>Fundamentally, all you’re doing here is looking for one argument to be passed, which will be the dialogue. We’ll store that dialogue in a parameter called <code class="docutils literal notranslate"><span class="pre">what</span></code>.</p>
 <p>And now we have to take a detour to look at the second essential piece to this puzzle, the <code class="docutils literal notranslate"><span class="pre">ChatEntry</span></code> class, since we can’t finish writing the <code class="docutils literal notranslate"><span class="pre">__call__</span></code> method without it.</p>
-</section>
-<section id="chatentry">
-<h3>ChatEntry<a class="headerlink" href="#chatentry" title="Permalink to this heading"></a></h3>
+</div>
+<div class="section" id="chatentry">
+<h3>ChatEntry<a class="headerlink" href="#chatentry" title="Permalink to this headline">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">ChatEntry</span></code> class is designed to hold the information on a single message that makes up a chatroom. A chatroom is actually just a list of <code class="docutils literal notranslate"><span class="pre">ChatEntry</span></code> objects.</p>
 <p>Once again, though the actual <code class="docutils literal notranslate"><span class="pre">ChatEntry</span></code> class is quite complex, let’s look at the bare essentials of the class. As with the <code class="docutils literal notranslate"><span class="pre">ChatCharacter</span></code> class, the only information we really need to store for a message is 1) who sent it, and 2) what they sent (the message). So, with that in mind, here is a pared-down version of the ChatEntry class:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ChatEntry</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -265,9 +370,9 @@
 <p>There are only two new lines, so we’ll look at each one in turn. First, <code class="docutils literal notranslate"><span class="pre">global</span> <span class="pre">chatlog</span></code>. This is because <code class="docutils literal notranslate"><span class="pre">chatlog</span></code> is a variable that’s defined outside of the ChatCharacter class, so you need to tell Ren’Py where to find it. The variable itself is set up with the line <code class="docutils literal notranslate"><span class="pre">default</span> <span class="pre">chatlog</span> <span class="pre">=</span> <span class="pre">[</span> <span class="pre">]</span></code> elsewhere.</p>
 <p>The second line is <code class="docutils literal notranslate"><span class="pre">chatlog.append(ChatEntry(self,</span> <span class="pre">what))</span></code>, which is made up of two parts. First, <code class="docutils literal notranslate"><span class="pre">ChatEntry(self,</span> <span class="pre">what)</span></code>. This creates a <code class="docutils literal notranslate"><span class="pre">ChatEntry</span></code> object, which as described earlier, holds information on a particular message. If you recall, the <code class="docutils literal notranslate"><span class="pre">ChatEntry</span></code> constructor takes two parameters, <code class="docutils literal notranslate"><span class="pre">who</span></code> and <code class="docutils literal notranslate"><span class="pre">what</span></code>. The <code class="docutils literal notranslate"><span class="pre">who</span></code> in this case is the ChatCharacter who’s sending the message, which is the <code class="docutils literal notranslate"><span class="pre">self</span></code> parameter. If you’re not familiar with classes, <code class="docutils literal notranslate"><span class="pre">self</span></code> basically just refers to the object itself. If you had <code class="docutils literal notranslate"><span class="pre">default</span> <span class="pre">em</span> <span class="pre">=</span> <span class="pre">ChatCharacter(&quot;Emma&quot;,</span> <span class="pre">&quot;Profile</span> <span class="pre">Pics/Emma-1.webp&quot;)</span></code>, then it’s like passing <code class="docutils literal notranslate"><span class="pre">ChatEntry(em,</span> <span class="pre">what)</span></code> if it’s the <code class="docutils literal notranslate"><span class="pre">__call__</span></code> method of <code class="docutils literal notranslate"><span class="pre">em</span></code> that’s being called. The second parameter, <code class="docutils literal notranslate"><span class="pre">what</span></code>, is of course the dialogue of the message.</p>
 <p>The second part is <code class="docutils literal notranslate"><span class="pre">chatlog.append</span></code>. This appends a new item to our list, <code class="docutils literal notranslate"><span class="pre">chatlog</span></code>. In this case, the item we are appending is a <code class="docutils literal notranslate"><span class="pre">ChatEntry</span></code>, namely, <code class="docutils literal notranslate"><span class="pre">ChatEntry(self,</span> <span class="pre">what)</span></code>. As a result, we will end up with a list of <code class="docutils literal notranslate"><span class="pre">ChatEntry</span></code> objects, each of which holds the sender of a message and the contents of said message.</p>
-</section>
-<section id="displaying-the-chatrooms">
-<h3>Displaying the Chatrooms<a class="headerlink" href="#displaying-the-chatrooms" title="Permalink to this heading"></a></h3>
+</div>
+<div class="section" id="displaying-the-chatrooms">
+<h3>Displaying the Chatrooms<a class="headerlink" href="#displaying-the-chatrooms" title="Permalink to this headline">¶</a></h3>
 <p>Now that we have a method of writing dialogue and obtaining a list of messages in a chatroom, we can move on to displaying those messages. Again, Mysterious Messenger has a whole lot of features and other things it uses to display emojis, clickable CGs, links, and other features, but we’ll simplify as much of that as possible here to keep it simple.</p>
 <p>I won’t be going into too much depth on each of the screen language elements I’m using here, as that’s best left to a different tutorial. I’ll briefly comment on my choices where relevant.</p>
 <p>So, to start, let’s construct an extremely simple screen:</p>
@@ -298,16 +403,16 @@
 <span class="k">label</span> <span class="n">start</span><span class="p">():</span>
     <span class="k">show</span> <span class="k">screen</span> <span class="n">messenger</span>
     <span class="n">e</span> <span class="s2">&quot;This is some test dialogue!&quot;</span>
-    <span class="n">e</span> <span class="s2">&quot;The whole thing hasn&#39;t been put together quite yet, thought.&quot;</span>
+    <span class="n">e</span> <span class="s2">&quot;The whole thing hasn&#39;t been put together quite yet, though.&quot;</span>
     <span class="n">e</span> <span class="s2">&quot;Stay tuned for the rest!&quot;</span>
     <span class="k">pause</span>
     <span class="k">return</span>
 </pre></div>
 </div>
 <p>and you’ll see the barebones version of the messenger system forming. Notably, all messages will just get added instantly to the chatlog; this is because there isn’t any particular logic telling it to wait between messages yet. It also doesn’t automatically scroll to the bottom when new messages arrive, which we’ll fix later as well.</p>
-</section>
-<section id="pausing-between-messages">
-<h3>Pausing between messages<a class="headerlink" href="#pausing-between-messages" title="Permalink to this heading"></a></h3>
+</div>
+<div class="section" id="pausing-between-messages">
+<h3>Pausing between messages<a class="headerlink" href="#pausing-between-messages" title="Permalink to this headline">¶</a></h3>
 <p>In most cases, you’ll want to simulate the characters typing/reading before they post a message so chatrooms aren’t just a slew of instantly-sent messages. In Mysterious Messenger, there’s a lot of other logic going on in each message, so I use a helper function, <code class="docutils literal notranslate"><span class="pre">addchat</span></code>, to help with the calculations and other work. However, for a simplified version, it can go right into the <code class="docutils literal notranslate"><span class="pre">__call__</span></code> method from before:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ChatCharacter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -351,10 +456,15 @@
 <p>The new lines here are <code class="docutils literal notranslate"><span class="pre">wait_time</span> <span class="pre">=</span> <span class="pre">len(what)/6.0/100.0*60.0</span></code> and <code class="docutils literal notranslate"><span class="pre">renpy.pause(wait_time)</span></code>. The first line calculates a time to wait for before posting a message to the chatlog. The second actually waits for that number of seconds. Note that <code class="docutils literal notranslate"><span class="pre">len(what)</span></code> is the number of characters in the message - so, “Hello!” is 6 characters long, and according to the formula, would take 0.6 seconds to post.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>The actual wait times can be much more involved, and include calculations on more than just the length of the current message. For example, you might consider looking at the current chatlog to see if the last message was posted by a different character, in which case perhaps they take a little extra time to send because they need to read the message first before they start to type. Mysterious Messenger uses a logarithmic curve to calculate how long a message takes to send, with very short messages taking a comparatively longer time than a linear function, and longer messages beginning to take similar amounts of time despite increasing length. Gameplay-wise, this prevents very short messages from feeling like they’re being posted at lightning speed, and very long messages from feeling like they grind the chatroom speed to a halt.</p>
+<p>The actual wait times can be much more involved, and include calculations on more than just the length of the current message. For example, you might consider looking at the current chatlog to see if the last message was posted by a different character, in which case perhaps they take a little extra time to send because they need to read the message first before they start to type.</p>
+<p>Mysterious Messenger uses a logarithmic curve to calculate how long a message takes to send, with very short messages taking a comparatively longer time than a linear function, and longer messages beginning to take similar amounts of time despite increasing length. Gameplay-wise, this prevents very short messages from feeling like they’re being posted at lightning speed, and very long messages from feeling like they grind the chatroom speed to a halt.</p>
 <p>If you’d like to get creative, you might consider both reading and typing times, particularly if you have a way of tracking who is “typing” a message at any given moment.</p>
 </div>
-<p>Now when you run your script, there should be pauses between when each message gets posted to the chatlog. The last crucial piece of the puzzle is getting the viewport to stay at the bottom so it displays each new message. Let’s look at that now:</p>
+</div>
+<div class="section" id="adjusting-the-viewport">
+<h3>Adjusting the Viewport<a class="headerlink" href="#adjusting-the-viewport" title="Permalink to this headline">¶</a></h3>
+<p>Now when you run your script, there should be pauses between when each message gets posted to the chatlog. The last crucial piece of the puzzle is getting the viewport to stay at the bottom so it displays each new message.</p>
+<p>Let’s look at that now:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">messenger_yadjustment</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="na">adjustment</span><span class="p">()</span>
 <span class="k">screen</span> <span class="n">messenger</span><span class="p">():</span>
 
@@ -399,44 +509,64 @@
 <p>First, <code class="docutils literal notranslate"><span class="pre">default</span> <span class="pre">messenger_yadjustment</span> <span class="pre">=</span> <span class="pre">ui.adjustment()</span></code>. This is one of the vanishingly rare cases where a <code class="docutils literal notranslate"><span class="pre">ui.</span></code> method is still relevant in modern Ren’Py (things like <code class="docutils literal notranslate"><span class="pre">ui.timer</span></code>, <code class="docutils literal notranslate"><span class="pre">ui.imagebutton</span></code> etc are vastly outdated and replaced with their screen language counterparts like <code class="docutils literal notranslate"><span class="pre">timer</span></code> and <code class="docutils literal notranslate"><span class="pre">imagebutton</span></code>). It creates a special “adjustment” object, which tracks the scroll value of the viewport it’s associated with as well as its range. It’s set up with <code class="docutils literal notranslate"><span class="pre">default</span></code> because it’s going to change over time as we add to the viewport and as it scrolls down to the bottom, and in general we want to remember where that position is.</p>
 <p>Second, inside the viewport, there’s a new line <code class="docutils literal notranslate"><span class="pre">yadjustment</span> <span class="pre">messenger_yadjustment</span></code>. This assigns the value we made above to the chatroom viewport, so it tracks the scroll value of the chatroom viewport.</p>
 <p>Lastly, inside the ChatCharacter <code class="docutils literal notranslate"><span class="pre">__call__</span></code> method, there’s the line <code class="docutils literal notranslate"><span class="pre">messenger_yadjustment.value</span> <span class="pre">=</span> <span class="pre">float('inf')</span></code>. Note also that <code class="docutils literal notranslate"><span class="pre">messenger_yadjustment</span></code> has been imported via <code class="docutils literal notranslate"><span class="pre">global</span></code> at the top of the method alongside <code class="docutils literal notranslate"><span class="pre">chatlog</span></code>. This line sets the <strong>value</strong> of the adjustment object we made to infinity. The two main values an adjustment object tracks is the viewport <strong>range</strong>, which is the total space that can be scrolled in the viewport, and its current <strong>value</strong>, which is where the viewport is currently scrolled to. For the messenger system, this should always be the maximum possible value so that it stays at the bottom of the viewport to see the new messages. This is the most quick-and-dirty way to get the viewport to stay scrolled to the bottom, but it does have the drawback that every time a new message is posted to the chat (and thus the <code class="docutils literal notranslate"><span class="pre">__call__</span></code> method is executed, setting the viewport adjustment to infinity), it will scroll to the bottom of the screen, including in the case that the player is trying to backread the messages while new messages are being posted. For more elegant solutions that only jump to the bottom of the viewport if the user has scrolled suitably close to the bottom of the viewport, you can compare <code class="docutils literal notranslate"><span class="pre">messenger_yadjustment.value</span></code> with <code class="docutils literal notranslate"><span class="pre">yadjustment.range</span></code> to see if they’re “close enough” to justify setting it to infinity to view a new message at the bottom of the screen.</p>
-</section>
-<section id="next-steps">
-<h3>Next Steps<a class="headerlink" href="#next-steps" title="Permalink to this heading"></a></h3>
+</div>
+<div class="section" id="next-steps">
+<h3>Next Steps<a class="headerlink" href="#next-steps" title="Permalink to this headline">¶</a></h3>
 <p>Now almost all of the pieces are in place. There will be pauses before adding each message to the screen, the viewport will stay scrolled to the bottom, and you have a simple way of writing dialogue for chatrooms. What are some of the next steps?</p>
 <p>First, you will probably want to adjust the styling on the messenger screen so messages have backgrounds of some kind. The easiest way to do this is to put <code class="docutils literal notranslate"><span class="pre">text</span> <span class="pre">msg.what</span></code> inside a <code class="docutils literal notranslate"><span class="pre">frame</span></code> which has an expandable background (generally you define those with <code class="docutils literal notranslate"><span class="pre">Frame</span></code> - note the capital F, it’s different from the screen element <code class="docutils literal notranslate"><span class="pre">frame</span></code>). If you don’t give the frame a set xysize (e.g. <code class="docutils literal notranslate"><span class="pre">xysize</span> <span class="pre">(None,</span> <span class="pre">None)</span></code>) then the frame will only be as large as it needs to be to contain the text. For your typical messenger, you should give the frame an <code class="docutils literal notranslate"><span class="pre">xmaximum</span></code> so the text doesn’t spill over past the edge of the screen, but you should make sure <code class="docutils literal notranslate"><span class="pre">xsize</span></code> and <code class="docutils literal notranslate"><span class="pre">ysize</span></code> are <code class="docutils literal notranslate"><span class="pre">None</span></code>, as mentioned.</p>
-<p>As mentioned earlier, you may also want to adjust the line <code class="docutils literal notranslate"><span class="pre">messenger_yadjustment.value</span> <span class="pre">=</span> <span class="pre">float('inf')</span></code> to take into account the current scroll position so the game is not constantly scrolling to the bottom even when the player has scrolled back to view past messages.</p>
-<p>For long chatrooms, it’s a good idea to restrict how many messages appear on-screen at once to avoid taking up too much memory. You can do this with list splicing. The simplest version looks like <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">msg</span> <span class="pre">in</span> <span class="pre">chatlog[-20:]:</span></code> to only show the 20 most recent messages, for example. Mysterious Messenger uses a variable for this value so the player can adjust it to their liking.</p>
+<p>As mentioned earlier, you may also want to adjust the line <code class="docutils literal notranslate"><span class="pre">messenger_yadjustment.value</span> <span class="pre">=</span> <span class="pre">float('inf')</span></code> to take into account the current scroll position so the game is not constantly scrolling to the bottom even when the player has scrolled back to view past messages. Mysterious Messenger solves this both by checking how close the player is to the bottom of the viewport and also by ensuring new messages don’t remove old ones while the player isn’t at the bottom of the viewport (see below).</p>
+<p>For long chatrooms, it’s a good idea to restrict how many messages appear on-screen at once to avoid taking up too much memory. You can do this with list splicing. The simplest version looks like <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">msg</span> <span class="pre">in</span> <span class="pre">chatlog[-20:]:</span></code> to only show the 20 most recent messages, for example. Mysterious Messenger uses a variable for this value so the player can adjust it to their liking, and so it can prevent new messages from removing old ones while the player isn’t at the bottom of the viewport.</p>
 <p>Finally, you can work on added complexity, like adding CGs, stickers (emojis), special speech bubbles, different fonts, animations, etc. My tip for you is that if you <em>can</em> add something to the ChatCharacter or ChatEntry class, you should generally do so to help with code readability and organization. For example, 90% of the messenger styles are properties of the ChatEntry class, so an entry can just query the specific property it needs to get the right styling for things like left-aligned messages vs right-aligned ones. Similarly, characters “own” their own speech bubble images and heart icon colours.</p>
-</section>
-</section>
-</section>
+</div>
+</div>
+</div>
 
 
            </div>
+           
           </div>
           <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="miscellaneous.html" class="btn btn-neutral float-right" title="Miscellaneous" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="cg-albums.html" class="btn btn-neutral float-left" title="CG Albums" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Shawna P.</p>
-  </div>
+    <p>
+        &#169; Copyright 2022, Shawna P.
 
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
         </div>
       </div>
+
     </section>
+
   </div>
-  <script>
+  
+
+  <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

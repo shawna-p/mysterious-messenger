@@ -21,6 +21,10 @@ Major New Features
 
     * - **Feature**
       - **Description**
+    * - :ref:`Achievements`
+      - An achievement system will allow you to easily grant and display player achievements in an achievement gallery. Sample achievements for Tutorial Day have been added.
+    * - Gallery Zoom Update
+      - The gallery has been updated to allow for multi-touch gestures, such as pinch zoom and swiping between images. Note that while the default gallery definitions are updated to include this, you must modify older declarations to use the special ``GalleryAlbum`` class wrapper to get this functionality. Older code will continue to work, but without touch gestures. See: :ref:`CG Albums` for more.
 
 .. _minor-3-4-0:
 
@@ -34,7 +38,7 @@ Minor New Features
     * - **Feature**
       - **Description**
     * - Chatroom scrolling
-      - You can now scroll backwards in a chatroom without pausing and the game will not attempt to drag you back down towards the recent messages.
+      - You can now scroll backwards in a chatroom without pausing and the game will not attempt to drag you back down towards the recent messages. A banner at the bottom of the screen will let you jump to the recent messages.
     * - Android Back Button
       - The Android back button will now correctly activate the "back" action in the UI when available.
     * - Hearts to Hourglasses
@@ -63,7 +67,17 @@ Fixes
     * - Chat Creator special bubbles
       - Fixed an issue where you could only edit a special speech bubble's style and not set it beforehand.
     * - ``hide_albums``
-      - Fix an issue with ``hide_albums`` not working properly.
+      - Fixed an issue with ``hide_albums`` not working properly.
+    * - Screen optimization
+      - Screens have been better optimized to reduce repeated Python code.
+    * - 8.1 Upgrade
+      - The code has been updated for compatibility with v8.1+ of Ren'Py.
+    * - Phone UI
+      - Phone dialogue has been slightly updated to even out the length of lines using subtitle breaking.
+    * - Dialogue bubble fix
+      - Special bubbles used by a character on the right side of the screen appear properly.
+    * - Sprite layered images
+      - Sprite layered images are set up to not require positioning information (will require redownloading the assets).
 
 
 .. _qol-3-4-0:
@@ -80,6 +94,12 @@ QoL Improvements
     * - Animated Background Performance
       - Improved the performance of the stars in the animated backgrounds for night, early morning, and morning.
 
+.. _incompat-3-4-0:
+
+Incompatible
+--------------------
+
+* The character sprite expressions have been updated to not require positioning properties. You will need to download the latest assets and overwrite any existing VN sprites to avoid odd positioning issues. If you need the old VN assets, you need to restore the layeredimage definitions with the old positioning information.
 
 3.3.0
 =====

@@ -4,7 +4,7 @@
 How does it all work?
 ======================
 
-As Mysterious Messenger is the result of over 4 years of work (the past two of which have included daily updates), it now has a rather hefty amount of code, much of which is tailored to be easy-to-use from the front end. That can mean that it's hard to get your head around how it's doing all the "behind the scenes" stuff. This page is intended to walk you through some of the thought processes behind the various parts of Mysterious Messenger, and show examples of simplified versions of the classes and systems that make up the inner workings of the project.
+As Mysterious Messenger is the result of over 5 years of work (the past three of which have included daily updates), it now has a rather hefty amount of code, much of which is tailored to be easy-to-use from the front end. That can mean that it's hard to get your head around how it's doing all the "behind the scenes" stuff. This page is intended to walk you through some of the thought processes behind the various parts of Mysterious Messenger, and show examples of simplified versions of the classes and systems that make up the inner workings of the project.
 
 .. toctree::
     :caption: Navigation
@@ -57,7 +57,7 @@ That sounds kind of confusing, but let me rephrase. When you call a function in 
     # Now to call the function
     y = my_function(3)
 
-The important part is the ```my_function(3)`` bit. To call the function, you use the function's name (``my_function``) and then a set of parentheses, which may or may not contain arguments that get passed to the function (in this case, ``3`` is passed to the function).
+The important part is the ``my_function(3)`` bit. To call the function, you use the function's name (``my_function``) and then a set of parentheses, which may or may not contain arguments that get passed to the function (in this case, ``3`` is passed to the function).
 
 Importantly, you can use an object in place of the function name, and that will cause the ``__call__`` method to be executed. So if you had the following::
 
@@ -300,12 +300,18 @@ In most cases, you'll want to simulate the characters typing/reading before they
 The new lines here are ``wait_time = len(what)/6.0/100.0*60.0`` and ``renpy.pause(wait_time)``. The first line calculates a time to wait for before posting a message to the chatlog. The second actually waits for that number of seconds. Note that ``len(what)`` is the number of characters in the message - so, "Hello!" is 6 characters long, and according to the formula, would take 0.6 seconds to post.
 
 .. tip::
+    The actual wait times can be much more involved, and include calculations on more than just the length of the current message. For example, you might consider looking at the current chatlog to see if the last message was posted by a different character, in which case perhaps they take a little extra time to send because they need to read the message first before they start to type.
 
-    The actual wait times can be much more involved, and include calculations on more than just the length of the current message. For example, you might consider looking at the current chatlog to see if the last message was posted by a different character, in which case perhaps they take a little extra time to send because they need to read the message first before they start to type. Mysterious Messenger uses a logarithmic curve to calculate how long a message takes to send, with very short messages taking a comparatively longer time than a linear function, and longer messages beginning to take similar amounts of time despite increasing length. Gameplay-wise, this prevents very short messages from feeling like they're being posted at lightning speed, and very long messages from feeling like they grind the chatroom speed to a halt.
+    Mysterious Messenger uses a logarithmic curve to calculate how long a message takes to send, with very short messages taking a comparatively longer time than a linear function, and longer messages beginning to take similar amounts of time despite increasing length. Gameplay-wise, this prevents very short messages from feeling like they're being posted at lightning speed, and very long messages from feeling like they grind the chatroom speed to a halt.
 
     If you'd like to get creative, you might consider both reading and typing times, particularly if you have a way of tracking who is "typing" a message at any given moment.
 
-Now when you run your script, there should be pauses between when each message gets posted to the chatlog. The last crucial piece of the puzzle is getting the viewport to stay at the bottom so it displays each new message. Let's look at that now::
+Adjusting the Viewport
+----------------------
+
+Now when you run your script, there should be pauses between when each message gets posted to the chatlog. The last crucial piece of the puzzle is getting the viewport to stay at the bottom so it displays each new message.
+
+Let's look at that now::
 
     default messenger_yadjustment = ui.adjustment()
     screen messenger():

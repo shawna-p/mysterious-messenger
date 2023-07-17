@@ -23,6 +23,7 @@ Welcome to the Mysterious Messenger Wiki!
     plot-branches
     creating-characters
     cg-albums
+    how-does-it-work
     miscellaneous
 
 

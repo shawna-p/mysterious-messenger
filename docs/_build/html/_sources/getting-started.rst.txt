@@ -259,6 +259,7 @@ Finally, below is an overview of the various features available within Mysteriou
 * Other features
 
     * Unlock CG images for a character's album
+    * Use pinch-zoom and other touch gestures to view CG images in the album
     * Profile picture callbacks to have the characters react to the player's profile picture choices
     * Spaceship thoughts and occasional prizes from the Honey Buddha chip bag
     * Customizable pronouns (she/her, he/him, they/them) and gender (male/female/nonbinary)
@@ -269,6 +270,7 @@ Finally, below is an overview of the various features available within Mysteriou
     * Get input from the player for more detailed information
     * Support for multiple screen sizes
     * Custom splash screen
+    * Custom in-game achievement system
 
 
 
