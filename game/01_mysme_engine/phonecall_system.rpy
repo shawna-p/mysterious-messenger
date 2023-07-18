@@ -263,7 +263,7 @@ init -6 python:
 
     def deliver_calls(lbl, expired=False, call_time=False):
         """
-        Make any phonecalls associated with the current story item available.
+        Make any phone calls associated with the current story item available.
         """
 
         global available_calls, incoming_call, call_history
@@ -324,7 +324,7 @@ init -6 python:
 
         # Do some error checking
         if not isinstance(who, ChatCharacter):
-            ScriptError("The ChatCharacter for the phonecall at \"", lbl,
+            ScriptError("The ChatCharacter for the phone call at \"", lbl,
                 "\" could not be evaluated.",
                 header="Creating Characters",
                 subheader="Adding a New Character to Phone Calls")
@@ -398,7 +398,7 @@ init -6 python:
                 Jump('play_phone_call')]
 
     def MMOutgoingCall(phonecall=None, caller=None):
-        """Return the action for making an outgoing phonecall."""
+        """Return the action for making an outgoing phone call."""
 
         if phonecall:
             i = phonecall.caller
