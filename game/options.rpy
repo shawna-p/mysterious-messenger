@@ -54,6 +54,7 @@ define config.missing_label_callback = handle_missing_label
 define config.conditionswitch_predict_all = False
 
 define config.search_prefixes += [ "images/" ]
+define config.preserve_volume_when_muted = False
 
 # init python:
 #     def label_debug(title, reg_reached):
