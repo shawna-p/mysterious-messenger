@@ -5,7 +5,8 @@
 ###############################################
 image history_button = Frame(
     'Menu Screens/History/main02_button_01.webp',
-    49, 52, 270, 53
+    #49, 52, 270, 53
+    53, 52, 267, 53
 )
 image history_button_hover = 'btn_hover:history_button'
 image history_icon_album = 'Menu Screens/History/history_icon_album.webp'
@@ -67,7 +68,7 @@ style select_history_button:
     background 'history_button'
     hover_background 'history_button_hover'
     padding (40,20,40,30)
-    xysize (318,114)
+    xysize (320, 114)
 
 style select_history_text:
     is default
