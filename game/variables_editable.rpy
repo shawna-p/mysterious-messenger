@@ -1,5 +1,7 @@
 init python:
 
+    ## Note: for cleaner pronoun code, check out my In-Depth Pronouns code:
+    ## https://feniksdev.itch.io/in-depth-pronouns-for-renpy
     def set_pronouns():
         """Set the player's pronouns and pronoun variables."""
 
