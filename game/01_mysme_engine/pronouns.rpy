@@ -2,6 +2,64 @@ init python:
 
     ## Note: for cleaner pronoun code, check out my In-Depth Pronouns code:
     ## https://feniksdev.itch.io/in-depth-pronouns-for-renpy
+
+    class Pronoun():
+        """
+        A helper class for picking the correct pronoun to use. Simplified from
+        In-Depth Pronouns for Ren'Py.
+        """
+        def __init__(self, neutral, feminine=None, masculine=None):
+            """
+            Declare words for each pronoun set.
+            """
+            self.neutral = neutral
+            self.feminine = feminine or neutral
+            self.masculine = masculine or neutral
+
+        def __str__(self):
+            """
+            A string representation of this pronoun or word. Ren'Py fetches this
+            when you interpolate this object in dialogue like "[them]", so it's
+            possible to do logic here to get the right word.
+            """
+
+            if persistent.pronoun == "she/her":
+                return self.feminine
+            elif persistent.pronoun == "he/him":
+                return self.masculine
+            else:
+                return self.neutral
+
+
+    class PronounVerb():
+        """
+        A special class to easily conjugate verbs for pronouns. Simplified
+        from In-Depth Pronouns for Ren'Py on itch.io.
+
+        Attributes:
+        -----------
+        plural : string
+            The plural verb conjugation.
+        singular : string
+            The singular verb conjugation.
+        """
+        def __init__(self, plural, singular):
+            """Create a PronounVerb object."""
+            self.plural = plural
+            self.singular = singular
+
+        def __str__(self):
+            """
+            A string representation of this verb based on the player's
+            current pronouns.
+            """
+            ## Use the plural or singular based on whether this pronoun
+            ## set is plural or singular.
+            if persistent.pronoun == "they/them":
+                return self.plural
+            else:
+                return self.singular
+
     def set_pronouns():
         """Set the player's pronouns and pronoun variables."""
 
