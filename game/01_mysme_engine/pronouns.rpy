@@ -115,11 +115,11 @@ init python:
         and gender. Generally prefers returning the neutral term.
         """
         if persistent.gender == "female" and persistent.pronoun == "she/her":
-            return fem
+            return renpy.substitute(fem)
         elif persistent.gender == "male" and persistent.pronoun == "he/him":
-            return masc
+            return renpy.substitute(masc)
         else:
-            return neutral
+            return renpy.substitute(neutral)
 
     class GenderedTerm(object):
         """
