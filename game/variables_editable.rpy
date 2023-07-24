@@ -31,28 +31,6 @@ init 100 python:
 init offset = -1
 
 ########################################
-## PRONOUN VARIABLES
-########################################
-# Extra variables since the player can choose their pronouns.
-# Feel free to add more so script writing is easier.
-default they = "they"
-default them = "them"
-default their = "their"
-default theirs = "theirs"
-default themself = "themself"
-default they_re = "they're"
-default They_re = "They're"
-default They = "They"
-default Them = "Them"
-default Their = "Their"
-default Theirs = "Theirs"
-default Themself = "Themself"
-default is_are = "are"
-default has_have = "have"
-default do_does = "do"
-default s_verb = ""
-
-########################################
 ## SETUP DEFAULTS
 ########################################
 
