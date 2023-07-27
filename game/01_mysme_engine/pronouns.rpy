@@ -134,6 +134,12 @@ init python:
             return get_term(self.fem, self.masc, self.neutral)
 
 
+########################################
+## PRONOUN VARIABLES
+########################################
+# Extra variables since the player can choose their pronouns.
+# Feel free to add more so script writing is easier.
+
 define they = Pronoun("they", "she", "he")
 define them = Pronoun("them", "her", "him")
 define their = Pronoun("their", "her", "his")
@@ -142,19 +148,19 @@ define themself = Pronoun("themself", "herself", "himself")
 define they_re = Pronoun("they're", "she's", "he's")
 define they_ve = Pronoun("they've", "she's", "he's")
 
+define They = Pronoun("They", "She", "He")
+define Them = Pronoun("Them", "Her", "Him")
+define Their = Pronoun("Their", "Her", "His")
+define Theirs = Pronoun("Theirs", "Hers", "His")
+define Themself = Pronoun("Themself", "Herself", "Himself")
+define They_re = Pronoun("They're", "She's", "He's")
+## Some of these are retained for compatibility
+define is_are = PronounVerb("are", "is")
+define are = PronounVerb("are", "is")
+define has_have = PronounVerb("have", "has")
+define have = PronounVerb("have", "has")
+define do_does = PronounVerb("do", "does")
+define do = PronounVerb("do", "does")
 
-########################################
-## PRONOUN VARIABLES
-########################################
-# Extra variables since the player can choose their pronouns.
-# Feel free to add more so script writing is easier.
-default They_re = "They're"
-default They = "They"
-default Them = "Them"
-default Their = "Their"
-default Theirs = "Theirs"
-default Themself = "Themself"
-default is_are = "are"
-default has_have = "have"
-default do_does = "do"
-default s_verb = ""
+define s_verb = PronounVerb("", "s")
+define es_verb = PronounVerb("", "es")
