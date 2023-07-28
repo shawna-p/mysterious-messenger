@@ -4,6 +4,10 @@
 ## often results in a printout to the console but no averse in-game effects.
 
 init python:
+    def set_pronouns():
+        """Set the player's pronouns and pronoun variables."""
+        ## Retained for compatibility, but no longer needed
+        return
 
     # Renamed to next_story_time
     def next_chat_time():

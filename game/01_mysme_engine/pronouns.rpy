@@ -60,55 +60,6 @@ init python:
             else:
                 return self.singular
 
-    def set_pronouns():
-        """Set the player's pronouns and pronoun variables."""
-
-        global they, them, their, theirs, themself, they_re
-        global They, Them, Their, Theirs, Themself, They_re
-        global is_are, has_have, s_verb, do_does
-        if persistent.pronoun == "she/her":
-            they = "she"
-            them = "her"
-            their = "her"
-            theirs = "hers"
-            themself = "herself"
-            they_re = "she's"
-            is_are = "is"
-            has_have = "has"
-            do_does = "does"
-            s_verb = "s"
-        elif persistent.pronoun == "he/him":
-            they = "he"
-            them = "him"
-            their = "his"
-            theirs = "his"
-            themself = "himself"
-            they_re = "he's"
-            is_are = "is"
-            has_have = "has"
-            do_does = "does"
-            s_verb = "s"
-        elif persistent.pronoun == "they/them":
-            they = "they"
-            them = "them"
-            their = "their"
-            theirs = "theirs"
-            themself = "themself"
-            they_re = "they're"
-            is_are = "are"
-            has_have = "have"
-            do_does = "do"
-            s_verb = ""
-        # Set the capitalized versions
-        They_re = string.capwords(they_re)
-        They = string.capwords(they)
-        Them = string.capwords(them)
-        Their = string.capwords(their)
-        Theirs = string.capwords(theirs)
-        Themself = string.capwords(themself)
-        # Save all variables
-        renpy.retain_after_load()
-
     def get_term(fem, masc, neutral):
         """
         A function which will return a term based on the player's pronouns
