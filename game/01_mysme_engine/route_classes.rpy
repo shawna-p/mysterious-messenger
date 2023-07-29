@@ -1311,7 +1311,6 @@ init python:
         # profile pictures should be the default
         if store._in_replay:
             store.observing = True
-            set_pronouns()
             set_name_pfp()
             for c in store.all_characters:
                 c.reset_pfp()

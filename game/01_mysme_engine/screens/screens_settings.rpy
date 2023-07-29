@@ -284,8 +284,7 @@ screen pic_and_pronouns():
                 xalign 0.5
                 text "Pronouns"
                 button:
-                    action [SetField(persistent, "pronoun", "she/her"),
-                            Function(set_pronouns)]
+                    action [SetField(persistent, "pronoun", "she/her")]
                     has hbox
                     spacing 10
                     # This is a slightly unusual way of doing the radio buttons,
@@ -295,8 +294,7 @@ screen pic_and_pronouns():
                     text 'she/her' style 'pronoun_radio_text'
 
                 button:
-                    action [SetField(persistent, "pronoun", "he/him"),
-                            Function(set_pronouns)]
+                    action [SetField(persistent, "pronoun", "he/him")]
                     has hbox
                     spacing 10
                     add 'he_him_pronoun_radio'
@@ -304,8 +302,7 @@ screen pic_and_pronouns():
 
 
                 button:
-                    action [SetField(persistent, "pronoun", "they/them"),
-                            Function(set_pronouns)]
+                    action [SetField(persistent, "pronoun", "they/them")]
                     has hbox
                     spacing 10
                     add 'they_them_pronoun_radio'

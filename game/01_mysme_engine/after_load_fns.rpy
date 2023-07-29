@@ -579,7 +579,6 @@ init python:
         """Merge albums and set up the player's profile."""
 
         global all_albums
-        set_pronouns()
 
         # This variable keeps track of whether or not the player
         # is making a choice/on a choice menu

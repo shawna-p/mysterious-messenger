@@ -332,7 +332,6 @@ label zen_pfp_callback_unknown1_incoming():
                             # variables, since those don't control game settings.
                             if not observing:
                                 $ persistent.pronoun = "he/him"
-                                $ set_pronouns()
                             z "Okay, I'll use he/him for you then~"
                         "No, she/her is alright to use.":
                             z "Okay! Just let me know if you DO want me to change which pronouns I use for you."
@@ -344,7 +343,6 @@ label zen_pfp_callback_unknown1_incoming():
                         "Yes, I want you to use they/them pronouns, please.":
                             if not observing:
                                 $ persistent.pronoun = "they/them"
-                                $ set_pronouns()
                             z "Okay, I'll use they/them for you then~"
                         "No, she/her is alright to use.":
                             z "Okay! Just let me know if you DO want me to change which pronouns I use for you."

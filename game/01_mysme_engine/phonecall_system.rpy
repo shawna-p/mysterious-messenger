@@ -1088,7 +1088,6 @@ label play_phone_call():
     if _in_replay:
         $ observing = True
         $ set_name_pfp()
-        $ set_pronouns()
     show screen in_call(current_call.caller, isinstance(current_call, StoryCall))
     if not starter_story:
         # Play the phone call

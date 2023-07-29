@@ -1053,7 +1053,6 @@ label guest_info():
 
         # Set up the player's name and profile pic in case it's used
         set_name_pfp()
-        set_pronouns()
 
     $ begin_timeline_item(StoryMode("Guest", "guest_info", "00:00"))
     $ viewing_guest = True
