@@ -1,6 +1,7 @@
 init python:
 
-    ## Note: for cleaner pronoun code, check out my In-Depth Pronouns code:
+    ## Note: for cleaner pronoun code that can be adapted to new projects,
+    ## check out my In-Depth Pronouns code:
     ## https://feniksdev.itch.io/in-depth-pronouns-for-renpy
 
     class Pronoun():
