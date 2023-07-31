@@ -13,15 +13,15 @@ Pronoun Integration
 
 Mysterious Messenger allows the player to change their pronouns and gender whenever they desire during the game. This means that any reference to the player's gender or use of pronouns to refer to the player must be taken care of via variables.
 
-At the top of ``variables_editable.rpy`` you will see a function called ``set_pronouns`` and several existing variables defined under the header **PRONOUN VARIABLES**. These can be used in script::
+In the file ``01_mysme_engine/pronouns.rpy`` you will find several classes and declarations to assist with script writing. At the bottom of the file are declarations for ``they``, ``them``, etc. variables. These can be used in script::
 
     s "Aw, it doesn't look like [name] is logged in. I wonder what [they_re] doing?"
 
 For a player with she/her pronouns, the final part of this dialogue will appear as "I wonder what she's doing?" whereas a player with they/them pronouns will see "I wonder what they're doing?"
 
-It's important to remember that many verbs conjugate differently for "he/she" than for "they", which is why you should use the pronoun variables. Ren'Py's interpolation is very flexible; for example, you can negate the ``do_does`` variable like::
+It's important to remember that many verbs conjugate differently for "he/she" than for "they", which is why you should use the pronoun variables. Ren'Py's interpolation is very flexible; for example, you can negate the ``do`` variable like::
 
-    ju "I think [name] said [they] [do_does]n't know if [they]'ll be free this weekend."
+    ju "I think [name] said [they] [do]n't know if [they]'ll be free this weekend."
 
 For a player with they/them pronouns, this displays as "I think [name] said they don't know if they'll be free this weekend", meanwhile, a player with he/him pronouns will see "I think [name] said he doesn't know if he'll be free this weekend." (Note: ``[name]`` is replaced with the player's name)
 
