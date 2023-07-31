@@ -78,6 +78,8 @@ Fixes
       - Special bubbles used by a character on the right side of the screen appear properly.
     * - Sprite layered images
       - Sprite layered images are set up to not require positioning information (will require redownloading the assets).
+    * - Pronouns update
+      - Pronouns have been updated to use a series of classes rather than individual variables, and as such do not require redeclaring individual variables like ``they``/``them`` every time the pronoun changes.
 
 
 .. _qol-3-4-0:
