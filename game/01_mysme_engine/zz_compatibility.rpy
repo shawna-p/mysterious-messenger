@@ -151,6 +151,11 @@ screen tear(number=10, offtimeMult=1, ontimeMult=1, offsetMin=0,
     if w_timer:
         timer w_timer action Hide('tear')
 
+## Listed for compatibility; renamed to just the plural variable
+define is_are = PronounVerb("are", "is")
+define has_have = PronounVerb("have", "has")
+define do_does = PronounVerb("do", "does")
+
 # Displays notifications instead of heart icons
 # Replaced with persistent.animated_icons
 default persistent.heart_notifications = False

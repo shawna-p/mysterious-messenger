@@ -106,12 +106,8 @@ define Their = Pronoun("Their", "Her", "His")
 define Theirs = Pronoun("Theirs", "Hers", "His")
 define Themself = Pronoun("Themself", "Herself", "Himself")
 define They_re = Pronoun("They're", "She's", "He's")
-## Some of these are retained for compatibility
-define is_are = PronounVerb("are", "is")
 define are = PronounVerb("are", "is")
-define has_have = PronounVerb("have", "has")
 define have = PronounVerb("have", "has")
-define do_does = PronounVerb("do", "does")
 define do = PronounVerb("do", "does")
 
 define s_verb = PronounVerb("", "s")
