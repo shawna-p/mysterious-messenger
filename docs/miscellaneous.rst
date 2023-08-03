@@ -43,6 +43,8 @@ In a file like ``variables_editable.rpy``, add::
 
     define try = PronounVerb("try", "tries")
 
+Note the use of ``define`` here instead of ``default`` - PronounVerb is a special *class* which calculates which term to return when it's used in dialogue **at the moment it's used.** This means you can ``define`` it and update it as needed without disturbing any save files.
+
 And you're done! To use your new variable in dialogue, you can type
 
 ::
