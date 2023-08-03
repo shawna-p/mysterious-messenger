@@ -32,48 +32,26 @@ For a player with they/them pronouns, this displays as "I think [name] said they
 
 
 
-Defining Additional Pronoun Variables
+Defining Additional Pronoun Terms
 -------------------------------------
 
-If you would like to define additional variables to help with scripting dialogue, you must define the variable in ``variables_editable.rpy`` under the **PRONOUN VARIABLES** header and also in the ``set_pronouns`` function.
+If you would like to define additional terms to help with scripting dialogue, you must declare it somewhere like ``variables_editable.rpy``. Existing examples can be found in ``01_mysme_engine/pronouns.rpy``
 
-For this example, a variable called ``go_goes`` will be defined for the three main pronoun options.
+For this example, a variable called ``try`` will be declared.
 
-First, in ``variables_editable.rpy`` under the **PRONOUN VARIABLES** header, add
+In a file like ``variables_editable.rpy``, add::
 
-::
-
-    default go_goes = "go"
-
-Then in the ``set_pronouns()`` function under all the ``global`` declarations, add
-
-::
-
-    global go_goes
-
-at the top of the function.
-
-Next, under both ``if persistent.pronoun == "she/her"`` and ``elif persistent.pronoun == "he/him"`` add the line
-
-::
-
-    go_goes = "goes"
-
-and under ``elif persistent.pronoun == "they/them"`` add
-
-::
-
-    go_goes = "go"
+    define try = PronounVerb("try", "tries")
 
 And you're done! To use your new variable in dialogue, you can type
 
 ::
 
-    y "Yeah, [they] said [they] usually [go_goes] out on Fridays."
+    y "Yeah, [they] said [they] usually [try] to go once a week."
 
-If the player has they/them pronouns, in-game this displays as "Yeah, they said they usually go out on Fridays", but a player with she/her pronouns will see "Yeah, she said she usually goes out on Fridays.".
+If the player has they/them pronouns, in-game this displays as "Yeah, they said they usually try to go once a week", but a player with she/her pronouns will see "Yeah, she said she usually tries to go once a week.".
 
-Variables are capitalization-sensitive; if you need a capitalized version of a variable you can either create another variable (see ``They`` vs ``they`` for an example of this), or you can write the variable with ``[is_are!cl]`` to get the first letter capitalized (so, "Is" or "Are") or ``[is_are!u]`` to get the whole word in capitals (so "IS" or "ARE"). See https://www.renpy.org/doc/html/text.html#interpolating-data for more information on interpolation flags.
+Variables are capitalization-sensitive; if you need a capitalized version of a variable you can either create another variable (see ``They`` vs ``they`` for an example of this), or you can write the variable with ``[they!c]`` to get the first letter capitalized (so, "They", "She", or "He") or ``[they!u]`` to get the whole word in capitals (so "THEY", "SHE", or "HE"). See https://www.renpy.org/doc/html/text.html#interpolating-data for more information on interpolation flags.
 
 There is no limit to how many pronoun variables you can make, so feel free to create as many as you need to write your script more easily while supporting the different pronoun options.
 
