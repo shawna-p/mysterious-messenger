@@ -37,7 +37,7 @@ Defining Additional Pronoun Terms
 
 If you would like to define additional terms to help with scripting dialogue, you must declare it somewhere like ``variables_editable.rpy``. Existing examples can be found in ``01_mysme_engine/pronouns.rpy``
 
-For this example, a variable called ``try`` will be declared.
+For this example, a PronounVerb called ``try`` will be declared.
 
 In a file like ``variables_editable.rpy``, add::
 
@@ -45,7 +45,7 @@ In a file like ``variables_editable.rpy``, add::
 
 Note the use of ``define`` here instead of ``default`` - PronounVerb is a special *class* which calculates which term to return when it's used in dialogue **at the moment it's used.** This means you can ``define`` it and update it as needed without disturbing any save files.
 
-And you're done! To use your new variable in dialogue, you can type
+And you're done! To use your new verb in dialogue, you can type
 
 ::
 
