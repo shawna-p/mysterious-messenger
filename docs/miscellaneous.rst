@@ -13,6 +13,9 @@ Pronoun Integration
 
 Mysterious Messenger allows the player to change their pronouns and gender whenever they desire during the game. This means that any reference to the player's gender or use of pronouns to refer to the player must be taken care of via variables.
 
+.. note::
+    This system is a pared-down version of what I have on offer in my In-Depth Pronouns for Ren'Py, which you can find on itch.io: <https://feniksdev.itch.io/in-depth-pronouns-for-renpy>
+
 In the file ``01_mysme_engine/pronouns.rpy`` you will find several classes and declarations to assist with script writing. At the bottom of the file are declarations for ``they``, ``them``, etc. variables. These can be used in script::
 
     s "Aw, it doesn't look like [name] is logged in. I wonder what [they_re] doing?"
