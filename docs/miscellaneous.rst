@@ -53,9 +53,9 @@ And you're done! To use your new verb in dialogue, you can type
 
 If the player has they/them pronouns, in-game this displays as "Yeah, they said they usually try to go once a week", but a player with she/her pronouns will see "Yeah, she said she usually tries to go once a week.".
 
-Variables are capitalization-sensitive; if you need a capitalized version of a variable you can either create another variable (see ``They`` vs ``they`` for an example of this), or you can write the variable with ``[they!c]`` to get the first letter capitalized (so, "They", "She", or "He") or ``[they!u]`` to get the whole word in capitals (so "THEY", "SHE", or "HE"). See https://www.renpy.org/doc/html/text.html#interpolating-data for more information on interpolation flags.
+These kinds of terms are capitalization-sensitive; if you need a capitalized version of a term you can either create another term (see ``They`` vs ``they`` for an example of this), or you can write the term with ``[they!c]`` to get the first letter capitalized (so, "They", "She", or "He") or ``[they!u]`` to get the whole word in capitals (so "THEY", "SHE", or "HE"). See https://www.renpy.org/doc/html/text.html#interpolating-data for more information on interpolation flags.
 
-There is no limit to how many pronoun variables you can make, so feel free to create as many as you need to write your script more easily while supporting the different pronoun options.
+There is no limit to how many pronoun terms you can make, so feel free to create as many as you need to write your script more easily while supporting the different pronoun options.
 
 
 
