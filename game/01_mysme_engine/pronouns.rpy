@@ -100,15 +100,17 @@ define themself = Pronoun("themself", "herself", "himself")
 define they_re = Pronoun("they're", "she's", "he's")
 define they_ve = Pronoun("they've", "she's", "he's")
 
+## Optional; capitalized versions of the pronouns. You can also just do
+## "[they!c]" to capitalize it.
 define They = Pronoun("They", "She", "He")
 define Them = Pronoun("Them", "Her", "Him")
 define Their = Pronoun("Their", "Her", "His")
 define Theirs = Pronoun("Theirs", "Hers", "His")
 define Themself = Pronoun("Themself", "Herself", "Himself")
 define They_re = Pronoun("They're", "She's", "He's")
+
 define are = PronounVerb("are", "is")
 define have = PronounVerb("have", "has")
 define do = PronounVerb("do", "does")
-
 define s_verb = PronounVerb("", "s")
 define es_verb = PronounVerb("", "es")
