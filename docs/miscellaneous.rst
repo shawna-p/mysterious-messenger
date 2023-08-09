@@ -13,6 +13,9 @@ Pronoun Integration
 
 Mysterious Messenger allows the player to change their pronouns and gender whenever they desire during the game. This means that any reference to the player's gender or use of pronouns to refer to the player must be taken care of via variables.
 
+.. note::
+    This system is a pared-down version of what I have on offer in my In-Depth Pronouns for Ren'Py, which you can find on itch.io: <https://feniksdev.itch.io/in-depth-pronouns-for-renpy>
+
 In the file ``01_mysme_engine/pronouns.rpy`` you will find several classes and declarations to assist with script writing. At the bottom of the file are declarations for ``they``, ``them``, etc. variables. These can be used in script::
 
     s "Aw, it doesn't look like [name] is logged in. I wonder what [they_re] doing?"
@@ -53,9 +56,9 @@ And you're done! To use your new verb in dialogue, you can type
 
 If the player has they/them pronouns, in-game this displays as "Yeah, they said they usually try to go once a week", but a player with she/her pronouns will see "Yeah, she said she usually tries to go once a week.".
 
-Variables are capitalization-sensitive; if you need a capitalized version of a variable you can either create another variable (see ``They`` vs ``they`` for an example of this), or you can write the variable with ``[they!c]`` to get the first letter capitalized (so, "They", "She", or "He") or ``[they!u]`` to get the whole word in capitals (so "THEY", "SHE", or "HE"). See https://www.renpy.org/doc/html/text.html#interpolating-data for more information on interpolation flags.
+These kinds of terms are capitalization-sensitive; if you need a capitalized version of a term you can either create another term (see ``They`` vs ``they`` for an example of this), or you can write the term with ``[they!c]`` to get the first letter capitalized (so, "They", "She", or "He") or ``[they!u]`` to get the whole word in capitals (so "THEY", "SHE", or "HE"). See https://www.renpy.org/doc/html/text.html#interpolating-data for more information on interpolation flags.
 
-There is no limit to how many pronoun variables you can make, so feel free to create as many as you need to write your script more easily while supporting the different pronoun options.
+There is no limit to how many pronoun terms you can make, so feel free to create as many as you need to write your script more easily while supporting the different pronoun options.
 
 
 
