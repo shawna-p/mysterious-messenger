@@ -102,6 +102,7 @@ Incompatible
 --------------------
 
 * The character sprite expressions have been updated to not require positioning properties. You will need to download the latest assets and overwrite any existing VN sprites to avoid odd positioning issues. If you need the old VN assets, you need to restore the layeredimage definitions with the old positioning information.
+* While not incompatible, as they are still included in the engine, the pronoun verbs ``is_are``, ``has_have``, and ``do_does`` have been retired in favour of their simpler counterparts (``are``, ``have``, and ``do``, such that lines can be more readable with ``[they] [are] coming.`` rather than ``[they] [is_are] coming.``). Your script will not require updating, but I suggest you use the new versions going forwards.
 
 3.3.0
 =====
