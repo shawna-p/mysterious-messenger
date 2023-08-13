@@ -608,16 +608,6 @@ init python:
             else:
                 chara.right_msgr = False
 
-        # store.persistent.unlocked_prof_pics = list(dict.fromkeys(store.persistent.unlocked_prof_pics))
-        # to_remove = []
-        # for item in store.persistent.unlocked_prof_pics:
-        #     if 'Image' in item:
-        #         to_remove.append(item)
-        #     if 'Drop ' in item:
-        #         to_remove.append(item)
-        # for item in to_remove:
-        #     if item in store.persistent.unlocked_prof_pics:
-        #         store.persistent.unlocked_prof_pics.remove(item)
         renpy.retain_after_load()
         return
 
