@@ -75,7 +75,7 @@ Fixes
     * - Phone UI
       - Phone dialogue has been slightly updated to even out the length of lines using subtitle breaking.
     * - Dialogue bubble fix
-      - Special bubbles used by a character on the right side of the screen appear properly.
+      - Special bubbles used by a character on the right side of the chat appear properly.
     * - Sprite layered images
       - Sprite layered images are set up to not require positioning information (will require redownloading the assets).
     * - :ref:`Pronouns update<Pronoun Integration>`
