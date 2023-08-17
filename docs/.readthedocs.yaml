@@ -12,6 +12,9 @@ sphinx:
 #mkdocs:
 #  configuration: mkdocs.yml
 
+formats:
+  - pdf
+
 # Optionally build your docs in additional formats such as PDF
 #formats:
 #  - pdf
