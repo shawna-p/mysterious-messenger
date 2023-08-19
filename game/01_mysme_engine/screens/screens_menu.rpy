@@ -886,6 +886,7 @@ init python:
             super(AutoSave, self).__call__()
             renpy.retain_after_load()
 
+## Helps save information to the save file, like the day and save icon
 define config.save_json_callbacks = [ save_game_info ]
 
 
