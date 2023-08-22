@@ -213,11 +213,6 @@ init python:
     config.font_replacement_map[gui.sans_serif_2, True, False] = (gui.sans_serif_2xb, False, False)
     config.font_replacement_map[gui.sans_serif_2, True, True] = (gui.sans_serif_2xb, False, True)
 
-## Main and Game Menus #########################################################
-
-## The images used for the main and game menus.
-define gui.main_menu_background = "#000"
-define gui.game_menu_background = "#000"
 
 
 ## Dialogue ####################################################################
