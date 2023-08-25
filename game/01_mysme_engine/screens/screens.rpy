@@ -166,7 +166,7 @@ screen say(who, what):
                 imagebutton:
                     idle Text("Log", style="vn_button")
                     hover Text("Log", style="vn_button_hover")
-                    action Show('history')#ShowMenu('history')
+                    action Show('history')
 
 
     else:
