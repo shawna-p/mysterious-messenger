@@ -1140,7 +1140,6 @@ init -5 python:
                 trans = ' '.join(trans)
                 trans = renpy.get_registered_image(trans)
 
-
             if isinstance(trans, renpy.display.im.Image):
                 str_img = trans.filename
             elif isinstance(trans, renpy.display.imagelike.Solid):
@@ -1162,7 +1161,6 @@ init -5 python:
                 elif crop is not None and (no_ext + '.jpg',
                         crop, crop_rel) in set:
                     return
-
 
             if str_img is not None and crop is not None:
                 set.add((str_img, crop, crop_rel))
