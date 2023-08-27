@@ -80,12 +80,6 @@ style vslider:
     thumb "gui/slider/vertical_[prefix_]thumb.png"
 
 
-style frame:
-    padding gui.frame_borders.padding
-    background "#000"
-
-
-
 ################################################################################
 ## In-game screens
 ################################################################################
