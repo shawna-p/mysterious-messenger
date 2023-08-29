@@ -98,9 +98,6 @@ style vslider:
 ##
 ## https://www.renpy.org/doc/html/screen_special.html#say
 
-transform NullTransform:
-    pass
-
 screen say(who, what):
 
     # In Story Mode
