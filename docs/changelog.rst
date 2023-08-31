@@ -43,7 +43,7 @@ Minor New Features
       - The Android back button will now correctly activate the "back" action in the UI when available.
     * - Hearts to Hourglasses
       - You can exchange 100 hearts for 1 hourglass by clicking the "+" next to hourglasses in the header.
-    * - Gendered Term Improvement
+    * - :ref:`Gendered Term Improvement<Pronoun Integration>`
       - The GenderedTerm class lets you set up gendered terms once and have them update automatically based on the player's pronouns and gender, improving ``get_term`` introduced in 3.3.0.
     * - Hourglass confirmation screen
       - New ``hourglass_spend_confirmation`` screen will display the number of hourglasses to be used for things like bonus profile pictures. You can use the new :ref:`SpendHourglass<Spending Hourglasses>` action to easily display it.
@@ -75,7 +75,7 @@ Fixes
     * - Phone UI
       - Phone dialogue has been slightly updated to even out the length of lines using subtitle breaking.
     * - Dialogue bubble fix
-      - Special bubbles used by a character on the right side of the screen appear properly.
+      - Special bubbles used by a character on the right side of the chat appear properly.
     * - Sprite layered images
       - Sprite layered images are set up to not require positioning information (will require redownloading the assets).
     * - :ref:`Pronouns update<Pronoun Integration>`

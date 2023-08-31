@@ -189,8 +189,6 @@ style text_num:
     yalign 0.5
     font gui.sans_serif_1b
 
-
-
 # Default frame style
 style frame is default:
     background None

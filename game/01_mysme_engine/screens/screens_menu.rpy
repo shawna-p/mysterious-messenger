@@ -886,6 +886,7 @@ init python:
             super(AutoSave, self).__call__()
             renpy.retain_after_load()
 
+## Helps save information to the save file, like the day and save icon
 define config.save_json_callbacks = [ save_game_info ]
 
 
@@ -994,7 +995,6 @@ screen menu_header(title, return_action=NullAction,
             and not main_menu
             and not starter_story
             and num_undelivered()):
-        #timer 0.5 action If(not randint(0,3), Function(deliver_next), []) repeat True
         timer 1.5 action Function(deliver_next, randomize=True) repeat True
 
     hbox:
@@ -1016,11 +1016,6 @@ screen menu_header(title, return_action=NullAction,
                         idle "header_plus"
                         hover "header_plus_hover"
                         action Show('hearts_to_hg')
-                        # action CConfirm(("There are no in-game "
-                        #     + "purchases in this application. However, if "
-                        #     + "you'd like to support its development, you can "),
-                        #     #+ "{a=https://ko-fi.com/fen}check out my Ko-Fi here.{/a}",
-                        #     show_link=True)
                     frame:
                         has hbox
                         xalign 1.0

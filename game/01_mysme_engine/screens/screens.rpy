@@ -17,8 +17,7 @@ style input:
     adjust_spacing False
 
 style hyperlink_text:
-    #properties gui.text_properties("hyperlink", accent=True)
-    color "#00b08d"#"#2451c1"
+    color "#00b08d"
     hover_underline True
 
 style gui_text:
@@ -69,7 +68,6 @@ style vscrollbar:
 
 style slider:
     ysize gui.slider_size
-    #base_bar Frame("gui/slider/horizontal_[prefix_]bar.png", gui.slider_borders, tile=gui.slider_tile)
     thumb "gui/slider/horizontal_[prefix_]thumb.png"
     left_gutter 10
     right_gutter 10
@@ -80,12 +78,6 @@ style vslider:
     xsize gui.slider_size
     base_bar Frame("gui/slider/vertical_[prefix_]bar.png", gui.vslider_borders, tile=gui.slider_tile)
     thumb "gui/slider/vertical_[prefix_]thumb.png"
-
-
-style frame:
-    padding gui.frame_borders.padding
-    background "#000"
-
 
 
 ################################################################################
@@ -105,9 +97,6 @@ style frame:
 ## and id "window" to apply style properties.
 ##
 ## https://www.renpy.org/doc/html/screen_special.html#say
-
-transform NullTransform:
-    pass
 
 screen say(who, what):
 
@@ -168,7 +157,7 @@ screen say(who, what):
                 imagebutton:
                     idle Text("Log", style="vn_button")
                     hover Text("Log", style="vn_button_hover")
-                    action Show('history')#ShowMenu('history')
+                    action Show('history')
 
 
     else:

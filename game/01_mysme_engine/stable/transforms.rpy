@@ -278,7 +278,6 @@ transform heart:
     linear 0.6 xalign .4 yalign .6 clockwise circles 0 alpha 1
     linear 0.02 alpha 0 xalign .35 yalign .55
 
-
 ## The heartbreak icon
 transform heartbreak(wait_time):
     alpha 0.0
@@ -294,7 +293,6 @@ transform shake:
     linear 0.14 xoffset -80 yoffset -60
     linear 0.14 xoffset 80 yoffset 60
     easein_back 0.16 xoffset 0 yoffset 0
-
 
 ## Used for the hacker screen effect
 transform flicker:
@@ -379,8 +377,6 @@ transform tutorial_anim(extra_y=0, slide_down=50):
     alpha 1.0
     on hide:
         ease 0.5 alpha 0.0 yoffset slide_down+extra_y
-
-
 
 # A displayable prefix which scales VN background images for
 # varying screen sizes.

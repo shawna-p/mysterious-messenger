@@ -263,6 +263,7 @@ Finally, below is an overview of the various features available within Mysteriou
     * Profile picture callbacks to have the characters react to the player's profile picture choices
     * Spaceship thoughts and occasional prizes from the Honey Buddha chip bag
     * Customizable pronouns (she/her, he/him, they/them) and gender (male/female/nonbinary)
+        * This also affects custom terms used for the player (e.g. boyfriend/girlfriend/partner)
     * Select a chatroom username separate from your regular name
     * Custom ringtones
     * Character greetings on the main menu

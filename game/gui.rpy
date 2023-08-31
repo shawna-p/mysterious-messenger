@@ -202,16 +202,17 @@ define gui.blocky_font = gui.preference('blocky_font', "fonts/BM-HANNA (Bold Fon
 define gui.curlicue_font = gui.preference('curlicue_font', "fonts/NanumBarunpenR.ttf")
 
 init python:
+    ## Ensures that when bold is used for the fonts, it uses the bolded font
+    ## rather than artificially applying weight.
     config.font_replacement_map[gui.serif_1, True, False] = (gui.serif_1xb, False, False)
+    config.font_replacement_map[gui.serif_1, True, True] = (gui.serif_1xb, False, True)
     config.font_replacement_map[gui.serif_2, True, False] = (gui.serif_2xb, False, False)
+    config.font_replacement_map[gui.serif_2, True, True] = (gui.serif_2xb, False, True)
     config.font_replacement_map[gui.sans_serif_1, True, False] = (gui.sans_serif_1xb, False, False)
+    config.font_replacement_map[gui.sans_serif_1, True, True] = (gui.sans_serif_1xb, False, True)
     config.font_replacement_map[gui.sans_serif_2, True, False] = (gui.sans_serif_2xb, False, False)
+    config.font_replacement_map[gui.sans_serif_2, True, True] = (gui.sans_serif_2xb, False, True)
 
-## Main and Game Menus #########################################################
-
-## The images used for the main and game menus.
-define gui.main_menu_background = "#000"
-define gui.game_menu_background = "#000"
 
 
 ## Dialogue ####################################################################
@@ -305,7 +306,7 @@ define gui.button_text_xalign = 0.0
 
 define gui.radio_button_borders = Borders(40, 4, 4, 4)
 
-define gui.check_button_borders = Borders(50,4,4,4)#(16, 4, 4, 4)
+define gui.check_button_borders = Borders(50,4,4,4)
 
 define gui.confirm_button_text_xalign = 0.5
 
