@@ -612,12 +612,12 @@ init python:
         return
 
 
-    ########################################################
-    ## This directs the player back to the chat hub after
-    ## loading. It also advances the game day if real-time
-    ## mode is active
-    ########################################################
     def advance_day():
+        """
+        This directs the player back to the chat hub after
+        loading. It also advances the game day if real-time
+        mode is active
+        """
         global persistent
         if store.in_chat_creator:
             # Don't update variables as is usually done
@@ -713,9 +713,7 @@ init python:
                 message=popup_msg)
         return
 
-init offset = 2
-define updated_music_dict = music_dictionary
-init offset = 0
+define 2 updated_music_dict = music_dictionary
 
 label after_load():
     if in_chat_creator:
