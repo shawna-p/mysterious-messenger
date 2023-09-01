@@ -564,9 +564,7 @@ define show_empty_menus = True
 # This tells the program whether or not it should use the "old" method of
 # defining guests, where the user must manually declare reply labels. It is
 # automatically set to True for old save files before v3.0 and False otherwise.
-init offset = -1
-default use_2_2_guest = False
-init offset = 0
+default -1 use_2_2_guest = False
 # This changes single newlines to become a space for emails, so you can split
 # them up for readability. Switch this to False if you want single newlines
 # to be preserved as-is.
