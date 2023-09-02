@@ -56,13 +56,6 @@ define config.conditionswitch_predict_all = False
 define config.search_prefixes += [ "images/" ]
 define config.preserve_volume_when_muted = False
 
-# init python:
-#     def label_debug(title, reg_reached):
-#         print_file("Got to label", title)
-#         return
-
-# define config.label_callback = label_debug
-
 
 ## Sounds and music ############################################################
 
