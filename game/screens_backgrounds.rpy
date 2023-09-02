@@ -153,21 +153,15 @@ screen animated_morning():
         add star_sprites
 
     # Clouds
-    # add 'gentle_snow_back' at colorize_snow_morning()
     add 'animated_morning_clouds_back' at move_clouds(300, 250, 1692)
     add 'animated_morning_clouds_mid' at move_clouds(220, 230, 1692)
     add 'animated_morning_clouds_front' at move_clouds(150, 210, 1692)
-    # add 'gentle_snow_front' at colorize_snow_morning()
 
     # A gradient overlay to ease the transition from night into morning
     add 'Phone UI/animated_bgs/morning/morning_darken.webp':
         at reverse_topbottom_pan(180, 160, 30, 0.8, 0, 0.0, 0.0)
 
     use animated_shake_borders()
-
-transform colorize_snow_morning():
-    alpha 0.45
-    linear 80 alpha 1.0
 
 ###########################################################
 ## Noon background
