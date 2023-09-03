@@ -260,7 +260,6 @@ screen animated_evening():
     use animated_shake_borders()
 
 
-define config.gl2 = True
 transform colorize_snow_evening():
     matrixcolor TintMatrix("#fff")
     linear 60 matrixcolor TintMatrix("#fce9cc")
