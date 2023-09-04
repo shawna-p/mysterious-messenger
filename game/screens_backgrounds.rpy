@@ -49,6 +49,12 @@ transform move_clouds(t=150, ytime=1, ysize=0):
             linear t xanchor 0.5 xpos 1.0
             repeat
 
+transform multiple_pan(timing=30, width=config.screen_width, ytime=1, ysize=0,
+        child=None):
+    At(HBox(*[child for x in range(
+        int(((float(config.screen_width)*-1) // float(width))*-2)
+    )]), move_clouds(timing, ytime, ysize))
+
 init python:
 
     class StarSprite():
