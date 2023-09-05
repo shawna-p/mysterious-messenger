@@ -685,20 +685,26 @@ python early:
         @property
         def cover_pic(self):
             """Return this character's cover photo."""
-
-            return self.__cover_pic
+            try:
+                return self._cover_pic
+            except AttributeError:
+                pass
+            try:
+                return self.__cover_pic
+            except AttributeError:
+                return self._cover_pic
 
         @cover_pic.setter
         def cover_pic(self, new_img):
             """Set this character's cover photo, if given an image."""
 
-            if not self.in_init and self.__cover_pic == new_img:
+            if not self.in_init and self.cover_pic == new_img:
                 # No change
                 return
             if not new_img:
-                self.__cover_pic = False
+                self._cover_pic = False
             elif isImg(new_img):
-                self.__cover_pic = new_img
+                self._cover_pic = new_img
                 self.seen_updates = False
 
         @property
