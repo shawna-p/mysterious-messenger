@@ -165,32 +165,32 @@ python early:
             self.name = name
             self.file_id = file_id
             self.big_prof_pic = prof_pic
-            self.__prof_pic = False
+            self._prof_pic = False
             self.prof_pic = prof_pic
-            if self.__prof_pic == False and self.file_id and self.file_id != 'delete':
+            if self._prof_pic == False and self.file_id and self.file_id != 'delete':
                 print("WARNING: Couldn't set profile picture to", prof_pic)
             self.default_prof_pic = prof_pic
             if not homepage_pic:
                 self.homepage_pic = prof_pic
             else:
                 self.homepage_pic = homepage_pic
-            self.__seen_updates = False
-            self.__bonus_pfp = None
+            self._seen_updates = False
+            self._bonus_pfp = None
 
             self.participant_pic = participant_pic
             self.cover_pic = cover_pic
             self.status = status
             if voicemail:
-                self.__voicemail = PhoneCall(self, voicemail, 'voicemail',
+                self._voicemail = PhoneCall(self, voicemail, 'voicemail',
                                             2, True)
             else:
-                self.__voicemail = PhoneCall(self,
+                self._voicemail = PhoneCall(self,
                                     'voicemail_1', 'voicemail', 2, True)
 
             # All heart points start at 0
-            self.__heart_points = 0
-            self.__good_heart = 0
-            self.__bad_heart = 0
+            self._heart_points = 0
+            self._good_heart = 0
+            self._bad_heart = 0
             self.heart_color = heart_color
             self.glow_color = glow_color
             self.bubble_color = bubble_color
@@ -234,6 +234,22 @@ python early:
             except AttributeError:
                 # Generally expected for a character like name_only
                 return
+
+        def private_to_public(self):
+            """
+            Convert private variables to public ones.
+            """
+            try:
+                self._prof_pic = self.__prof_pic
+                self._seen_updates = self.__seen_updates
+                self._voicemail = self.__voicemail
+                self._heart_points = self.__heart_points
+                self._bonus_pfp = self.__bonus_pfp
+                self._good_heart = self.__good_heart
+                self._bad_heart = self.__bad_heart
+                self._cover_pic = self.__cover_pic
+                self._status = self.__status
+                self._name = self.__name
 
         @property
         def vn_name(self):
@@ -334,12 +350,12 @@ python early:
         @property
         def voicemail(self):
             """Return this character's voicemail PhoneCall object."""
-            return self.__voicemail
+            return self._voicemail
 
         @voicemail.setter
         def voicemail(self, new_label):
             """Update this character's voicemail label."""
-            self.__voicemail.phone_label = new_label
+            self._voicemail.phone_label = new_label
 
         def finished_text(self):
             """
@@ -359,7 +375,7 @@ python early:
                 print("ERROR: Couldn't sync Saeran and Ray's heart points")
 
             try:
-                return self.__heart_points
+                return self._heart_points
             except:
                 return self.__dict__['heart_points']
 
@@ -374,7 +390,7 @@ python early:
             except:
                 print("ERROR: Couldn't sync Saeran and Ray's heart points")
 
-            self.__heart_points = points
+            self._heart_points = points
 
         @property
         def good_heart(self):
@@ -387,7 +403,7 @@ python early:
                 print("ERROR: Couldn't sync Saeran and Ray's heart points")
 
             try:
-                return self.__good_heart
+                return self._good_heart
             except:
                 return self.__dict__['good_heart']
 
@@ -402,7 +418,7 @@ python early:
             except:
                 print("ERROR: Couldn't sync Saeran and Ray's heart points")
 
-            self.__good_heart = points
+            self._good_heart = points
 
         @property
         def bad_heart(self):
@@ -414,7 +430,7 @@ python early:
             except:
                 print("ERROR: Couldn't sync Saeran and Ray's heart points")
             try:
-                return self.__bad_heart
+                return self._bad_heart
             except:
                 return self.__dict__['bad_heart']
 
@@ -427,7 +443,7 @@ python early:
                     return
             except:
                 print("ERROR: Couldn't sync Saeran and Ray's heart points")
-            self.__bad_heart = points
+            self._bad_heart = points
 
         def increase_heart(self, bad=False, amount=1):
             """
@@ -487,7 +503,7 @@ python early:
             """Return this character's bonus profile picture."""
 
             try:
-                return self.__bonus_pfp
+                return self._bonus_pfp
             except:
                 return False
 
@@ -496,7 +512,7 @@ python early:
             """Set the bonus profile picture for this character."""
 
             try:
-                self.__bonus_pfp = new_img
+                self._bonus_pfp = new_img
             except:
                 return
 
@@ -505,7 +521,7 @@ python early:
             """Return this character's profile picture."""
 
             try:
-                return self.__prof_pic
+                return self._prof_pic
             except:
                 pass
             try:
@@ -525,7 +541,7 @@ python early:
             if available.
             """
 
-            if self.__prof_pic == new_img:
+            if self._prof_pic == new_img:
                 # Don't bother
                 return
 
@@ -537,7 +553,7 @@ python early:
                 return
 
             if new_img == False:
-                self.__prof_pic = False
+                self._prof_pic = False
                 return
             # Check if it's a Transform; if so, can't perform string logic.
             is_transform = False
@@ -547,10 +563,10 @@ python early:
                     raise
                 split_img = new_img.split('.')
                 if isImg(new_img):
-                    self.__prof_pic = new_img
+                    self._prof_pic = new_img
                     self.seen_updates = False
                 elif isImg(new_img.split('.')[0] + '.webp'):
-                    self.__prof_pic = new_img.split('.')[0] + '.webp'
+                    self._prof_pic = new_img.split('.')[0] + '.webp'
                 else:
                     # Couldn't figure out this image! It has to be a string
                     # if the program got to this point.
@@ -564,20 +580,20 @@ python early:
                     raise
             except:
                 is_transform = True
-                self.seen_updates = self.__prof_pic == new_img
-                self.__prof_pic = new_img
+                self.seen_updates = self._prof_pic == new_img
+                self._prof_pic = new_img
 
 
             if self.file_id == 'm': # This is the MC
-                #self.__prof_pic = store.persistent.MC_pic
-                store.persistent.MC_pic = self.__prof_pic
+                #self._prof_pic = store.persistent.MC_pic
+                store.persistent.MC_pic = self._prof_pic
 
-            self.__big_prof_pic = self.__prof_pic
-            if self.__prof_pic and not is_transform:
-                big_name = self.__prof_pic.split('.')
+            self._big_prof_pic = self._prof_pic
+            if self._prof_pic and not is_transform:
+                big_name = self._prof_pic.split('.')
                 large_pfp = big_name[0] + '-b.' + big_name[1]
                 if renpy.loadable(large_pfp):
-                    self.__big_prof_pic = large_pfp
+                    self._big_prof_pic = large_pfp
                 elif renpy.loadable(big_name[0] + '-b.webp'):
                     self.big_prof_pic = big_name[0] + '-b.webp'
 
@@ -600,9 +616,9 @@ python early:
                 pass
             if in_chat_creator:
                 return
-            if not self.__prof_pic in store.persistent.unlocked_prof_pics:
+            if not self._prof_pic in store.persistent.unlocked_prof_pics:
                 add_img_to_set(store.persistent.unlocked_prof_pics,
-                        self.__prof_pic)
+                        self._prof_pic)
 
         def get_pfp(self, the_size):
             """
@@ -613,7 +629,7 @@ python early:
             max_small = 110 * 1.2
             # If this character has a bonus_pfp, it gets priority
             try:
-                the_pic = self.__bonus_pfp
+                the_pic = self._bonus_pfp
             except AttributeError:
                 the_pic = False
             if self.prof_pic == "cannot_find_img":
@@ -671,7 +687,7 @@ python early:
                 return Transform(self.prof_pic,
                                 size=(the_size, the_size))
             else:
-                return Transform(self.__big_prof_pic,
+                return Transform(self._big_prof_pic,
                                 size=(the_size, the_size))
 
         def reset_pfp(self):
@@ -690,7 +706,7 @@ python early:
             except AttributeError:
                 pass
             try:
-                return self.__cover_pic
+                return self._cover_pic
             except AttributeError:
                 return self._cover_pic
 
@@ -711,7 +727,7 @@ python early:
         def status(self):
             """Set this character's status update."""
 
-            return self.__status
+            return self._status
 
         @status.setter
         def status(self, new_status):
@@ -720,7 +736,7 @@ python early:
             if not self.in_init and self.status == new_status:
                 # No change
                 return
-            self.__status = new_status
+            self._status = new_status
             self.seen_updates = False
 
         @property
@@ -730,20 +746,20 @@ python early:
             profile; return False otherwise.
             """
 
-            return self.__seen_updates
+            return self._seen_updates
 
         @seen_updates.setter
         def seen_updates(self, new_bool):
             """Set seen_updates."""
 
-            self.__seen_updates = new_bool
+            self._seen_updates = new_bool
 
         @property
         def name(self):
             """Return this character's name."""
 
             try:
-                return self.__name
+                return self._name
             except:
                 pass
             try:
@@ -756,7 +772,7 @@ python early:
         def name(self, new_name):
             """Set this character's name to the given name."""
 
-            self.__name = new_name
+            self._name = new_name
 
         @property
         def text_label(self):
