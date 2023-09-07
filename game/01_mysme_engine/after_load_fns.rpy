@@ -144,6 +144,10 @@ init python:
             store.myClock = Clock(30)
             store.my_menu_clock = Clock()
 
+        if store._version < (3, 4, 0):
+            for chara in store.all_characters:
+                chara.private_to_public()
+
         # Update to most recent version
         store._version = (3, 3, 0)
 
@@ -152,7 +156,6 @@ init python:
 
         if False in store.persistent.unlocked_prof_pics:
             store.persistent.unlocked_prof_pics.remove(False)
-
 
     def update_music():
         try:
@@ -561,7 +564,6 @@ init python:
         # Replace this character object
         chara = new_c
 
-
     def update_character_list(new_list):
         """Update the character_list variable to new_list."""
 
@@ -610,7 +612,6 @@ init python:
 
         renpy.retain_after_load()
         return
-
 
     def advance_day():
         """
