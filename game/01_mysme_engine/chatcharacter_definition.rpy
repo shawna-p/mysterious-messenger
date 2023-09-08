@@ -250,6 +250,8 @@ python early:
                 self._cover_pic = self.__cover_pic
                 self._status = self.__status
                 self._name = self.__name
+            except Exception as e:
+                pass
 
         @property
         def vn_name(self):
