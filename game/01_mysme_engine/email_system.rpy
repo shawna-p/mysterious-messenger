@@ -47,7 +47,7 @@ init python:
             self.timeout = 25
             self.deliver_reply = None
             self.reply = None
-            self.__read = False
+            self._read = False
             self.current_replies = guest.choices
             self.notified = False
             self.sent_time = upTime()
@@ -76,14 +76,21 @@ init python:
 
         @property
         def read(self):
-            return self.__read
+            try:
+                return self._read
+            except:
+                self._read = True
 
         @read.setter
         def read(self, new_status):
             """Mark this email as read and optionally trigger a callback."""
 
-            old_status = self.__read
-            self.__read = new_status
+            try:
+                old_status = self._read
+            except:
+                self._read = True
+                old_status = True
+            self._read = new_status
 
             # Set the guest's likelihood of attending the party
             self.set_attendance()
