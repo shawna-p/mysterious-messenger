@@ -45,7 +45,7 @@ python early:
             self.msg_queue = []
             self.temp_msg_queue = []
             self.temp_msg_info = dict()
-            self.__reply_label = False
+            self._reply_label = False
             self.__read = False
             self.heart = False
             self.heart_person = None
@@ -59,9 +59,12 @@ python early:
             if len(self.msg_queue) > 0:
                 return False
             try:
-                lbl = self.__reply_label
+                lbl = self._reply_label
             except:
-                lbl = self.__dict__['reply_label']
+                try:
+                    lbl = self.__reply_label
+                except:
+                    lbl = self.__dict__.get('reply_label', False)
 
             # Does this label exist?
             if lbl and renpy.has_label(lbl):
@@ -76,7 +79,7 @@ python early:
         def reply_label(self, new_label):
             """Set the reply label for this conversation."""
 
-            self.__reply_label = new_label
+            self._reply_label = new_label
 
         @property
         def read(self):
