@@ -7,24 +7,19 @@ init python:
     def get_random_screen_tag(k=4, text_msg=False, return_after_tag=False):
         """Generate a random k-letter word out of alphabet letters."""
 
-        while True:
-            # Used to retain compatibility between Ren'Py 7.4+ and 8.0+
-            if renpy.version_only.startswith("7"):
-                # Shuffle the list and pop k items from the front
-                alphabet = list(store.TAG_ALPHABET)
-                random.shuffle(alphabet)
-                tag = ''.join(alphabet[:k])
-            else:
-                # Sample k letters from the alphabet. Repeats allowed.
-                tag = ''.join(random.choices(list(store.TAG_ALPHABET), k=k))
+        # Used to retain compatibility between Ren'Py 7.4+ and 8.0+
+        if renpy.version_only.startswith("7"):
+            # Shuffle the list and pop k items from the front
+            alphabet = list(store.TAG_ALPHABET)
+            random.shuffle(alphabet)
+            tag = ''.join(alphabet[:k])
+        else:
+            # Sample k letters from the alphabet. Repeats allowed.
+            tag = ''.join(random.choices(list(store.TAG_ALPHABET), k=k))
 
-            if return_after_tag:
-                return tag
-
-            if text_msg and tag not in store.text_screen_tags:
-                break
-            elif not text_msg and tag not in store.screen_tags:
-                break
+        tag += [str(time.time())]
+        if return_after_tag:
+            return tag
 
         # Add the tag to a set so we can be sure to hide it
         if text_msg:
