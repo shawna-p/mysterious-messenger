@@ -61,7 +61,7 @@ python early:
             self.voicemail = voicemail
             self.playback = False
             self.avail_timeout = avail_timeout
-            self.__choices = []
+            self._choices = []
             self.__callback = False
 
         @property
@@ -123,14 +123,19 @@ python early:
         @property
         def choices(self):
             try:
-                return self.__choices
+                return self._choices
             except AttributeError:
-                return []
+                try:
+                    self._choices = self.__choices
+                    return self.__choices
+                except AttributeError:
+                    self._choices = [ ]
+                    return self._choices
 
         @choices.setter
         def choices(self, new_choices):
             try:
-                self.__choices = new_choices
+                self._choices = new_choices
             except AttributeError:
                 return
 
