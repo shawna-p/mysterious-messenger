@@ -62,7 +62,7 @@ python early:
             self.playback = False
             self.avail_timeout = avail_timeout
             self._choices = []
-            self.__callback = False
+            self._callback = False
 
         @property
         def get_label(self):
@@ -103,20 +103,20 @@ python early:
             initially missing their call.
             """
             try:
-                return self.__callback
+                return self._callback
             except AttributeError:
                 try:
-                    self.__callback = False
-                except:
-                    pass
-                return False
+                    self._callback = False
+                    return self.__callback
+                except AttributeError:
+                    return False
 
         @callback.setter
         def callback(self, new_status):
             """Set the callback status."""
 
             try:
-                self.__callback = new_status
+                self._callback = new_status
             except AttributeError:
                 return
 
