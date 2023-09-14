@@ -101,9 +101,9 @@ init -6 python:
             # Ensure the trigger time is set up properly
             # It corrects times like 3:45 to 03:45
             if trigger_time and ':' in trigger_time[:2]:
-                self.__trigger_time = '0' + trigger_time
+                self._trigger_time = '0' + trigger_time
             else:
-                self.__trigger_time = trigger_time
+                self._trigger_time = trigger_time
 
             save_img = save_img.lower()
             if save_img in ['jaehee', 'ja']:
@@ -460,6 +460,11 @@ init -6 python:
         def trigger_time(self):
             """Return the trigger time of this item or its parent."""
 
+            try:
+                if self._trigger_time:
+                    return self._trigger_time
+            except:
+                pass
             try:
                 if self.__trigger_time:
                     return self.__trigger_time
