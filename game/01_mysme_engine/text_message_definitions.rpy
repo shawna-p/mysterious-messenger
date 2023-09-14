@@ -46,7 +46,7 @@ python early:
             self.temp_msg_queue = []
             self.temp_msg_info = dict()
             self._reply_label = False
-            self.__read = False
+            self._read = False
             self.heart = False
             self.heart_person = None
             self.bad_heart = False
@@ -85,13 +85,20 @@ python early:
         def read(self):
             """Return whether this conversation has been read."""
 
-            return self.__read
+            try:
+                return self._read
+            except:
+                self._read = True
+            try:
+                return self.__read
+            except:
+                return True
 
         @read.setter
         def read(self, new_bool):
             """Mark the message as read and unlock appropriate CGs."""
 
-            self.__read = new_bool
+            self._read = new_bool
             if new_bool:
                 # Unlock any CG images the player saw
                 for pair in self.cg_unlock_list:
