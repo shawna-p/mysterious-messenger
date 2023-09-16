@@ -87,7 +87,7 @@ init -4 python:
             self.saved_bubble_bg = None
             self.saved_bubble_style = None
 
-            self.__text_msg_font = 'sser1'
+            self._text_msg_font = 'sser1'
 
             self.__link = link_img or link_title or link_text or link_action or False
             self.__link_img = link_img or 'Bubble/link_house_btn.webp'
@@ -176,11 +176,19 @@ init -4 python:
             """Return the font the text message should be displayed in."""
 
             try:
-                return store.font_dict[self.__text_msg_font]
+                the_font = self._text_msg_font
+            except:
+                try:
+                    self._text_msg_font = self.__text_msg_font
+                    the_font = self._text_msg_font
+                except:
+                    the_font = 'sser1'
+            try:
+                return store.font_dict[the_font]
             except Exception as e:
                 print_file("Exception with text font:", e)
             try:
-                return getattr(store, self.__text_msg_font)
+                return getattr(store, the_font)
             except:
                 return store.font_dict['sser1']
 
@@ -188,13 +196,13 @@ init -4 python:
         def text_msg_font(self, ffont):
             try:
                 if ffont in get_dict_keys(store.font_dict):
-                    self.__text_msg_font = ffont
+                    self._text_msg_font = ffont
                 else:
                     ScriptError("Given font \"", ffont, "\" is not in the",
                         "font dictionary.",
                         header="Chatrooms", subheader="Custom Fonts")
             except:
-                self.__text_msg_font = 'sser1'
+                self._text_msg_font = 'sser1'
 
         @property
         def name_style(self):
