@@ -363,16 +363,20 @@ init python:
                 # Old guest style
                 try:
                     self.create_old_guest(*args, **kwargs)
-                    self.__v3_guest = None
+                    self._v3_guest = None
                 except:
                     # New guest style?
-                    self.__v3_guest = Guestv3(*args, **kwargs)
+                    self._v3_guest = Guestv3(*args, **kwargs)
             else:
                 # New guest style
-                self.__v3_guest = Guestv3(*args, **kwargs)
+                self._v3_guest = Guestv3(*args, **kwargs)
 
         @property
         def v3_guest(self):
+            try:
+                return self._v3_guest
+            except:
+                pass
             try:
                 return self.__v3_guest
             except AttributeError:
