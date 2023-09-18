@@ -89,7 +89,7 @@ init -4 python:
 
             self._text_msg_font = 'sser1'
 
-            self.__link = link_img or link_title or link_text or link_action or False
+            self._link = link_img or link_title or link_text or link_action or False
             self.__link_img = link_img or 'Bubble/link_house_btn.webp'
             self.__link_title = link_title or ""
             self.__link_text = link_text
@@ -404,9 +404,14 @@ init -4 python:
             """Return whether this message is a link message."""
 
             try:
-                return self.__link
-            except Exception as e:
-                return False
+                return self._link
+            except:
+                try:
+                    self._link = self.__link
+                    return self._link
+                except:
+                    self._link = False
+                    return self._link
 
         @property
         def bubble_style(self):
