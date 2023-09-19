@@ -91,7 +91,7 @@ init -4 python:
 
             self._link = link_img or link_title or link_text or link_action or False
             self._link_img = link_img or 'Bubble/link_house_btn.webp'
-            self.__link_title = link_title or ""
+            self._link_title = link_title or ""
             self.__link_text = link_text
             self.__link_action = link_action
 
@@ -334,7 +334,15 @@ init -4 python:
             """Return the title for a link message."""
 
             try:
+                if self.link and self._link_title:
+                    return self._link_title
+                else:
+                    return None
+            except:
+                pass
+            try:
                 if self.link and self.__link_title:
+                    self._link_title = self.__link_title
                     return self.__link_title
                 else:
                     return None
