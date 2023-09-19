@@ -90,7 +90,7 @@ init -4 python:
             self._text_msg_font = 'sser1'
 
             self._link = link_img or link_title or link_text or link_action or False
-            self.__link_img = link_img or 'Bubble/link_house_btn.webp'
+            self._link_img = link_img or 'Bubble/link_house_btn.webp'
             self.__link_title = link_title or ""
             self.__link_text = link_text
             self.__link_action = link_action
@@ -319,7 +319,11 @@ init -4 python:
 
             try:
                 if self.link:
-                    return self.__link_img or 'Bubble/link_house_btn.webp'
+                    try:
+                        return self._link_img or 'Bubble/link_house_btn.webp'
+                    except:
+                        self._link_img = self.__link_img
+                        return self._link_img or 'Bubble/link_house_btn.webp'
                 else:
                     return None
             except:
