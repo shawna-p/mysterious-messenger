@@ -93,7 +93,7 @@ init -4 python:
             self._link_img = link_img or 'Bubble/link_house_btn.webp'
             self._link_title = link_title or ""
             self._link_text = link_text
-            self.__link_action = link_action
+            self._link_action = link_action
 
             self.for_replay = for_replay
 
@@ -372,18 +372,22 @@ init -4 python:
             try:
                 if not self.link:
                     return None
-                if not self.__link_action:
+                try:
+                    x = self._link_action
+                except:
+                    self._link_action = self.__link_action
+                if not self._link_action:
                     return None
-                elif isinstance(self.__link_action, tuple):
+                elif isinstance(self._link_action, tuple):
                     # It's conditional on chat_stopped
                     if chat_stopped:
-                        link_act = self.__link_action[0]
+                        link_act = self._link_action[0]
                     else:
-                        link_act = self.__link_action[1]
+                        link_act = self._link_action[1]
                     if not link_act:
                         return None
                 else:
-                    link_act = self.__link_action
+                    link_act = self._link_action
 
                 if ((store.observing and not store._in_replay)
                         or (_menu and not main_menu)):
@@ -411,7 +415,7 @@ init -4 python:
         @link_action.setter
         def link_action(self, new_action):
             try:
-                self.__link_action = new_action
+                self._link_action = new_action
             except Exception as e:
                 return
 
