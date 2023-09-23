@@ -488,10 +488,14 @@ init -6 python:
         def trigger_time(self, new_time):
             """Set the trigger time."""
 
-            self.__trigger_time = new_time
+            self._trigger_time = new_time
 
         def get_trigger_time(self):
-            return self.__trigger_time
+            try:
+                return self._trigger_time
+            except:
+                self._trigger_time = self.__trigger_time
+                return self._trigger_time
 
         def total_timeline_items(self, only_if_unplayed=False):
             """Return the number of timeline items contained within this one."""
