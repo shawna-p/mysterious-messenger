@@ -137,7 +137,11 @@ python early:
                 # Set a var so Album shows "NEW"
                 store.new_cg += 1
                 # Add this to the list of unlocked profile pictures
-                if (self.__thumbnail not in store.persistent.unlocked_prof_pics
+                try:
+                    temp = self._thumbnail
+                except:
+                    self._thumbnail = self.__thumbnail
+                if (self._thumbnail not in store.persistent.unlocked_prof_pics
                         and self.thumbnail_tuple
                             not in store.persistent.unlocked_prof_pics):
                     add_img_to_set(store.persistent.unlocked_prof_pics,
@@ -153,14 +157,19 @@ python early:
         @property
         def thumbnail_tuple(self):
             try:
-                return self.__thumbnail_tuple
+                return self._thumbnail_tuple
+            except:
+                pass
+            try:
+                self._thumbnail_tuple = self.__thumbnail_tuple
+                return self._thumbnail_tuple
             except:
                 return None
 
         @thumbnail_tuple.setter
         def thumbnail_tuple(self, new_thumb):
             try:
-                self.__thumbnail_tuple = new_thumb
+                self._thumbnail_tuple = new_thumb
             except:
                 pass
 
