@@ -182,7 +182,11 @@ python early:
             """Return the correct thumbnail for this image."""
 
             if self.unlocked:
-                return self.__thumbnail
+                try:
+                    return self._thumbnail
+                except:
+                    self._thumbnail = self.__thumbnail
+                    return self._thumbnail
             else:
                 return self.__locked_img
 
