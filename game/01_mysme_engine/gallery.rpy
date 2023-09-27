@@ -188,7 +188,12 @@ python early:
                     self._thumbnail = self.__thumbnail
                     return self._thumbnail
             else:
-                return self.__locked_img
+                try:
+                    return self._locked_img
+                except:
+                    self._locked_img = self.__locked_img
+                    return self._locked_img
+
 
         @thumbnail.setter
         def thumbnail(self, new_thumb):
