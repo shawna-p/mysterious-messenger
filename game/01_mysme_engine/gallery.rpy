@@ -49,21 +49,21 @@ python early:
             """
 
             self.img = img
-            self.__locked_img = locked_img
+            self._locked_img = locked_img
             if thumbnail:
-                self.__thumbnail = thumbnail
+                self._thumbnail = thumbnail
             else:
                 if self.filename:
                     thumb_name = self.filename.split('.')
                     thumbnail = thumb_name[0] + '-thumb.' + thumb_name[1]
                     if renpy.loadable(thumbnail):
-                        self.__thumbnail = thumbnail
+                        self._thumbnail = thumbnail
                     else:
                         thumbnail = False
                 if not thumbnail:
                     # If no thumbnail is provided, the program
                     # will automatically crop and scale the CG
-                    self.__thumbnail = Transform(img, crop_relative=True,
+                    self._thumbnail = Transform(img, crop_relative=True,
                                             crop=(0.0, 0.15, 1.0, 0.5625),
                                             size=(155,155))
             self.unlocked = False
