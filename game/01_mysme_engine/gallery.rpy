@@ -69,7 +69,7 @@ python early:
             self.unlocked = False
             self._seen_in_album = False
             self.thumbnail_tuple = (self.filename, (0.0, 0.15, 1.0, 0.5625), True)
-            self.__chat_img = chat_img
+            self._chat_img = chat_img
             self.__chat_thumb = chat_thumb or chat_img
 
         @property
@@ -81,8 +81,8 @@ python early:
             try:
                 if self.__chat_thumb is not None:
                     return self.__chat_thumb
-                elif self.__chat_img is not None:
-                    return Transform(self.__chat_img, zoom=0.35)
+                elif self._chat_img is not None:
+                    return Transform(self._chat_img, zoom=0.35)
             except Exception:
                 pass
             return Transform(self.img, zoom=0.35)
@@ -98,10 +98,15 @@ python early:
             """
 
             try:
-                if self.__chat_img is not None:
-                    return self.__chat_img
+                if self._chat_img is not None:
+                    return self._chat_img
             except Exception:
-                pass
+                try:
+                    self._chat_img = self.__chat_img
+                    if self._chat_img is not None:
+                        return self._chat_img
+                except:
+                    pass
             return self.img
 
         @property
