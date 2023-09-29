@@ -67,7 +67,7 @@ python early:
                                             crop=(0.0, 0.15, 1.0, 0.5625),
                                             size=(155,155))
             self.unlocked = False
-            self.__seen_in_album = False
+            self._seen_in_album = False
             self.thumbnail_tuple = (self.filename, (0.0, 0.15, 1.0, 0.5625), True)
             self.__chat_img = chat_img
             self.__chat_thumb = chat_thumb or chat_img
@@ -255,16 +255,20 @@ python early:
 
         @property
         def seen_in_album(self):
-            return self.__seen_in_album
+            try:
+                return self._seen_in_album
+            except:
+                self._seen_in_album = self.__seen_in_album
+                return self._seen_in_album
 
         @seen_in_album.setter
         def seen_in_album(self, new_bool):
             """Sets whether this image has been seen in the album yet."""
 
-            if getattr(store, 'new_cg', False) and not self.__seen_in_album:
+            if getattr(store, 'new_cg', False) and not self.seen_in_album:
                 if new_bool:
                     store.new_cg -= 1
-            self.__seen_in_album = new_bool
+            self._seen_in_album = new_bool
 
         def __eq__(self, other):
             """Checks for equality between two Album objects."""
