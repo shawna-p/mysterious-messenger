@@ -70,17 +70,20 @@ python early:
             self._seen_in_album = False
             self.thumbnail_tuple = (self.filename, (0.0, 0.15, 1.0, 0.5625), True)
             self._chat_img = chat_img
-            self.__chat_thumb = chat_thumb or chat_img
+            self._chat_thumb = chat_thumb or chat_img
 
         @property
         def chat_thumb(self):
             """
             Return the image as it should appear in the chat as a thumbnail.
             """
-
             try:
-                if self.__chat_thumb is not None:
-                    return self.__chat_thumb
+                x = self._chat_thumb
+            except:
+                self._chat_thumb = self.__chat_thumb
+            try:
+                if self._chat_thumb is not None:
+                    return self._chat_thumb
                 elif self._chat_img is not None:
                     return Transform(self._chat_img, zoom=0.35)
             except Exception:
