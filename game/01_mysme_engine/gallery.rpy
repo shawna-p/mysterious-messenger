@@ -251,7 +251,10 @@ python early:
             #     except:
             #         pass
 
-            return self.__thumbnail
+            try:
+                return self._thumbnail
+            except:
+                return self.__thumbnail
 
         def check_if_seen(self):
             """
