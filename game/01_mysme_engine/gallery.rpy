@@ -206,10 +206,10 @@ python early:
         @thumbnail.setter
         def thumbnail(self, new_thumb):
             try:
-                if not renpy.loadable(self.__thumbnail):
-                    thumb_name = self.__thumbnail.split('.')[0] + '.webp'
+                if not renpy.loadable(self._thumbnail):
+                    thumb_name = self._thumbnail.split('.')[0] + '.webp'
                     if renpy.loadable(thumb_name):
-                        self.__thumbnail = thumb_name
+                        self._thumbnail = thumb_name
                         return
             except:
                 # Assume it was a cropped image
@@ -218,13 +218,13 @@ python early:
                 else:
                     img = self.img
                 if renpy.loadable(img):
-                    self.__thumbnail = Transform(img, crop_relative=True,
+                    self._thumbnail = Transform(img, crop_relative=True,
                                             crop=(0.0, 0.15, 1.0, 0.5625),
                                             size=(155,155))
                     self.thumbnail_tuple = (img, (0.0, 0.15, 1.0, 0.5625), True)
                     return
 
-            self.__thumbnail = new_thumb
+            self._thumbnail = new_thumb
 
         def get_thumb(self, exclude_transform=False):
             """Retrieve the CG's thumbnail, regardless of its unlock state."""
