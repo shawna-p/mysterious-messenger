@@ -1204,7 +1204,6 @@ screen select_anim():
 
 transform hack_transform(end=0.35):
     zoom 0.3
-    crop_relative True
     crop (0.0, 0.0, 1.0, end)
 
 screen select_emote(edit=False):

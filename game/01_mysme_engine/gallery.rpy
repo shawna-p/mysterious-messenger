@@ -63,7 +63,7 @@ python early:
                 if not thumbnail:
                     # If no thumbnail is provided, the program
                     # will automatically crop and scale the CG
-                    self._thumbnail = Transform(img, crop_relative=True,
+                    self._thumbnail = Transform(img,
                                             crop=(0.0, 0.15, 1.0, 0.5625),
                                             size=(155,155))
             self.unlocked = False
@@ -218,7 +218,7 @@ python early:
                 else:
                     img = self.img
                 if renpy.loadable(img):
-                    self._thumbnail = Transform(img, crop_relative=True,
+                    self._thumbnail = Transform(img,
                                             crop=(0.0, 0.15, 1.0, 0.5625),
                                             size=(155,155))
                     self.thumbnail_tuple = (img, (0.0, 0.15, 1.0, 0.5625), True)
@@ -243,7 +243,7 @@ python early:
             #         # Assume it was a cropped image
             #         img = self.filename.split('.')[0] + '.webp'
             #         if renpy.loadable(img) and not exclude_transform:
-            #             self.__thumbnail = Transform(img, crop_relative=True,
+            #             self.__thumbnail = Transform(img,
             #                                 crop=(0.0, 0.15, 1.0, 0.5625),
             #                                 size=(155,155))
             #         elif renpy.loadable(img):

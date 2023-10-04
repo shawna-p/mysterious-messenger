@@ -393,8 +393,7 @@ init python:
 
         if len(tup) == 3:
             # It needs to be cropped
-            return Transform(tup[0], crop=tup[1],
-                crop_relative=tup[2], size=(the_size, the_size))
+            return Transform(tup[0], crop=tup[1], xysize=(the_size, the_size))
         else:
             # It's a colour
             return Transform(tup, size=(the_size, the_size))
