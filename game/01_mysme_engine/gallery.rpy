@@ -206,8 +206,8 @@ python early:
         @thumbnail.setter
         def thumbnail(self, new_thumb):
             try:
-                if not renpy.loadable(self._thumbnail):
-                    thumb_name = self._thumbnail.split('.')[0] + '.webp'
+                if not renpy.loadable(new_thumb):
+                    thumb_name = new_thumb.split('.')[0] + '.webp'
                     if renpy.loadable(thumb_name):
                         self._thumbnail = thumb_name
                         return
