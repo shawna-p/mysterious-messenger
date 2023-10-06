@@ -5,10 +5,10 @@
 screen animated_shake_borders():
     zorder 1
     # Add borders for shake
-    add "#000" size (300, config.screen_height) xpos 0.0 xanchor 1.0
-    add "#000" size (300, config.screen_height) xpos 1.0 xanchor 0.0
-    add "#000" size (config.screen_width, 300) ypos 1.0 yanchor 0.0
-    add "#000" size (config.screen_width, 300) ypos 0.0 yanchor 1.0
+    add "#000" xysize (300, config.screen_height) xpos 0.0 xanchor 1.0
+    add "#000" xysize (300, config.screen_height) xpos 1.0 xanchor 0.0
+    add "#000" xysize (config.screen_width, 300) ypos 1.0 yanchor 0.0
+    add "#000" xysize (config.screen_width, 300) ypos 0.0 yanchor 1.0
 
 ###########################################################
 ## Morning background
