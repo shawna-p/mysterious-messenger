@@ -781,7 +781,7 @@ screen email_button(e):
                     add 'email_read' align(1.0, 0.5)
                 else:
                     add 'email_replied' align(1.0, 0.5)
-            add Transform(e.guest.thumbnail, size=(94, 94)) align(0.5, 0.3)
+            add Transform(e.guest.thumbnail, xysize=(94, 94)) align(0.5, 0.3)
             null width -10
             vbox:
                 frame:
@@ -939,9 +939,9 @@ screen email_choice(items, email):
             at the_anim(len(items)*0.2)
             xysize (280, 120)
             background Frame(Transform("Text Messages/chat-bg02_2.webp",
-                size=(740, 120)), 50, 40)
+                xysize=(740, 120)), 50, 40)
             hover_background Frame(Transform("Text Messages/chat-bg02_3.webp",
-                size=(740, 120)), 50, 40)
+                xysize=(740, 120)), 50, 40)
             xalign 0.995
             action Hide('email_choice')
 

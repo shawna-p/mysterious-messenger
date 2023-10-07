@@ -65,7 +65,7 @@ python early:
                     # will automatically crop and scale the CG
                     self._thumbnail = Transform(img,
                                             crop=(0.0, 0.15, 1.0, 0.5625),
-                                            size=(155,155))
+                                            xysize=(155,155))
             self.unlocked = False
             self._seen_in_album = False
             self.thumbnail_tuple = (self.filename, (0.0, 0.15, 1.0, 0.5625), True)
@@ -220,7 +220,7 @@ python early:
                 if renpy.loadable(img):
                     self._thumbnail = Transform(img,
                                             crop=(0.0, 0.15, 1.0, 0.5625),
-                                            size=(155,155))
+                                            xysize=(155,155))
                     self.thumbnail_tuple = (img, (0.0, 0.15, 1.0, 0.5625), True)
                     return
 
