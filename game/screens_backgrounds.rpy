@@ -828,7 +828,7 @@ screen hack_tear(number=10, offtimeMult=0.4, ontimeMult=0.2, offsetMin=-10,
                 offsetMax=30, w_timer=0.18, srf=None):
     zorder 1
     add Tear(number, offtimeMult, ontimeMult, offsetMin,
-                                offsetMax, srf) size (config.screen_width,config.screen_height)
+        offsetMax, srf) xysize (config.screen_width,config.screen_height)
     timer w_timer action Hide('hack_tear')
 
 screen white_squares_2(w_timer=0.5):
@@ -1003,7 +1003,7 @@ screen animated_rainy_day():
     add 'animated_rainy_clouds_mid' at move_clouds(200)
     add 'simulated_rain'
     add 'animated_rainy_clouds_front' at move_clouds(110)
-    add Solid("#000") size (config.screen_width, 3) yalign 1.0
+    add Solid("#000") xysize (config.screen_width, 3) yalign 1.0
     add 'front_rain'
 
     use animated_shake_borders()

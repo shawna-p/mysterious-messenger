@@ -272,7 +272,7 @@ python early:
                 return Transform('greet ' + self.file_id, zoom=scale)
             else:
                 return Transform(self.homepage_pic, fit='contain',
-                    size=(110*scale, 110*scale))
+                    xysize=(110*scale, 110*scale))
 
         @property
         def reg_bubble_img(self):
@@ -635,7 +635,7 @@ python early:
             except AttributeError:
                 the_pic = False
             if self.prof_pic == "cannot_find_img":
-                return Transform('cannot_find_img', size=(the_size, the_size))
+                return Transform('cannot_find_img', xysize=(the_size, the_size))
 
             # Make sure MC's pic is up to date
             if self == store.m:
@@ -648,23 +648,23 @@ python early:
 
             if the_pic and the_size <= max_small:
                 return Transform(Transform(the_pic, fit='cover',
-                    size=(the_size, the_size)), crop=(0, 0, the_size, the_size))
+                    xysize=(the_size, the_size)), crop=(0, 0, the_size, the_size))
             elif the_pic:
                 # Check for a larger version of the bonus pfp.
                 try:
                     big_name = the_pic.split('.')
                 except:
                     return Transform(Transform(self.prof_pic, fit='cover',
-                        size=(the_size, the_size)),
+                        xysize=(the_size, the_size)),
                         crop=(0, 0, the_size, the_size))
                 large_pfp = big_name[0] + '-b.' + big_name[1]
                 if renpy.loadable(large_pfp):
                     return Transform(Transform(large_pfp, fit='cover',
-                        size=(the_size, the_size)),
+                        xysize=(the_size, the_size)),
                         crop=(0, 0, the_size, the_size))
                 else:
                     return Transform(Transform(the_pic, fit='cover',
-                        size=(the_size, the_size)),
+                        xysize=(the_size, the_size)),
                         crop=(0, 0, the_size, the_size))
 
             # Regular profile pic is 110x110
@@ -687,10 +687,10 @@ python early:
 
             if the_size <= max_small:
                 return Transform(self.prof_pic,
-                                size=(the_size, the_size))
+                                xysize=(the_size, the_size))
             else:
                 return Transform(self._big_prof_pic,
-                                size=(the_size, the_size))
+                                xysize=(the_size, the_size))
 
         def reset_pfp(self):
             """
