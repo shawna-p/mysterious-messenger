@@ -1617,7 +1617,7 @@ image call_mainicon = "Menu Screens/Chat Hub/main01_mainicon_call.webp"
 image email_mainicon = "Menu Screens/Chat Hub/main01_mainicon_email.webp"
 image msg_mainicon = "Menu Screens/Chat Hub/main01_mainicon_message.webp"
 
-image profile_pic_select_square = Transform("Menu Screens/Chat Hub/profile_pic_select_square.webp", size=(95, 95))
+image profile_pic_select_square = Transform("Menu Screens/Chat Hub/profile_pic_select_square.webp", xysize=(95, 95))
 
 image white_hex = "Menu Screens/Chat Hub/main01_subbtn.webp"
 image blue_hex = "Menu Screens/Chat Hub/main01_subbtn_lit.webp"

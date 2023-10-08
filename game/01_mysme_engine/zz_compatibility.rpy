@@ -147,7 +147,7 @@ screen tear(number=10, offtimeMult=1, ontimeMult=1, offsetMin=0,
     zorder 150 #Screen tear appears above pretty much everything
 
     add Tear(number, offtimeMult, ontimeMult, offsetMin,
-                                offsetMax, srf) size (config.screen_width,config.screen_height)
+        offsetMax, srf) xysize (config.screen_width,config.screen_height)
     if w_timer:
         timer w_timer action Hide('tear')
 
