@@ -693,7 +693,7 @@ screen dialogue_tab(show_fonts, compact_ver=False):
                 If(compact_ver, Function(update_edit_text))]
             vbox:
                 text "U" underline True
-                add Solid("#fff") size (30, 1) xalign 0.5
+                add Solid("#fff") xysize (30, 1) xalign 0.5
         button:
             xsize 67
             insensitive_foreground "#5555"
@@ -1628,7 +1628,7 @@ screen select_background():
                             xysize (187, 333)
                             selected_foreground "#fff3"
                             add ccbg2:
-                                size (187, 333)
+                                xysize (187, 333)
                             action SetScreenVariable('temp_bg', ccbg)
             textbutton "Use cracked overlay":
                 style_prefix 'check'

@@ -210,7 +210,7 @@ init python:
             img1 = 'battery_med'
 
         return Fixed(img1, Fixed('charging_icon',
-            size=(18,26), xalign=0.5, yalign=0.4)), 0.5
+            xysize=(18,26), xalign=0.5, yalign=0.4)), 0.5
 
     def battery_empty_bar(st, at):
         """
@@ -221,7 +221,7 @@ init python:
         battery = renpy.display.behavior.pygame.power.get_power_info()
         return Fixed("battery_empty_img",
                 Fixed('charging_icon',
-                size=(18,26), xalign=0.5, yalign=0.4)), 0.5
+                xysize=(18,26), xalign=0.5, yalign=0.4)), 0.5
 
 image battery_remaining = DynamicDisplayable(battery_level_bar)
 image battery_empty = DynamicDisplayable(battery_empty_bar)

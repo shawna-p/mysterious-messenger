@@ -99,7 +99,7 @@ image fast_slow_button = "Phone UI/fast-slow-transparent.webp"
 image maxSpeed_selected_hover = Transform("max_speed_active", zoom=1.1)
 image maxSpeed_hover = Transform("max_speed_inactive", zoom=1.1)
 image speed_txt = ParameterizedText(style="speednum_style")
-image close_button = Transform(Solid("#00000066"), size=(config.screen_width,99))
+image close_button = Transform(Solid("#00000066"), xysize=(config.screen_width,99))
 
 image signature = ConditionSwitch(
     "persistent.custom_footers", "Phone UI/signature01-dark.webp",

@@ -614,7 +614,7 @@ screen timeline_story_calls(phonecall, item, was_played):
                     fit_first True
                     add phonecall.caller.participant_pic:
                         xalign 0.0
-                    add Transform('call_mainicon', size=(28,28)) align (0.01, 0.99)
+                    add Transform('call_mainicon', xysize=(28,28)) align (0.01, 0.99)
                 vbox:
                     spacing 25
                     hbox:
@@ -839,9 +839,9 @@ screen guest_count():
         has vbox
         hbox:
             xsize config.screen_width
-            add 'text_msg_line' size (250, 30) yalign 0.5
+            add 'text_msg_line' xysize (250, 30) yalign 0.5
             add 'rfa_logo'
-            add 'text_msg_line' size (250, 30) yalign 0.5
+            add 'text_msg_line' xysize (250, 30) yalign 0.5
         frame:
             style_prefix 'guest_header'
             text "GUEST COUNT"
