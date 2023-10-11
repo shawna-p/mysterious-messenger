@@ -142,7 +142,10 @@ init python:
 
         return create_star_manager(star_sprites)
 
-
+transform simpler_pan(timing=30, ytime=0):
+    xpan 180 subpixel True
+    linear timing xpan -180
+    repeat
 screen animated_morning():
     zorder 0
     tag animated_bg
@@ -198,9 +201,9 @@ screen animated_noon():
     tag animated_bg
     add 'animated_noon_bg'
     # Clouds
-    add 'animated_noon_clouds_back' at move_clouds(300)
-    add 'animated_noon_clouds_mid' at move_clouds(200)
-    add 'animated_noon_clouds_front' at move_clouds(110)
+    add 'animated_noon_clouds_back' at simpler_pan(300*2)
+    add 'animated_noon_clouds_mid' at simpler_pan(200*2)
+    add 'animated_noon_clouds_front' at simpler_pan(110*2)
 
     use animated_shake_borders()
 
