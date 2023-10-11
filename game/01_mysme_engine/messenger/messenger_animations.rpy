@@ -17,7 +17,7 @@ init python:
             # Sample k letters from the alphabet. Repeats allowed.
             tag = ''.join(random.choices(list(store.TAG_ALPHABET), k=k))
 
-        tag += [str(time.time())]
+        tag += str(time.time())
         if return_after_tag:
             return tag
 
