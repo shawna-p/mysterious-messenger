@@ -142,10 +142,19 @@ init python:
 
         return create_star_manager(star_sprites)
 
-transform simpler_pan(timing=30, ytime=0):
-    xpan 180 subpixel True
-    linear timing xpan -180
-    repeat
+transform simpler_pan(timing=30, ytime=0, ysize=0):
+    subpixel True
+    ysize int(max(config.screen_height-113-165, 1334,
+        ysize*(float(config.screen_height-113-165)/1334.0)))
+    fit "cover"
+    parallel:
+        xpan 180
+        linear timing xpan -180
+        repeat
+    parallel:
+        yalign 0.0
+        linear ytime yalign 1.0
+
 screen animated_morning():
     zorder 0
     tag animated_bg
@@ -162,9 +171,9 @@ screen animated_morning():
         add star_sprites
 
     # Clouds
-    add 'animated_morning_clouds_back' at move_clouds(300, 250, 1692)
-    add 'animated_morning_clouds_mid' at move_clouds(220, 230, 1692)
-    add 'animated_morning_clouds_front' at move_clouds(150, 210, 1692)
+    add 'Phone UI/animated_bgs/morning/morning_clouds_back.webp' at simpler_pan(300, 250, 1692)
+    add 'Phone UI/animated_bgs/morning/morning_clouds_mid.webp' at simpler_pan(220, 230, 1692)
+    add 'Phone UI/animated_bgs/morning/morning_clouds_front.webp' at simpler_pan(150, 210, 1692)
 
     # A gradient overlay to ease the transition from night into morning
     add 'Phone UI/animated_bgs/morning/morning_darken.webp':
@@ -176,22 +185,6 @@ screen animated_morning():
 ## Noon background
 ###########################################################
 
-image animated_noon_clouds_back = Composite(
-    (2250*2, 1334),
-    (0, 0), 'Phone UI/animated_bgs/noon/noon_clouds_back.webp',
-    (2250, 0), 'Phone UI/animated_bgs/noon/noon_clouds_back.webp'
-)
-image animated_noon_clouds_mid = Composite(
-    (2250*2, 1334),
-    (0, 0), 'Phone UI/animated_bgs/noon/noon_clouds_mid.webp',
-    (2250, 0), 'Phone UI/animated_bgs/noon/noon_clouds_mid.webp'
-)
-image animated_noon_clouds_front = Composite(
-    (2250*2, 1334),
-    (0, 0), 'Phone UI/animated_bgs/noon/noon_clouds_front.webp',
-    (2250, 0), 'Phone UI/animated_bgs/noon/noon_clouds_front.webp'
-)
-
 image animated_noon_bg = Transform(
     'Phone UI/animated_bgs/noon/noon_background.webp',
     ysize=config.screen_height, fit="cover")
@@ -201,9 +194,9 @@ screen animated_noon():
     tag animated_bg
     add 'animated_noon_bg'
     # Clouds
-    add 'animated_noon_clouds_back' at simpler_pan(300*2)
-    add 'animated_noon_clouds_mid' at simpler_pan(200*2)
-    add 'animated_noon_clouds_front' at simpler_pan(110*2)
+    add 'Phone UI/animated_bgs/noon/noon_clouds_back.webp' at simpler_pan(300*2)
+    add 'Phone UI/animated_bgs/noon/noon_clouds_mid.webp' at simpler_pan(200*2)
+    add 'Phone UI/animated_bgs/noon/noon_clouds_front.webp' at simpler_pan(110*2)
 
     use animated_shake_borders()
 
