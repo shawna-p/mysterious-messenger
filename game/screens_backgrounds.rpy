@@ -246,9 +246,9 @@ screen animated_evening():
 
     # Clouds
     # add 'gentle_snow_back' at colorize_snow_evening()
-    add 'animated_evening_clouds_back' at move_clouds(300)
-    add 'animated_evening_clouds_mid' at move_clouds(200)
-    add 'animated_evening_clouds_front' at move_clouds(110)
+    add "Phone UI/animated_bgs/evening/evening_clouds_back.webp" at simpler_pan(300)
+    add "Phone UI/animated_bgs/evening/evening_clouds_mid.webp" at simpler_pan(200)
+    add "Phone UI/animated_bgs/evening/evening_clouds_front.webp" at simpler_pan(110)
     # add 'gentle_snow_front' at colorize_snow_evening()
 
     # These gradients help blend the sun colours with the sky and clouds
