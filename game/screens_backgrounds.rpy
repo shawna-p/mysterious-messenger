@@ -960,26 +960,14 @@ image front_rain = Fixed(
     big_rain(start=0), big_rain(start=150)
 )
 
-image lightning_clouds = Composite(
-    (2250*2, 1334),
-    (0, 0), 'Phone UI/animated_bgs/rainy_day/rainy_clouds_lightning.webp',
-    (2250, 0), 'Phone UI/animated_bgs/rainy_day/rainy_clouds_lightning.webp',
-)
-
-image animated_rainy_clouds_underlay = Composite(
-    (2250*2, 1334),
-    (0, 0), Transform('Phone UI/animated_bgs/rainy_day/rainy_clouds_cloud_underlay.webp', xzoom=-1),
-    (2250, 0), Transform('Phone UI/animated_bgs/rainy_day/rainy_clouds_cloud_underlay.webp', xzoom=-1)
-)
-
 screen animated_rainy_day():
     zorder 0
     tag animated_bg
     add 'Phone UI/animated_bgs/rainy_day/rainy_clouds_gradient.webp':
         ysize config.screen_height
     # Clouds
-    add 'animated_rainy_clouds_underlay' at simpler_pan(400)
-    add 'lightning_clouds' at simpler_pan(200), lightning_cloud_flash()
+    add Transform('Phone UI/animated_bgs/rainy_day/rainy_clouds_cloud_underlay.webp', xzoom=-1) at simpler_pan(400)
+    add 'Phone UI/animated_bgs/rainy_day/rainy_clouds_lightning.webp' at simpler_pan(200), lightning_cloud_flash()
     add 'Phone UI/animated_bgs/rainy_day/rainy_clouds_back.webp' at simpler_pan(300)
     add 'Phone UI/animated_bgs/rainy_day/rainy_clouds_mid.webp' at simpler_pan(200)
     add 'simulated_rain'
