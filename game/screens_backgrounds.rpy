@@ -966,21 +966,6 @@ image lightning_clouds = Composite(
     (2250, 0), 'Phone UI/animated_bgs/rainy_day/rainy_clouds_lightning.webp',
 )
 
-image animated_rainy_clouds_back = Composite(
-    (2250*2, 1334),
-    (0, 0), 'Phone UI/animated_bgs/rainy_day/rainy_clouds_back.webp',
-    (2250, 0), 'Phone UI/animated_bgs/rainy_day/rainy_clouds_back.webp'
-)
-image animated_rainy_clouds_mid = Composite(
-    (2250*2, 1334),
-    (0, 0), 'Phone UI/animated_bgs/rainy_day/rainy_clouds_mid.webp',
-    (2250, 0), 'Phone UI/animated_bgs/rainy_day/rainy_clouds_mid.webp'
-)
-image animated_rainy_clouds_front = Composite(
-    (2250*2, 1334),
-    (0, 0), 'Phone UI/animated_bgs/rainy_day/rainy_clouds_front.webp',
-    (2250, 0), 'Phone UI/animated_bgs/rainy_day/rainy_clouds_front.webp'
-)
 image animated_rainy_clouds_underlay = Composite(
     (2250*2, 1334),
     (0, 0), Transform('Phone UI/animated_bgs/rainy_day/rainy_clouds_cloud_underlay.webp', xzoom=-1),
@@ -993,12 +978,12 @@ screen animated_rainy_day():
     add 'Phone UI/animated_bgs/rainy_day/rainy_clouds_gradient.webp':
         ysize config.screen_height
     # Clouds
-    add 'animated_rainy_clouds_underlay' at move_clouds(400)
-    add 'lightning_clouds' at move_clouds(200), lightning_cloud_flash()
-    add 'animated_rainy_clouds_back' at move_clouds(300)
-    add 'animated_rainy_clouds_mid' at move_clouds(200)
+    add 'animated_rainy_clouds_underlay' at simpler_pan(400)
+    add 'lightning_clouds' at simpler_pan(200), lightning_cloud_flash()
+    add 'Phone UI/animated_bgs/rainy_day/rainy_clouds_back.webp' at simpler_pan(300)
+    add 'Phone UI/animated_bgs/rainy_day/rainy_clouds_mid.webp' at simpler_pan(200)
     add 'simulated_rain'
-    add 'animated_rainy_clouds_front' at move_clouds(110)
+    add 'Phone UI/animated_bgs/rainy_day/rainy_clouds_front.webp' at simpler_pan(110)
     add Solid("#000") xysize (config.screen_width, 3) yalign 1.0
     add 'front_rain'
 
