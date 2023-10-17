@@ -966,12 +966,12 @@ screen animated_rainy_day():
     add 'Phone UI/animated_bgs/rainy_day/rainy_clouds_gradient.webp':
         ysize config.screen_height
     # Clouds
-    add Transform('Phone UI/animated_bgs/rainy_day/rainy_clouds_cloud_underlay.webp', xzoom=-1) at simpler_pan(400)
-    add 'Phone UI/animated_bgs/rainy_day/rainy_clouds_lightning.webp' at simpler_pan(200), lightning_cloud_flash()
-    add 'Phone UI/animated_bgs/rainy_day/rainy_clouds_back.webp' at simpler_pan(300)
-    add 'Phone UI/animated_bgs/rainy_day/rainy_clouds_mid.webp' at simpler_pan(200)
+    add Transform('rainy_clouds_cloud_underlay', xzoom=-1) at simpler_pan(400)
+    add 'rainy_clouds_lightning' at simpler_pan(200), lightning_cloud_flash()
+    add 'rainy_clouds_back' at simpler_pan(300)
+    add 'rainy_clouds_mid' at simpler_pan(200)
     add 'simulated_rain'
-    add 'Phone UI/animated_bgs/rainy_day/rainy_clouds_front.webp' at simpler_pan(110)
+    add 'rainy_clouds_front' at simpler_pan(110)
     add Solid("#000") xysize (config.screen_width, 3) yalign 1.0
     add 'front_rain'
 
