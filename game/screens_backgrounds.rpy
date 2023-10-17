@@ -204,41 +204,25 @@ screen animated_noon():
 ## Evening background
 ###########################################################
 
-image animated_evening_clouds_back = Composite(
-    (2208*2, 1334),
-    (0, 0), "Phone UI/animated_bgs/evening/evening_clouds_back.webp",
-    (2208, 0), "Phone UI/animated_bgs/evening/evening_clouds_back.webp"
-)
-image animated_evening_clouds_mid = Composite(
-    (2208*2, 1334),
-    (0, 0), "Phone UI/animated_bgs/evening/evening_clouds_mid.webp",
-    (2208, 0), "Phone UI/animated_bgs/evening/evening_clouds_mid.webp"
-)
-image animated_evening_clouds_front = Composite(
-    (2208*2, 1334),
-    (0, 0), "Phone UI/animated_bgs/evening/evening_clouds_front.webp",
-    (2208, 0), "Phone UI/animated_bgs/evening/evening_clouds_front.webp"
-)
-
 screen animated_evening():
     zorder 0
     tag animated_bg
 
     default yinit = -1*(config.screen_height-113-165)
 
-    add 'Phone UI/animated_bgs/evening/evening_clouds_bright.webp':
+    add 'evening_clouds_bright':
         ysize config.screen_height
 
     # There are three different sun colours for the evening as the sun sets
-    add 'Phone UI/animated_bgs/evening/evening_clouds_yellow_sun.webp':
+    add 'evening_clouds_yellow_sun':
         xalign 0.5
         at topbottom_pan(movetime=180, delay1=0, fadetime=60,
             init_y=yinit, y_move=yinit*-1.5, start_alpha=1.0, delay_2=100)
-    add 'Phone UI/animated_bgs/evening/evening_clouds_orange_sun.webp':
+    add 'evening_clouds_orange_sun':
         xalign 0.5
         at topbottom_pan(movetime=180, delay1=60, fadetime=60,
             init_y=yinit, y_move=yinit*-1.5, start_alpha=0.0, delay_2=100)
-    add 'Phone UI/animated_bgs/evening/evening_clouds_red_sun.webp':
+    add 'evening_clouds_red_sun':
         xalign 0.5
         at topbottom_pan(movetime=180, delay1=120, fadetime=60,
             init_y=yinit, y_move=yinit*-1.5, start_alpha=0.0, delay_2=100,
@@ -246,16 +230,16 @@ screen animated_evening():
 
     # Clouds
     # add 'gentle_snow_back' at colorize_snow_evening()
-    add "Phone UI/animated_bgs/evening/evening_clouds_back.webp" at simpler_pan(300)
-    add "Phone UI/animated_bgs/evening/evening_clouds_mid.webp" at simpler_pan(200)
-    add "Phone UI/animated_bgs/evening/evening_clouds_front.webp" at simpler_pan(110)
+    add "evening_clouds_back" at simpler_pan(300)
+    add "evening_clouds_mid" at simpler_pan(200)
+    add "evening_clouds_front" at simpler_pan(110)
     # add 'gentle_snow_front' at colorize_snow_evening()
 
     # These gradients help blend the sun colours with the sky and clouds
-    add 'Phone UI/animated_bgs/evening/evening_clouds_orange.webp':
+    add 'evening_clouds_orange':
         at fadein_out(delay1=45, fadein=45, fadeout=45, delay_2=170-90-75, start_alpha=0.0)
         ysize config.screen_height
-    add 'Phone UI/animated_bgs/evening/evening_clouds_red.webp':
+    add 'evening_clouds_red':
         at fadein_out(delay1=90, fadein=45, fadeout=10, delay_2=10, start_alpha=0.0, end_alpha=0.3)
         ysize config.screen_height
 
