@@ -194,9 +194,9 @@ screen animated_noon():
     tag animated_bg
     add 'animated_noon_bg'
     # Clouds
-    add 'Phone UI/animated_bgs/noon/noon_clouds_back.webp' at simpler_pan(300*2)
-    add 'Phone UI/animated_bgs/noon/noon_clouds_mid.webp' at simpler_pan(200*2)
-    add 'Phone UI/animated_bgs/noon/noon_clouds_front.webp' at simpler_pan(110*2)
+    add 'noon_clouds_back' at simpler_pan(300*2)
+    add 'noon_clouds_mid' at simpler_pan(200*2)
+    add 'noon_clouds_front' at simpler_pan(110*2)
 
     use animated_shake_borders()
 
