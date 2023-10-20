@@ -18,22 +18,6 @@ image animated_big_star = "Phone UI/animated_bgs/morning/big_star.webp"
 image animated_med_star = "Phone UI/animated_bgs/morning/med_star.webp"
 image animated_tiny_star = "Phone UI/animated_bgs/morning/tiny_star.webp"
 
-image animated_morning_clouds_back = Composite(
-    (2250*2, 1692),
-    (0, 0), 'Phone UI/animated_bgs/morning/morning_clouds_back.webp',
-    (2250, 0), 'Phone UI/animated_bgs/morning/morning_clouds_back.webp'
-)
-image animated_morning_clouds_mid = Composite(
-    (2250*2, 1692),
-    (0, 0), 'Phone UI/animated_bgs/morning/morning_clouds_mid.webp',
-    (2250, 0), 'Phone UI/animated_bgs/morning/morning_clouds_mid.webp'
-)
-image animated_morning_clouds_front = Composite(
-    (2250*2, 1692),
-    (0, 0), 'Phone UI/animated_bgs/morning/morning_clouds_front.webp',
-    (2250, 0), 'Phone UI/animated_bgs/morning/morning_clouds_front.webp'
-)
-
 transform move_clouds(t=150, ytime=1, ysize=0):
     subpixel True
     ysize int(max(config.screen_height-113-165, 1334,
@@ -160,7 +144,7 @@ screen animated_morning():
     tag animated_bg
     default star_sprites = make_morning_stars()
 
-    add 'Phone UI/animated_bgs/morning/morning_clouds_bg.webp':
+    add 'morning_clouds_bg':
         at reverse_topbottom_pan(150, 0, 0, 1.0, 0, 1.0)
         ysize int(2280.0/1334.0*config.screen_height)
 
@@ -171,12 +155,12 @@ screen animated_morning():
         add star_sprites
 
     # Clouds
-    add 'Phone UI/animated_bgs/morning/morning_clouds_back.webp' at simpler_pan(300, 250, 1692)
-    add 'Phone UI/animated_bgs/morning/morning_clouds_mid.webp' at simpler_pan(220, 230, 1692)
-    add 'Phone UI/animated_bgs/morning/morning_clouds_front.webp' at simpler_pan(150, 210, 1692)
+    add 'morning_clouds_back' at simpler_pan(300, 250, 1692)
+    add 'morning_clouds_mid' at simpler_pan(220, 230, 1692)
+    add 'morning_clouds_front' at simpler_pan(150, 210, 1692)
 
     # A gradient overlay to ease the transition from night into morning
-    add 'Phone UI/animated_bgs/morning/morning_darken.webp':
+    add 'morning_darken':
         at reverse_topbottom_pan(180, 160, 30, 0.8, 0, 0.0, 0.0)
 
     use animated_shake_borders()
