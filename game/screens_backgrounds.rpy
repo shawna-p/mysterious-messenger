@@ -80,8 +80,8 @@ init python:
         objects passed in. Also positions each individual sprite at a random
         x, y position based on the attributes of the StarSprite.
         """
-        star_manager = SpriteManager(predict=['animated_night_med_star',
-            'animated_night_tiny_star', 'animated_night_big_star'])
+        star_manager = SpriteManager(predict=['night_med_star',
+            'night_tiny_star', 'night_big_star'])
 
         # Add them all to the sprite manager
         all_sprites = [ ]
@@ -113,7 +113,7 @@ init python:
                     for star_type in ['med', 'tiny', 'big', 'med', 'big']:
                         # Some stars twinkle
                         star_sprites.append(StarSprite(
-                            'animated_night_{}_star'.format(star_type),
+                            'night_{}_star'.format(star_type),
                             star_twinkle_out, 90, 110,
                             x*xran, x*xran+xran,
                             y*yran, y*yran+yran))
@@ -234,10 +234,6 @@ transform colorize_snow_evening():
 ## Night background
 ###########################################################
 
-image animated_night_big_star = "Phone UI/animated_bgs/night/night_big_star.webp"
-image animated_night_med_star = "Phone UI/animated_bgs/night/night_med_star.webp"
-image animated_night_tiny_star = "Phone UI/animated_bgs/night/night_tiny_star.webp"
-
 image animated_shooting_star1 = 'Phone UI/animated_bgs/night/night_shooting_star_1.webp'
 image animated_shooting_star2 = 'Phone UI/animated_bgs/night/night_shooting_star_2.webp'
 
@@ -258,17 +254,17 @@ init python:
                         for i in range(0, 200, 50):
                             # Make some stars twinkle in
                             star_sprites.append(StarSprite(
-                                'animated_night_{}_star'.format(star_type),
+                                'night_{}_star'.format(star_type),
                                 star_twinkle_in, i, i+50, x*xran, x*xran+xran,
                                 y*yran, y*yran+yran))
                             # Make some stars fade in and stay stationary
                             star_sprites.append(StarSprite(
-                                'animated_night_{}_star'.format(star_type),
+                                'night_{}_star'.format(star_type),
                                 star_fade_in, i, i+50, x*xran, x*xran+xran,
                                 y*yran, y*yran+yran))
                         # Make some stars already exist
                         star_sprites.append(StarSprite(
-                            'animated_night_{}_star'.format(star_type),
+                            'night_{}_star'.format(star_type),
                             None, 0, 0, x*xran, x*xran+xran, y*yran, y*yran+yran))
 
         return create_star_manager(star_sprites)
@@ -311,13 +307,13 @@ init python:
                     for star_type in ['med', 'tiny', 'big']:
                         # Some stars twinkle
                         star_sprites.append(StarSprite(
-                            'animated_night_{}_star'.format(star_type),
+                            'night_{}_star'.format(star_type),
                             star_twinkle_randomly, 0, 0,
                             x*xran, x*xran+xran,
                             y*yran, y*yran+yran))
                         # Some stars are stationary
                         star_sprites.append(StarSprite(
-                            'animated_night_{}_star'.format(star_type),
+                            'night_{}_star'.format(star_type),
                             None, 0, 0, x*xran, x*xran+xran, y*yran, y*yran+yran))
 
         return create_star_manager(star_sprites)
