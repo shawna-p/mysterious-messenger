@@ -14,10 +14,6 @@ screen animated_shake_borders():
 ## Morning background
 ###########################################################
 
-image animated_big_star = "Phone UI/animated_bgs/morning/big_star.webp"
-image animated_med_star = "Phone UI/animated_bgs/morning/med_star.webp"
-image animated_tiny_star = "Phone UI/animated_bgs/morning/tiny_star.webp"
-
 transform move_clouds(t=150, ytime=1, ysize=0):
     subpixel True
     ysize int(max(config.screen_height-113-165, 1334,
