@@ -230,9 +230,6 @@ transform colorize_snow_evening():
 ## Night background
 ###########################################################
 
-image animated_shooting_star1 = 'Phone UI/animated_bgs/night/night_shooting_star_1.webp'
-image animated_shooting_star2 = 'Phone UI/animated_bgs/night/night_shooting_star_2.webp'
-
 image animated_night_bg = 'Phone UI/animated_bgs/night/night_background.webp'
 
 init python:
@@ -284,8 +281,8 @@ screen animated_night():
         add star_sprites
 
         # Shooting stars
-        add 'animated_shooting_star1' at shooting_star
-        add 'animated_shooting_star2' at shooting_star
+        add 'night_shooting_star_1' at shooting_star
+        add 'night_shooting_star_2' at shooting_star
 
     use animated_shake_borders()
 
