@@ -271,7 +271,7 @@ screen animated_night():
     add 'animated_night_bg':
         ysize max(1334, config.screen_height-113-165) fit "cover"
     # Gradient overlay
-    add 'Phone UI/animated_bgs/night/night_overlay.webp':
+    add 'night_overlay':
         at topbottom_pan2(100, 100, 50, 1.0, 0, 0.0, 0.0)
     fixed:
         xysize (config.screen_width, config.screen_height-113-165) # Don't bother adding stars behind the UI
