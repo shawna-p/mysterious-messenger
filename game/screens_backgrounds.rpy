@@ -318,7 +318,7 @@ init python:
 screen animated_earlyMorn():
     zorder 0
     tag animated_bg
-    add 'Phone UI/animated_bgs/earlyMorn/earlymorn_background.webp':
+    add 'earlymorn_background':
         at reverse_topbottom_pan(150, 0, 0, 1.0, 0, 1.0)
 
     default star_sprites = make_earlymorn_stars()
