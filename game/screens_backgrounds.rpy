@@ -914,7 +914,7 @@ image front_rain = Fixed(
 screen animated_rainy_day():
     zorder 0
     tag animated_bg
-    add 'Phone UI/animated_bgs/rainy_day/rainy_clouds_gradient.webp':
+    add 'rainy_clouds_gradient':
         ysize config.screen_height
     # Clouds
     add Transform('rainy_clouds_cloud_underlay', xzoom=-1) at simpler_pan(400)
