@@ -1028,7 +1028,7 @@ screen animated_morning_snow():
     zorder 0
     tag animated_bg
 
-    add "Phone UI/animated_bgs/snow/snow_bg1.webp":
+    add "snow_bg1":
         ysize config.screen_height
 
     # Clouds
