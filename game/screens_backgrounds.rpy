@@ -1013,10 +1013,10 @@ screen animated_snowy_day():
         ysize config.screen_height
 
     # Clouds
-    add 'animated_snow_clouds_back' at move_clouds(300)
+    add 'animated_snow_clouds_back' at simpler_pan(300)
     add 'gentle_snow_back'
-    add 'animated_snow_clouds_mid' at move_clouds(200)
-    add 'animated_snow_clouds_front' at move_clouds(110)
+    add 'animated_snow_clouds_mid' at simpler_pan(200)
+    add 'animated_snow_clouds_front' at simpler_pan(110)
     add 'gentle_snow_front'
 
 image animated_morning_snow_clouds_back = Transform('animated_noon_clouds_back', alpha=0.8)
