@@ -1032,10 +1032,10 @@ screen animated_morning_snow():
         ysize config.screen_height
 
     # Clouds
-    add 'animated_morning_snow_clouds_back' at move_clouds(300)
+    add 'animated_morning_snow_clouds_back' at simpler_pan(300)
     add 'gentle_snow_back'
-    add 'animated_morning_snow_clouds_mid' at move_clouds(200)
-    add 'animated_morning_snow_clouds_front' at move_clouds(110)
+    add 'animated_morning_snow_clouds_mid' at simpler_pan(200)
+    add 'animated_morning_snow_clouds_front' at simpler_pan(110)
     add 'gentle_snow_front'
 
     use animated_shake_borders()
