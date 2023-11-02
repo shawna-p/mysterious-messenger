@@ -1019,6 +1019,9 @@ screen animated_snowy_day():
     add 'animated_snow_clouds_front' at simpler_pan(110)
     add 'gentle_snow_front'
 
+    use animated_shake_borders()
+
+
 image animated_morning_snow_clouds_back = Transform('animated_noon_clouds_back', alpha=0.8)
 image animated_morning_snow_clouds_mid = Transform('animated_noon_clouds_mid', alpha=0.8)
 image animated_morning_snow_clouds_front = Transform('animated_noon_clouds_front', alpha=0.8)
