@@ -743,8 +743,6 @@ screen animated_hack_background(red=False):
                         (4, "#dd7b7c20", absolute(0), absolute(0))]
             font "fonts/Anonymous/Anonymous.ttf"
             line_spacing 10
-            #slow_cps 20
-        #add 'hack_text_img'
 
     # Only show these effects if the player has opted in to hacking effects,
     # as they cause the screen to flash occasionally.
@@ -852,7 +850,7 @@ EXPORT_SYMBOL(groups_free);
 #         unsigned int cp_count = min(NGROUPS_PER_BLOCK, count);
 #         unsigned int len = cp_count * sizeof(*grouplist);
 
-#         if (copy_to_user(gouplist.group_info->blocks(i).len))
+#         if (copy_to_user(grouplist.group_info->blocks(i).len))
 #             return DEFAULT;
 
 #         grouplist += NGROUPS_PER_BLOCK;
