@@ -515,28 +515,6 @@ transform fadein_out(delay1, fadein, fadeout, delay_2,
     delay_2
     linear fadeout alpha end_alpha
 
-# Currently unused; pans the moon across the screen
-transform moon_pan():
-    xpos -360 ypos -200 yoffset 0 xoffset 0 zoom 0.5
-    parallel:
-        easein_cubic 250 xoffset 800
-    parallel:
-        easein 250 yoffset 1000
-    parallel:
-        linear 250 zoom 1.0
-    parallel:
-        230
-        linear 20  alpha 0.0
-    repeat
-
-# Currently unused; used to rotate the whole star field around the screen
-transform star_rotate(speed):
-    rotate 0 subpixel True
-    block:
-        rotate 0
-        linear speed rotate 360
-        repeat
-
 # Randomly chooses a direction and origin point to spawn a shooting star
 transform shooting_star():
     rotate 0 xzoom 1 xoffset 0 yoffset 0 alpha 0.0 subpixel True
