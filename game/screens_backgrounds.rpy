@@ -711,14 +711,12 @@ screen animated_hack_background(red=False):
             xsize 1100
             if not red:
                 color "#9be64e"
-                outlines [ (1, "#76b04caa", absolute(0), absolute(0)),
-                        (2, "#76b04c40", absolute(0), absolute(0)),
-                        (4, "#76b04c20", absolute(0), absolute(0))]
+                outlines [ (1, "#76b04caa"), (2, "#76b04c40"),
+                        (4, "#76b04c20")]
             else:
                 color "#e7a9ac60"
-                outlines [ (1, "#c63f4560", absolute(0), absolute(0)),
-                        (2, "#dd7b7c40", absolute(0), absolute(0)),
-                        (4, "#dd7b7c20", absolute(0), absolute(0))]
+                outlines [ (1, "#c63f4560"), (2, "#dd7b7c40"),
+                        (4, "#dd7b7c20")]
             font "fonts/Anonymous/Anonymous.ttf"
             line_spacing 10
 
