@@ -130,8 +130,7 @@ screen viewCG_fullsize(fullsizeCG):
                 style_prefix "CG_close"
                 action Return()
                 if persistent.dialogue_outlines:
-                    text_outlines [ (2, "#000",
-                                absolute(0), absolute(0)) ]
+                    text_outlines [ (2, "#000") ]
                     text_font gui.sans_serif_1xb
 
             if config.screen_height != 1334:

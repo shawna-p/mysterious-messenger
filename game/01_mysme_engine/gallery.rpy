@@ -978,8 +978,7 @@ screen viewCG_fullsize_album(album, caption, name):
             textbutton "Close":
                 style_prefix "CG_close"
                 if persistent.dialogue_outlines:
-                    text_outlines [ (2, "#000",
-                                absolute(0), absolute(0)) ]
+                    text_outlines [ (2, "#000") ]
                     text_font gui.sans_serif_1b
                 action [SetVariable('prev_cg_left', False),
                     SetVariable('prev_cg_right', False),
@@ -995,20 +994,17 @@ screen viewCG_fullsize_album(album, caption, name):
                     has hbox
                     text "[[" xalign 1.0:
                         if persistent.dialogue_outlines:
-                            outlines [ (2, "#000",
-                                        absolute(0), absolute(0)) ]
+                            outlines [ (2, "#000") ]
                             font gui.sans_serif_1xb
                     fixed:
                         xsize 30
                         text "{}".format("-" if fullscreen_on else "+") xalign 0.5:
                             if persistent.dialogue_outlines:
-                                outlines [ (2, "#000",
-                                            absolute(0), absolute(0)) ]
+                                outlines [ (2, "#000") ]
                                 font gui.sans_serif_1xb
                     text "]" xalign 0.0:
                         if persistent.dialogue_outlines:
-                            outlines [ (2, "#000",
-                                        absolute(0), absolute(0)) ]
+                            outlines [ (2, "#000") ]
                             font gui.sans_serif_1xb
 
 style cg_full_text:
