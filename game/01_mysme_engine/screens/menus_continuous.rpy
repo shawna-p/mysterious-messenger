@@ -417,12 +417,10 @@ screen c_choice_1(i, hide_screen='c_choice_1', first_choice=False,
             ## Add dialogue outlines
             if (persistent.dialogue_outlines
                     and persistent.custom_footers):
-                text_outlines [ (2, "#000",
-                    absolute(0), absolute(0)) ]
+                text_outlines [ (2, "#000") ]
             elif (persistent.dialogue_outlines
                     and not persistent.custom_footers):
-                text_outlines [ (2, "#fff",
-                    absolute(0), absolute(0)) ]
+                text_outlines [ (2, "#fff") ]
 
             ## Add 'seen' choice styling
             if (persistent.past_choices and not observing

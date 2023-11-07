@@ -132,7 +132,7 @@ screen special_msg(i):
         text i.what:
             style i.who.name + '_bubble_text'
             if (i.who.name == 'msg' and persistent.dialogue_outlines):
-                outlines [ (1, "#000a", absolute(0), absolute(0))]
+                outlines [ (1, "#000a")]
                 font gui.sans_serif_1b
 
         alt i.alt_text(False)
@@ -163,11 +163,9 @@ screen chat_animation(i, anti=False, no_anim=False):
                 alt i.alt_who(anti)
                 if persistent.dialogue_outlines:
                     if nickColour == black:
-                        outlines [ (1, "#fffa",
-                                absolute(0), absolute(0)) ]
+                        outlines [ (1, "#fffa") ]
                     else:
-                        outlines [ (1, "#000a",
-                                absolute(0), absolute(0))]
+                        outlines [ (1, "#000a")]
                     font gui.sans_serif_1b
         else:
             text i.who.name at invisible alt i.alt_who(anti)
