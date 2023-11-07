@@ -1037,8 +1037,7 @@ screen phone_say(who, what):
         style 'call_window'
         text what id "what":
             if persistent.dialogue_outlines:
-                outlines [ (absolute(2), "#000",
-                            absolute(0), absolute(0)) ]
+                outlines [ (2, "#000") ]
 
 ## Allows the program to jump to the incoming call; now only used for the
 ## intro.

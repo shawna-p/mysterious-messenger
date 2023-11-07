@@ -159,8 +159,7 @@ screen history():
         text "Close" style "CG_close_button_text":
             yalign 0.5 xpos 20
             if persistent.dialogue_outlines:
-                outlines [ (2, "#000",
-                            absolute(0), absolute(0)) ]
+                outlines [ (2, "#000") ]
                 font gui.sans_serif_1xb
 
 
@@ -188,8 +187,7 @@ screen history():
                         label h.who + ':':
                             style "history_name"
                             if persistent.dialogue_outlines:
-                                text_outlines [ (absolute(2), "#000",
-                                            absolute(0), absolute(0)) ]
+                                text_outlines [ (2, "#000") ]
                                 text_font gui.sans_serif_1xb
 
                             # Take the color of the who text from the
@@ -201,7 +199,7 @@ screen history():
                                     allow=gui.history_allow_tags)
                     text what:
                         if persistent.dialogue_outlines:
-                            outlines [ (absolute(2), "#000", 0, 0) ]
+                            outlines [ (2, "#000") ]
 
             if not _history_list:
                 label _("The dialogue history is empty.")
