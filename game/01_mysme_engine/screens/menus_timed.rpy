@@ -390,12 +390,10 @@ screen timed_choice(items, paraphrased=None):
 
                     if (persistent.dialogue_outlines
                             and persistent.custom_footers):
-                        text_outlines [ (2, "#000",
-                            absolute(0), absolute(0)) ]
+                        text_outlines [ (2, "#000") ]
                     elif (persistent.dialogue_outlines
                             and not persistent.custom_footers):
-                        text_outlines [ (2, "#fff",
-                            absolute(0), absolute(0)) ]
+                        text_outlines [ (2, "#fff") ]
 
                     if (persistent.past_choices and not observing
                             and i.chosen):
