@@ -491,7 +491,7 @@ screen choice(items, paraphrased=None):
             style_prefix 'phone_vn_choice'
             for num, i in enumerate(items):
                 textbutton i.caption at the_anim(float(num*0.2)):
-                    text_outlines [(2, outline_color, 0, 0)]
+                    text_outlines [(2, outline_color)]
                     if (persistent.past_choices and not observing
                             and i.chosen):
                         foreground 'seen_choice_check_circle'
@@ -533,7 +533,7 @@ screen choice(items, paraphrased=None):
                             style 'phone_vn_choice_button_text'
                         else:
                             style 'choice_button_text'
-                        outlines [(2, outline_color, 0, 0)]
+                        outlines [(2, outline_color)]
                     action choice_action(i, paraphrased)
 
 image phone_icon_bg = Fixed(
