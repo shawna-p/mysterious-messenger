@@ -157,7 +157,7 @@ style space_title2:
     size 22
     text_align 0.5
     align (0.5, 0.95)
-    outlines [(absolute(1), '#743801', absolute(0), absolute(0))]
+    outlines [(absolute(1), '#743801')]
     color '#fff'
 
 
