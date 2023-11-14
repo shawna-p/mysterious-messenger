@@ -122,14 +122,14 @@ screen say(who, what):
                     text who id "who":
                         if (persistent.vn_window_alpha < 0.2
                                 or persistent.dialogue_outlines):
-                            outlines [ (absolute(2), "#000") ]
+                            outlines [ (2, "#000") ]
                             font gui.sans_serif_1xb
 
             text what id "what":
                 style_prefix None
                 if (persistent.vn_window_alpha < 0.2
                         or persistent.dialogue_outlines):
-                    outlines [ (absolute(2), "#000") ]
+                    outlines [ (2, "#000") ]
         if not viewing_guest:
             # This is the overlay for Story Mode
             # that shows the Auto/Skip/Log buttons
@@ -234,14 +234,14 @@ style vn_button:
     color '#76D0B7'
     font gui.sans_serif_2
     size 55
-    outlines [(absolute(1), '#000')]
+    outlines [(1, '#000')]
     kerning -1
 
 style vn_button_hover:
     color "#999999"
     font gui.sans_serif_2
     size 55
-    outlines [(absolute(1), '#000')]
+    outlines [(1, '#000')]
     kerning -1
 
 ## Input screen ################################################################
