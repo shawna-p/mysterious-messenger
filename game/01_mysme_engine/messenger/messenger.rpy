@@ -117,7 +117,7 @@ style cc_insert_button:
 style cc_insert_vbox:
     align (0.5, 0.5)
 style cc_insert_text:
-    outlines [(1, "#000", 0, 0)]
+    outlines [(1, "#000")]
     color "#fff"
     align (0.5, 0.5)
     text_align 0.5

@@ -480,7 +480,7 @@ screen choice(items, paraphrased=None):
             style_prefix 'text_msg_choice'
             for num, i in enumerate(items):
                 textbutton i.caption at the_anim(float(num*0.2)):
-                    text_outlines [(2, outline_color, 0, 0)]
+                    text_outlines [(2, outline_color)]
                     if (persistent.past_choices and i.chosen):
                         foreground 'seen_choice_check'
                     action choice_action(i, paraphrased)
