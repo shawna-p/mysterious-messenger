@@ -1910,7 +1910,7 @@ init python:
 style multitouch_text:
     color "#fff"
     size 35
-    outlines [ (1, "#000", 0, 0)]
+    outlines [ (1, "#000")]
 
 screen display_zoom_gallery(zg):
 
