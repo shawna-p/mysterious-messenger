@@ -612,9 +612,6 @@ style email_choice_button_text:
 
 
 
-default quick_menu = False
-
-
 ## About screen ################################################################
 ##
 ## This screen gives credit and copyright information about the game and Ren'Py.
