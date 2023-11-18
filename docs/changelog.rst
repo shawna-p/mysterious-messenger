@@ -80,6 +80,8 @@ Fixes
       - Sprite layered images are set up to not require positioning information (will require redownloading the assets).
     * - :ref:`Pronouns update<Pronoun Integration>`
       - Pronouns have been updated to use a series of classes rather than individual variables, and as such do not require redeclaring individual variables like ``they``/``them`` every time the pronoun changes.
+    * - Style properties
+      - Various style properties (particularly outlines) have been cleaned up across the program.
 
 
 .. _qol-3-4-0:
