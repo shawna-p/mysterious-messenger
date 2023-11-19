@@ -335,7 +335,8 @@ init python:
 
     def find_bubble_sizes(bubble):
         """Find the sizes this bubble comes in."""
-
+        if bubble is None:
+            return None
         if 'glow' in bubble:
             return None
         sizes = [ 'Large' ]
@@ -942,33 +943,27 @@ screen pick_speaker(active_tab="Dialogue", pos=(320, 890), anchor=(0.0, 0.5),
                             Hide('pick_speaker')]
 
 screen pick_bubble_size(bubble_sizes, editing=False):
-    default pos = renpy.get_mouse_pos()
     if editing:
         default bubble_dict = bubble_info
     else:
         default bubble_dict = edit_bubble_info
 
     zorder 101
-    dismiss action Hide('pick_bubble_size')
 
     frame:
         at yzoom_in()
         background "#000"
-        xysize (150, 150)
-        pos pos
-        if (pos[0] + 150) > config.screen_width:
-            anchor (1.0, 0.5)
-        else:
-            anchor (0.0, 0.5)
+        xysize (150, 150) xalign 0.5
         has vbox
-        for sz in bubble_sizes:
-            textbutton sz:
-                xsize 150
-                text_color "#fff"
-                text_hover_color "#95e5f0"
-                text_selected_idle_color "#88d0da"
-                action [SetDict(bubble_dict, 'size', sz),
-                    Hide('pick_bubble_size')]
+        if bubble_sizes is not None:
+            for sz in bubble_sizes:
+                textbutton sz:
+                    xsize 150
+                    text_color "#fff"
+                    text_hover_color "#95e5f0"
+                    text_selected_idle_color "#88d0da"
+                    action [SetDict(bubble_dict, 'size', sz),
+                        ClearFocus('bubble_drop')]
 
 screen edit_msg_menu(msg, ind):
     default pos = renpy.get_mouse_pos()
@@ -1371,9 +1366,7 @@ screen select_bubble(editing=False):
                             selected_background '#a8a8a8'
                             selected (bubble_dict['bubble'] == bub)
                             if "glow" not in bub:
-                                action [Show('pick_bubble_size',
-                                    bubble_sizes=find_bubble_sizes(bub),
-                                    editing=editing),
+                                action [CaptureFocus("bubble_drop"),
                                     SetDict(bubble_dict, 'bubble', bub),
                                     SetDict(bubble_dict, 'bounce', True)]
                                 add Transform(bub, zoom=0.46) align (0.5, 0.5)
@@ -1397,6 +1390,13 @@ screen select_bubble(editing=False):
                     Hide('select_bubble')],
                     [Function(add_bubble, bubble_dict, is_edit=True),
                     Hide('select_bubble')])
+
+    if GetFocusRect('bubble_drop'):
+        dismiss action ClearFocus('bubble_drop')
+        nearrect:
+            focus 'bubble_drop'
+            use pick_bubble_size(bubble_sizes=find_bubble_sizes(
+                bubble_dict.get('bubble')), editing=editing)
 
 screen select_banner():
     zorder 100
