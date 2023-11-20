@@ -948,8 +948,6 @@ screen pick_bubble_size(bubble_sizes, editing=False):
     else:
         default bubble_dict = edit_bubble_info
 
-    zorder 101
-
     frame:
         at yzoom_in()
         background "#000"
@@ -974,10 +972,7 @@ screen edit_msg_menu(msg, ind):
     zorder 50
 
     style_prefix 'edit_menu'
-    button:
-        xysize (config.screen_width, config.screen_height)
-        background None
-        action [SetVariable('edit_msg_index', -1), Hide('edit_msg_menu')]
+    dismiss action [SetVariable('edit_msg_index', -1), Hide('edit_msg_menu')]
     frame:
         at yzoom_in()
         pos pos
