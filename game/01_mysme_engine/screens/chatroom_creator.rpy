@@ -902,10 +902,7 @@ screen pick_speaker(active_tab="Dialogue", pos=(320, 890), anchor=(0.0, 0.5),
         else:
             all_chara = all_characters
 
-    button:
-        xysize (config.screen_width, config.screen_height)
-        background None
-        action Hide('pick_speaker')
+    dismiss action Hide('pick_speaker')
     frame:
         background "#000"
         padding (2, 2)
