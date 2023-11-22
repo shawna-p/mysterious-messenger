@@ -102,9 +102,7 @@ screen viewCG_fullsize(fullsizeCG):
 
     add "black"
 
-    button:
-        xysize (config.screen_width, config.screen_height)
-        action ToggleVariable("close_visible", False, True)
+    dismiss action ToggleVariable("close_visible", False, True)
 
     if isinstance(fullsizeCG, Album) or isinstance(fullsizeCG, GalleryImage):
         add fullsizeCG.chat_img:
