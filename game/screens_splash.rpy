@@ -24,10 +24,7 @@ screen splash_image(img):
     add 'touch_to_start' yalign 1.0 yoffset -90
     # This is a full-screen button that allows the user to tap
     # anywhere to return
-    button:
-        xysize (config.screen_width, config.screen_height)
-        activate_sound "audio/sfx/UI/digi_chime_echo.wav"
-        action Return()
+    dismiss action Return() activate_sound "audio/sfx/UI/digi_chime_echo.wav"
 
 init python:
     def get_splash_image():
