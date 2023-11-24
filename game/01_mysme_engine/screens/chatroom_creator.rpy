@@ -774,10 +774,10 @@ screen dialogue_tab(show_fonts, compact_ver=False):
                     [AddToSet(undo_list, chatlog),
                     SetVariable('chatlog', [ ])])
             textbutton "Undo":
-                sensitive undo_list
+                sensitive undo_list keysym "ctrl_K_z"
                 action Function(undo_chatlog)
             textbutton "Redo":
-                sensitive redo_list
+                sensitive redo_list keysym "ctrl_K_y"
                 action Function(redo_chatlog)
             textbutton "Add to Chat":
                 action [chat_dialogue_input.Disable(),
