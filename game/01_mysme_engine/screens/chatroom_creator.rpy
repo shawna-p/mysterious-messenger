@@ -682,7 +682,6 @@ screen dialogue_tab(show_fonts, compact_ver=False):
             text "B" font gui.sans_serif_1xb
             action [ToggleDict(styles_dict, 'bold'),
                 If(compact_ver, Function(update_edit_text))]
-
         button:
             add "#000"
             text "I" italic True
@@ -761,8 +760,8 @@ screen dialogue_tab(show_fonts, compact_ver=False):
                 action [SetDict(styles_dict, 'font', gui.blocky_font),
                     If(compact_ver, Function(update_edit_text))]
 
-
     use dialogue_input(compact_ver)
+
     hbox:
         spacing 40 xalign 0.5
         if compact_ver:
@@ -891,7 +890,6 @@ default cc_cracked_overlay = False
 ##############################################
 ## EDITS OPTIONS
 ##############################################
-
 screen pick_speaker(active_tab="Dialogue", pos=(320, 890), anchor=(0.0, 0.5),
         msg_ind=None):
 
