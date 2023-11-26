@@ -101,6 +101,8 @@ QoL Improvements
       - Simplified the transform and image code for the animated backgrounds.
     * - Private class attributes
       - Private class attributes have been turned into single-underscore versions where possible to avoid issues with files moving or being renamed impeding save compatibility.
+    * - Chat Creator updates
+      - Modernized chat creator to use nearrect and dismiss (7.5/8.0).
 
 .. _incompat-3-4-0:
 
