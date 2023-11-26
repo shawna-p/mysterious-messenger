@@ -1176,12 +1176,10 @@ screen select_anim():
                             SetScreenVariable('anim_entry',
                                 ('anim', 'secure_anim'))]
 
-
             if anim_entry and anim_entry[0] == 'hack':
                 textbutton "Reverse Animation":
                     style_prefix 'check'
                     action ToggleScreenVariable('anim_reverse')
-
 
             textbutton _('Confirm'):
                 style_prefix 'chatc_confirm'
@@ -1239,7 +1237,7 @@ screen select_emote(edit=False):
             frame:
                 xysize (630,760)
                 xalign 0.5
-                background 'input_square' padding(40,40)
+                background 'input_square' padding(40, 40)
                 vpgrid:
                     mousewheel True
                     xysize (590,740)
@@ -1423,11 +1421,13 @@ screen select_banner():
                     spacing 10
                     for ban in ('annoy', 'heart', 'lightning', 'well'):
                         button:
-                            foreground Transform('banner ' + ban, xsize=520, fit='contain')
+                            foreground Transform('banner ' + ban, xsize=520,
+                                fit='contain')
                             hover_background '#e0e0e0'
                             selected_background '#a8a8a8'
                             xysize (520, 170)
-                            action ToggleScreenVariable('selected_banner', ban, None)
+                            action ToggleScreenVariable('selected_banner',
+                                ban, None)
 
             textbutton _('Confirm'):
                 style_prefix 'chatc_confirm'
