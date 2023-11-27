@@ -1010,7 +1010,6 @@ screen edit_msg_menu(msg, ind):
 style edit_menu_frame:
     background "#000"
     xsize 300
-    #ymaximum 250
 style edit_menu_button_text:
     idle_color "#fff"
     hover_color "#bff"
