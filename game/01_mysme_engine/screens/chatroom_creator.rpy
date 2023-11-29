@@ -574,7 +574,7 @@ default undo_list = [ ]
 default redo_list = [ ]
 default chatlog_copy = [ ]
 default saved_background = "morning"
-define creator_messenger_ysize = config.screen_height-715 #640
+define creator_messenger_ysize = config.screen_height-715
 # Styles which are applied to a fresh entry
 default entry_styles = {
     'font' : gui.sans_serif_1,
