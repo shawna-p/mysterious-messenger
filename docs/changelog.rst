@@ -82,6 +82,8 @@ Fixes
       - Pronouns have been updated to use a series of classes rather than individual variables, and as such do not require redeclaring individual variables like ``they``/``them`` every time the pronoun changes.
     * - Style properties
       - Various style properties (particularly outlines) have been cleaned up across the program.
+    * - Updated screen language
+      - ``dismiss`` has replaced full-screen buttons where possible (7.5/8.0+).
 
 
 .. _qol-3-4-0:
