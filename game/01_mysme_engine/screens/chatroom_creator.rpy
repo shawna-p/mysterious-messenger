@@ -428,9 +428,7 @@ init python:
         already_exists = renpy.loadable('generated/' + file_name + '.rpy')
         if not already_exists:
             try:
-                f = open(filepath)
-                f.close()
-                already_exists = True
+                already_exists = os.path.exists(filepath)
             except Exception:
                 already_exists = False
 
