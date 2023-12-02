@@ -29,16 +29,14 @@ init python:
         def enter(self, simulate=False):
             if not simulate:
                 if not self.edit_action:
-                    renpy.run([Function(add_creation_entry),
-                        Function(self.set_text, ''),
-                        SetVariable('redo_list', [ ])])
+                    add_creation_entry()
+                    self.set_text('')
+                    store.redo_list = [ ]
                 else:
                     # This is an edit to an existing entry
-                    renpy.run([
-                        Function(self.set_text, ''),
-                        Function(record_chatlog),
-                        Hide('dialogue_edit_popup')
-                    ])
+                    self.set_text('')
+                    record_chatlog()
+                    renpy.hide_screen("dialogue_edit_popup")
             else:
                 renpy.run(self.Enable())
             raise renpy.IgnoreEvent()
