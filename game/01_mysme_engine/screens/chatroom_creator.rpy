@@ -41,13 +41,13 @@ init python:
                 renpy.run(self.Enable())
             raise renpy.IgnoreEvent()
 
+
     def undo_chatlog():
         """
         Replace the chatlog with the most recent "undo" entry.
         """
         store.redo_list.append(chatlog)
         store.chatlog = store.undo_list.pop()
-
 
     def record_chatlog():
         """
@@ -466,7 +466,6 @@ init python:
         renpy.notify("Code saved at game/generated/" + file_name + ".rpy")
         return
 
-
     def add_replay_direction(text, entry, at_beginning=False, reverse=False):
         """
         Adds an instruction for the replay, such as setting the music.
@@ -507,6 +506,7 @@ default is_main_menu_replay = False
 default in_chat_creator = False
 # Save the chatlog before a replay to restore it
 default saved_chatlog = [ ]
+
 ## Label which begins the chatroom creator! It operates a bit
 ## like a game within a game.
 label start_chatroom_creator():
