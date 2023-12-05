@@ -1,3 +1,6 @@
+################################################################################
+## FUNCTIONS AND CLASSES
+################################################################################
 init python:
     class InputDialogue(InputValue):
         """InputValue that lets the user type dialogue to the program."""
@@ -501,7 +504,22 @@ init python:
         record_chatlog()
         return
 
+    def get_readable_music():
+        """Return a human-readable music list, sorted."""
+        the_list = get_dict_keys(store.music_dictionary)
+        new_list = [ ]
+        for item in the_list:
+            new_item = item.split('audio/music/')[-1]
+            new_item = '.'.join(new_item.split('.')[:-1])
+            # Remove any digits at the start of the name
+            new_item = regex.sub("^[0-9]+ ", "", new_item)
+            new_list.append((new_item, item))
+        new_list = sorted(new_list, key=lambda x: x[0])
+        return new_list
 
+################################################################################
+## SETUP & LABELS
+################################################################################
 default is_main_menu_replay = False
 default in_chat_creator = False
 # Save the chatlog before a replay to restore it
@@ -532,7 +550,6 @@ label main_chatroom_creator():
         jump chatroom_creator_setup
     jump main_chatroom_creator
 
-
 ## Clean up the screens before returning to the chatroom creator
 label chatroom_creator_setup():
     $ reset_story_vars()
@@ -543,7 +560,9 @@ label chatroom_creator_setup():
     $ renpy.retain_after_load()
     jump main_chatroom_creator
 
-
+################################################################################
+## CHAT CREATOR VARIABLES
+################################################################################
 default cc_participants = [ ]
 default edit_dialogue = ""
 default edit_dialogue_input = InputDialogue('edit_dialogue', edit_action=True)
@@ -592,6 +611,42 @@ default edit_styles = {
     'underline' : False
 }
 
+default text_input_yadj = ui.adjustment()
+default cc_cracked_overlay = False
+
+define 10 readable_music = get_readable_music()
+################################################################################
+## IMAGES
+################################################################################
+image text_caret:
+    Solid("#000", xmaximum=2)
+    0.5
+    Solid("#0000", xmaximum=2)
+    0.5
+    repeat
+
+image text_size_increase = Composite(
+    (47+20, 47),
+    (5+5, 18), Text("T", color="#fff", font=gui.serif_1xb, size=14),
+    (12+4, 4), Text("T", color="#fff", font=gui.serif_1xb, size=30),
+    (30+5, 8), Text("+", color="#fff", font=gui.serif_1xb, size=30)
+)
+image text_size_decrease = Composite(
+    (47+20, 47),
+    (5+5, 18), Text("T", color="#fff", font=gui.serif_1xb, size=14),
+    (12+4, 4), Text("T", color="#fff", font=gui.serif_1xb, size=30),
+    (30+5, 8), Text("-", color="#fff", font=gui.serif_1xb, size=30)
+)
+
+image text_size_reset = Composite(
+    (47+20, 47),
+    (5+5, 18), Text("T", color="#fff", font=gui.serif_1xb, size=14),
+    (12+4, 4), Text("T", color="#fff", font=gui.serif_1xb, size=30),
+    (30+3, 12), 'Menu Screens/Main Menu/update_arrow.png'
+)
+################################################################################
+## SCREENS
+################################################################################
 screen chat_creator_tabs(active_tab):
     hbox:
         style_prefix "settings_tabs"
@@ -843,46 +898,6 @@ screen dialogue_input(compact_ver=False):
                 size gui.text_size + styles_dict['size'] + size_bonus
         action the_input.Enable()
 
-style font_options_button:
-    background "#fff"
-    selected_background "#5beec8"
-    insensitive_foreground "#0003"
-    xysize (47, 47)
-    padding (2, 2)
-
-style font_options_text:
-    align (0.5, 0.5)
-    color "#fff"
-    insensitive_color "#bbb"
-
-style font_options_hbox:
-    spacing 5
-
-style font_options_vbox:
-    spacing -3
-    align (0.5, 0.5)
-
-style font_options2_button:
-    is font_options_button
-    xysize (105, 47)
-    padding (5, 2)
-
-style font_options2_text:
-    is font_options_text
-    size 29
-style font_options2_hbox is font_options_hbox
-style font_options2_vbox is font_options_vbox
-transform slide_in_out():
-    on show, appear:
-        yzoom 0.0
-        easein 0.35 yzoom 1.0
-    on hide:
-        yzoom 1.0
-        easein 0.35 yzoom 0.0
-
-default text_input_yadj = ui.adjustment()
-default cc_cracked_overlay = False
-
 ##############################################
 ## EDITS OPTIONS
 ##############################################
@@ -1003,14 +1018,6 @@ screen edit_msg_menu(msg, ind):
                         Show('pick_mc_pfp'),
                         Show('pick_chara_pfp', who=msg.who))]
 
-style edit_menu_frame:
-    background "#000"
-    xsize 300
-style edit_menu_button_text:
-    idle_color "#fff"
-    hover_color "#bff"
-    selected_idle_color "#88d0da"
-
 screen dialogue_edit_popup():
     modal True
 
@@ -1031,39 +1038,6 @@ screen dialogue_edit_popup():
             spacing 10
             null height 60
             use dialogue_tab(show_fonts, compact_ver=True)
-
-transform yzoom_in():
-    yzoom 0.0
-    easein 0.2 yzoom 1.0
-    on hide:
-        easeout 0.2 yzoom 0.0
-
-image text_caret:
-    Solid("#000", xmaximum=2)
-    0.5
-    Solid("#0000", xmaximum=2)
-    0.5
-    repeat
-
-image text_size_increase = Composite(
-    (47+20, 47),
-    (5+5, 18), Text("T", color="#fff", font=gui.serif_1xb, size=14),
-    (12+4, 4), Text("T", color="#fff", font=gui.serif_1xb, size=30),
-    (30+5, 8), Text("+", color="#fff", font=gui.serif_1xb, size=30)
-)
-image text_size_decrease = Composite(
-    (47+20, 47),
-    (5+5, 18), Text("T", color="#fff", font=gui.serif_1xb, size=14),
-    (12+4, 4), Text("T", color="#fff", font=gui.serif_1xb, size=30),
-    (30+5, 8), Text("-", color="#fff", font=gui.serif_1xb, size=30)
-)
-
-image text_size_reset = Composite(
-    (47+20, 47),
-    (5+5, 18), Text("T", color="#fff", font=gui.serif_1xb, size=14),
-    (12+4, 4), Text("T", color="#fff", font=gui.serif_1xb, size=30),
-    (30+3, 12), 'Menu Screens/Main Menu/update_arrow.png'
-)
 
 ##############################################
 ## EFFECTS TAB
@@ -1179,10 +1153,6 @@ screen select_anim():
                 action [Hide('select_anim'),
                     Function(add_replay_direction,
                         anim_msg, anim_entry, reverse=anim_reverse)]
-
-transform hack_transform(end=0.35):
-    zoom 0.3
-    crop (0.0, 0.0, 1.0, end)
 
 screen select_emote(edit=False):
 
@@ -1490,24 +1460,6 @@ screen other_cc_tab():
             hover Transform("load_btn", zoom=1.1)
             action Show("load", Dissolve(0.5))
 
-## Get music
-init python:
-    def get_readable_music():
-        """Return a human-readable music list, sorted."""
-        the_list = get_dict_keys(store.music_dictionary)
-        new_list = [ ]
-        for item in the_list:
-            new_item = item.split('audio/music/')[-1]
-            new_item = '.'.join(new_item.split('.')[:-1])
-            # Remove any digits at the start of the name
-            new_item = regex.sub("^[0-9]+ ", "", new_item)
-            new_list.append((new_item, item))
-        new_list = sorted(new_list, key=lambda x: x[0])
-        return new_list
-
-init 10:
-    define readable_music = get_readable_music()
-
 screen select_music():
     zorder 100
     modal True
@@ -1562,9 +1514,6 @@ screen select_music():
                         ('play music', temp_path),
                         at_beginning),
                     Hide('select_music')]#Play('music', mystic_chat),
-
-style chatc_confirm_button is cc_confirm_style
-style chatc_confirm_button_text is mode_select
 
 screen select_background():
     zorder 100
@@ -1687,7 +1636,6 @@ style cc_confirm_style:
 ##############################################
 ## CHAT CREATOR SAVE/LOAD
 ##############################################
-
 screen chatroom_file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
         begin_page=0):
 
@@ -1817,7 +1765,6 @@ screen load_chat():
 ##############################################
 ## CHAT CREATOR MAIN MENU HUB
 ##############################################
-
 screen choose_chat_creator():
 
     ## Ensure other screens do not get input while this screen is displayed.
@@ -1850,3 +1797,70 @@ screen choose_chat_creator():
 
     ## Right-click and escape answer "no".
     key "game_menu" action Hide('choose_chat_creator')
+
+################################################################################
+## STYLES
+################################################################################
+
+style font_options_button:
+    background "#fff"
+    selected_background "#5beec8"
+    insensitive_foreground "#0003"
+    xysize (47, 47)
+    padding (2, 2)
+
+style font_options_text:
+    align (0.5, 0.5)
+    color "#fff"
+    insensitive_color "#bbb"
+
+style font_options_hbox:
+    spacing 5
+
+style font_options_vbox:
+    spacing -3
+    align (0.5, 0.5)
+
+style font_options2_button:
+    is font_options_button
+    xysize (105, 47)
+    padding (5, 2)
+
+style font_options2_text:
+    is font_options_text
+    size 29
+style font_options2_hbox is font_options_hbox
+style font_options2_vbox is font_options_vbox
+
+style edit_menu_frame:
+    background "#000"
+    xsize 300
+style edit_menu_button_text:
+    idle_color "#fff"
+    hover_color "#bff"
+    selected_idle_color "#88d0da"
+
+style chatc_confirm_button is cc_confirm_style
+style chatc_confirm_button_text is mode_select
+
+################################################################################
+## TRANSFORMS
+################################################################################
+transform hack_transform(end=0.35):
+    zoom 0.3
+    crop (0.0, 0.0, 1.0, end)
+
+transform yzoom_in():
+    yzoom 0.0
+    easein 0.2 yzoom 1.0
+    on hide:
+        easeout 0.2 yzoom 0.0
+
+transform slide_in_out():
+    on show, appear:
+        yzoom 0.0
+        easein 0.35 yzoom 1.0
+    on hide:
+        yzoom 1.0
+        easein 0.35 yzoom 0.0
+
