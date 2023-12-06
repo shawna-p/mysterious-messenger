@@ -1,4 +1,5 @@
 init python:
+    import re as regex # Import regex
 
     class Emailv3(renpy.store.object):
         """
@@ -480,7 +481,6 @@ init python:
             return not self.__eq__(other)
 
 
-
     class EmailReply(renpy.store.object):
         """
         A class intended to facilitate writing email replies.
@@ -511,7 +511,6 @@ init python:
             self.continue_chain = continue_chain or []
             self.email_success = email_success
 
-    import re as regex # Import regex
     def filter_whitespace(s):
         """Filter excess whitespace from a string. Used for emails."""
 
