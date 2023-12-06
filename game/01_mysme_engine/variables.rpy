@@ -951,7 +951,6 @@ init -6 python:
         # Otherwise, it might be more of an internal issue
         return None
 
-
     # This lets the program shuffle menu options
     renpy_menu = menu
     def menu(items):
@@ -982,7 +981,6 @@ init -6 python:
             items = new_items
         return renpy_menu(items)
 
-
     # Don't let the player rollback the game by scrolling.
     try:
         config.keymap['rollback'].remove('mousedown_4')
@@ -1001,7 +999,6 @@ init -6 python:
         config.keymap['game_menu'].remove('mouseup_3')
     except ValueError:
         pass
-
 
     def custom_show(name, at_list=None, layer='master', what=None,
             zorder=0, tag=None, behind=None, **kwargs):
@@ -1273,7 +1270,6 @@ init -6 python:
         else:
             return list(d.keys())
 
-
     # Some colour names, mostly for testing
     WHITE = "#FFF"
     BLACK = "#000"
@@ -1370,7 +1366,6 @@ default persistent.unlock_all_story = False
 #************************************
 # Chatroom Backgrounds
 #************************************
-
 image bg morning = "center_bg:Phone UI/bg-morning.webp"
 image bg evening = "center_bg:Phone UI/bg-evening.webp"
 image bg night = "center_bg:Phone UI/bg-night.webp"
@@ -1409,7 +1404,6 @@ image secure_chat_intro = Fixed(
     xysize=(892, 1334), align=(0.5, 0.5)
 )
 
-
 # A starry night background with some static stars;
 # used in menu screens
 image bg starry_night = "Menu Screens/Main Menu/bg-starry-night.webp"
@@ -1420,7 +1414,6 @@ image transparent_img = '#0000'
 # ********************************
 # Short forms/Startup Variables
 # ********************************
-
 # What state the game is in
 default gamestate = None
 define CHAT = 1
@@ -1489,7 +1482,6 @@ define _preferences.show_empty_window = False
 ##******************************
 ## Image Definitions - Menu
 ##******************************
-
 image greeting_bubble = Frame("Menu Screens/Main Menu/greeting_bubble.webp", 40, 10, 10, 10)
 image greeting_panel = Frame("Menu Screens/Main Menu/greeting_panel.webp", 20, 20)
 
@@ -1576,7 +1568,6 @@ image menu_select_btn_clear = Frame("Menu Screens/Main Menu/menu_select_button_c
 ## ********************************
 ## Chat Home Screen
 ## ********************************
-
 image gray_chatbtn = "Menu Screens/Chat Hub/main01_chatbtn.webp"
 image gray_chatbtn_hover = "btn_hover:gray_chatbtn"
 image rfa_chatcircle:
@@ -1647,7 +1638,6 @@ image input_popup_bkgr_hover = Frame("Menu Screens/Main Menu/menu_popup_bkgrd_ho
 ## ********************************
 ## Text Message Screen
 ## ********************************
-
 image new_text_envelope = 'Text Messages/main03_email_unread.webp'
 image read_text_envelope = 'Text Messages/main03_email_read.webp'
 image new_text = 'Text Messages/new_text.webp'
@@ -1715,7 +1705,6 @@ image npc_text_msg_bubble = Frame("Text Messages/msgsl_text_npc.webp", 60,60,60,
 ## ********************************
 ## Chat Select Screen
 ## ********************************
-
 image day_selected = Frame('Menu Screens/Day Select/daychat01_day_mint.webp', 50, 50)
 image day_selected_hover = Frame('Menu Screens/Day Select/daychat01_day_mint_hover.webp', 50, 50)
 image day_inactive = Frame('Menu Screens/Day Select/daychat01_day_inactive.webp', 50, 50)
@@ -1844,8 +1833,6 @@ image hacked_white_squares:
             pause 0.02
     Transform('chat_hack_filled', yzoom=0.4, alpha=0.0, yalign=0.85)
 
-
-
 image day_today:
     'Menu Screens/Day Select/daychat_today.webp'
     block:
@@ -1892,7 +1879,6 @@ image story_call_history = 'Menu Screens/Day Select/story_call_history.webp'
 ## ********************************
 ## Phone Call Screen
 ## ********************************
-
 image call_back = 'Phone Calls/call.webp'
 
 image call_signal_sl:
@@ -1967,12 +1953,9 @@ image call_choice_hover = Frame('Phone Calls/call_select_button_hover.webp', 90,
 image call_choice_check = Frame('Phone Calls/call_select_button_check.webp', 70, 70)
 image call_choice_check_hover = Frame('Phone Calls/call_select_button_hover_check.webp', 90, 90)
 
-
-
 ## ********************************
 ## Email Screen
 ## ********************************
-
 image email_completed_3 = "Email/main03_email_completed_01.webp"
 image email_completed_2 = "Email/main03_completed_02.webp"
 image email_completed_1 = "Email/main03_completed_03.webp"
