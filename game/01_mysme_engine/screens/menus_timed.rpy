@@ -36,6 +36,7 @@ init python:
 
         return
 
+
     class TimedMenuValue(AnimatedValue):
         """
         A class which inherits from the AnimatedValue bar, but stops
@@ -103,7 +104,6 @@ init python:
                 return 0
 
 
-
 ## A duplicate of the messenger_screen screen that includes an animation
 ## to smooth out the transition into timed menu answers showing.
 screen timed_menu_messages(no_anim_list=None):
@@ -153,20 +153,6 @@ screen timed_menu_messages(no_anim_list=None):
                             and i in no_anim_list):
                         use chat_animation(i, no_anim=True)
                 null height 10
-
-## Two animations to move the messages up and down the screen when
-## the choices appear/disappear.
-transform slide_up_down(y=-220):
-    yoffset 0
-    pause 0.1
-    ease 0.5 yoffset y
-    on hide:
-        yoffset y
-        ease 0.5 yoffset 0
-
-transform slide_down(y=-220):
-    yoffset y
-    ease 0.5 yoffset 0
 
 ## The length of extra time to wait while the answers are on-screen before
 ## the menu expires.
@@ -512,6 +498,19 @@ style old_two_button_text:
     xmaximum (config.screen_width // 2) - 20 - 40
 
 
+## Two animations to move the messages up and down the screen when
+## the choices appear/disappear.
+transform slide_up_down(y=-220):
+    yoffset 0
+    pause 0.1
+    ease 0.5 yoffset y
+    on hide:
+        yoffset y
+        ease 0.5 yoffset 0
+
+transform slide_down(y=-220):
+    yoffset y
+    ease 0.5 yoffset 0
 
 transform shrink_away():
     yzoom 0.0
@@ -520,7 +519,6 @@ transform shrink_away():
     on hide:
         yzoom 1.0
         ease 0.5 yzoom 0.0
-
 
 transform wait_fade():
     alpha 0.0
