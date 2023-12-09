@@ -181,6 +181,8 @@ init -50 python:
             if not has_achievement and self.has():
                 # First time this was granted
                 self.achievement_popup()
+                # Save the timestamp
+                self._timestamp = time.time()
             return x
 
         def achievement_popup(self):
