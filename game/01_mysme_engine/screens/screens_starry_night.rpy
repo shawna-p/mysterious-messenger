@@ -7,6 +7,27 @@ init -1 python:
         trans.xpos = renpy.random.random()
         return None
 
+    def create_snight_manager():
+        """
+        Create and return a SpriteManager object based on the list of StarSprite
+        objects passed in. Also positions each individual sprite at a random
+        x, y position based on the attributes of the StarSprite.
+        """
+        star_manager = SpriteManager(predict=['small star', 'medium star'])
+
+        # Add them all to the sprite manager
+        all_sprites = [ ]
+        for i in range(20) in star_sprites:
+            all_sprites.append(star_manager.create("small star"))
+            all_sprites[-1].x = renpy.random.random()
+            all_sprites[-1].y = renpy.random.random()
+
+            all_sprites.append(star_manager.create("medium star"))
+            all_sprites[-1].x = renpy.random.random()
+            all_sprites[-1].y = renpy.random.random()
+
+        return star_manager
+
 ## These are the stars that will be animated
 image small_star_static = "Menu Screens/Main Menu/small-star.webp"
 
@@ -55,11 +76,13 @@ image medium star:
 # This makes it easier to use the starry night background
 screen starry_night():
     add "#000"
+    default star_sprites = create_snight_manager()
     add "bg starry_night"
-    for i in range(20):
-        add "small star"
-    for j in range(11):
-        add "medium star"
+    add star_sprites
+    # for i in range(20):
+    #     add "small star"
+    # for j in range(11):
+    #     add "medium star"
     add Transform("#000", alpha=persistent.starry_contrast)
 
 image starry_night_img = Composite(
