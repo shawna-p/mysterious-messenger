@@ -13,20 +13,33 @@ init -1 python:
         objects passed in. Also positions each individual sprite at a random
         x, y position based on the attributes of the StarSprite.
         """
-        star_manager = SpriteManager(predict=['small star', 'medium star'])
-
         # Add them all to the sprite manager
-        all_sprites = [ ]
-        for i in range(20) in star_sprites:
-            all_sprites.append(star_manager.create("small star"))
-            all_sprites[-1].x = renpy.random.random()
-            all_sprites[-1].y = renpy.random.random()
+        star_sprites = [ ]
 
-            all_sprites.append(star_manager.create("medium star"))
-            all_sprites[-1].x = renpy.random.random()
-            all_sprites[-1].y = renpy.random.random()
+        # The range of where the star can be on-screen
+        xran = config.screen_width // 3
+        yran = (config.screen_height) // 4
 
-        return star_manager
+        for i in range(2):
+            for x in range(3):
+                for y in range(4):
+                    for star_type in ['medium', 'small']:
+                        star_sprites.append(StarSprite(
+                            '{}_star_static'.format(star_type),
+                            star_twinkle_quickly, 0, 0,
+                            x*xran, x*xran+xran,
+                            y*yran, y*yran+yran))
+
+        return create_star_manager(star_sprites)
+
+transform star_twinkle_quickly(num1):
+    alpha 0.6
+    block:
+        ease 0.6 + renpy.random.random() alpha 0.6
+        linear renpy.random.randint(3, 12) + renpy.random.random()
+        ease 0.5 + renpy.random.random() alpha 0.0
+        linear 0.3
+        repeat
 
 ## These are the stars that will be animated
 image small_star_static = "Menu Screens/Main Menu/small-star.webp"
