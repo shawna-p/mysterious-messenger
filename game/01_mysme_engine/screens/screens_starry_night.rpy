@@ -1,12 +1,5 @@
 init -1 python:
 
-    def star_func(trans,st,at):
-        """Display a star at a random position."""
-
-        trans.ypos = renpy.random.random()
-        trans.xpos = renpy.random.random()
-        return None
-
     def create_snight_manager():
         """
         Create and return a SpriteManager object based on the list of StarSprite
@@ -44,46 +37,7 @@ transform star_twinkle_quickly(num1):
 ## These are the stars that will be animated
 image small_star_static = "Menu Screens/Main Menu/small-star.webp"
 
-image small star:
-    function star_func
-    block:
-        "transparent_img" with Dissolve(1.0, alpha=True)
-        0.9
-        "small_star_static" with Dissolve(1.0, alpha=True)
-        # This just tells the program to pick a number between 5 and 9
-        # and then wait that many seconds before continuing with the animation
-        renpy.random.randint(3, 7) + renpy.random.random()
-        repeat
-
-image small_star_2:
-    block:
-        "transparent_img" with Dissolve(1.0, alpha=True)
-        0.9
-        "small_star_static" with Dissolve(1.0, alpha=True)
-        # This just tells the program to pick a number between 5 and 9
-        # and then wait that many seconds before continuing with the animation
-        random.randint(3, 7) + random.random()
-        repeat
-image medium_star_2:
-    block:
-        "transparent_img" with Dissolve(1.0, alpha=True)
-        0.9
-        "small_star_static" with Dissolve(1.0, alpha=True)
-        # This just tells the program to pick a number between 5 and 9
-        # and then wait that many seconds before continuing with the animation
-        random.randint(3, 7) + random.random()
-        repeat
-
 image medium_star_static = "Menu Screens/Main Menu/medium-star.webp"
-
-image medium star:
-    function star_func
-    block:
-        "medium_star_static" with Dissolve(1.0, alpha=True)
-        renpy.random.randint(4, 11) + renpy.random.random()
-        "transparent_img" with Dissolve(1.0, alpha=True)
-        1.3
-        repeat
 
 
 # This makes it easier to use the starry night background
@@ -92,10 +46,6 @@ screen starry_night():
     default star_sprites = create_snight_manager()
     add "bg starry_night"
     add star_sprites
-    # for i in range(20):
-    #     add "small star"
-    # for j in range(11):
-    #     add "medium star"
     add Transform("#000", alpha=persistent.starry_contrast)
 
 image starry_night_img = Composite(
