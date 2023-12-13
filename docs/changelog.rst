@@ -100,7 +100,7 @@ QoL Improvements
     * - Animated Background Performance
       - Improved the performance of the stars in the animated backgrounds for night, early morning, and morning.
     * - Animated Background Simplification
-      - Simplified the transform and image code for the animated backgrounds.
+      - Simplified the transform and image code for the animated backgrounds, including the default "starry night" for basic UI screens.
     * - Private class attributes
       - Private class attributes have been turned into single-underscore versions where possible to avoid issues with files moving or being renamed impeding save compatibility.
     * - Chat Creator updates
