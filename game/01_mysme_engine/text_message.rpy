@@ -194,7 +194,7 @@ screen text_msg_popup(c, last_msg=False, hide_screen='text_msg_popup',
     zorder 100
 
     default send_next = not last_msg
-    default last_msg = last_msg if last_msg else c.text_msg.msg_list[-1] if len(c.text_msg.msg_list) > 0 else False
+    $ last_msg = last_msg if last_msg else c.text_msg.msg_list[-1] if len(c.text_msg.msg_list) > 0 else False
 
     frame:
         style_prefix 'text_popup'
