@@ -40,20 +40,17 @@ image small_star_static = "Menu Screens/Main Menu/small-star.webp"
 image medium_star_static = "Menu Screens/Main Menu/medium-star.webp"
 
 
-# This makes it easier to use the starry night background
-screen starry_night():
-    add "#000"
-    default star_sprites = create_snight_manager()
-    add "bg starry_night"
-    add star_sprites
-    add Transform("#000", alpha=persistent.starry_contrast)
-
 image starry_night_img = Composite(
     (config.screen_width, config.screen_height),
     (0, 0), "#000",
     (0, 0), "bg starry_night",
     (0, 0), create_snight_manager(),
 )
+
+# This makes it easier to use the starry night background
+screen starry_night():
+    add 'starry_night_img'
+    add Transform("#000", alpha=persistent.starry_contrast)
 
 image load_circle:
     'loading_circle_stationary'
