@@ -36,10 +36,8 @@ transform star_twinkle_quickly(num1):
 
 ## These are the stars that will be animated
 image small_star_static = "Menu Screens/Main Menu/small-star.webp"
-
 image medium_star_static = "Menu Screens/Main Menu/medium-star.webp"
-
-
+## The actual background image; used for the menu screens and also text messages
 image starry_night_img = Composite(
     (config.screen_width, config.screen_height),
     (0, 0), "#000",
