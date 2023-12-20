@@ -5,6 +5,7 @@ init -1 python:
         Create and return a SpriteManager object based on the list of StarSprite
         objects passed in. Also positions each individual sprite at a random
         x, y position based on the attributes of the StarSprite.
+        Used for the starry night background.
         """
         # Add them all to the sprite manager
         star_sprites = [ ]
@@ -13,6 +14,7 @@ init -1 python:
         xran = config.screen_width // 3
         yran = (config.screen_height) // 4
 
+        ## Ensures the stars are sufficiently spread out + some randomness
         for i in range(2):
             for x in range(3):
                 for y in range(4):
@@ -25,6 +27,8 @@ init -1 python:
 
         return create_star_manager(star_sprites)
 
+## The animation for the starry night stars. `num1` is a placeholder for
+## it to work with the StarSprite class.
 transform star_twinkle_quickly(num1):
     alpha 0.6
     block:
@@ -37,6 +41,7 @@ transform star_twinkle_quickly(num1):
 ## These are the stars that will be animated
 image small_star_static = "Menu Screens/Main Menu/small-star.webp"
 image medium_star_static = "Menu Screens/Main Menu/medium-star.webp"
+
 ## The actual background image; used for the menu screens and also text messages
 image starry_night_img = Composite(
     (config.screen_width, config.screen_height),
