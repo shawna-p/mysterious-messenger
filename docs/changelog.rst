@@ -98,7 +98,7 @@ QoL Improvements
     * - **Feature**
       - **Description**
     * - Animated Background Performance
-      - Improved the performance of the stars in the animated backgrounds for night, early morning, and morning.
+      - Improved the performance of the stars in the animated backgrounds for night, early morning, morning, and the starry night UI background.
     * - Animated Background Simplification
       - Simplified the transform and image code for the animated backgrounds, including the default "starry night" for basic UI screens.
     * - Private class attributes
