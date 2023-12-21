@@ -126,8 +126,7 @@ default vn_choice = False
 
 screen vn_overlay():
 
-    hbox:
-        add my_menu_clock xalign 0.0 yalign 0.0 xpos 5
+    add my_menu_clock xalign 0.0 yalign 0.0 xpos 5
 
 
 ################################################
