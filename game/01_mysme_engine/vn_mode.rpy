@@ -130,11 +130,9 @@ screen vn_overlay():
 
 
 ################################################
-## This is the custom history screen
-## for VN Mode
+## This is the custom history screen for VN Mode
 ## https://www.renpy.org/doc/html/history.html
 ################################################
-
 screen history():
 
     tag menu
@@ -153,7 +151,7 @@ screen history():
         yalign 0.0
         focus_mask True
         xysize (config.screen_width, 99)
-        action Hide('history')#Return()
+        action Hide('history')
         keysym "rollback"
         text "Close" style "CG_close_button_text":
             yalign 0.5 xpos 20
@@ -161,14 +159,12 @@ screen history():
                 outlines [ (2, "#000") ]
                 font gui.sans_serif_1xb
 
-
     viewport:
         yinitial 1.0
         scrollbars "vertical"
         mousewheel True
         draggable True
         side_yfill True
-
         ysize config.screen_height-100
         yalign 1.0
 
@@ -206,8 +202,7 @@ screen history():
 
 
 ## This determines what tags are allowed to be displayed on the history screen.
-define gui.history_allow_tags = set()
-
+define gui.history_allow_tags = set(['b', 'i'])
 
 style history_window is empty
 
