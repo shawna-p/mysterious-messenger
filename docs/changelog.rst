@@ -105,6 +105,8 @@ QoL Improvements
       - Private class attributes have been turned into single-underscore versions where possible to avoid issues with files moving or being renamed impeding save compatibility.
     * - Chat Creator updates
       - Modernized chat creator to use nearrect and dismiss (7.5/8.0).
+    * - History screen text tags
+      - Bold and italics are allowed on the history screen.
 
 .. _incompat-3-4-0:
 
