@@ -26,7 +26,16 @@ screen music_room(mr):
     default current_track = None
 
     use menu_header("Music Room", Return()):
-        vbox:
-            for track in mr.get_tracklist(all_tracks=True):
-                textbutton track.name:
-                    action mr.Play(track.path)
+        fixed:
+            xfill True yfill True
+            fixed:
+                xsize config.screen_width // 2 - 20
+                if current_track:
+                    text current_track.name color "#fff"
+            viewport:
+                xfill True ysize 600 yalign 1.0
+                scrollbars "vertical" mousewheel True draggable True
+                has vbox
+                for track in mr.get_tracklist(all_tracks=True):
+                    textbutton track.name:
+                        action mr.Play(track.path)
