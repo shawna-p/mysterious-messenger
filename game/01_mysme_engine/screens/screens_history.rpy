@@ -52,6 +52,11 @@ screen select_history():
                         add 'history_icon_guest'
                         text 'GUEST'
 
+                button:
+                    action Show('music_room', Dissolve(0.5), mr=mm_mr)
+                    hbox:
+                        add 'history_icon_album' yalign 0.5
+                        text "MUSIC ROOM"
 
 style select_history_hbox:
     is default
