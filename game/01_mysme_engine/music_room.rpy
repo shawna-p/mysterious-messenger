@@ -28,10 +28,10 @@ define myconfig.UNLOCK_TRACKS_FOR_DEVELOPMENT = True
 ## to colorize the default music controls. You can change these if you want to
 ## use the provided images, or simply supply your own and remove the lines
 ## `at colorize_button` from the screen below.
-define MUSIC_ROOM_IDLE_COLOR = "#ff8335"
-define MUSIC_ROOM_HOVER_COLOR = "#f93c3e"
-define MUSIC_ROOM_SELECTED_IDLE_COLOR = "#ff8335"
-define MUSIC_ROOM_SELECTED_HOVER_COLOR = "#f93c3e"
+define MUSIC_ROOM_IDLE_COLOR = "#fff"
+define MUSIC_ROOM_HOVER_COLOR = "#b3f3ee"
+define MUSIC_ROOM_SELECTED_IDLE_COLOR = "#fff"
+define MUSIC_ROOM_SELECTED_HOVER_COLOR = "#b3f3ee"
 define MUSIC_ROOM_INSENSITIVE_COLOR = "#888"
 
 ## Here are the default buttons used for the music controls below. You can
@@ -105,9 +105,9 @@ transform zoom_button(z):
     zoom z
 
 style music_room_pos:
-    color "#fff" xalign 0.5 adjust_spacing False
+    color "#fff" xalign 0.5 adjust_spacing False yalign 0.5
 style music_room_duration:
-    color "#fff" xalign 0.5 adjust_spacing False
+    color "#fff" xalign 0.5 adjust_spacing False yalign 0.5
 
 
 screen music_room(mr):
@@ -120,10 +120,11 @@ screen music_room(mr):
             xfill True yfill True
             fixed:
                 xsize config.screen_width // 2 - 20
+                xalign 0.5 ypos 100
                 if current_track:
                     text current_track.name color "#fff"
             vbox:
-                ypos 300 spacing 15
+                yanchor 1.0 ypos config.screen_height-165-600-30 spacing 15
                 hbox:
                     xalign 0.5 spacing 30
                     ################## Shuffle button ##################
@@ -157,7 +158,7 @@ screen music_room(mr):
 
                 ################## Music Bar ##################
                 hbox:
-                    spacing 8
+                    spacing 8 ysize 22
                     fixed:
                         yfit True xsize 100
                         add mr.get_pos(style="music_room_pos")
