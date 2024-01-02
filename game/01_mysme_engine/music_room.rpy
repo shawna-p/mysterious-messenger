@@ -118,13 +118,21 @@ screen music_room(mr):
         fixed:
             style_prefix 'music_room'
             xfill True yfill True
-            fixed:
-                xsize config.screen_width // 2 - 20
-                xalign 0.5 ypos 100
-                if current_track:
-                    text current_track.name color "#fff"
+            viewport:
+                xfill True ysize 600
+                scrollbars "vertical" mousewheel True draggable True
+                has vbox
+                for track in mr.get_tracklist(all_tracks=True):
+                    textbutton track.name:
+                        action mr.Play(track.path)
             vbox:
-                yanchor 1.0 ypos config.screen_height-165-600-30 spacing 15
+                spacing 15 yalign 1.0
+
+                fixed:
+                    xalign 0.5 yfit True
+                    if current_track:
+                        text current_track.name color "#fff"
+
                 hbox:
                     xalign 0.5 spacing 30
                     ################## Shuffle button ##################
@@ -166,13 +174,8 @@ screen music_room(mr):
                     fixed:
                         yfit True xsize 100
                         add mr.get_duration(style="music_room_duration")
-            viewport:
-                xfill True ysize 600 yalign 1.0
-                scrollbars "vertical" mousewheel True draggable True
-                has vbox
-                for track in mr.get_tracklist(all_tracks=True):
-                    textbutton track.name:
-                        action mr.Play(track.path)
+
+                null height 30
 
 style music_room_image_button:
     align (0.5, 0.5)
