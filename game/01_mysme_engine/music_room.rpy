@@ -119,12 +119,28 @@ screen music_room(mr):
             style_prefix 'music_room'
             xfill True yfill True
             viewport:
-                xfill True ysize 600
+                style_prefix 'track_list'
                 scrollbars "vertical" mousewheel True draggable True
                 has vbox
-                for track in mr.get_tracklist(all_tracks=True):
-                    textbutton track.name:
-                        action mr.Play(track.path)
+                label _("Track List") style "music_room_title" xalign 0.5
+                for num, song in enumerate(mr.get_tracklist(all_tracks=True)):
+                    button:
+                        action mr.Play(song.path)
+                        has hbox
+                        fixed:
+                            if song is current_track:
+                                ## If the song is currently playing, add a
+                                ## bit of flair with some audio bars.
+                                add Transform('audio_bars', ysize=30,
+                                    xalign=0.5, yzoom=-1.0, yalign=0.55)
+                            else:
+                                ## The track number
+                                text str(num+1) align (0.5, 0.55)
+                        vbox:
+                            spacing 4
+                            ## Track info
+                            label song.name
+                            text song.artist
             vbox:
                 spacing 15 yalign 1.0
 
@@ -179,3 +195,36 @@ screen music_room(mr):
 
 style music_room_image_button:
     align (0.5, 0.5)
+
+style track_list_frame:
+    background "#21212d"
+    yalign 0.0 xalign 0.0
+    padding (25, 25)
+style track_list_viewport:
+    xfill True ysize 600
+style track_list_side:
+    spacing 20
+style track_list_vbox:
+    spacing 0
+style track_list_button:
+    right_padding 45
+    background Transform("#b3f3ee", ysize=2, yalign=1.0)
+    hover_foreground "#fff1"
+    ypadding 15 xfill True
+style track_list_hbox:
+    xalign 0.0 spacing 18
+style track_list_fixed:
+    xsize 45 ysize 45 yalign 0.5
+style track_list_text:
+    color "#bfbfb9"
+    insensitive_color "#666"
+style track_list_label:
+    background None padding (2, 0)
+style track_list_label_text:
+    color "#f7f7ed" hover_color "#b3f3ee" selected_color "#5ef4d3"
+    insensitive_color "#666"
+style music_room_title:
+    background None xalign 0.5 bottom_padding 15
+style music_room_title_text:
+    font gui.name_text_font
+    size 40 color "#b3f3ee" xalign 0.5
