@@ -566,6 +566,16 @@ init -50 python:
             return [self.music_dictionary.get(x) for x in self.playlist
                 if all_tracks or self.is_unlocked(x)]
 
+        def get_current_song(self):
+            """
+            Returns the MusicInfo object for the currently playing song.
+            """
+            filename = renpy.music.get_playing(channel=self.channel)
+            if filename is None:
+                return None
+            else:
+                return self.music_dictionary.get(strip_playback(filename))
+
         def unlocked_playlist(self, filename=None):
             """
             Returns a list of filenames in the playlist that have been
