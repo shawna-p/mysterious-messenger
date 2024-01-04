@@ -112,69 +112,74 @@ style music_room_duration:
 
 screen music_room(mr):
     tag menu
-    default current_track = None
+    default current_track = mr.get_current_song()
 
     use menu_header("Music Room", Return()):
         fixed:
             style_prefix 'music_room'
             xfill True yfill True
-            viewport:
+            frame:
                 style_prefix 'track_list'
-                scrollbars "vertical" mousewheel True draggable True
-                has vbox
-                label _("Track List") style "music_room_title" xalign 0.5
-                for num, song in enumerate(mr.get_tracklist(all_tracks=True)):
-                    button:
-                        action mr.Play(song.path)
-                        has hbox
-                        fixed:
-                            if song is current_track:
-                                ## If the song is currently playing, add a
-                                ## bit of flair with some audio bars.
-                                add Transform('audio_bars', ysize=30,
-                                    xalign=0.5, yzoom=-1.0, yalign=0.55)
-                            else:
-                                ## The track number
-                                text str(num+1) align (0.5, 0.55)
-                        vbox:
-                            spacing 4
-                            ## Track info
-                            label song.name
-                            text song.artist
+                viewport:
+                    scrollbars "vertical" mousewheel True draggable True
+                    has vbox
+                    label _("Track List") style "music_room_title" xalign 0.5
+                    for num, song in enumerate(mr.get_tracklist(all_tracks=True)):
+                        button:
+                            action mr.Play(song.path)
+                            has hbox
+                            fixed:
+                                if song is current_track:
+                                    ## If the song is currently playing, add a
+                                    ## bit of flair with some audio bars.
+                                    add Transform('audio_bars', ysize=30,
+                                        xalign=0.5, yzoom=-1.0, yalign=0.55)
+                                else:
+                                    ## The track number
+                                    text str(num+1) align (0.5, 0.55)
+                            vbox:
+                                spacing 4
+                                ## Track info
+                                label song.name
+                                text song.artist
             vbox:
                 spacing 15 yalign 1.0
 
                 fixed:
                     xalign 0.5 yfit True
                     if current_track:
-                        text current_track.name color "#fff"
+                        label current_track.name text_color "#fff" xalign 0.5:
+                            text_text_align 0.5 style 'music_room_title'
+                            text_layout "subtitle"
+
+                null height 80
 
                 hbox:
-                    xalign 0.5 spacing 30
+                    xalign 0.5 spacing 60
                     ################## Shuffle button ##################
                     imagebutton:
                         idle "shuffle_button"
                         at colorize_button(MUSIC_ROOM_INSENSITIVE_COLOR,
-                            MUSIC_ROOM_IDLE_COLOR), zoom_button(0.6)
+                            MUSIC_ROOM_IDLE_COLOR), zoom_button(0.9)
                         action mr.ToggleShuffle()
                     ############ Previous, play/pause, next buttons ############
                     imagebutton:
                         idle "prev_button"
-                        at colorize_button(), zoom_button(0.4)
+                        at colorize_button(), zoom_button(0.65)
                         action mr.Previous()
                     imagebutton:
-                        at colorize_button(), zoom_button(0.25)
+                        at colorize_button(), zoom_button(0.5)
                         idle "pause_button" hover "pause_button"
                         selected_idle "play_button" selected_hover "play_button"
                         action mr.PlayAction()
                     imagebutton:
                         idle "next_button"
-                        at colorize_button(), zoom_button(0.4)
+                        at colorize_button(), zoom_button(0.65)
                         action mr.Next()
                     ################## Repeat all, repeat one buttons ##################
                     imagebutton:
                         at colorize_button(idle=MUSIC_ROOM_INSENSITIVE_COLOR,
-                            hover=MUSIC_ROOM_IDLE_COLOR), zoom_button(0.6)
+                            hover=MUSIC_ROOM_IDLE_COLOR), zoom_button(0.9)
                         idle "repeat_all_button"
                         if mr.single_track:
                             foreground "repeat_one_button"
@@ -182,7 +187,7 @@ screen music_room(mr):
 
                 ################## Music Bar ##################
                 hbox:
-                    spacing 8 ysize 22
+                    spacing 8 ysize 22 xalign 0.5
                     fixed:
                         yfit True xsize 100
                         add mr.get_pos(style="music_room_pos")
@@ -197,9 +202,9 @@ style music_room_image_button:
     align (0.5, 0.5)
 
 style track_list_frame:
-    background "#21212d"
+    background "#213738bd"
     yalign 0.0 xalign 0.0
-    padding (25, 25)
+    padding (25, 25) xfill True ysize 600+50
 style track_list_viewport:
     xfill True ysize 600
 style track_list_side:
