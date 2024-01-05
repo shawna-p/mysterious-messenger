@@ -13,6 +13,10 @@ init 3 python:
             mr_name = match.group(1)
         else:
             mr_name = key
+        if mr_name == "Mystic_Messenger_Opening_Instrumental_Version":
+            mr_name = "Mystic Messenger Opening (Instrumental Ver.)"
+        elif mr_name == "Geniusly Hacked Bedop":
+            mr_name = "Geniusly Hacked Bebop"
         mm_mr.add(
             name=mr_name,
             path=key,
