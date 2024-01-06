@@ -124,10 +124,12 @@ screen music_room(mr):
             xfill True yfill True
             frame:
                 style_prefix 'track_list'
+                has vbox
+                label _("Track List") style "music_room_title" xalign 0.5:
+                    yoffset -15
                 viewport:
                     scrollbars "vertical" mousewheel True draggable True
                     has vbox
-                    label _("Track List") style "music_room_title" xalign 0.5
                     for num, song in enumerate(mr.get_tracklist(all_tracks=True)):
                         button:
                             action mr.Play(song.path)
@@ -206,11 +208,12 @@ style music_room_image_button:
     align (0.5, 0.5)
 
 style track_list_frame:
-    background "#213738bd"
+    #background "#213738bd"
+    background "menu_settings_panel_bright"
     yalign 0.0 xalign 0.0
-    padding (25, 25) xfill True ysize 600+50
+    padding (25, 15) xfill True ysize 600+50
 style track_list_viewport:
-    xfill True ysize 600
+    xfill True
 style track_list_side:
     spacing 20
 style track_list_vbox:
