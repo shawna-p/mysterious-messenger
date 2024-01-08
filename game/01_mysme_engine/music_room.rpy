@@ -204,11 +204,7 @@ screen music_room(mr):
 
                 null height 30
 
-style music_room_image_button:
-    align (0.5, 0.5)
-
 style track_list_frame:
-    #background "#213738bd"
     background "menu_settings_panel_bright"
     yalign 0.0 xalign 0.0
     padding (25, 15) xfill True ysize 600+50
@@ -235,6 +231,9 @@ style track_list_label:
 style track_list_label_text:
     color "#f7f7ed" hover_color "#b3f3ee" selected_color "#5ef4d3"
     insensitive_color "#666"
+
+style music_room_image_button:
+    align (0.5, 0.5)
 style music_room_title:
     background None xalign 0.5 bottom_padding 15
 style music_room_title_text:
