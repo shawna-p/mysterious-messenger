@@ -25,6 +25,8 @@ Major New Features
       - An achievement system will allow you to easily grant and display player achievements in an achievement gallery. Sample achievements for Tutorial Day have been added.
     * - Gallery Zoom Update
       - The gallery has been updated to allow for multi-touch gestures, such as pinch zoom and swiping between images. Note that while the default gallery definitions are updated to include this, you must modify older declarations to use the special ``GalleryAlbum`` class wrapper to get this functionality. Older code will continue to work, but without touch gestures. See: :ref:`CG Albums` for more.
+    * - Music Room
+      - A music room has been added to listen to the game's soundtrack from the main menu.
 
 .. _minor-3-4-0:
 
