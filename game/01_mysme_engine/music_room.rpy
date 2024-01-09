@@ -23,7 +23,7 @@ init 3 python:
             artist="Flaming Heart",
         )
 
-define myconfig.UNLOCK_TRACKS_FOR_DEVELOPMENT = True
+define myconfig.UNLOCK_TRACKS_FOR_DEVELOPMENT = False
 
 ################################################################################
 ## IMAGES & DEFINITIONS
