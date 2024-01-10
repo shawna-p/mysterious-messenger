@@ -1265,6 +1265,12 @@ In short, the first ``IGNORE_ACHIEVEMENTS`` should be switched to ``True``, but 
 
 This will effectively exclude all the tutorial achievements from being granted, and they won't be included in the special ``Achievement.all_achievements`` list. That means you can iterate over ``Achievement.all_achievements`` for your achievement gallery and it won't include the tutorial achievements. You also won't have to worry about the tutorial achievements being granted for things like turning on animated backgrounds, though the code to trigger those achievements will still be in the game.
 
+Music Room
+===================
+
+Mysterious Messenger also provides a music room for the player to listen to the game's soundtrack. This is a separate screen from the main game, and can be accessed from the main menu. By default, the music room reads from the songs in ``variables_music_sound.rpy`` (see: :ref:`Defining New Music`) in the ``music_dictionary`` declaration, and it uses the track name as the song title. You can modify this in the ``music_room.rpy`` file.
+
+
 Reserved Names
 ===============
 
