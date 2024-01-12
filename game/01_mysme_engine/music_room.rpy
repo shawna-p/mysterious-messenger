@@ -6,7 +6,6 @@ init 3 python:
 
     # mm_mr.default_art = "gui/music_room/cover_art.webp"
     for key in music_dictionary.keys():
-        import re as regex
         pattern = regex.compile("audio\/music\/\d?\d? ?(.*)\.\w+")
         match = pattern.match(key)
         if match:
