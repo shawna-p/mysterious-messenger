@@ -1268,7 +1268,7 @@ This will effectively exclude all the tutorial achievements from being granted, 
 Music Room
 ===================
 
-Mysterious Messenger also provides a music room for the player to listen to the game's soundtrack. This is a separate screen from the main game, and can be accessed from the main menu. By default, the music room reads from the songs in ``variables_music_sound.rpy`` (see: :ref:`Defining New Music`) in the ``music_dictionary`` declaration, and it uses the track name as the song title. You can modify this in the ``music_room.rpy`` file.
+Mysterious Messenger also provides a music room for the player to listen to the game's soundtrack. This is a separate screen from the main game, and can be accessed from the main menu. By default, the music room reads from the songs in ``variables_music_sound.rpy`` (see: :ref:`Defining New Music`) in the ``music_dictionary`` declaration, and it uses the track name as the song title. You can modify this in the ``music_room.rpy`` file - there are two examples as part of the loop.
 
 
 Reserved Names
