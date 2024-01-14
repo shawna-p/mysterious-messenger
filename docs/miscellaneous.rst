@@ -1270,6 +1270,7 @@ Music Room
 
 Mysterious Messenger also provides a music room for the player to listen to the game's soundtrack. This is a separate screen from the main game, and can be accessed from the main menu. By default, the music room reads from the songs in ``variables_music_sound.rpy`` (see: :ref:`Defining New Music`) in the ``music_dictionary`` declaration, and it uses the track name as the song title. You can modify this in the ``music_room.rpy`` file - there are two examples as part of the loop.
 
+By default, music tracks are unlocked when they are heard in-game. There is also a developer option, ``myconfig.UNLOCK_TRACKS_FOR_DEVELOPMENT``, which can be set to True to unlock all tracks for testing purposes. Even if this is set to True, tracks will obey normal unlocking rules in a distribution build.
 
 Reserved Names
 ===============
