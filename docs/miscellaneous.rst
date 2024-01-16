@@ -1272,7 +1272,7 @@ Mysterious Messenger also provides a music room for the player to listen to the 
 
 By default, music tracks are unlocked when they are heard in-game. There is also a developer option, ``myconfig.UNLOCK_TRACKS_FOR_DEVELOPMENT``, which can be set to True to unlock all tracks for testing purposes. Even if this is set to True, tracks will obey normal unlocking rules in a distribution build.
 
-The music room is based on code found on my itch.io here: https://feniksdev.itch.io/extended-music-room-for-renpy
+The music room is based on code found on my itch.io here: https://feniksdev.itch.io/extended-music-room-for-renpy. There is an included README for that tool with additional instructions if you'd like to extend or adjust the music room.
 
 Reserved Names
 ===============
