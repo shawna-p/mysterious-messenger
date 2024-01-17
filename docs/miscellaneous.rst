@@ -1274,6 +1274,8 @@ By default, music tracks are unlocked when they are heard in-game. There is also
 
 The music room is based on code found on my itch.io here: https://feniksdev.itch.io/extended-music-room-for-renpy. There is an included README for that tool with additional instructions if you'd like to extend or adjust the music room.
 
+In particular the music room comes with one configuration value, ``myconfig.UNLOCK_TRACKS_FOR_DEVELOPMENT``. If this is set to True, then during development, all tracks will be unlocked. If it is set to False, then tracks will obey normal unlocking rules as seen by the player. In both cases, tracks are unlocked according to their unlock conditions in a distribution build.
+
 Reserved Names
 ===============
 
