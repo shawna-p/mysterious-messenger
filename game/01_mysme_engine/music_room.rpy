@@ -150,14 +150,17 @@ screen music_room(mr):
             vbox:
                 spacing 15 yalign 1.0
 
-                fixed:
-                    xalign 0.5 yfit True
+                hbox:
+                    xalign 0.5 spacing 60
+                    add "gui/music_room/ost_cover.webp" xalign 0.5:
+                        ysize 300 fit "contain"
                     if current_track:
                         label current_track.name text_color "#fff" xalign 0.5:
                             text_text_align 0.5 style 'music_room_title'
-                            text_layout "subtitle"
-
-                null height 80
+                            text_layout "subtitle" yalign 0.5
+                            xsize config.screen_width-440
+                    else:
+                        null width config.screen_width-440
 
                 hbox:
                     xalign 0.5 spacing 60
