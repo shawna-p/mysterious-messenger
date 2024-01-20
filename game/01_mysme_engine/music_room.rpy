@@ -155,10 +155,7 @@ screen music_room(mr):
                     add "gui/music_room/ost_cover.webp" xalign 0.5:
                         ysize 300 fit "contain"
                     if current_track:
-                        label current_track.name text_color "#fff" xalign 0.5:
-                            text_text_align 0.5 style 'music_room_title'
-                            text_layout "subtitle" yalign 0.5
-                            xsize config.screen_width-440
+                        label current_track.name style 'music_room_title'
                     else:
                         null width config.screen_width-440
 
@@ -238,6 +235,10 @@ style music_room_image_button:
     align (0.5, 0.5)
 style music_room_title:
     background None xalign 0.5 bottom_padding 15
+    yalign 0.5 xsize config.screen_width-440
 style music_room_title_text:
     font gui.name_text_font
-    size 40 color "#b3f3ee" xalign 0.5
+    size 40 xalign 0.5
+    text_align 0.5
+    color "#fff"
+    layout "subtitle"
