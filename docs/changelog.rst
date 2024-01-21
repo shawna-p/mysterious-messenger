@@ -26,7 +26,7 @@ Major New Features
     * - Gallery Zoom Update
       - The gallery has been updated to allow for multi-touch gestures, such as pinch zoom and swiping between images. Note that while the default gallery definitions are updated to include this, you must modify older declarations to use the special ``GalleryAlbum`` class wrapper to get this functionality. Older code will continue to work, but without touch gestures. See: :ref:`CG Albums` for more.
     * - :ref:`Music Room`
-      - A music room has been added to listen to the game's soundtrack from the main menu.
+      - A music room has been added to listen to the game's soundtrack from the main menu. Several new gui files have been added for the music controls.
 
 .. _minor-3-4-0:
 
