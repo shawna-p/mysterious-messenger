@@ -80,39 +80,6 @@ image audio_bars = HBox(
     yalign=1.0, ysize=AUDIO_BAR_HEIGHT,
 )
 
-################################################################################
-## TRANSFORMS
-################################################################################
-## A transform that makes it easier to apply colours to the various buttons.
-## The default images are black, so it uses ColorizeMatrix to colorize them.
-## The colours are defined at the top of the file.
-transform colorize_button(idle=MUSIC_ROOM_IDLE_COLOR,
-        hover=MUSIC_ROOM_HOVER_COLOR,
-        selected_idle=MUSIC_ROOM_SELECTED_IDLE_COLOR,
-        selected_hover=MUSIC_ROOM_SELECTED_HOVER_COLOR,
-        insensitive=MUSIC_ROOM_INSENSITIVE_COLOR):
-    matrixcolor ColorizeMatrix(insensitive, "#fff")
-    on idle:
-        matrixcolor ColorizeMatrix(idle, "#fff")
-    on hover:
-        matrixcolor ColorizeMatrix(hover, "#fff")
-    on insensitive:
-        matrixcolor ColorizeMatrix(insensitive, "#fff")
-    on selected_idle:
-        matrixcolor ColorizeMatrix(selected_idle, "#fff")
-    on selected_hover:
-        matrixcolor ColorizeMatrix(selected_hover, "#fff")
-
-## A simple transform to easily resize buttons. Used by some layouts.
-transform zoom_button(z):
-    zoom z
-
-style music_room_pos:
-    color "#fff" xalign 0.5 adjust_spacing False yalign 0.5
-style music_room_duration:
-    color "#fff" xalign 0.5 adjust_spacing False yalign 0.5
-
-
 screen music_room(mr):
     tag menu
     default current_track = mr.get_current_song()
@@ -202,6 +169,39 @@ screen music_room(mr):
                         add mr.get_duration(style="music_room_duration")
 
                 null height 30
+
+################################################################################
+## TRANSFORMS & STYLES
+################################################################################
+## A transform that makes it easier to apply colours to the various buttons.
+## The default images are black, so it uses ColorizeMatrix to colorize them.
+## The colours are defined at the top of the file.
+transform colorize_button(idle=MUSIC_ROOM_IDLE_COLOR,
+        hover=MUSIC_ROOM_HOVER_COLOR,
+        selected_idle=MUSIC_ROOM_SELECTED_IDLE_COLOR,
+        selected_hover=MUSIC_ROOM_SELECTED_HOVER_COLOR,
+        insensitive=MUSIC_ROOM_INSENSITIVE_COLOR):
+    matrixcolor ColorizeMatrix(insensitive, "#fff")
+    on idle:
+        matrixcolor ColorizeMatrix(idle, "#fff")
+    on hover:
+        matrixcolor ColorizeMatrix(hover, "#fff")
+    on insensitive:
+        matrixcolor ColorizeMatrix(insensitive, "#fff")
+    on selected_idle:
+        matrixcolor ColorizeMatrix(selected_idle, "#fff")
+    on selected_hover:
+        matrixcolor ColorizeMatrix(selected_hover, "#fff")
+
+## A simple transform to easily resize buttons. Used by some layouts.
+transform zoom_button(z):
+    zoom z
+
+style music_room_pos:
+    color "#fff" xalign 0.5 adjust_spacing False yalign 0.5
+style music_room_duration:
+    color "#fff" xalign 0.5 adjust_spacing False yalign 0.5
+
 
 style track_list_frame:
     background "menu_settings_panel_bright"
