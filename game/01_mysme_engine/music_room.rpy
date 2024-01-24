@@ -4,7 +4,6 @@ init 3 python:
         loop=True, single_track=False, shuffle=False, stop_action=None,
         alphabetical=True)
 
-    # mm_mr.default_art = "gui/music_room/cover_art.webp"
     for key in music_dictionary.keys():
         pattern = regex.compile("audio\/music\/\d?\d? ?(.*)\.\w+")
         match = pattern.match(key)
@@ -12,6 +11,8 @@ init 3 python:
             mr_name = match.group(1)
         else:
             mr_name = key
+        ## For the most part, this uses the file name as the song name,
+        ## with the following two exceptions.
         if mr_name == "Mystic_Messenger_Opening_Instrumental_Version":
             mr_name = "Mystic Messenger Opening (Instrumental Ver.)"
         elif mr_name == "Geniusly Hacked Bedop":
@@ -80,6 +81,9 @@ image audio_bars = HBox(
     yalign=1.0, ysize=AUDIO_BAR_HEIGHT,
 )
 
+################################################################################
+## MUSIC ROOM SCREEN
+################################################################################
 screen music_room(mr):
     tag menu
     default current_track = mr.get_current_song()
