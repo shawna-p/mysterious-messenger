@@ -22,7 +22,7 @@ screen splash_image(img):
         fit "cover"
     # Feel free to adjust the yoffset to move the text higher/lower
     add 'touch_to_start' yalign 1.0 yoffset -90
-    # This is a full-screen button that allows the user to tap
+    # This takes up the full screen and allows the user to tap
     # anywhere to return
     dismiss action Return() activate_sound "audio/sfx/UI/digi_chime_echo.wav"
 
