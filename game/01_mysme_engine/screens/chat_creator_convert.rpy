@@ -9,7 +9,6 @@ init python:
         code = "label "
         label_name = ('_').join(store.save_name.split(' '))
         # Sanitize the label name (no non-alphanumeric characters)
-        #import re, string
         pattern = regex.compile('[\W]+', regex.UNICODE)
         label_name = pattern.sub('', label_name).lower()
         if '0' <= label_name <= '9':
@@ -25,7 +24,7 @@ init python:
                 if not isinstance(chara.bonus_pfp, basestring):
                     # Can't easily print out Transforms etc
                     code += "    # Note: You may want to update " + chara.name
-                    code += "'s profile picture (couldn't not update automatically)\n"
+                    code += "'s profile picture (couldn't update automatically)\n"
                     continue
                 code += "    $ " + chara.file_id + ".prof_pic = \""
                 code += chara.bonus_pfp + "\"\n"
