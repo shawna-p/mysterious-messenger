@@ -102,7 +102,7 @@ init python:
         elif first == 'banner':
             return 'show banner ' + second
 
-        return '# Could not parse entry: ' + first + ' ' + second
+        return '## Could not parse entry: ' + first + ' ' + second
 
 
     def get_dialogue_from_entry(entry):
@@ -181,7 +181,6 @@ init python:
         # Add 'big'
         if style_dict['big']:
             line += ' big'
-
 
         # add special bubble
         if entry.specBubble:
