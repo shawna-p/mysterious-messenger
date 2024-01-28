@@ -197,8 +197,7 @@ init python:
 
         return line
 
-init offset = 5
-define music_dictionary_prettify = {
+define 5 music_dictionary_prettify = {
     mystic_chat : "mystic_chat",
     mystic_chat2 : "mystic_chat2",
     mysterious_clues : "mysterious_clues",
@@ -243,4 +242,3 @@ define music_dictionary_prettify = {
     april_mysterious_clues : "april_mysterious_clues",
     april_dark_secret : "april_dark_secret"
 }
-init offset = 0
