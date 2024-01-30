@@ -68,7 +68,7 @@ define music_dictionary = {
     urban_night_cityscape_v2 : "Melancholy orchestral music",
     narcissistic_jazz : "Jazzy piano solo",
     lonely_but_passionate_way : "Wistful piano solo",
-    geniusly_hacked_bebop : "Boistrous brass music",
+    geniusly_hacked_bebop : "Boisterous brass music",
     same_old_fresh_air : "Cheerful piano and harmonica music",
     silly_smile_again : "Cheerful music with percussion",
     lonesome_practicalism : "Calming blues music",
