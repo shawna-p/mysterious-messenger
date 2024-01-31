@@ -618,7 +618,7 @@ python early hide:
 
         ## STEP 4
         ## Calculate the maximum number of choices that are on-screen at
-        ## any gien time. Should have a list of tuples that have begin/end
+        ## any given time. Should have a list of tuples that have begin/end
         ## node information.
         max_choices = 1
         simple_choices = [ c for l, r, c in new_items ]
