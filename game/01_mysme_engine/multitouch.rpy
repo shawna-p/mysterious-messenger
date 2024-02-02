@@ -1,3 +1,5 @@
+## Note: the following is an unpolished version of code you can find at
+## https://feniksdev.itch.io/multi-touch-zoom-gallery-for-renpy
 init python in myconfig:
     ## Although some features will be included as config values in a future
     ## Ren'Py update, custom "myconfig" versions are declared here until then.
