@@ -75,11 +75,9 @@ init -1 python:
             time_hbox = HBox(*time_list)
             # Render it virtually. This doesn't display it to the screen, but
             # calculates the width and height (which we need).
-            hbox_render = renpy.render(time_hbox, width, height, st, at)
+            hbox_render = time_hbox.render(width, height, st, at)
             new_width = hbox_render.width
             new_height = hbox_render.height
-
-            #digi_render = renpy.render(time_hbox, width, height, st, at)
 
             # Create a render for the Fixed box
             render = renpy.Render(new_width, new_height)
