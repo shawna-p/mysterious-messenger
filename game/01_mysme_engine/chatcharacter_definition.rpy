@@ -1195,7 +1195,6 @@ init -5 python:
             else:
                 print("WARNING: Could not extract immutable string or tuple",
                     "from profile picture", img, trans)
-
             return
 
         try:
