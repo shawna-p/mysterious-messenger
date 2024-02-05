@@ -5,6 +5,9 @@ init -50 python:
     ## You only need the bit up to return_after_tag
     ## You can also use renpy.random instead of the random library if you
     ## don't want to import it
+    ## This is an early version of a system you can find on itch.io which
+    ## is more general-purpose:
+    ## https://feniksdev.itch.io/achievements-for-renpy
 
     class Achievement():
         """
