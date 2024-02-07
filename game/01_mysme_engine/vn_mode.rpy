@@ -77,6 +77,7 @@ init -10 python:
                 callback=None,
                 type='say',
                 advance=True,
+                retain=False,
 
                 who_style='say_label',
                 what_style='say_dialogue',
