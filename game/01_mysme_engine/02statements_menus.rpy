@@ -667,7 +667,6 @@ python early hide:
                 break
             max_choices = max(max_choices, current_choices)
 
-
         ## STEP 5
         ## Construct the MenuEntry objects that will be used to display
         ## these choices on-screen.
@@ -709,7 +708,6 @@ python early hide:
         store.block_interrupts = False
         # renpy.jump('execute_continuous_menu')
         p['block'].block[0].execute()
-
         return
 
     def label_continuous_menu(p):
@@ -723,7 +721,6 @@ python early hide:
         return 'end_for_internal_use_' + lbl + '_' + str(p['loc'][1])
 
     def post_execute_c_menu(p):
-
         print_file("Executing post_execute_c_menu")
         # This executes when the menu is over.
         # If there are choices on-screen, hide everything
