@@ -59,43 +59,82 @@ init -50 python:
         ## A list of all the achievements that exist in this game,
         ## to loop over in the achievements screen.
         all_achievements = [ ]
+        achievement_dict = dict()
         def __init__(self, name, id=None, description=None, unlocked_image=None,
-                locked_image=None, stat_max=None, stat_modulo=0, hidden=False):
+                locked_image=None, stat_max=None, stat_modulo=None, hidden=False,
+                stat_update_percent=1, hide_description=None):
 
             self._name = name
             # Try to sanitize the name for an id, if possible
-            self.id = id or name.lower().replace(' ', '_').replace("'", '').replace('-', '_')
+            self.id = id or re_sub(r'\W+', '', name)
 
-            self._description = description
+            self._description = description or ""
             self.unlocked_image = unlocked_image or None
             self.locked_image = locked_image or "locked_achievement"
 
             self.stat_max = stat_max
             self.stat_modulo = stat_modulo
+            if stat_update_percent != 1 and stat_modulo != 0:
+                raise Exception("Achievement {} has both stat_update_percent and stat_modulo set. Please only set one.".format(self.name))
+            ## Figure out the modulo based on the percent
+            if stat_update_percent > 1:
+                ## Basically, if stat_max % stat_modulo == 0, then it updates.
+                ## So if it updates every 10%, then stat_max / stat_modulo = 10
+                self.stat_modulo = int(stat_max * (stat_update_percent / 100.0))
 
             self.hidden = hidden
-            if persistent.achievement_timestamp is not None:
-                self._timestamp = persistent.achievement_timestamp.get(self.id, None)
+            if hide_description is None:
+                self.hide_description = hidden
+            else:
+                self.hide_description = hide_description
 
             # Add to list of all achievements
-            if not getattr(store, 'IGNORE_ACHIEVEMENTS', False):
-                self.all_achievements.append(self)
+            self.all_achievements.append(self)
+            # Add to the dictionary for a quick lookup
+            self.achievement_dict[self.id] = self
 
-                # Register with backends
-                achievement.register(self.id, stat_max=stat_max, stat_modulo=stat_modulo)
+            # Register with backends
+            achievement.register(self.id, stat_max=stat_max,
+                stat_modulo=stat_modulo or None)
 
-            self.ignored = getattr(store, 'IGNORE_ACHIEVEMENTS', False)
+        def get_timestamp(self, format="%b %d, %Y @ %I:%M %p"):
+            """
+            Return the timestamp when this achievement was granted,
+            using the provided string format.
+            """
+            if self.has():
+                return datetime.datetime.fromtimestamp(
+                    self._timestamp).strftime(format)
+            else:
+                return ""
+
+        @property
+        def _timestamp(self):
+            if store.persistent.achievement_timestamp is not None:
+                return store.persistent.achievement_timestamp.get(self.id, None)
+            else:
+                return None
 
         @property
         def timestamp(self):
             """Return the timestamp when this achievement was granted."""
             if self.has():
-                return "Unlocked {}".format(
-                    datetime.fromtimestamp(
-                        self._timestamp).strftime("%b %d, %Y @ %I:%M %p")
-                )
+                try:
+                    ts = datetime.datetime.fromtimestamp(self._timestamp)
+                except TypeError:
+                    if config.developer:
+                        print("WARNING: Could not find timestamp for achievement with ID {}".format(self.id))
+                    return ""
+                return __("Unlocked ") + ts.strftime(__(
+                    "%b %d, %Y @ %I:%M %p{#achievement_timestamp}"))
             else:
                 return ""
+
+        @_timestamp.setter
+        def _timestamp(self, value):
+            """Set the timestamp for this achievement."""
+            if store.persistent.achievement_timestamp is not None:
+                store.persistent.achievement_timestamp[self.id] = value
 
         @property
         def idle_img(self):
@@ -112,7 +151,7 @@ init -50 python:
             hidden or not.
             """
             if self.hidden and not self.has():
-                return "???"
+                return _("???{#hidden_achievement_name}")
             else:
                 return self._name
 
@@ -122,18 +161,13 @@ init -50 python:
             Returns the description of the achievement based on whether it's
             hidden or not.
             """
-            if self.hidden and not self.has():
-                return "???"
+            if self.hide_description and not self.has():
+                if self.hide_description is True:
+                    return _("???{#hidden_achievement_description}")
+                else:
+                    return self.hide_description
             else:
                 return self._description
-
-        def AddProgress(self, amount=1):
-            """Add amount of progress to this achievement."""
-            return Function(self.add_progress, amount=amount)
-
-        def Progress(self, amount):
-            """Set this achievement's progress to amount."""
-            return Function(self.progress, amount)
 
         @property
         def stat_progress(self):
@@ -167,7 +201,11 @@ init -50 python:
                 self.achievement_popup()
                 # Save the timestamp
                 self._timestamp = time.time()
-                store.persistent.achievement_timestamp[self.id] = self._timestamp
+                # Callback
+                if myconfig.ACHIEVEMENT_CALLBACK is not None:
+                    renpy.run(myconfig.ACHIEVEMENT_CALLBACK, self)
+            # Double check achievement sync
+            achievement.sync()
             return x
 
         def has(self):
@@ -186,6 +224,9 @@ init -50 python:
                 self.achievement_popup()
                 # Save the timestamp
                 self._timestamp = time.time()
+                # Callback
+                if myconfig.ACHIEVEMENT_CALLBACK is not None:
+                    renpy.run(myconfig.ACHIEVEMENT_CALLBACK, self)
             return x
 
         def achievement_popup(self):
@@ -194,11 +235,18 @@ init -50 python:
             to indicate they were granted an achievement.
             """
 
-            if not self.has():
-                # Don't have this achievement
+            if renpy.is_init_phase():
+                ## This is init time; we don't show a popup screen
                 return
-            elif self.ignored:
-                # Ignoring this achievement
+            elif not self.has():
+                # Don't have this achievement, so it doesn't get a popup.
+                return
+            elif not myconfig.SHOW_ACHIEVEMENT_POPUPS:
+                # Popups are disabled
+                return
+
+            if achievement.steamapi and not myconfig.INGAME_POPUP_WITH_STEAM:
+                # Steam is detected and popups shouldn't appear in-game.
                 return
 
             # Otherwise, show the achievement screen
@@ -206,11 +254,22 @@ init -50 python:
                 if store.onscreen_achievements.get(i, None) is None:
                     store.onscreen_achievements[i] = True
                     break
-            ## Pick a random tag so that multiples of this screen can be
-            ## shown at the same time
-            tag = get_random_screen_tag(6, return_after_tag=True)
+            # Generate a random tag for this screen
+            tag = get_random_screen_tag(6)
+            ## Play a sound, if provided
+            if myconfig.ACHIEVEMENT_SOUND:
+                renpy.music.play(myconfig.ACHIEVEMENT_SOUND,
+                    channel=myconfig.ACHIEVEMENT_CHANNEL)
             renpy.show_screen('achievement_popup', a=self, tag=tag, num=i,
                 _tag=tag)
+
+        def AddProgress(self, amount=1):
+            """Add amount of progress to this achievement."""
+            return Function(self.add_progress, amount=amount)
+
+        def Progress(self, amount):
+            """Set this achievement's progress to amount."""
+            return Function(self.progress, amount)
 
         def Toggle(self):
             """
@@ -227,6 +286,39 @@ init -50 python:
             An action to easily achieve a particular achievement.
             """
             return Function(self.grant)
+
+        @classmethod
+        def reset(self):
+            """
+            A class method which resets all achievements and clears all their
+            progress.
+            """
+            for achievement in self.all_achievements:
+                achievement.clear()
+
+        @classmethod
+        def Reset(self):
+            """
+            A class method which resets all achievements and clears all their
+            progress. This is a button action rather than a function.
+            """
+            return Function(self.reset)
+
+        @classmethod
+        def num_earned(self):
+            """
+            A class property which returns the number of unlocked achievements.
+            """
+            return len([a for a in self.all_achievements if a.has()])
+
+        @classmethod
+        def num_total(self):
+            """
+            A class property which returns the total number of achievements.
+            """
+            return len(self.all_achievements)
+
+
 
     ## Actual achievements, for the tutorial
     ## These *can't* be removed (or else you'd need to comb through the
@@ -305,6 +397,34 @@ init -50 python:
     ## Don't change this one or your achievements won't work
     IGNORE_ACHIEVEMENTS = False
 
+## Note: DO NOT change these configuration values in this block! See
+## `achievements.rpy` for how to change them. This is just for setup so they
+## exist in the game, and then you can modify them with `define` in a different
+## file.
+init -999 python in myconfig:
+    _constant = True
+    ## This is a configuration value which determines whether the in-game
+    ## achievement popup should appear when Steam is detected. Since Steam
+    ## already has its own built-in popup, you may want to set this to False
+    ## if you don't want to show the in-game popup alongside it.
+    ## The in-game popup will still work on non-Steam builds, such as builds
+    ## released DRM-free on itch.io.
+    INGAME_POPUP_WITH_STEAM = True
+    ## The length of time the in-game popup spends hiding itself (see
+    ## transform achievement_popout in achievements.rpy).
+    ACHIEVEMENT_HIDE_TIME = 1.0
+    ## True if the game should show in-game achievement popups when an
+    ## achievement is earned. You can set this to False if you just want an
+    ## achievement gallery screen and don't want any popups.
+    SHOW_ACHIEVEMENT_POPUPS = True
+    ## A callback, or list of callbacks, which are called when an achievement
+    ## is granted. It is called with one argument, the achievement which
+    ## was granted. It is only called if the achievement has not previously
+    ## been earned.
+    ACHIEVEMENT_CALLBACK = None
+    ## A sound to play when the achievement is granted
+    ACHIEVEMENT_SOUND = None
+    ACHIEVEMENT_CHANNEL = "audio"
 
 ## Track the time each achievement was earned at
 default persistent.achievement_timestamp = dict()
