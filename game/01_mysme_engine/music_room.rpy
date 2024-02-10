@@ -167,7 +167,7 @@ screen music_room(mr):
                     fixed:
                         yfit True xsize 100
                         add mr.get_pos(style="music_room_pos")
-                    music_bar room mr xsize config.screen_width-250
+                    music_bar room mr
                     fixed:
                         yfit True xsize 100
                         add mr.get_duration(style="music_room_duration")
@@ -205,7 +205,9 @@ style music_room_pos:
     color "#fff" xalign 0.5 adjust_spacing False yalign 0.5
 style music_room_duration:
     color "#fff" xalign 0.5 adjust_spacing False yalign 0.5
-
+style music_room_bar:
+    xsize config.screen_width-250
+    xalign 0.5
 
 style track_list_frame:
     background "menu_settings_panel_bright"
