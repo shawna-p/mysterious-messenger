@@ -206,6 +206,8 @@ style music_room_pos:
 style music_room_duration:
     color "#fff" xalign 0.5 adjust_spacing False yalign 0.5
 style music_room_bar:
+    is sound_settings_slider
+    offset (0, 0)
     xsize config.screen_width-250
     xalign 0.5
 
