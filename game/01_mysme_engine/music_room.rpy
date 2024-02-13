@@ -119,8 +119,7 @@ screen music_room(mr):
                                 label song.name
                                 text song.artist
             vbox:
-                spacing 15 yalign 1.0
-
+                spacing 15 yalign 1.0 xalign 0.5
                 hbox:
                     xalign 0.5 spacing 60
                     add "gui/music_room/ost_cover.webp" xalign 0.5:
