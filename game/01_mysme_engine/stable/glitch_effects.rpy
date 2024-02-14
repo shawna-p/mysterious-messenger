@@ -226,8 +226,6 @@ screen white_squares(w_timer=False):
 # Little black squares
 image m_rectstatic:
     RectStatic(Solid("#000"), 32, False, False).sm
-    # RectStatic(Crop((0,0,renpy.random.randint(20, 60),
-    #                     renpy.random.randint(20, 40)), 'hack_long'), 32).sm
     pos (0, 0)
     size (32,32)
 # Little squares with a part of the logo
