@@ -103,7 +103,7 @@ init -50 python:
             using the provided string format.
             """
             if self.has():
-                return datetime.datetime.fromtimestamp(
+                return datetime.fromtimestamp(
                     self._timestamp).strftime(format)
             else:
                 return ""
@@ -120,7 +120,7 @@ init -50 python:
             """Return the timestamp when this achievement was granted."""
             if self.has():
                 try:
-                    ts = datetime.datetime.fromtimestamp(self._timestamp)
+                    ts = datetime.fromtimestamp(self._timestamp)
                 except TypeError:
                     if config.developer:
                         print("WARNING: Could not find timestamp for achievement with ID {}".format(self.id))
