@@ -88,14 +88,17 @@ init -50 python:
             else:
                 self.hide_description = hide_description
 
-            # Add to list of all achievements
-            self.all_achievements.append(self)
-            # Add to the dictionary for a quick lookup
-            self.achievement_dict[self.id] = self
+            self.ignored = True
+            if not store.IGNORE_ACHIEVEMENTS:
+                self.ignored = False
+                # Add to list of all achievements
+                self.all_achievements.append(self)
+                # Add to the dictionary for a quick lookup
+                self.achievement_dict[self.id] = self
 
-            # Register with backends
-            achievement.register(self.id, stat_max=stat_max,
-                stat_modulo=stat_modulo or None)
+                # Register with backends
+                achievement.register(self.id, stat_max=stat_max,
+                    stat_modulo=stat_modulo or None)
 
         def get_timestamp(self, format="%b %d, %Y @ %I:%M %p"):
             """
@@ -194,6 +197,8 @@ init -50 python:
             Grant the player this achievement, and show a popup if this is
             the first time they've gotten it.
             """
+            if self.ignored:
+                return
             has_achievement = self.has()
             x = achievement.grant(self.id)
             if not has_achievement:
@@ -217,6 +222,8 @@ init -50 python:
             A plugin to the original Achievement class. Sets the current
             achievement progress to "complete".
             """
+            if self.ignored:
+                return
             has_achievement = self.has()
             x = achievement.progress(self.id, complete)
             if not has_achievement and self.has():
