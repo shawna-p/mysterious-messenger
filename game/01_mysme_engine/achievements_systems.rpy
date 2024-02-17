@@ -88,7 +88,7 @@ init -50 python:
             else:
                 self.hide_description = hide_description
 
-            self.ignored = True
+            self.ignored = True ## Specially to ignore the built-in, if needed.
             if not store.IGNORE_ACHIEVEMENTS:
                 self.ignored = False
                 # Add to list of all achievements
