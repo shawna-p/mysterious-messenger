@@ -198,6 +198,7 @@ init -50 python:
             the first time they've gotten it.
             """
             if self.ignored:
+                ## For ignoring built-in achievements
                 return
             has_achievement = self.has()
             x = achievement.grant(self.id)
