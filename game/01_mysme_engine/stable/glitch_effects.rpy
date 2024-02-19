@@ -227,17 +227,17 @@ screen white_squares(w_timer=False):
 image m_rectstatic:
     RectStatic(Solid("#000"), 32, False, False).sm
     pos (0, 0)
-    size (32,32)
+    xysize (32,32)
 # Little squares with a part of the logo
 image m_rectstatic2:
     RectStatic(Transform(Crop((0,0,32,32),
                         "chat_selected", size=(32,32))), 2).sm
-    size (32, 32)
+    xysize (32, 32)
 # Little squares with a part of the menu
 image m_rectstatic3:
     RectStatic(Transform(Crop((0,0,64,64),
                         "day_selected", size=(32, 32))), 2).sm
-    size (32, 32)
+    xysize (32, 32)
 
 init python:
     import math
