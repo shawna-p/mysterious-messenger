@@ -899,7 +899,6 @@ style open_email_button:
     align (0.5, 1.0)
     xsize 170
     ysize 70
-    size 28
     background 'menu_select_btn'
     padding (20,20)
     hover_foreground 'menu_select_btn_hover'
