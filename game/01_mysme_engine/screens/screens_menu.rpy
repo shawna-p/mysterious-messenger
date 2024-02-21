@@ -2344,7 +2344,7 @@ screen pick_chara_pfp(who):
                             AddToSet(persistent.bought_prof_pics, img)],
                             CConfirm("You do not have enough heart points with "
                                 + who.name + " to purchase this picture.")))
-                        add "#0005" size (140, 140)
+                        add "#0005" xysize (140, 140)
                         add 'plot_lock' align (0.5, 0.5)
                         add 'header_heart' align (0.95, 0.95)
                     else:
