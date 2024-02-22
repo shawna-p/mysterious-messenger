@@ -368,7 +368,7 @@ screen pick_mc_pfp():
                             Function(update_pfp, who=m, img=img),
                             Hide('pick_mc_pfp')]
                     else:
-                        add "#0005" size (140, 140)
+                        add "#0005" xysize (140, 140)
                         add 'plot_lock' align (0.5, 0.5)
                         add 'header_hg' align (0.95, 0.95)
                         action SpendHourglass(
