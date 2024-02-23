@@ -39,7 +39,7 @@ init python:
 
 ## Define the invert screen for renpy
 screen invert(w_timer=False):
-    add Invert() size (config.screen_width, config.screen_height)
+    add Invert() xysize (config.screen_width, config.screen_height)
     if w_timer:
         timer w_timer action Hide("invert")
 
