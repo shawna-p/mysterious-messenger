@@ -1,8 +1,5 @@
 python early:
 
-    from random import randint
-    import renpy.store as store
-
     class TextMessage(renpy.store.object):
         """
         A class to keep track of text message conversations for each character.

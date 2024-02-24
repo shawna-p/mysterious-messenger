@@ -1025,9 +1025,9 @@ screen outgoing_call(phonecall, voicemail=False):
                             [Stop('music'), Show('phone_calls')])
 
     if voicemail:
-        timer randint(8, 10) action MMVoicemail(phonecall)
+        timer random.randint(8, 10) action MMVoicemail(phonecall)
     else:
-        timer randint(2, 7) action MMCallPickup(phonecall)
+        timer random.randint(2, 7) action MMCallPickup(phonecall)
 
 ## Screen used to say dialogue for phone characters
 screen phone_say(who, what):
