@@ -3,8 +3,6 @@
 
 init python:
 
-    import random
-
     ## Screen cap the current screen; used by multiple functions
     def screenshot_srf():
         srf = renpy.display.draw.screenshot(None)
@@ -240,7 +238,6 @@ image m_rectstatic3:
     xysize (32, 32)
 
 init python:
-    import math
     ## This effect takes a displayable, a number of rectangles
     ## to show concurrently, and a size for the rectangles, then
     ## makes them randomly show up on the screen
