@@ -25,7 +25,8 @@ init python:
         def __init__(self, delay=0.0, screenshot_delay=0.0):
             super(Invert, self).__init__()
             self.width, self.height = renpy.get_physical_size()
-            self.height = int(self.width * 16 // 9)
+            proportion = config.screen_height / config.screen_width
+            self.height = int(self.width * proportion)
             self.srf = invert()
             self.delay = delay
 
