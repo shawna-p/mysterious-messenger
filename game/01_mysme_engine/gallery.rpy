@@ -1,6 +1,6 @@
 python early:
 
-    class Album(renpy.store.object):
+    class Album():
         """
         Class which holds the information needed to display all the CGs
         associated with a certain album.
