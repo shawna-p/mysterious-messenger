@@ -245,8 +245,8 @@ init python:
     ## RectStatic(Solid("#000"), 32, 32, 32) would make 32 32x32 black squares
     ## That show up randomly on the screen
     class RectStatic(object):
-        def __init__(self, theDisplayable, numRects=12, rectWidth = False,
-                        rectHeight = False):
+        def __init__(self, theDisplayable, numRects=12, rectWidth=False,
+                        rectHeight=False):
             self.sm = SpriteManager(update=self.update)
             self.rects = [ ]
             self.timers = [ ]
@@ -286,8 +286,8 @@ init python:
         def update(self, st):
             for i, s in enumerate(self.rects):
                 if st >= self.timers[i]:
-                    s.x = random.randint(0, 23) * 32
-                    s.y = random.randint(0, 41) * 32
+                    s.x = random.randint(0, config.screen_width//self.rectWidth)
+                    s.y = random.randint(0, config.screen_height//self.rectHeight)
                     self.timers[i] = st + random.random() * 0.4 + 0.1
             return 0
 
