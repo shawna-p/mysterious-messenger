@@ -273,8 +273,8 @@ init python:
         # Rectangles show up on a grid
         def add(self, d):
             s = self.sm.create(d)
-            s.x = random.randint(0, 23) * 32
-            s.y = random.randint(0, 41) * 32
+            s.x = random.randint(0, config.screen_width//self.rectWidth)
+            s.y = random.randint(0, config.screen_height//self.rectHeight)
             if not self.is_random:
                 s.width = self.rectWidth
                 s.height = self.rectHeight
