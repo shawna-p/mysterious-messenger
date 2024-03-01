@@ -230,12 +230,12 @@ image m_rectstatic:
 # Little squares with a part of the logo
 image m_rectstatic2:
     RectStatic(Transform(Crop((0,0,32,32),
-                        "chat_selected", size=(32,32))), 2).sm
+                        "chat_selected", xysize=(32,32))), 2).sm
     xysize (32, 32)
 # Little squares with a part of the menu
 image m_rectstatic3:
     RectStatic(Transform(Crop((0,0,64,64),
-                        "day_selected", size=(32, 32))), 2).sm
+                        "day_selected", xysize=(32, 32))), 2).sm
     xysize (32, 32)
 
 init python:
