@@ -513,20 +513,20 @@ screen history_calls_list(item, call_list, call_icon):
             button:
                 if (p_caller in phone_only_characters):
                     background AlphaMask(p_caller.get_pfp(85),
-                        Transform('contact_darken', size=(85, 85)))
+                        Transform('contact_darken', xysize=(85, 85)))
                     hover_background Fixed(AlphaMask(p_caller.get_pfp(85),
-                        Transform('contact_darken', size=(85, 85))),
+                        Transform('contact_darken', xysize=(85, 85))),
                         AlphaMask("#fff6",
-                        Transform('contact_darken', size=(85, 85))))
+                        Transform('contact_darken', xysize=(85, 85))))
                 else:
                     background Transform(caller_file_id + '_contact',
-                        size=(85,85))
+                        xysize=(85,85))
                     hover_background Fixed(
-                        Transform(caller_file_id + '_contact', size=(85,85)),
-                        Transform(caller_file_id + '_contact', size=(85,85)))
-                add Transform('contact_darken', size=(85,85), alpha=0.3):
+                        Transform(caller_file_id + '_contact', xysize=(85,85)),
+                        Transform(caller_file_id + '_contact', xysize=(85,85)))
+                add Transform('contact_darken', xysize=(85,85), alpha=0.3):
                     align (0.5,0.5)
-                add Transform('call_' + call_icon + '_outline', size=(32, 32)):
+                add Transform('call_' + call_icon + '_outline', xysize=(32, 32)):
                     align (1.0, 1.0)
                 xysize (85,85)
                 action Replay('play_phone_call', scope={'observing': True,
