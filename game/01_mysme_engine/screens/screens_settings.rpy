@@ -412,13 +412,13 @@ init python:
                 if '.webp' not in img:
                     new_img = img.split('.')[0] + '.webp'
                     if renpy.loadable(new_img):
-                        return Transform(new_img, size=(140, 140))
+                        return Transform(new_img, xysize=(140, 140))
         except:
             # Couldn't display this profile picture
             ScriptError("Couldn't display given profile picture \"", img, "\".")
-            return Transform("cannot_find_img", size=(140, 140))
+            return Transform("cannot_find_img", xysize=(140, 140))
 
-        return Transform(img, size=(140, 140))
+        return Transform(img, xysize=(140, 140))
 
     def can_use_mc_pic(img):
         """
