@@ -416,7 +416,7 @@ screen timeline_item_history(item):
         hbox:
             xalign 1.0
             xoffset -40
-            add Transform('call_mainicon', size=(60,60)) align (0.5, 0.75)
+            add Transform('call_mainicon', xysize=(60,60)) align (0.5, 0.75)
             if item.incoming_calls_list:
                 use history_calls_list(item, item.incoming_calls_list, 'incoming')
             if item.outgoing_calls_list:
@@ -437,7 +437,7 @@ screen history_timeline_story_calls(phonecall, item):
                 fit_first True
                 offset (4, 4)
                 add phonecall.caller.participant_pic
-                add Transform('call_mainicon', size=(28,28)) align (0.01, 0.99)
+                add Transform('call_mainicon', xysize=(28,28)) align (0.01, 0.99)
             vbox:
                 spacing 21
                 hbox:
