@@ -40,17 +40,17 @@ init python:
                 large_pfp = big_name[0] + '-b.' + big_name[1]
                 other_large_pfp = big_name[0] + '-b.webp'
                 if renpy.loadable(large_pfp):
-                    return Transform(Transform(large_pfp, size=(363, 363),
+                    return Transform(Transform(large_pfp, xysize=(363, 363),
                         fit='cover'), crop=(0, 0, 363, 363)), None
                 elif renpy.loadable(other_large_pfp):
-                    return Transform(Transform(other_large_pfp, size=(363, 363),
+                    return Transform(Transform(other_large_pfp, xysize=(363, 363),
                         fit='cover'), crop=(0, 0, 363, 363)), None
         except TypeError:
             if not isinstance(store.persistent.MC_pic, renpy.display.transform.Transform):
                 store.persistent.MC_pic = "Drop Your Profile Picture Here/MC-1.webp"
-                return Transform(Transform(store.persistent.MC_pic, size=(363,363),
+                return Transform(Transform(store.persistent.MC_pic, xysize=(363,363),
                     fit='cover'), crop=(0, 0, 363, 363)), None
-        return Transform(Transform(store.persistent.MC_pic, size=(363,363),
+        return Transform(Transform(store.persistent.MC_pic, xysize=(363,363),
             fit='cover'), crop=(0, 0, 363, 363)), None
 
     def MC_name_display(st, at):
@@ -396,7 +396,7 @@ init python:
             return Transform(tup[0], crop=tup[1], xysize=(the_size, the_size))
         else:
             # It's a colour
-            return Transform(tup, size=(the_size, the_size))
+            return Transform(tup, xysize=(the_size, the_size))
 
     def get_sized_pfp(img):
         """
