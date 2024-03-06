@@ -196,7 +196,7 @@ init python:
         elif battery.state == 4 and battery.percent > 97:
             return Transform('battery_charging', alpha=0.75), 0.1
         else:
-            return Transform('transparent', size=(18,26)), None
+            return Transform('transparent', xysize=(18,26)), None
 
     def battery_level_bar(st, at):
         """Return the battery level image to use based on remaining power."""
