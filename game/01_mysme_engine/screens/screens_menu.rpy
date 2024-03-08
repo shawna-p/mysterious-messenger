@@ -2270,7 +2270,7 @@ screen chara_profile(who):
                 xalign 0.1 yalign 0.62
                 add who.get_pfp(314)
                 background 'profile_outline'
-                hover_foreground Fixed(Transform('#fff3', size=(328, 324)),
+                hover_foreground Fixed(Transform('#fff3', xysize=(328, 324)),
                                 Transform('menu_pencil', align=(0.95, 0.05)))
                 padding (7, 5)
                 action Show('pick_chara_pfp', who=who)
@@ -2328,12 +2328,12 @@ screen pick_chara_pfp(who):
             for img, condition in pfp_list:
                 button:
                     if is_unlocked_pfp(img, condition) or in_chat_creator:
-                        background Transform(img, size=(140, 140))
+                        background Transform(img, xysize=(140, 140))
                         hover_foreground "#fff3"
                         action [SetField(who, 'bonus_pfp', img),
                             Hide('pick_chara_pfp')]
                     elif is_unlocked_pfp(img, condition) is None:
-                        background Transform(img, size=(140,140))
+                        background Transform(img, xysize=(140,140))
                         action CConfirm(("Would you like to unlock this "
                             + "profile picture for [pfp_cost] hearts?"),
                             If(persistent.spendable_hearts.get(
@@ -2348,7 +2348,7 @@ screen pick_chara_pfp(who):
                         add 'plot_lock' align (0.5, 0.5)
                         add 'header_heart' align (0.95, 0.95)
                     else:
-                        background Transform('img_locked', size=(140, 140))
+                        background Transform('img_locked', xysize=(140, 140))
                         action CConfirm(("You have not yet "
                             + "unlocked this profile picture."))
 
