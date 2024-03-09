@@ -542,9 +542,6 @@ screen heart_point_grid(c):
         text "[c.heart_points] {image=header_heart}":
             style "point_indicator"
 
-style profile_pic_text is default
-style profile_pic_imagebutton is empty
-
 style point_indicator:
     size 40
     color "#fff"
@@ -555,6 +552,7 @@ style profile_pic_frame:
     xysize(370, 440)
 
 style profile_pic_text:
+    is default
     color "#fff"
     text_align 0.0
     hover_color "#d7d7d7"
@@ -563,6 +561,7 @@ style profile_pic_text:
     yalign 0.455
 
 style profile_pic_imagebutton:
+    is empty
     focus_mask None
     xalign 0.06
     yalign 0.453
