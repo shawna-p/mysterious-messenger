@@ -566,11 +566,6 @@ style profile_pic_imagebutton:
     xalign 0.06
     yalign 0.453
 
-style pronoun_window_text is empty
-style pronoun_window_vbox is empty
-style pronoun_window_text is empty
-style pronoun_radio_text is default
-style pronoun_window_vbox is default
 
 style pronoun_frame:
     background 'greeting_panel'
@@ -582,11 +577,14 @@ style pronoun_frame:
     yfill True
 
 style pronoun_window_vbox:
+    is default
     spacing 15
     xalign 0.5
     yalign 0.5
+    xysize (240,300)
 
 style pronoun_window_text:
+    is empty
     size 40
     color "#fff"
     text_align 0.5
@@ -594,11 +592,6 @@ style pronoun_window_text:
 style pronoun_radio_text:
     color '#fff'
     hover_color '#ddd'
-
-style pronoun_window_vbox:
-    xysize (240,300)
-    xalign 0.5
-    yalign 0.5
 
 ########################################################
 ## The Input Prompt to get text from the user
