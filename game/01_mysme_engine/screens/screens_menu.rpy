@@ -1408,11 +1408,11 @@ screen chat_home(reshow=False):
                             xysize (pfp_size,pfp_size)
                             xalign 0.0
                             idle Transform(person.homepage_pic,
-                                    size=(pfp_size, pfp_size))
+                                    xysize=(pfp_size, pfp_size))
                             background Transform('no_profile_update',
-                                    size=(pfp_size,pfp_size))
+                                    xysize=(pfp_size,pfp_size))
                             selected_background Transform('new_profile_update',
-                                    size=(pfp_size, pfp_size))
+                                    xysize=(pfp_size, pfp_size))
                             selected not person.seen_updates
                             action MMViewProfile(person)
                             activate_sound 'audio/sfx/UI/profile_screen_select.mp3'
@@ -1422,7 +1422,7 @@ screen chat_home(reshow=False):
             imagebutton:
                 xysize (pfp_size,pfp_size)
                 hover Transform("profile_pic_select_square",
-                        size=(pfp_size,pfp_size))
+                        xysize=(pfp_size,pfp_size))
                 idle m.get_pfp(pfp_size)
                 background m.get_pfp(pfp_size)
                 action Show('profile_pic')
