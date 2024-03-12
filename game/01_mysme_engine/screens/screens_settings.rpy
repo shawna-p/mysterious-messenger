@@ -158,14 +158,13 @@ screen settings_tabs(active_tab):
             sensitive active_tab != "Others"
             action Show("other_settings", Dissolve(0.5))
 
-style settings_tabs_hbox is empty
-style settings_tabs_button is empty
-style settings_tabs_button_text is default
 
 style settings_tabs_hbox:
+    is empty
     spacing 10
 
 style settings_tabs_button:
+    is empty
     xsize 231
     ysize 57
     activate_sound 'audio/sfx/UI/settings_tab_switch.mp3'
@@ -174,6 +173,7 @@ style settings_tabs_button:
     insensitive_background 'menu_tab_active'
 
 style settings_tabs_button_text:
+    is default
     color '#fff'
     font gui.sans_serif_1
     text_align 0.5
