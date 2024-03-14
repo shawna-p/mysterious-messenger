@@ -148,7 +148,8 @@ screen viewCG_fullsize(fullsizeCG):
 style CG_close_button:
     yalign 0.5 xpos 20
     padding (10, 40)
-style CG_close_button_text is text:
+style CG_close_button_text:
+    is text
     font gui.sans_serif_1b
     color "#ffffff"
     size 45

@@ -205,7 +205,6 @@ screen history():
 ## This determines what tags are allowed to be displayed on the history screen.
 define gui.history_allow_tags = set(['b', 'i'])
 
-style history_window is empty
 
 style history_name is gui_label
 style history_name_text is gui_label_text
@@ -217,6 +216,7 @@ style history_label is gui_label
 style history_label_text is gui_label_text
 
 style history_window:
+    is empty
     xfill True
     ysize gui.history_height
 
