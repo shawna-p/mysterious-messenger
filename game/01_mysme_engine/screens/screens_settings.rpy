@@ -320,7 +320,7 @@ screen pic_and_pronouns():
                     hover 'mc_gender_picker_hover'
                     align (0.5, 0.5)
                     xysize (192, 55)
-                    focus_mask Solid("#f0f8", size=(192, 55))
+                    focus_mask Solid("#f0f8", xysize=(192, 55))
                     action Function(toggle_gender)
 
 define allowed_username_chars = " -'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_=+:;/?|.,><~`♥♣♠•○♂♀♪★☆↑↓→←↔↕▲▼©○†✚∞®☎☏℡™"
