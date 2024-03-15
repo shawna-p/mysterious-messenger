@@ -647,10 +647,10 @@ define gui.about = ""
 
 
 style about_label is gui_label
-style about_label_text is gui_label_text
 style about_text is gui_text
 
 style about_label_text:
+    is gui_label_text
     size gui.label_text_size
 
 
@@ -670,8 +670,6 @@ style check_button is gui_button
 style check_button_text is gui_button_text
 #style check_vbox is pref_vbox
 
-style slot_button is gui_button
-style slot_button_text is gui_button_text
 style slot_time_text is slot_button_text
 style slot_name_text is slot_button_text
 
@@ -685,17 +683,17 @@ style slot_hbox:
     xsize 695
 
 style slot_button:
+    is gui_button
     properties gui.button_properties("slot_button")
 
 style slot_button_text:
+    is gui_button_text
     properties gui.button_text_properties("slot_button")
 
 
 style slider_label is pref_label
 style slider_label_text is pref_label_text
 style slider_slider is gui_slider
-style slider_button is gui_button
-style slider_button_text is gui_button_text
 style slider_pref_vbox is pref_vbox
 
 style mute_all_button is check_button
@@ -724,7 +722,6 @@ style check_vbox:
     spacing gui.pref_button_spacing
 
 style check_button:
-    # properties gui.button_properties("check_button")
     padding gui.check_button_borders.padding
     foreground "gui/button/check_[prefix_]foreground.png"
 
@@ -735,11 +732,13 @@ style slider_slider:
     xsize 296
 
 style slider_button:
+    is gui_button
     properties gui.button_properties("slider_button")
     yalign 0.5
     left_margin 9
 
 style slider_button_text:
+    is gui_button_text
     properties gui.button_text_properties("slider_button")
 
 style slider_vbox:
