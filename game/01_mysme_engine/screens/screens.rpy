@@ -1251,16 +1251,11 @@ transform slow_fade(delay=0.5):
 ## once.
 define config.nvl_list_length = gui.nvl_list_length
 
-style nvl_window is default
-style nvl_entry is default
 
-style nvl_label is say_label
-style nvl_dialogue is say_dialogue
 
-style nvl_button is button
-style nvl_button_text is button_text
 
 style nvl_window:
+    is default
     xfill True
     yfill True
 
@@ -1268,10 +1263,12 @@ style nvl_window:
     padding gui.nvl_borders.padding
 
 style nvl_entry:
+    is default
     xfill True
     ysize gui.nvl_height
 
 style nvl_label:
+    is say_label
     xpos gui.nvl_name_xpos
     xanchor gui.nvl_name_xalign
     ypos gui.nvl_name_ypos
@@ -1281,6 +1278,7 @@ style nvl_label:
     text_align gui.nvl_name_xalign
 
 style nvl_dialogue:
+    is say_dialogue
     xpos gui.nvl_text_xpos
     xanchor gui.nvl_text_xalign
     ypos gui.nvl_text_ypos
@@ -1299,10 +1297,12 @@ style nvl_thought:
     layout ("subtitle" if gui.nvl_text_xalign else "tex")
 
 style nvl_button:
+    is button
     properties gui.button_properties("nvl_button")
     xpos gui.nvl_button_xpos
     xanchor gui.nvl_button_xalign
 
 style nvl_button_text:
+    is button_text
     properties gui.button_text_properties("nvl_button")
 
