@@ -196,7 +196,8 @@ init python:
         return VBox(speedtxt, numtxt), 0.05
 
 # The number that shows up when adjusting the chatroom speed
-style speednum_style is text:
+style speednum_style:
+    is text
     xalign 0.97
     yalign 0.22
     color "#ffffff"
