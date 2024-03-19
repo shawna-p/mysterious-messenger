@@ -386,7 +386,8 @@ style update_button:
     align (1.0, 1.0)
     offset (-6, -6)
 
-style greet_text is text:
+style greet_text:
+    is text
     color "#ffffff"
     text_align 0.0
     slow_cps 20
@@ -436,13 +437,15 @@ style menu_bottom_left_frame:
     xfill True
     yfill True
 
-style menu_text_big is text:
+style menu_text_big:
+    is text
     color "#ffffff"
     size 45
     text_align 0.5
     xalign 0.5
 
-style menu_text_small is text:
+style menu_text_small:
+    is text
     color "#ffffff"
     size 30
     text_align 0.5
