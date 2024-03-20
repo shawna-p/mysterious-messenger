@@ -173,20 +173,16 @@ screen say(who, what):
 init python:
     config.character_id_prefixes.append('namebox')
 
-style window is default
-style say_label is default
-style say_dialogue is default
-style say_thought is say_dialogue
 
-style namebox is default
-style namebox_label is say_label
 
 
 style window:
+    is default
     xysize (config.screen_width,324)
     align (0.5, 1.0)
 
 style namebox:
+    is default
     xpos gui.name_xpos
     xanchor gui.name_xalign
     xsize gui.namebox_width
@@ -196,15 +192,20 @@ style namebox:
     padding gui.namebox_borders.padding
 
 style say_label:
+    is default
     properties gui.text_properties("name", accent=True)
     xalign gui.name_xalign
     yalign 0.5
 
 style say_dialogue:
+    is default
     properties gui.text_properties("dialogue")
     xpos gui.dialogue_xpos
     xsize gui.dialogue_width
     ypos gui.dialogue_ypos
+
+style say_thought is say_dialogue
+style namebox_label is say_label
 
 style vn_mode_button:
     align (0.98, 0.01)
