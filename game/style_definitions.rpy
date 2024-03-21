@@ -190,7 +190,8 @@ style text_num:
     font gui.sans_serif_1b
 
 # Default frame style
-style frame is default:
+style frame:
+    is default
     background None
     align (0.0, 0.0)
     padding (0, 0)
