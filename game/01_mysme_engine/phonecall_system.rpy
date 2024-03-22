@@ -1014,12 +1014,12 @@ screen outgoing_call(phonecall, voicemail=False):
                 has hbox
                 align (0.5, 0.5)
                 spacing 30
-                add 'call_connect_triangle' at delayed_blink2(0.0, 1.4) xalign 0.25
-                add 'call_connect_triangle' at delayed_blink2(0.2, 1.4) xalign 0.35
-                add 'call_connect_triangle' at delayed_blink2(0.4, 1.4) xalign 0.45
-                add 'call_connect_triangle' at delayed_blink2(0.6, 1.4) xalign 0.55
-                add 'call_connect_triangle' at delayed_blink2(0.8, 1.4) xalign 0.65
-                add 'call_connect_triangle' at delayed_blink2(1.0, 1.4) xalign 0.75
+                add 'call_connect_triangle' at delayed_blink2(0.0, 1.4)
+                add 'call_connect_triangle' at delayed_blink2(0.2, 1.4)
+                add 'call_connect_triangle' at delayed_blink2(0.4, 1.4)
+                add 'call_connect_triangle' at delayed_blink2(0.6, 1.4)
+                add 'call_connect_triangle' at delayed_blink2(0.8, 1.4)
+                add 'call_connect_triangle' at delayed_blink2(1.0, 1.4)
 
             use phone_footer(False, "headphones",
                             [Stop('music'), Show('phone_calls')])
