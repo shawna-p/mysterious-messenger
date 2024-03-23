@@ -590,12 +590,12 @@ python early:
                 #self._prof_pic = store.persistent.MC_pic
                 store.persistent.MC_pic = self._prof_pic
 
-            self._big_prof_pic = self._prof_pic
+            self.big_prof_pic = self._prof_pic
             if self._prof_pic and not is_transform:
                 big_name = self._prof_pic.split('.')
                 large_pfp = big_name[0] + '-b.' + big_name[1]
                 if renpy.loadable(large_pfp):
-                    self._big_prof_pic = large_pfp
+                    self.big_prof_pic = large_pfp
                 elif renpy.loadable(big_name[0] + '-b.webp'):
                     self.big_prof_pic = big_name[0] + '-b.webp'
 
@@ -689,7 +689,7 @@ python early:
                 return Transform(self.prof_pic,
                                 xysize=(the_size, the_size))
             else:
-                return Transform(self._big_prof_pic,
+                return Transform(self.big_prof_pic,
                                 xysize=(the_size, the_size))
 
         def reset_pfp(self):
