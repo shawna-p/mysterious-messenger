@@ -587,7 +587,6 @@ init -50 python:
                 ## we're starting to shuffle from a new track.
                 if self.shuffled is None or (filename
                         and self.shuffled[0] != filename):
-                    import random
                     self.shuffled = list(self.playlist)
                     random.shuffle(self.shuffled)
 

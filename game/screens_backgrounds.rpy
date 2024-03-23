@@ -1083,6 +1083,7 @@ init -100 python:
                                             fast=fast,
                                             rotate=horizontal))
 
+    import random
 
     class SnowBlossomFactory2(renpy.python.NoRollback):
 
