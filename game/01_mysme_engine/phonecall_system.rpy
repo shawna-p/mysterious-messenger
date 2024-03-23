@@ -993,20 +993,12 @@ screen outgoing_call(phonecall, voicemail=False):
                 ysize 500
                 yalign 0.16
                 background 'call_overlay'
-
-                has hbox
-                align (0.5, 0.5)
-                spacing -10
-                frame:
-                    xysize(120,220)
+                has vbox
+                align (0.5, 0.5) xsize 350
+                spacing 15
+                add phonecall.caller.get_pfp(237):
                     align (0.5, 0.5)
-                    xsize 350
-                    has vbox
-                    align (0.5, 0.5)
-                    spacing 15
-                    add phonecall.caller.get_pfp(237):
-                        align (0.5, 0.5)
-                    text phonecall.caller.name style 'caller_id'
+                text phonecall.caller.name style 'caller_id'
 
             frame:
                 xfill True
