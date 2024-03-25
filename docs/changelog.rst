@@ -109,6 +109,8 @@ QoL Improvements
       - Modernized chat creator to use nearrect and dismiss (7.5/8.0).
     * - History screen text tags
       - Bold and italics are allowed on the history screen.
+    * - Screens & styles cleanup
+      - Screens and style code has been cleaned up to remove outdated property names and organize styles better.
 
 .. _incompat-3-4-0:
 
