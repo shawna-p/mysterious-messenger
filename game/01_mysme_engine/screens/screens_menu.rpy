@@ -965,7 +965,7 @@ screen menu_header(title, return_action=NullAction,
 
     python:
         # Ensures the background music is playing
-        if title != "In Call":
+        if title not in ("In Call", "Music Room"):
             if (renpy.music.get_playing(channel='music') != mystic_chat
                     and not hacked_effect):
                 renpy.music.queue(mystic_chat, loop=True)
