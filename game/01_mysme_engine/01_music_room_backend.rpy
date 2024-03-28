@@ -336,6 +336,8 @@ init -50 python:
             self.last_song = None
             self.old_shuffle = self.shuffle
             self.music_dictionary = dict()
+            self.up_next = None
+            self.music_queue = [ ]
 
         def add(self, name, path, artist=None, art=None, description=None,
                     unlock_condition=None):
