@@ -456,8 +456,8 @@ init -50 python:
             if self.single_track:
                 self.play(None, 0, queue=True, clear_queue=False)
             elif self.shuffle:
-                self.shuffled = None
                 ## Shuffle the playlist again to queue up in a new order.
+                self.shuffled = None
                 self.play(None, 0, queue=True, clear_queue=False)
             else:
                 self.play(None, 1, queue=True)
