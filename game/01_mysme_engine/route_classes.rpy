@@ -1387,7 +1387,7 @@ init python:
             store._history_list = []
             store.history = True
 
-            preferences.afm_enable = False #Preference('auto-forward', 'disable')
+            preferences.afm_enable = False
 
         # Story phone calls
         elif isinstance(item, StoryCall):
@@ -1445,9 +1445,6 @@ init python:
 
     def finish_timeline_item(item, deliver_messages=True):
         """Finish resetting variables and screens for this TimelineItem."""
-
-        # renpy.scene()
-        # renpy.exports.show(name='bg', what=Solid(AQUA))
 
         # This item simply ends if the user is in Replay
         if _in_replay:
