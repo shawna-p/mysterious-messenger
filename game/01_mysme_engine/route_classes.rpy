@@ -1667,7 +1667,6 @@ init python:
         # Reset collected_hp
         collected_hp = {'good': [], 'bad': [], 'break': []}
 
-
     def reset_story_vars(vn_jump=False):
         """
         Reset variables associated with the current item, such as hiding
@@ -1714,6 +1713,4 @@ init python:
         store.on_screen_choices = 0
         store.recently_hidden_choice_screens = []
         store.last_shown_choice_index = None
-
-        # renpy.hide('load')
 
