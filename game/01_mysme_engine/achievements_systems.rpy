@@ -397,11 +397,6 @@ init -50 python:
         "Menu Screens/Main Menu/menu_gift.webp",
         stat_max=13
     )
-
-
-
-
-
     ## Don't change this one or your achievements won't work
     IGNORE_ACHIEVEMENTS = False
 
