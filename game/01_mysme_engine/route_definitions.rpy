@@ -789,7 +789,6 @@ init -6 python:
         else:
             return
 
-
         # Otherwise, an item was expired. Deliver its associated
         # phone calls and text messages.
         # Create a timestamp for calls.
@@ -803,9 +802,7 @@ init -6 python:
 
         # Deliver all outstanding text messages
         deliver_all_texts()
-
         return
-
 
     def num_future_timeline_items(break_for_branch=False, check_all=True):
         """
@@ -836,7 +833,6 @@ init -6 python:
                         return total
         return total
 
-
     def deliver_next(randomize=False):
         """
         Deliver the next available text message and trigger an incoming
@@ -864,7 +860,6 @@ init -6 python:
             renpy.jump('new_incoming_call')
         return
 
-
     def send_texts(chara_list=None, check_all=True):
         """
         Deliver the next available text message, if available.
@@ -882,7 +877,6 @@ init -6 python:
             if delivered_text and not check_all:
                 break
 
-
     def send_temp_texts():
         """
         Delivery any text messages that were temporarily staged during
@@ -892,7 +886,6 @@ init -6 python:
         for c in store.all_characters:
             c.text_msg.deliver_quietly()
         return
-
 
     def purge_temp_texts():
         """
@@ -904,7 +897,6 @@ init -6 python:
             c.text_msg.temp_msg_info.clear()
             c.text_msg.temp_msg_queue = [ ]
         return
-
 
     def merge_routes(new_route):
         """Merge new_route with the current route."""
@@ -987,7 +979,6 @@ init -6 python:
                         current_timeline_item = item.story_mode
                         return
 
-
         # Merge the days on the new route
         for archive in story_archive:
             for archive2 in new_route[1:]:
@@ -995,7 +986,6 @@ init -6 python:
                     archive.archive_list += archive2.archive_list
                     archive.day_icon = archive2.day_icon
                     continue
-
 
     def continue_route():
         """Clean up the current route to continue after a plot branch."""
@@ -1009,7 +999,6 @@ init -6 python:
 
         # Remove the plot branch indicator
         most_recent_item.plot_branch = None
-
 
     def participated_percentage(first_day=1, last_day=None):
         """
@@ -1059,7 +1048,6 @@ init -6 python:
             return 0
         return (total_played * 100) // total_items
 
-
     def can_branch():
         """Return True if the player can proceed through the plot branch."""
 
@@ -1073,7 +1061,6 @@ init -6 python:
                     if item.plot_branch and item.all_played:
                         return True
         return False
-
 
     def closest_item_time(compare_from=None):
         """
@@ -1112,7 +1099,6 @@ init -6 python:
                     item_index = day_i
         return None, 0
 
-
     def get_item_day(item):
         """Return the index number of the day this item is on."""
 
@@ -1125,7 +1111,6 @@ init -6 python:
                     return day_i
         print("ERROR: Couldn't find item in story_archive")
         return store.today_day_num
-
 
     def get_random_time(begin, end, day_diff=0):
         """
@@ -1181,7 +1166,6 @@ init -6 python:
         return ("{:02d}".format(random_hour) + ":"
             + "{:02d}".format(random_min), new_day_diff)
 
-
     def played_all_available():
         """Return True if the player has played all available story items."""
 
@@ -1192,7 +1176,6 @@ init -6 python:
                 elif not item.available:
                     return True
         return True
-
 
     def next_story_time():
         """Return the time the next timeline item should be available at."""
@@ -1205,7 +1188,6 @@ init -6 python:
                 if not item.available:
                     return item.trigger_time
         return 'Unknown Time'
-
 
     def make_24h_available():
         """Make the chatrooms for the next 24 hours available."""
@@ -1285,7 +1267,6 @@ init -6 python:
             renpy.retain_after_load()
             return
 
-
     def is_time_later(current_hour, current_min, given_hour, given_min):
         """Return True if the given hour/min is later than the current one."""
 
@@ -1316,8 +1297,7 @@ default persistent.chatroom_participants = {}
 # This variable keeps track of all the routes you've defined in order
 # to display it in the History screen from the main menu.
 # You should generally not need to modify it.
-init -7:
-    default all_routes = []
+default -7 all_routes = []
 
 # This archive will store every chatroom in the game. If done correctly, the
 # program will automatically set variables and make the story available for you.
