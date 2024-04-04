@@ -19,7 +19,7 @@ screen text_answer(act=False):
     button:
         xysize (468, 95)
         xalign 0.5
-        yalign 0.98
+        yalign 1.0 yoffset -25
         background Fixed(Solid("#000"), 'text_answer_active', xysize=(468,95))
         hover_background Fixed(Solid("#000"), 'text_answer_animation', xysize=(468,95))
         activate_sound "audio/sfx/UI/answer_screen.mp3"
@@ -35,7 +35,7 @@ screen inactive_text_answer():
         yalign 0.98
         xsize 468
         ysize 95
-        xalign 0.5
+        yalign 1.0 yoffset -25
         background 'text_answer_inactive'
         add 'text_answer_text' xalign 0.5 yalign 0.5
 
