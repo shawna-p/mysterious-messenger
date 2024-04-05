@@ -32,7 +32,6 @@ screen text_answer(act=False):
 screen inactive_text_answer():
     tag chat_footer
     button at text_footer_disappear:
-        yalign 0.98
         xsize 468
         ysize 95
         yalign 1.0 yoffset -25
