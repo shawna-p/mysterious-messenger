@@ -3,11 +3,11 @@ default textbackup = ChatEntry(filler,"","")
 
 ## Used for instant text messaging footers
 transform text_footer_disappear:
-    yoffset 0 alpha 1.0
+    yoffset -25 alpha 1.0
     on hide:
-        linear 1.0 yoffset 0
-        easein 0.2 yoffset -15
-        easeout 0.5 yoffset 150 alpha 0.6
+        linear 1.0 yoffset -25
+        easein 0.2 yoffset -15-25
+        easeout 0.5 yoffset 150-25 alpha 0.6
         linear 0.1 alpha 0.0
 
 ########################################################
@@ -49,7 +49,7 @@ screen text_pause_button():
     tag chat_footer
 
     imagebutton at text_footer_disappear:
-        yalign 0.98
+        yalign 1.0 yoffset -25
         xalign 0.5
         focus_mask True
         keysym "K_SPACE"
@@ -64,7 +64,7 @@ screen text_message_pause_screen():
     use text_message_screen(text_person)
 
     imagebutton at text_footer_disappear:
-        yalign 0.98
+        yalign 1.0 yoffset -25
         xalign 0.5
         focus_mask True
         idle "text_play_button"
