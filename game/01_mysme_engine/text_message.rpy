@@ -320,18 +320,19 @@ screen text_message_footer(c):
             ymaximum 40
             background 'text_msg_line'
         button:
-            xsize 468
-            ysize 95
+            xsize 468 ysize 95
             xalign 0.5
-            if text_log and text_label and not last_msg.who.right_msgr:
-                background 'text_answer_active'
-                hover_background 'text_answer_animation'
-                if not renpy.get_screen("choice"):
-                    action [Jump('play_text_message')]
-                    activate_sound "audio/sfx/UI/answer_screen.mp3"
-                add 'text_answer_text' xalign 0.5 yalign 0.5
+            sensitive (text_log and text_label and not last_msg.who.right_msgr)
+            idle_background 'text_answer_active'
+            hover_background 'text_answer_animation'
+            foreground Transform('text_answer_text', align=(0.5, 0.5))
+            insensitive_background None
+            insensitive_foreground None
+            if not renpy.get_screen("choice"):
+                action [Jump('play_text_message')]
+                activate_sound "audio/sfx/UI/answer_screen.mp3"
             else:
-                background None
+                action NullAction()
 
 ## Displays the date separator between two messages that
 ## have a time difference of one day or more
