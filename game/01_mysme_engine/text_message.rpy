@@ -340,11 +340,9 @@ screen text_date_separator(text_time):
 
     hbox:
         style_prefix 'date_separator'
-        frame:
-            background 'text_msg_line'
+        frame background 'text_msg_line'
         text text_time.text_separator_time
-        frame:
-            background 'text_msg_line'
+        frame background 'text_msg_line'
 
 style date_separator_hbox:
     spacing 10
