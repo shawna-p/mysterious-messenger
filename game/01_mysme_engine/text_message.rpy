@@ -277,8 +277,8 @@ style text_popup_vbox2:
     spacing 10
 
 style text_popup_preview_frame:
-    xysize(420,130)
-    padding (10,10)
+    xysize(420, 130)
+    padding (10, 10)
     background 'text_popup_msg'
 
 style text_popup_preview_text:
@@ -313,9 +313,7 @@ screen text_message_footer(c):
             last_msg = False
 
     vbox:
-        xalign 0.5
-        yalign 1.0
-        yoffset -30
+        xalign 0.5 yalign 1.0 yoffset -30
         frame:
             ymaximum 40
             background 'text_msg_line'
@@ -430,8 +428,7 @@ screen text_message_screen(sender, animate=True):
                     and textlog[-bubbles_to_keep] == i):
                 use text_date_separator(i.thetime)
             fixed:
-                yfit True
-                xfit True
+                yfit True xfit True
                 if i == textlog[-1]:
                     use text_animation(i, False, True)
                 use text_animation(i, (sender.real_time_text
@@ -478,7 +475,6 @@ screen text_animation(i, animate=False, anti=False):
                         idle smallCG(cg_helper(i.what))
                         if not choosing:
                             action [ShowCG(i.what)]
-
                 else:
                     style i.text_bubble_style
                     yalign 0.0
