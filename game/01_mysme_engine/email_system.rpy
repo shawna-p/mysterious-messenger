@@ -940,7 +940,7 @@ screen email_choice(items, email):
                 xysize=(740, 120)), 50, 40)
             hover_background Frame(Transform("Text Messages/chat-bg02_3.webp",
                 xysize=(740, 120)), 50, 40)
-            xalign 0.995
+            xanchor 1.0 xpos 0.996
             action Hide('email_choice')
 
 
