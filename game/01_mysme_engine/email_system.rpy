@@ -982,13 +982,17 @@ screen guestbook():
                     if persistent.guestbook[guest.name] == "seen":
                         # The player has invited this guest but the
                         # guest hasn't attended the party
-                        background VBox(Null(height=20), Transform(guest.thumbnail))
+                        background VBox(Null(height=20),
+                            Transform(guest.thumbnail, xysize=(155, 155),
+                                fit="contain"))
                         action Show('guest_info_popup',
                                 guest=guest, unlocked=False)
                     elif (persistent.guestbook[guest.name] == "attended"
                             or persistent.guestbook[guest.name] == 'viewed'):
                         # The guest has attended the party
-                        background VBox(Null(height=20), Transform(guest.thumbnail))
+                        background VBox(Null(height=20),
+                            Transform(guest.thumbnail, xysize=(155, 155),
+                                fit="contain"))
                         action Show('guest_info_popup',
                             guest=guest, unlocked=True)
                     else:
