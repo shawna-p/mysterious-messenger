@@ -997,7 +997,8 @@ screen guestbook():
                             guest=guest, unlocked=True)
                     else:
                         # This guest is unknown to the player
-                        background VBox(Null(height=20), Transform('img_locked'))
+                        background VBox(Null(height=20),
+                            Transform('img_locked', xysize=(155, 155), fit="contain"))
                         action CConfirm("You have not yet\nencountered this guest")
 
 
