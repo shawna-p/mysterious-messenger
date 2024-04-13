@@ -205,7 +205,6 @@ init -6 python:
 
     def add_heart(who, person=None, bad=False):
         """Let the program know this response will trigger a heart point."""
-
         who.text_msg.heart_point(person, bad)
 
     def deliver_all_texts():
@@ -218,10 +217,8 @@ init -6 python:
 
     def new_message_count():
         """Return the number of unread messages from all characters."""
-
-        unread_messages = [ x for x in store.all_characters
-            if (x.text_msg.msg_list and not x.text_msg.read) ]
-        return len(unread_messages)
+        len([ x for x in store.all_characters
+            if (x.text_msg.msg_list and not x.text_msg.read) ])
 
     def num_undelivered():
         """Return the number of undelivered messages in the queue."""
@@ -254,7 +251,6 @@ init -6 python:
             sender.text_msg.read = True
             sender.text_msg.notified = True
             sender.text_msg.reply_label = False
-
         else:
             # Otherwise another character sent this/is replying
             # Add this message to the sender's queue
