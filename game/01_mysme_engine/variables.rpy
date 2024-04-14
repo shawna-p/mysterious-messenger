@@ -360,7 +360,6 @@ init -6 python:
             except:
                 return self.__dict__['am_pm']
 
-
         def get_phone_time(self):
             """Return the time formatted as displayed for phone calls."""
 
