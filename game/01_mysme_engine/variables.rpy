@@ -1,7 +1,8 @@
 init -6 python:
     from datetime import datetime, date, timedelta
     from copy import copy, deepcopy
-
+    from collections import namedtuple
+    GameTone = namedtuple('GameTone', ['title', 'file'])
 
     class CConfirm(Show):
         """A special Action for showing confirmation prompts to the player."""
@@ -123,9 +124,6 @@ init -6 python:
 
         return (true_list, false_list)
 
-
-    from collections import namedtuple
-    GameTone = namedtuple('GameTone', ['title', 'file'])
 
     class ToneCategory(object):
         """
