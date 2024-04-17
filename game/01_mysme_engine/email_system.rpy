@@ -1047,12 +1047,11 @@ screen guest_info_popup(guest, unlocked):
                         xysize (int(273*1.1), int(93*1.1))
                         imagebutton:
                             align (0.5, 0.5)
-                            if unlocked:
-                                idle 'guest_story'
-                                hover Transform('guest_story', zoom=1.1)
-                                action MMGuestStory(guest)
-                            else:
-                                idle 'guest_story_locked'
+                            sensitive unlocked
+                            idle 'guest_story'
+                            hover Transform('guest_story', zoom=1.1)
+                            action MMGuestStory(guest)
+                            insensitive 'guest_story_locked'
 
 default guest_replay_info = None
 label guest_info():
