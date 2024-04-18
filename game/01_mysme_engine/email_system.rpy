@@ -847,19 +847,16 @@ screen open_email(e):
                     fixed:
                         text 'From: ' + e.guest.name
                     text ('[[Date] ' + e.sent_time.month_num
-                            + '/' + e.sent_time.day):
-                                size 27
-                    text ('[[Time] ' + e.sent_time.get_twelve_hour()):
-                                size 27
+                            + '/' + e.sent_time.day) size 27
+                    text ('[[Time] ' + e.sent_time.get_twelve_hour()) size 27
 
                 textbutton _('Reply'):
+                    insensitive_foreground 'menu_select_btn_inactive'
                     if e.can_reply and isinstance(e, Email):
                         action Function(e.send_reply)
                     elif e.can_reply:
                         action [Show('email_choice', items=e.show_choices(),
                             email=e)]
-                    else:
-                        foreground 'menu_select_btn_inactive'
 
             frame:
                 style 'open_email_frame2'
