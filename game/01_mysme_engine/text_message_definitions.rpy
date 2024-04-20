@@ -217,7 +217,7 @@ init -6 python:
 
     def new_message_count():
         """Return the number of unread messages from all characters."""
-        len([ x for x in store.all_characters
+        return len([ x for x in store.all_characters
             if (x.text_msg.msg_list and not x.text_msg.read) ])
 
     def num_undelivered():
