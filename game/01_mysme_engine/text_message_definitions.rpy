@@ -222,12 +222,9 @@ init -6 python:
 
     def num_undelivered():
         """Return the number of undelivered messages in the queue."""
-
-        undelivered = [ x for x in store.all_characters
-                        if x.text_msg.msg_queue ]
-        if store.incoming_call:
-            return len(undelivered) + 1
-        return len(undelivered)
+        extra = 1 if store.incoming_call else 0
+        return len([ x for x in store.all_characters
+                        if x.text_msg.msg_queue ]) + extra
 
     def addtext(who, what, img=False):
         """
