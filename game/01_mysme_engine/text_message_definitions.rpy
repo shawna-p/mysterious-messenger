@@ -68,8 +68,7 @@ python early:
                 return lbl
             elif lbl:
                 ScriptError("Text message reply label \"", lbl,
-                    "\" does not exist.",
-                    header="Text Messages")
+                    "\" does not exist.", header="Text Messages")
             return False
 
         @reply_label.setter
@@ -128,7 +127,6 @@ python early:
             # Clear the dictionary
             self.temp_msg_info.clear()
 
-
         def deliver(self):
             """
             Transfer messages from the msg_queue to the player's inbox.
@@ -156,6 +154,7 @@ python early:
                 self.read = False
             else:
                 self.read = True
+
             if not self.read and not renpy.get_screen('text_message_screen'):
                 renpy.music.play(persistent.text_tone, 'sound')
                 try:
@@ -170,8 +169,8 @@ python early:
                     popup_tag=screen_tag, offset=(offs, offs),
                     hide_screen=screen_tag,
                     _tag=screen_tag, _zorder=zord)
-
                 self.notified = True
+
             renpy.retain_after_load()
             return True
 
