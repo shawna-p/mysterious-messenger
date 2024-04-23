@@ -548,12 +548,7 @@ init python:
         the guest has a 33% chance of coming. Guests will only attend if all
         of their messages have been replied to and read.
         """
-
-        num_guests = 0
-        for e in store.email_list:
-            if e.guest.attending:
-                num_guests += 1
-        return num_guests
+        return len([e for e in store.email_list if e.guest.attending])
 
     def MMGoToEmail(hide_screen='email_popup'):
         """Return the action to Go To the email screen from a popup."""
