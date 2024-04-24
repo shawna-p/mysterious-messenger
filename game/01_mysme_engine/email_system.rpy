@@ -530,8 +530,7 @@ init python:
     def unread_emails():
         """Return the number of unread emails in the player's inbox."""
 
-        unread = [ x for x in store.email_list if not x.read]
-        return len(unread)
+        return len([ x for x in store.email_list if not x.read])
 
     def deliver_emails():
         """Deliver the emails in email_list."""
