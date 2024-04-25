@@ -419,9 +419,8 @@ screen gallery_popup():
         Hide('gallery_popup')
     ]
 
-    button:
-        background "#0008" xysize (config.screen_width, config.screen_height)
-        action gal_close
+    add "#0008"
+    dismiss action gal_close
 
     use confirm(
         ("Thanks for downloading Mysterious Messenger! The gallery system "
