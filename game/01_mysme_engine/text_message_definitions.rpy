@@ -379,7 +379,6 @@ init -6 python:
         """
 
         global name
-        name_cut = num_char + 6 - len(name)
         if not last_msg:
             return "Couldn't find a message"
         last_msg.what = renpy.filter_text_tags(last_msg.what, allow=['image'])
