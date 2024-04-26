@@ -850,7 +850,7 @@ screen viewCG_fullsize_album(album, caption, name):
             xalign 1.0
         drag:
             drag_name "the_CG"
-            drag_handle (0, 0, config.screen_width, config.screen_height)
+            drag_handle (0.0, 0.0, 1.0, 1.0)
             child 'translucent_img'
             dragged drag_box
             droppable False
