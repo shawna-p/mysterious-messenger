@@ -640,11 +640,13 @@ style call_display_side:
 ########################################################
 
 screen phone_contacts():
-
     tag menu
     default contact_list = [ c for c in character_list if c != m]
+
     use menu_header("Contacts", Show('chat_home', Dissolve(0.5))):
+
         null height 3
+
         frame:
             style_prefix "phone_contacts"
             has hbox
@@ -910,9 +912,7 @@ screen incoming_call(phonecall, countdown_time=10):
 
 
 ## Screen that shows the pick up/answer buttons at the bottom
-screen phone_footer(answer_action=False,
-                    center_item=False,
-                    hangup_action=False):
+screen phone_footer(answer_action=False, center_item=False, hangup_action=False):
     frame:
         xysize(config.screen_width-40, 200)
         yalign 1.0 yoffset -70
