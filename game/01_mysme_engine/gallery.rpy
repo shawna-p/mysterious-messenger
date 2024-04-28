@@ -989,6 +989,6 @@ style cg_full_text:
     size 45
     color "#fff"
     hover_color "#b3f3ee"
-                font gui.sans_serif_1b
+    font gui.sans_serif_1b
 
 
