@@ -138,9 +138,9 @@ default m = ChatCharacter("[persistent.chat_name]", file_id='m',
                 prof_pic=persistent.MC_pic, right_msgr=True, phone_char=m_phone,
                 pronunciation_help="you", who_color="#ffffed",
                 vn_name="[persistent.name]")
-                # NOTE: The MC's name appears in Story Mode sections in this
-                # program. If you would like it to be blank, add the parameter
-                # `vn_name=None` to the above definition.
+                ## NOTE: The MC's name appears in Story Mode sections in this
+                ## program. If you would like it to be blank, add the parameter
+                ## `vn_name=None` to the above definition.
 default r = ChatCharacter("Ray", file_id='r',
                 prof_pic='Profile Pics/Ray/ray-default.webp',
                 participant_pic='Profile Pics/r_chat.webp',
@@ -414,8 +414,8 @@ layeredimage jaehee:
         attribute worried "VN Mode/Jaehee/jaehee_face_12.webp"
         attribute surprised "VN Mode/Jaehee/jaehee_face_13.webp"
 
-    # This is an unusual little hack that lets the program
-    # identify whether jaehee should be wearing her glasses or not
+    ## Since the glasses are built-in to the sprite, this is a dummy attribute
+    ## so it can be applied as if it were separate.
     group eyewear:
         attribute glasses null
 

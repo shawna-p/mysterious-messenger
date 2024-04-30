@@ -127,9 +127,9 @@ From, Example Guest""", # don't forget the comma after the quotes
             ## This is the end of the email chain, but this was the incorrect
             ## reply, so indicate that
             email_success=False
-        )   # If you like, you can add a comma here and add another EmailReply
-            # object to the list. However, this menu has two choices, so it
-            # ends with a square bracket here to finish the list.
+        )   ## If you like, you can add a comma here and add another EmailReply
+            ## object to the list. However, this menu has two choices, so it
+            ## ends with a square bracket here to finish the list.
         ]
     ),
     ## This is a choice that will show up alongside the "I love soup" choice.
@@ -338,9 +338,9 @@ Rainbow Unicorn""",
 
             Rainbow Unicorn""",
             email_success=False
-        )   # If you like, you can add a comma here and add another EmailReply
-            # object to the list. However, this menu has two choices, so it
-            # ends with a square bracket here to finish the list.
+        )   ## If you like, you can add a comma here and add another EmailReply
+            ## object to the list. However, this menu has two choices, so it
+            ## ends with a square bracket here to finish the list.
         ]
     ),
 
