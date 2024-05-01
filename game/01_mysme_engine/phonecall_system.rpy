@@ -896,13 +896,10 @@ screen incoming_call(phonecall, countdown_time=10):
                 use phone_footer(MMIncomingCall(phonecall, True),
                                     "headphones", False)
             elif isinstance(phonecall, StoryCall):
-                use phone_footer(Return(),
-                                "headphones",
-                                False)
+                use phone_footer(Return(), "headphones", False)
             else:
                 use phone_footer(MMIncomingCall(phonecall, False),
-                                "headphones",
-                                MMHangupCall(incoming=True))
+                                "headphones", MMHangupCall(incoming=True))
 
 
     on 'show' action SetScreenVariable('call_countdown', countdown_time)
