@@ -840,7 +840,7 @@ style phone_timer_vbox:
 screen incoming_call(phonecall, countdown_time=10):
     tag menu
 
-    on 'hide' action Function(renpy.music.stop)
+    on 'hide' action Stop('music')
     use menu_header("In Call"):
         frame:
             xysize (config.screen_width, config.screen_height-84)
@@ -868,8 +868,7 @@ screen incoming_call(phonecall, countdown_time=10):
                     has vbox
                     align (0.5, 0.5)
                     spacing 15
-                    add phonecall.caller.get_pfp(237):
-                        align (0.5, 0.5)
+                    add phonecall.caller.get_pfp(237) align (0.5, 0.5)
                     text phonecall.caller.name style 'caller_id'
                 frame:
                     xysize(120,220)
