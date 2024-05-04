@@ -213,12 +213,6 @@ screen animated_evening():
     use animated_shake_borders()
 
 
-transform colorize_snow_evening():
-    matrixcolor TintMatrix("#fff")
-    linear 60 matrixcolor TintMatrix("#fce9cc")
-    linear 60 matrixcolor TintMatrix("#ffecdb")
-    linear 60 matrixcolor TintMatrix("#ffeaec")
-
 ###########################################################
 ## Night background
 ###########################################################
