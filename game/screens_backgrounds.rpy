@@ -932,19 +932,15 @@ init python:
         else:
             img = Transform('snow_med', alpha=alpha, xzoom=-1.0)
 
-        return SnowBlossom2(img, count=count, border=-70,#border=25,
-            xspeed=xspeed,
-            yspeed=yspeed,
-            start=start, fluttering=fluttering, fast=True)
+        return SnowBlossom2(img, count=count, border=-70, xspeed=xspeed,
+            yspeed=yspeed, start=start, fluttering=fluttering, fast=True)
 
 
     def tiny_snow(xspeed=0, yspeed=(32, 75), start=100,
             count=150, fluttering=10):
 
-        return SnowBlossom2('snow_tiny', count=count, border=-70,#border=25,
-            xspeed=xspeed,
-            yspeed=yspeed,
-            start=start, fluttering=fluttering, fast=True)
+        return SnowBlossom2('snow_tiny', count=count, border=-70, xspeed=xspeed,
+            yspeed=yspeed, start=start, fluttering=fluttering, fast=True)
 
 ## Snow image definitions
 image gentle_snow_back = Fixed(
