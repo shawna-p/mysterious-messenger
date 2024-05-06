@@ -920,9 +920,7 @@ init python:
     def giant_snow(xspeed=0, yspeed=(50, 100), start=100,
             count=5, fluttering=10):
         return SnowBlossom2("snow_giant", count=count,
-            border=-70,#border=123,
-            xspeed=xspeed,
-            yspeed=yspeed,
+            border=-70, xspeed=xspeed, yspeed=yspeed,
             start=start, fluttering=fluttering, fast=True)
 
     def med_snow(xspeed=0, yspeed=(32, 75), start=100,
