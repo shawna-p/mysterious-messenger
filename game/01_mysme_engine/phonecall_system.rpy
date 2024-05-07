@@ -799,7 +799,7 @@ screen in_call(who=ja, story_call=False):
             vbox:
                 style_prefix 'phone_timer'
                 add AlphaMask(who.get_pfp(130),
-                        'rounded-rectangle-mask.webp') xalign 0.5
+                    'rounded-rectangle-mask.webp') xalign 0.5
                 text who.name size 45
                 hbox:
                     text "{0:01}:".format(countup//60)
@@ -808,8 +808,7 @@ screen in_call(who=ja, story_call=False):
             if not starter_story and not story_call:
                 use phone_footer(False, "call_pause", MMHangupCall())
             elif story_call:
-                use phone_footer(answer_action=False,
-                    center_item='call_pause',
+                use phone_footer(answer_action=False, center_item='call_pause',
                     hangup_action=MMHangupCall(story=True))
             else:
                 use phone_footer(False, "call_pause", False)
@@ -841,6 +840,9 @@ screen incoming_call(phonecall, countdown_time=10):
     tag menu
 
     on 'hide' action Stop('music')
+    on 'show' action SetScreenVariable('call_countdown', countdown_time)
+    on 'replace' action SetScreenVariable('call_countdown', countdown_time)
+
     use menu_header("In Call"):
         frame:
             xysize (config.screen_width, config.screen_height-84)
@@ -853,7 +855,7 @@ screen incoming_call(phonecall, countdown_time=10):
                 align (0.5, 0.5)
                 spacing -10
                 frame:
-                    xysize(120,220)
+                    xysize (120, 220)
                     align (1.0, 0.1)
                     has hbox
                     align (1.0, 0.5)
@@ -871,7 +873,7 @@ screen incoming_call(phonecall, countdown_time=10):
                     add phonecall.caller.get_pfp(237) align (0.5, 0.5)
                     text phonecall.caller.name style 'caller_id'
                 frame:
-                    xysize(120,220)
+                    xysize (120, 220)
                     align (0.0, 0.1)
                     has hbox
                     align (0.0, 0.5)
@@ -893,7 +895,7 @@ screen incoming_call(phonecall, countdown_time=10):
 
             if starter_story:
                 use phone_footer(MMIncomingCall(phonecall, True),
-                                    "headphones", False)
+                                "headphones", False)
             elif isinstance(phonecall, StoryCall):
                 use phone_footer(Return(), "headphones", False)
             else:
@@ -901,8 +903,6 @@ screen incoming_call(phonecall, countdown_time=10):
                                 "headphones", MMHangupCall(incoming=True))
 
 
-    on 'show' action SetScreenVariable('call_countdown', countdown_time)
-    on 'replace' action SetScreenVariable('call_countdown', countdown_time)
     if not starter_story and not isinstance(phonecall, StoryCall):
         timer 1.0 action MMIncomingCountdown(call_countdown) repeat True
 
@@ -917,7 +917,7 @@ screen phone_footer(answer_action=False, center_item=False, hangup_action=False)
         align (0.5, 0.5)
         spacing 10
         frame:
-            xysize(160,160)
+            xysize (160, 160)
             align (0.5, 0.5)
             if answer_action:
                 imagebutton:
