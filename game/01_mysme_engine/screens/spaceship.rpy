@@ -83,7 +83,7 @@ init python:
             renpy.random.shuffle(self.bag)
 
 
-    class SpaceThought(renpy.store.object):
+    class SpaceThought():
         """
         Class which keeps track of 'Space Thoughts' in order to show the
         correct image + text combo to the player.

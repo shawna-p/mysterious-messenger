@@ -1,6 +1,6 @@
 init -4 python:
 
-    class ChatEntry(renpy.store.object):
+    class ChatEntry():
         """
         Class that stores the information needed for each chatroom message.
         It contains many helper methods and properties to facilitate fetching
@@ -738,7 +738,7 @@ init -4 python:
             return int(Text(self.what).size()[0])
 
 
-    class ReplayEntry(renpy.store.object):
+    class ReplayEntry():
         """
         Class that stores the information needed for chatroom messages that
         are replayed from the Timeline screen.

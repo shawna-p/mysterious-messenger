@@ -1,6 +1,6 @@
 init python:
 
-    class ChoiceInfo(renpy.store.object):
+    class ChoiceInfo():
         """
         A class which organizes information on a choice for a continuous menu.
 
