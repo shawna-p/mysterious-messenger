@@ -283,7 +283,7 @@ label play_sfx(sfx):
 init python:
 
     ## Old classes for Guest and Email declarations
-    class Guest(renpy.store.object):
+    class Guest():
         """
         This class stores necessary information about the guest, including
         all of their email replies as well as their image thumbnail and name.
@@ -542,7 +542,7 @@ init python:
             return not self.__eq__(other)
 
 init python:
-    class Email(renpy.store.object):
+    class Email():
         """
         Class that holds information needed for an email's delivery, timeout,
         failure, and more.
@@ -934,7 +934,7 @@ init python:
 init -6 python:
 
     ## Deprecated classes for route setup
-    class ChatHistory(renpy.store.object):
+    class ChatHistory():
         """
         Class that stores past chatrooms and information needed to display
         them in-game.
@@ -1149,7 +1149,7 @@ init -6 python:
             return False
 
 
-    class VNMode(renpy.store.object):
+    class VNMode():
         """
         Class that stores the information needed for the Visual Novel portions
         of the game.

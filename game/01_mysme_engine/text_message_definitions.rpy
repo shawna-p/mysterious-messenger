@@ -1,6 +1,6 @@
 python early:
 
-    class TextMessage(renpy.store.object):
+    class TextMessage():
         """
         A class to keep track of text message conversations for each character.
 
