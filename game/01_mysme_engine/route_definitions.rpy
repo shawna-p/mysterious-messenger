@@ -37,7 +37,7 @@ init -6 python:
             trigger_time=trigger_time, party=True, save_img=save_img)
 
 
-    class PlotBranch(renpy.store.object):
+    class PlotBranch():
         """
         Class that stores information so the program can handle a plot branch.
 
@@ -100,7 +100,7 @@ init -6 python:
                 self.__dict__['vn_after_branch'] = new_bool
 
 
-    class RouteDay(renpy.store.object):
+    class RouteDay():
         """
         Class that stores a day's worth of story items in order to display
         in a timeline for the player.
@@ -353,7 +353,7 @@ init -6 python:
             return self.branch_vn
 
 
-    class Route(renpy.store.object):
+    class Route():
         """
         A class that stores an entire route, including good, bad, normal
         endings etc.

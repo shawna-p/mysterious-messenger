@@ -1,6 +1,6 @@
 init -6 python:
 
-    class TimelineItem(renpy.store.object):
+    class TimelineItem():
         """
         Parent class which holds information needed to display items on
         the timeline e.g. chatrooms, story mode, phone calls.
