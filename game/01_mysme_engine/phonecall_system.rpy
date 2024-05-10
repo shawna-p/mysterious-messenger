@@ -1,6 +1,6 @@
 python early:
 
-    class PhoneCall(renpy.store.object):
+    class PhoneCall():
         """
         Class that stores information needed to keep track of phone calls.
 
