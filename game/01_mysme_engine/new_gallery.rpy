@@ -1,6 +1,6 @@
 init python:
 
-    class GalleryImage(renpy.store.object):
+    class GalleryImage():
         """
         Class which holds information needed to show a single
         gallery image.
