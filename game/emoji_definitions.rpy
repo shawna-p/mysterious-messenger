@@ -123,8 +123,8 @@ define jumin_emotes = [ 'jumin_angry',
                     'jumin_well']
 
 define rika_emotes = ['rika_happy',
-                        'rika_pout',
-                        'rika_cry']
+                    'rika_pout',
+                    'rika_cry']
 
 define ray_emotes = ['ray_cry',
                     'ray_happy',
@@ -366,7 +366,6 @@ image rika_cry:
 
 
 # ******** SAERAN ******************
-
 image saeran_expecting:
     "Gifs/Saeran/emo_saeran_expecting1.webp"
     0.5
@@ -419,7 +418,6 @@ image saeran_pleased:
 # ******** SAERAN (Sweater) ******************
 # ** Credit to its-a-me-haruhi.tumblr.com for
 #     the recolours
-
 image saeran2_cry:
     "Gifs/Saeran2/emo_sae_cry1.webp"
     0.5
@@ -470,7 +468,6 @@ image saeran2_wink:
     repeat
 
 # ******** SEVEN ******************
-
 image seven_cry:
     "Gifs/Seven/emo_seven_cry1.webp"
     0.5
@@ -536,7 +533,6 @@ image seven_yoohoo:
 
 
 # ************* V ******************
-
 image v_shock:
     "Gifs/V/emo_v_shock1.webp"
     0.5
@@ -567,7 +563,6 @@ image v_wink:
 
 
 # ********* YOOSUNG ******************
-
 image yoosung_angry:
     "Gifs/Yoosung/emo_yoosung_angry1.webp"
     0.5
@@ -640,7 +635,6 @@ image yoosung_yahoo:
 
 
 # ************ ZEN ******************
-
 image zen_angry:
     "Gifs/Zen/emo_zen_angry1.webp"
     0.5
