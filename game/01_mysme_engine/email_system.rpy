@@ -1,7 +1,7 @@
 init python:
     import re as regex # Import regex
 
-    class Emailv3(renpy.store.object):
+    class Emailv3():
         """
         Class that holds the information needed for handling emails. Updated
         for v3.0
@@ -380,7 +380,7 @@ init python:
         deliver_emails()
 
 
-    class Guestv3(renpy.store.object):
+    class Guestv3():
         """
         This class stores necessary information about the guest, and will
         automatically generate the menus for the player to reply to their
@@ -481,7 +481,7 @@ init python:
             return not self.__eq__(other)
 
 
-    class EmailReply(renpy.store.object):
+    class EmailReply():
         """
         A class intended to facilitate writing email replies.
 
