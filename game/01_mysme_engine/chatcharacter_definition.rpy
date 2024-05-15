@@ -1,6 +1,6 @@
 python early:
 
-    class ChatCharacter(renpy.store.object):
+    class ChatCharacter():
         """
         Class that stores ChatCharacters along with relevant information
         such as their profile picture and file id.
