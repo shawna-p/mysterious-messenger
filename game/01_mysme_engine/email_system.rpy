@@ -602,7 +602,6 @@ default current_email = None
 ########################################################
 screen email_popup(e, hide_screen='email_popup'):
 
-    #modal True
     zorder 100
 
     frame:
