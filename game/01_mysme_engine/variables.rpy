@@ -1365,13 +1365,11 @@ label just_return():
 # of responses
 default shuffle = True
 
-init offset = 4
 ## Generic variables that are used for some program calls and setup.
-default generic_chatroom = ChatRoom('Chatroom', 'generic_chatroom', '00:00')
-default generic_storymode = StoryMode('Story Mode', 'generic_storymode', '00:00')
-default generic_storycall = StoryCall('Story Call', 'generic_storycall', '00:00', None)
-default generic_timeline_items = [generic_chatroom, generic_storycall, generic_storymode]
-init offset = 0
+default 4 generic_chatroom = ChatRoom('Chatroom', 'generic_chatroom', '00:00')
+default 4 generic_storymode = StoryMode('Story Mode', 'generic_storymode', '00:00')
+default 4 generic_storycall = StoryCall('Story Call', 'generic_storycall', '00:00', None)
+default 4 generic_timeline_items = [generic_chatroom, generic_storycall, generic_storymode]
 
 ## A label that's called when a load failed and Ren'Py can't recover
 define config.load_failed_label = reorient_game
