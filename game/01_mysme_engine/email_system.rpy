@@ -693,7 +693,7 @@ screen email_hub():
             style_prefix 'email_hub'
             has vbox
             null height -15
-            if len(email_list) == 0:
+            if not email_list:
                 text "Inbox is empty"
             for e in email_list[current_page*emails_per_page:current_page*emails_per_page+emails_per_page]:
                 use email_button(e)
@@ -707,9 +707,9 @@ screen email_hub():
                     action SetScreenVariable('current_page', current_page-1)
                     activate_sound 'audio/sfx/UI/email_next_arrow.mp3'
 
-            for index in range(num_pages):
-                textbutton _(str(index+1)):
-                    action SetScreenVariable('current_page', index)
+            for idx in range(num_pages):
+                textbutton _(str(idx+1)):
+                    action SetScreenVariable('current_page', idx)
 
             imagebutton:
                 idle "email_next"
@@ -758,11 +758,7 @@ screen email_button(e):
 
     button:
         style_prefix 'email_btn'
-        if e.read:
-            background 'email_panel'
-        else:
-            background 'email_mint'
-
+        selected e.read:
         action MMOpenEmail(e)
 
         hbox:
@@ -792,6 +788,8 @@ screen email_button(e):
 style email_btn_button:
     align (0.5, 0.5)
     xysize (644, 111)
+    selected_background 'email_panel'
+    background 'email_mint'
     hover_foreground 'white_transparent'
 
 style email_btn_hbox:
