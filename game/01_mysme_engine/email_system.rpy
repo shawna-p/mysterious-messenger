@@ -758,7 +758,7 @@ screen email_button(e):
 
     button:
         style_prefix 'email_btn'
-        selected e.read:
+        selected e.read
         action MMOpenEmail(e)
 
         hbox:
