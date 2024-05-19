@@ -1540,7 +1540,7 @@ image rfa_greet:
                 color="#ffffff", size=30, slow=True,
                 font=curlicue_font, slow_cps=8, bold=True)
     10.0
-    "transparent"
+    Null()
     0.2
     repeat
 
