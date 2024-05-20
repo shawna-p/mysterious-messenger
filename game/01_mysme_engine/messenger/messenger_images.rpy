@@ -57,14 +57,14 @@ image transparent_answer = "Phone UI/answer_transparent.webp"
 image pausebutton:
     "pause_sign" with Dissolve(0.5)
     1.0
-    "transparent_img" with Dissolve(0.5)
+    Null() with Dissolve(0.5)
     1.0
     repeat
 
 image custom_pausebutton:
     "custom_pause_sign" with Dissolve(0.5)
     1.0
-    "transparent_img" with Dissolve(0.5)
+    Null() with Dissolve(0.5)
     1.0
     repeat
 
