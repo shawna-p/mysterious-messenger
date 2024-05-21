@@ -58,7 +58,7 @@ init -6 python:
         """
 
         def __init__(self, title, item_label, trigger_time, plot_branch=None,
-            save_img='auto'):
+                save_img='auto'):
             """
             Create a generic TimelineItem object.
 
@@ -144,7 +144,6 @@ init -6 python:
 
             if self.item_label is not None:
                 self.set_label(self.item_label)
-
 
         def set_label(self, lbl):
             """Set a new item label for this TimelineItem."""
@@ -274,7 +273,6 @@ init -6 python:
             for phonecall in self.story_calls_list:
                 phonecall.deliver_next_after_content()
 
-
         def expire_all(self):
             """Expire all items related to this timeline item."""
 
@@ -399,7 +397,6 @@ init -6 python:
 
             renpy.retain_after_load()
 
-
         def call_after_label(self, new_context=True):
             """Call this item's after_ label, if it exists."""
 
@@ -454,7 +451,6 @@ init -6 python:
             else:
                 # Night greeting 20:00 - 23:59
                 return 'night'
-
 
         @property
         def trigger_time(self):
@@ -912,6 +908,7 @@ init -6 python:
                 return super(ChatRoom,
                     self).total_timeline_items(only_if_unplayed)
 
+
     class StoryMode(TimelineItem):
         """
         Class that stores information needed to display StoryMode objects
@@ -1060,8 +1057,6 @@ init -6 python:
             return num_played, total
 
 
-
-
     class StoryCall(TimelineItem):
         """
         Class that stores information needed to display mandatory phone
@@ -1140,6 +1135,7 @@ init -6 python:
 
             return "[[new story call] " + self.title
 
+
     def create_dependent_storycall(parent, caller, phone_label):
         """
         Return a StoryCall which is tied to a chatroom or StoryMode and thus
@@ -1149,7 +1145,6 @@ init -6 python:
             caller=caller)
         temp.parent = parent
         return temp
-
 
     def create_dependent_VN(parent, vn_label, who=None, party=False):
         """
