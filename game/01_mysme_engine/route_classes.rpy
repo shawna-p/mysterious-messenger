@@ -1406,8 +1406,6 @@ init python:
         renpy.retain_after_load()
         return
 
-
-
     def end_timeline_item_checks():
         """
         Perform additional logic to finish off a TimelineItem, like resetting
@@ -1436,7 +1434,6 @@ init python:
                 ScriptError("Could not find any TimelineItems for this route.",
                     link="route-setup", link_text="Setting up a Route")
         return
-
 
     def finish_timeline_item(item, deliver_messages=True):
         """Finish resetting variables and screens for this TimelineItem."""
@@ -1529,6 +1526,7 @@ label exit_item_early():
 
 
 init python:
+
     def expire_timeline_item(item):
         """Expire this timeline item and set the appropriate variables."""
 
@@ -1551,7 +1549,6 @@ init python:
         renpy.retain_after_load()
 
         return
-
 
 ## Execute the plot branch for the given item.
 label execute_plot_branch():
