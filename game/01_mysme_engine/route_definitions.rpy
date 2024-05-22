@@ -252,7 +252,6 @@ init -6 python:
                     continue
                 item.save_img = save_img
 
-
         def convert_archive(self, copy_everything=True):
             """
             For compatibility: convert ChatHistory to ChatRoom and VNMode
@@ -555,9 +554,6 @@ init -6 python:
             return (num_seen_endings == len(self.ending_labels))
 
 
-
-
-
     def check_and_unlock_story():
         """
         Ensure the next timeline item is available to play. By default the
@@ -689,7 +685,6 @@ init -6 python:
             renpy.jump('new_incoming_call')
         return
 
-
     def past_trigger_time(trig_time, cur_time, day_index,
             prev_item, cur_item):
         """
@@ -763,7 +758,6 @@ init -6 python:
             return True
 
         return False
-
 
     def expire_item(prev_item, cur_item, deliver_incoming=False, day_diff=0):
         """
@@ -1285,7 +1279,6 @@ init -6 python:
             return True
         else:
             return False
-
 
 # True if the chatroom before the 'after_' call was expired
 default was_expired = False
