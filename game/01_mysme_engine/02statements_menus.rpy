@@ -10,7 +10,6 @@ python early hide:
 
         return choice_block
 
-
     def construct_menu(stmtl, has_wait_time=False):
         """
         A helper function which separates out the choices and narration
@@ -340,12 +339,8 @@ python early hide:
         store.timed_menu_dict = menu_dict
         renpy.jump('execute_timed_menu')
 
-
-
-
     def lint_timed_menu(p):
         return
-
 
     def predict_timed_menu(p):
         return [ ]

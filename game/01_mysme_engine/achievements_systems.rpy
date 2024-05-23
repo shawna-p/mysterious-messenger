@@ -327,7 +327,6 @@ init -50 python:
             return len(self.all_achievements)
 
 
-
     ## Actual achievements, for the tutorial
     ## These *can't* be removed (or else you'd need to comb through the
     ## rest of the game to get rid of the triggers, too), but if you change
