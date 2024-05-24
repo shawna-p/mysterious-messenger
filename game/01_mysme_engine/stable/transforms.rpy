@@ -151,7 +151,6 @@ transform chip_wobble2:
         alpha 1.0
         linear 1.0 alpha 0.0
 
-
 ## Transform for the smallest 'tap' sign
 transform small_tap:
     rotate -8
@@ -211,7 +210,6 @@ transform cloud_shuffle5:
         linear 0.65 zoom 0.95
         repeat
 
-
 ## A solution for the odd animation issues surrounding
 ## the chip bag; this hides the clouds after 2 seconds
 transform hide_dissolve:
@@ -258,7 +256,6 @@ transform cg_swipe_right_hide:
 transform cg_swipe_left_hide:
     xalign 0.5 xoffset 0 alpha 1.0 zoom 1.0 yalign 0.5
     linear 0.3 xalign 0.5 xoffset -config.screen_width alpha 0.6 zoom 0.9
-
 
 #***********************************
 # Other Transforms
@@ -384,5 +381,4 @@ transform scale_vn_bg():
     align (0.5, 1.0)
     ysize config.screen_height
     fit "cover"
-
 
