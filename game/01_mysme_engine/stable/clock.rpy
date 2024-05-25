@@ -1,11 +1,5 @@
-init -2:
-    style digi_clock:
-        is default
-        font 'fonts/SamsungSans-Light.ttf'
-        color "#fff"
-        yalign 0.5
-
 init -1 python:
+
     class Clock(renpy.Displayable):
         """
         Class that creates a displayable clock that updates in real-time.
@@ -89,3 +83,10 @@ init -1 python:
             renpy.redraw(self, 0)
 
             return render
+
+init -2:
+    style digi_clock:
+        is default
+        font 'fonts/SamsungSans-Light.ttf'
+        color "#fff"
+        yalign 0.5
