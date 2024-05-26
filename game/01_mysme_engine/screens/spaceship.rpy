@@ -1,33 +1,5 @@
 init python:
 
-    def spaceship_xalign_func(trans, st, at):
-        """Make the spaceship float to a random location on the line."""
-
-        global spaceship_xalign
-        if st > 1.0:
-            trans.xalign = spaceship_xalign
-            return None
-        else:
-            trans.xalign = spaceship_xalign * st
-            return 0
-
-        trans.xalign = spaceship_xalign
-        return None
-
-
-    def spaceship_get_xalign(new_num=False):
-        """
-        Return a random position along the spaceship line at the bottom
-        of the screen to move the spaceship to.
-        """
-
-        global spaceship_xalign
-        if new_num:
-            spaceship_xalign = renpy.random.random()
-            spaceship_xalign = spaceship_xalign * 0.8 + 0.04
-        return spaceship_xalign
-
-
     class RandomBag(object):
         """
         Class that is used to create a 'random bag' of supplied choices.
@@ -106,6 +78,42 @@ init python:
             self.img = char.file_id + '_spacethought'
 
 
+    def spaceship_xalign_func(trans, st, at):
+        """Make the spaceship float to a random location on the line."""
+
+        global spaceship_xalign
+        if st > 1.0:
+            trans.xalign = spaceship_xalign
+            return None
+        else:
+            trans.xalign = spaceship_xalign * st
+            return 0
+
+        trans.xalign = spaceship_xalign
+        return None
+
+    def spaceship_get_xalign(new_num=False):
+        """
+        Return a random position along the spaceship line at the bottom
+        of the screen to move the spaceship to.
+        """
+
+        global spaceship_xalign
+        if new_num:
+            spaceship_xalign = renpy.random.random()
+            spaceship_xalign = spaceship_xalign * 0.8 + 0.04
+        return spaceship_xalign
+
+    def calculate_chip_prize():
+        """Randomly grab a prize from the prize bag and return its values."""
+        store.chips_available = False
+        prize = chip_prize_list.draw()
+        prize_text = prize[0]
+        prize_heart = (prize[1] + (renpy.random.randint(0, prize[1]//10)
+            * renpy.random.choice([1, -1])))
+        prize_hg = prize[2]
+        return prize_heart, prize_hg, prize_text
+
 #########################################################
 ## Floating spaceship thoughts
 #########################################################
@@ -182,18 +190,6 @@ screen chip_tap():
         add 'space_tap_large' at large_tap
         add 'space_tap_med' at med_tap
         add 'space_tap_small' at small_tap
-
-init python:
-
-    def calculate_chip_prize():
-        """Randomly grab a prize from the prize bag and return its values."""
-        store.chips_available = False
-        prize = chip_prize_list.draw()
-        prize_text = prize[0]
-        prize_heart = (prize[1] + (renpy.random.randint(0, prize[1]//10)
-            * renpy.random.choice([1, -1])))
-        prize_hg = prize[2]
-        return prize_heart, prize_hg, prize_text
 
 
 screen chip_cloud():
@@ -306,6 +302,3 @@ style chip_prize_description_long:
     size 37
     xalign 0.5
     yalign 0.5
-
-
-
