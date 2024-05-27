@@ -39,10 +39,7 @@ screen day_select(days=story_archive):
                             yalign 0.4
                             add 'day_hlink' xalign 0.5
 
-style hscrollbar:
-    unscrollable "hide"
-style scrollbar:
-    unscrollable "hide"
+
 
 init python:
     def determine_playable(day):
@@ -828,7 +825,6 @@ label guest_party_showcase():
 image rfa_logo = "Phone UI/main03_rfa_logo.webp"
 image guest_count_bkgr = "Email/guest_count_bkgr.webp"
 
-
 ## Screen that shows the player the total number of guests
 ## attending the party
 screen guest_count():
@@ -892,7 +888,6 @@ style guest_digi_text:
     color "#5ef4d3"
     align (1.0, .5)
 
-
 ## Shows the number of guests who arrived at the party
 ## and a grade based on that number
 screen guests_arrived():
@@ -941,7 +936,5 @@ transform guest_enter:
         linear 0.7 xalign 0.5 yalign 0.5 xoffset 0 yoffset 40
     on hide:
         linear 0.7 yalign 0.5 xpos 0.0 xanchor 1.0  yoffset 40
-
-
 
 
