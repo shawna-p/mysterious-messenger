@@ -86,7 +86,6 @@ init python:
 
         return
 
-
 ## This label ends a chatroom.
 label chat_end():
     if starter_story and not renpy.get_return_stack():
@@ -219,7 +218,6 @@ screen save_and_exit():
 
 label press_save_and_exit():
     return
-
 
 # This shows the signature screen, which records your total heart points
 # It shows hourglass points as well
@@ -373,9 +371,4 @@ label skip_intro_setup():
     $ renpy.save(mm_auto)
     call screen chat_home
     return
-
-
-
-
-
 
