@@ -293,7 +293,9 @@ init -50 python:
             has been None. Used to avoid flickers in display due to a pause
             between starting a track again using partial playback.
         last_song : string
-            Obsolete, retained for compatibility.
+            The path of the song which is the last one in the queue before
+            it needs to be reshuffled. Used to identify when the queue needs
+            to be reshuffled.
         old_shuffle : bool
             The value of shuffle, not taking into account the current value
             of single_track. Used to remember the shuffle value when single
@@ -336,8 +338,6 @@ init -50 python:
             self.last_song = None
             self.old_shuffle = self.shuffle
             self.music_dictionary = dict()
-            self.up_next = None
-            self.music_queue = [ ]
 
         def add(self, name, path, artist=None, art=None, description=None,
                     unlock_condition=None):
@@ -397,6 +397,14 @@ init -50 python:
             if self.last_playing != current_playing:
                 action = self.action.get(current_playing, None)
                 renpy.run_action(action)
+                ## Check if we're at the last song of the shuffle queue.
+                if (self.last_song is not None
+                        and current_playing == self.last_song):
+                    self.last_song = None
+                    self.shuffled = None
+                    ## Shuffle the playlist again to queue up in a new order.
+                    self.play(None, 0, queue=True)
+
                 self.last_playing = current_playing
 
         def pos_dd(self, st, at, style="music_room_pos"):
@@ -438,6 +446,16 @@ init -50 python:
             ## of every second.
             return Text(txt, style=style), None
 
+        def get_current_song(self):
+            """
+            Returns the MusicInfo object for the currently playing song.
+            """
+            filename = renpy.music.get_playing(channel=self.channel)
+            if filename is None:
+                return None
+            else:
+                return self.music_dictionary.get(strip_playback(filename))
+
         def get_pos(self, style="music_room_text"):
             """
             Returns the position of the currently playing track, in seconds.
@@ -450,20 +468,7 @@ init -50 python:
             """
             return DynamicDisplayable(self.duration_dd, style=style)
 
-        def queue_empty_callback(self):
-            if not self.loop:
-                return
-            if self.single_track:
-                self.play(None, 0, queue=True, clear_queue=False)
-            elif self.shuffle:
-                ## Shuffle the playlist again to queue up in a new order.
-                self.shuffled = None
-                self.play(None, 0, queue=True, clear_queue=False)
-            else:
-                self.play(None, 1, queue=True)
-
-        def play(self, filename=None, offset=0, queue=False, strip=False,
-                clear_queue=True):
+        def play(self, filename=None, offset=0, queue=False, strip=False):
             """
             Starts the music room playing. The file we start playing with is
             selected in two steps.
@@ -480,17 +485,12 @@ init -50 python:
 
             strip ensures that the song which is set up to be played
             does not have partial playback information.
-
-            Clear queue makes sure we can set up a new queue when it's empty.
             """
 
             playlist = self.unlocked_playlist(filename)
 
             if not playlist:
                 return
-
-            renpy.music.set_queue_empty_callback(self.queue_empty_callback,
-                channel=self.channel)
 
             if filename is None:
                 filename = renpy.music.get_playing(channel=self.channel)
@@ -512,10 +512,13 @@ init -50 python:
 
             if self.single_track:
                 playlist = [ playlist[idx] ]
-            elif self.loop and not self.shuffle:
+            elif self.loop:
                 playlist = playlist[idx:] + playlist[:idx]
             else:
                 playlist = playlist[idx:]
+
+            if self.shuffle and self.loop and self.last_song is None and self.shuffled:
+                self.last_song = playlist[idx:][-1]
 
             if (has_filename and playlist and playlist[0] == find_filename
                     and not queue and not strip):
@@ -524,11 +527,10 @@ init -50 python:
                 playlist.insert(0, filename)
 
             if queue:
-                renpy.music.queue(playlist, channel=self.channel, loop=False,
-                    clear_queue=clear_queue)
+                renpy.music.queue(playlist, channel=self.channel, loop=self.loop)
             else:
                 renpy.music.play(playlist, channel=self.channel,
-                    fadeout=self.fadeout, fadein=self.fadein, loop=False)
+                    fadeout=self.fadeout, fadein=self.fadein, loop=self.loop)
             renpy.restart_interaction()
 
         def next(self):
@@ -575,16 +577,6 @@ init -50 python:
             return [self.music_dictionary.get(x) for x in self.playlist
                 if all_tracks or self.is_unlocked(x)]
 
-        def get_current_song(self):
-            """
-            Returns the MusicInfo object for the currently playing song.
-            """
-            filename = renpy.music.get_playing(channel=self.channel)
-            if filename is None:
-                return None
-            else:
-                return self.music_dictionary.get(strip_playback(filename))
-
         def unlocked_playlist(self, filename=None):
             """
             Returns a list of filenames in the playlist that have been
@@ -596,6 +588,7 @@ init -50 python:
                 ## we're starting to shuffle from a new track.
                 if self.shuffled is None or (filename
                         and self.shuffled[0] != filename):
+                    import random
                     self.shuffled = list(self.playlist)
                     random.shuffle(self.shuffled)
 
