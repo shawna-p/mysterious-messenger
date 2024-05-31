@@ -20,6 +20,7 @@ init python:
         inv.blit(srf, (0,0), None, 2)
         return inv
 
+
     ## This defines a displayable for the inverted screen
     class Invert(renpy.Displayable):
         def __init__(self, delay=0.0, screenshot_delay=0.0):
@@ -36,13 +37,6 @@ init python:
                 render.blit(self.srf, (0, 0))
             return render
 
-## Define the invert screen for renpy
-screen invert(w_timer=False):
-    add Invert() xysize (config.screen_width, config.screen_height)
-    if w_timer:
-        timer w_timer action Hide("invert")
-
-init python:
 
     class BasicScreenshot(renpy.Displayable):
         """
@@ -145,12 +139,14 @@ init python:
                 comp.extend(piece.get_piece(self))
             return Composite(*comp)
 
+
     def create_torn_screen(st, at, screenshot):
         """
         A DynamicDisplayable function which returns an animated torn screenshot.
         """
         screenshot.update_pieces(st)
         return screenshot.get_composite(), 0.0
+
 
     ## This class defines the little blinking pieces of the screen tear effect
     class TearPiece():
@@ -187,6 +183,13 @@ init python:
 
             the_pos = (self.offset, self.start_y)
             return [the_pos, the_crop]
+
+
+## Define the invert screen for renpy
+screen invert(w_timer=False):
+    add Invert() xysize (config.screen_width, config.screen_height)
+    if w_timer:
+        timer w_timer action Hide("invert")
 
 
 ## Screen to display the torn screenshot/image
