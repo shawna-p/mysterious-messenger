@@ -509,10 +509,8 @@ init -6 python:
                     Function(toggle_afm)]
 
 
-init offset = -5
 # Track characters who only appear in phone calls
-default phone_only_characters = [ ]
-init offset =  0
+default -5 phone_only_characters = [ ]
 
 # Number of calls the player missed
 default unseen_calls = 0
