@@ -3,20 +3,18 @@
 ## ********************************
 
 image answerbutton:
-    block:
-        "answer_dark" with Dissolve(0.5)
-        1.0
-        "answer_reg" with Dissolve(0.5)
-        1.0
-        repeat
+    "answer_dark" with Dissolve(0.5)
+    1.0
+    "answer_reg" with Dissolve(0.5)
+    1.0
+    repeat
 
 image custom_answerbutton:
-    block:
-        "custom_answer_reg" with Dissolve(1.0)
-        1.3
-        "custom_answer_dark" with Dissolve(1.0)
-        1.0
-        repeat
+    "custom_answer_reg" with Dissolve(1.0)
+    1.3
+    "custom_answer_dark" with Dissolve(1.0)
+    1.0
+    repeat
 
 image answer_ui = ConditionSwitch(
     "persistent.custom_footers", "custom_answerbutton",
@@ -24,26 +22,23 @@ image answer_ui = ConditionSwitch(
 )
 
 image darklight_continue_button:
-    block:
-        "Phone UI/Continue-light.webp" with Dissolve(1.0)
-        1.3
-        "Phone UI/Continue-dark.webp" with Dissolve(1.0)
-        1.0
-        repeat
+    "Phone UI/Continue-light.webp" with Dissolve(1.0)
+    1.3
+    "Phone UI/Continue-dark.webp" with Dissolve(1.0)
+    1.0
+    repeat
 
 image custom_darklight_continue_button:
-    block:
-        "Phone UI/custom-continue-light.webp" with Dissolve(1.0)
-        1.3
-        "Phone UI/custom-continue-dark.webp" with Dissolve(1.0)
-        1.0
-        repeat
+    "Phone UI/custom-continue-light.webp" with Dissolve(1.0)
+    1.3
+    "Phone UI/custom-continue-dark.webp" with Dissolve(1.0)
+    1.0
+    repeat
 
 image continue_ui = ConditionSwitch(
     "persistent.custom_footers", "custom_darklight_continue_button",
     "True", "darklight_continue_button"
 )
-
 
 image phone_continue_button = ConditionSwitch(
     "persistent.custom_footers", "Phone UI/custom-continue.webp",
@@ -73,7 +68,6 @@ image pause_ui = ConditionSwitch(
     "True", "pausebutton"
 )
 
-
 image pause_square = ConditionSwitch(
     "persistent.custom_footers", Frame("Phone UI/custom-pause-square.webp", 15, 15),
     "True", Frame("Phone UI/pause_square.webp", 15, 15)
@@ -93,7 +87,6 @@ image save_exit = ConditionSwitch(
     "persistent.custom_footers", "Phone UI/custom-save-exit.webp",
     "True", "Phone UI/Save&Exit.webp"
 )
-
 
 image fast_slow_button = "Phone UI/fast-slow-transparent.webp"
 image maxSpeed_selected_hover = Transform("max_speed_active", zoom=1.1)
