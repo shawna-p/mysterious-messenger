@@ -198,8 +198,9 @@ init python:
 # The number that shows up when adjusting the chatroom speed
 style speednum_style:
     is text
-    xalign 0.97
-    yalign 0.22
+    #xalign 0.97 yalign 0.22
+    xanchor 1.0 xpos 0.98
+    ypos 285
     color "#ffffff"
     font gui.sans_serif_1b
     size 45
