@@ -235,19 +235,16 @@ screen signature_screen(phone=True):
         if (observing or current_timeline_item.currently_expired):
             null height 10
         text "This conversation will be archived in the RFA records.":
-            layout 'subtitle'
-            size 30
+            layout 'subtitle' size 30
             if persistent.custom_footers:
                 color "#fff"
         if not (observing or current_timeline_item.currently_expired):
             hbox:
                 style_prefix "sig_points"
-                frame:
+                label str(get_collected_hp()):
                     background 'heart_sign'
-                    text str(get_collected_hp())
-                frame:
+                label str(collected_hg):
                     background 'hg_sign'
-                    text str(collected_hg)
 
         text "I hereby agree to treat this conversation as confidential.":
             if persistent.custom_footers:
@@ -294,6 +291,9 @@ style sig_points_text:
     text_align 1.0
     font gui.sans_serif_1
     color "#ffffff"
+
+style sig_points_label is sig_points_frame
+style sig_points_label_text is sig_points_text
 
 style sig_screen_text:
     is text
