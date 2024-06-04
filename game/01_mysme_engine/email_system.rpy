@@ -772,8 +772,7 @@ screen email_button(e):
             add Transform(e.guest.thumbnail, xysize=(94, 94)) align(0.5, 0.3)
             null width -10
             vbox:
-                frame:
-                    text '@' + e.guest.name
+                label '@' + e.guest.name
                 hbox:
                     align(0.3, 0.5)
                     spacing 8
@@ -813,6 +812,9 @@ style email_btn_text:
     color '#fff'
     size 27
     align (0.0, 0.0)
+
+style email_btn_label is email_btn_frame
+style email_btn_label_text is email_btn_text
 
 
 ########################################################
