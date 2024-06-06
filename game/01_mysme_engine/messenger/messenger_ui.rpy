@@ -59,12 +59,12 @@ screen pause_button():
             draggable True
             align (0.5, 1.0)
             xysize (config.screen_width, 113)
-            frame:
+            label "Choose a reply":
+                style 'frame' text_style 'text'
                 align (0.5, 1.0)
                 background "#282828"
                 xysize (config.screen_width, 113)
-                text "Choose a reply":
-                    color "#fff" text_align 0.5 align (0.5, 0.5)
+                text_color "#fff" text_text_align 0.5 align (0.5, 0.5)
     else:
         imagebutton:
             yalign 1.0
