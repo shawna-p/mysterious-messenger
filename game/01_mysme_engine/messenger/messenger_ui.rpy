@@ -64,7 +64,7 @@ screen pause_button():
                 align (0.5, 1.0)
                 background "#282828"
                 xysize (config.screen_width, 113)
-                text_color "#fff" text_text_align 0.5 align (0.5, 0.5)
+                text_color "#fff" text_text_align 0.5 text_align (0.5, 0.5)
     else:
         imagebutton:
             yalign 1.0
