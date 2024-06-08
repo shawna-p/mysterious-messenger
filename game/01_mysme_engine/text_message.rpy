@@ -226,9 +226,8 @@ screen text_msg_popup(c, last_msg=False, hide_screen='text_msg_popup',
                     style 'text_popup_vbox2'
                     text "From: " + c.name color '#fff'
 
-                    frame:
+                    label text_popup_preview(last_msg):
                         style_prefix 'text_popup_preview'
-                        text text_popup_preview(last_msg)
 
             if (gamestate is None):
                 textbutton _('Go to') action MMGoToText(c, popup_tag)
@@ -285,6 +284,9 @@ style text_popup_preview_text:
     size 30
     xalign 0.5 yalign 0.5
     text_align 0.5
+
+style text_popup_preview_label is text_popup_preview_frame
+style text_popup_preview_label_text is text_popup_preview_text
 
 style text_popup_button:
     xalign 0.5
