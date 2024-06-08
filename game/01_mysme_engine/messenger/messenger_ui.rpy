@@ -129,12 +129,11 @@ screen stop_chat_screen(wait_for_interact=False):
         if persistent.link_wait_pause:
             add 'phone_pause' align (0.5, 1.0)
         else:
-            frame:
+            label wait_text style 'frame' text_style 'text':
                 align (0.5, 1.0)
                 background "#282828"
                 xysize (config.screen_width, 113)
-                text wait_text:
-                    color "#fff" text_align 0.5 align (0.5, 0.5)
+                text_color "#fff" text_text_align 0.5 text_align (0.5, 0.5)
 
 # Buttons that speed up or slow down the chat speed
 screen fast_slow_buttons():
