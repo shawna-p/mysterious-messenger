@@ -489,17 +489,14 @@ screen points_and_saveload():
                 for r in all_routes:
                     hbox:
                         xalign 0.5
-                        frame:
-                            xsize 215
-                            xalign 0.0
-                            text r.route_history_title:
-                                color "#fff" font gui.blocky_font size 28
-                        frame:
-                            xsize 75
-                            xalign 1.0
-                            text ("[[{}/{}]".format(completed_branches(r),
+                        label r.route_history_title:
+                            xsize 215 xalign 0.0
+                            text_color "#fff" text_font gui.blocky_font
+                            text_size 28 text_style 'text' style 'frame'
+                        label ("[[{}/{}]".format(completed_branches(r),
                                     len(r.ending_labels))):
-                                color "#fff" size 28
+                            xsize 75 text_style 'text' style 'frame' xalign 1.0
+                            text_color "#fff" text_size 28
 
         vbox:
             frame:
