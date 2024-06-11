@@ -88,11 +88,9 @@ screen loading_screen():
         yalign 0.42
         add "load_tip_panel"
 
-    frame:
-        maximum(540, 140)
-        xalign 0.5
-        yalign 0.445
-        text renpy.random.choice(loading_tips) style "loading_tip"
+    label renpy.random.choice(loading_tips) text_style "loading_tip":
+        maximum(540, 140) style 'frame'
+        xalign 0.5 yalign 0.445
 
     text "Loading..." style "loading_text"
 
@@ -103,7 +101,6 @@ screen loading_screen():
         idle 'load_close'
         hover Transform('load_close', zoom=1.05)
         action [Return()]
-
 
     add 'load_tip 'xalign 0.13 yalign 0.32
 
