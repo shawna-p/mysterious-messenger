@@ -138,10 +138,10 @@ screen spaceship_thoughts():
             text _("The spaceship's sensors have caught the RFA members' "
                 + "meaningless thoughts.") style 'space_title1'
 
-            frame:
-                xysize (651, 240)
+            label the_thought.thought text_style 'space_thought_mid':
+                xysize (651, 240) style 'frame'
                 align (0.5, 0.7)
-                text the_thought.thought style 'space_thought_mid'
+
 
             text _("The spaceship does not always move forward... it orbits"
                 + " around :D") style 'space_title2'
