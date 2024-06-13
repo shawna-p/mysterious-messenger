@@ -1195,13 +1195,11 @@ style notify_text:
 
 screen nvl(dialogue, items=None):
 
-
     window:
         style "nvl_window"
         frame:
-            background "transparent.webp"
+            background None
             align (0.5, 0.2)
-
 
             viewport:
                 #draggable True
