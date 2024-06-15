@@ -1202,10 +1202,9 @@ screen nvl(dialogue, items=None):
             align (0.5, 0.2)
 
             viewport:
-                #draggable True
                 mousewheel True
                 has vbox:
-                    spacing 40 #gui.nvl_spacing
+                    spacing 40
 
                 use nvl_dialogue(dialogue)
 
@@ -1221,10 +1220,6 @@ screen nvl(dialogue, items=None):
 
 
 screen nvl_dialogue(dialogue):
-
-    python:
-        yadj.value = yadjValue
-
 
     for d in dialogue:
 
