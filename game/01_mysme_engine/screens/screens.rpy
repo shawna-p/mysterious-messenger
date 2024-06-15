@@ -1197,24 +1197,22 @@ screen nvl(dialogue, items=None):
 
     window:
         style "nvl_window"
-        frame:
-            background None
+
+        viewport:
             align (0.5, 0.2)
+            mousewheel True
+            has vbox:
+                spacing 40
 
-            viewport:
-                mousewheel True
-                has vbox:
-                    spacing 40
+            use nvl_dialogue(dialogue)
 
-                use nvl_dialogue(dialogue)
-
-                ## Displays the menu, if given. The menu may be displayed
-                ## incorrectly if config.narrator_menu is set to True,
-                ## as it is above.
-                for i in items:
-                    textbutton i.caption:
-                        action i.action
-                        style "nvl_button"
+            ## Displays the menu, if given. The menu may be displayed
+            ## incorrectly if config.narrator_menu is set to True,
+            ## as it is above.
+            for i in items:
+                textbutton i.caption:
+                    action i.action
+                    style "nvl_button"
 
     add SideImage() xalign 0.0 yalign 1.0
 
