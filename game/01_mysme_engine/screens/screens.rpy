@@ -1201,20 +1201,19 @@ screen nvl(dialogue, items=None):
         viewport:
             align (0.5, 0.2)
             mousewheel True
-            has vbox:
-                spacing 40
+            has vbox
+            spacing 40
 
             use nvl_dialogue(dialogue)
 
             ## Displays the menu, if given. The menu may be displayed
             ## incorrectly if config.narrator_menu is set to True,
             ## as it is above.
-            for i in items:
-                textbutton i.caption:
-                    action i.action
-                    style "nvl_button"
-
-    add SideImage() xalign 0.0 yalign 1.0
+            if items:
+                for i in items:
+                    textbutton i.caption:
+                        action i.action
+                        style "nvl_button"
 
 
 screen nvl_dialogue(dialogue):
@@ -1242,8 +1241,6 @@ transform slow_fade(delay=0.5):
 ## This controls the maximum number of NVL-mode entries that can be displayed at
 ## once.
 define config.nvl_list_length = gui.nvl_list_length
-
-
 
 
 style nvl_window:
