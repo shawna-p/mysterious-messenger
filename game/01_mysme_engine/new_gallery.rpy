@@ -271,6 +271,7 @@ init python:
             ## (This is for previous code compatibility)
             return iter(self.images)
 
+
     def get_album_len(album):
         """
         A convenience function to return the length of an album, depending

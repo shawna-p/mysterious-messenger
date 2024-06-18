@@ -1058,7 +1058,6 @@ label phone_end():
         jump end_prologue
     return
 
-
 ## The label that is called to play a (non-story) phone call
 label play_phone_call():
     if starter_story:
@@ -1115,7 +1114,6 @@ label play_phone_call():
         $ renpy.retain_after_load()
         call screen phone_calls
     return
-
 
 ##*************************************************
 ## VOICEMAILS
