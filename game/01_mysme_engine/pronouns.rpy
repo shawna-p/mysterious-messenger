@@ -114,3 +114,8 @@ define have = PronounVerb("have", "has")
 define do = PronounVerb("do", "does")
 define s_verb = PronounVerb("", "s")
 define es_verb = PronounVerb("", "es")
+
+## Example of how to use GenderedTerm:
+# define partner = GenderedTerm("girlfriend", "boyfriend", "partner")
+## which you can then use in dialogue like:
+## "[name] is my [partner]."
