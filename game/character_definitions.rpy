@@ -452,6 +452,7 @@ layeredimage jumin side:
 
     group face:
         align(0.633, align_new_dimensions(0.097))
+        #pos (378, 113)
         attribute happy "VN Mode/Jumin/jumin_sideface_0.webp"
         attribute upset "VN Mode/Jumin/jumin_sideface_1.webp"
         attribute blush "VN Mode/Jumin/jumin_sideface_2.webp"
