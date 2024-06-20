@@ -932,9 +932,7 @@ screen phone_footer(answer_action=False, center_item=False, hangup_action=False)
                     align (0.5, 0.5)
                     selected _preferences.afm_enable
                     selected_idle 'call_pause'
-                    selected_hover 'call_pause'
                     idle 'call_play'
-                    hover 'call_play'
                     action MMPauseCall()
 
         frame:
