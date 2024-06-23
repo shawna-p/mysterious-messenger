@@ -1254,7 +1254,7 @@ style nvl_window:
 style nvl_entry:
     is default
     xfill True
-    ysize gui.nvl_height
+    ysize None
 
 style nvl_label:
     is say_label
