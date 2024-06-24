@@ -489,10 +489,6 @@ define gui.nvl_borders = Borders(0, 20, 0, 20)
 ## than this are to be show, the oldest entry will be removed.
 define gui.nvl_list_length = 20
 
-## The height of an NVL-mode entry. Set this to None to have the entries
-## dynamically adjust height.
-define gui.nvl_height = None
-
 ## The spacing between NVL-mode entries when gui.nvl_height is None, and between
 ## NVL-mode entries and an NVL-mode menu.
 define gui.nvl_spacing = 20
