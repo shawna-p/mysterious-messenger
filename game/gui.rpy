@@ -182,9 +182,6 @@ define gui.label_text_size = 30
 ## The size of text on the notify screen.
 define gui.notify_text_size = 25
 
-## The size of the game's title.
-define gui.title_text_size = 60
-
 define gui.curly_font = gui.preference('curly_font', "fonts/Sandoll Misaeng (Curly Font).ttf")
 define gui.serif_1 = gui.preference('serif_1', "fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf")
 define gui.serif_1b = gui.preference('serif_1b', "fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Bold.ttf")
