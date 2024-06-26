@@ -158,30 +158,6 @@ define gui.interface_text_color = '#ffffff'
 
 ## Fonts and Font Sizes ########################################################
 
-## The font used for in-game text.
-define gui.text_font = "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
-
-## The font used for character names.
-define gui.name_text_font = "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
-
-## The font used for out-of-game text.
-define gui.interface_text_font = "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
-
-## The size of normal dialogue text.
-define gui.text_size = 33
-
-## The size of character names.
-define gui.name_text_size = 28
-
-## The size of text in the game's user interface.
-define gui.interface_text_size = 30
-
-## The size of labels in the game's user interface.
-define gui.label_text_size = 30
-
-## The size of text on the notify screen.
-define gui.notify_text_size = 25
-
 define gui.curly_font = gui.preference('curly_font', "fonts/Sandoll Misaeng (Curly Font).ttf")
 define gui.serif_1 = gui.preference('serif_1', "fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf")
 define gui.serif_1b = gui.preference('serif_1b', "fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Bold.ttf")
@@ -209,6 +185,30 @@ init python:
     config.font_replacement_map[gui.sans_serif_1, True, True] = (gui.sans_serif_1xb, False, True)
     config.font_replacement_map[gui.sans_serif_2, True, False] = (gui.sans_serif_2xb, False, False)
     config.font_replacement_map[gui.sans_serif_2, True, True] = (gui.sans_serif_2xb, False, True)
+
+## The font used for in-game text.
+define gui.text_font = gui.sans_serif_1
+
+## The font used for character names.
+define gui.name_text_font = gui.sans_serif_1
+
+## The font used for out-of-game text.
+define gui.interface_text_font = gui.sans_serif_1
+
+## The size of normal dialogue text.
+define gui.text_size = 33
+
+## The size of character names.
+define gui.name_text_size = 28
+
+## The size of text in the game's user interface.
+define gui.interface_text_size = 30
+
+## The size of labels in the game's user interface.
+define gui.label_text_size = 30
+
+## The size of text on the notify screen.
+define gui.notify_text_size = 25
 
 
 
