@@ -1248,13 +1248,13 @@ style nvl_window:
     xfill True
     yfill True
 
-    background "#000c"#"gui/nvl.png"
+    background "#000c"
     padding gui.nvl_borders.padding
 
 style nvl_entry:
     is default
     xfill True
-    ysize gui.nvl_height
+    ysize None
 
 style nvl_label:
     is say_label
