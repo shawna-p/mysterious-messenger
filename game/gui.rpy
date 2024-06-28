@@ -539,17 +539,6 @@ define gui.nvl_button_ypos = 200
 ##
 ## Controls the spacing and look of dialogue said by characters in the messenger
 
-## The borders of the background of the phone background window.
-## This window is currently set to be transparent
-define gui.phone_borders = Borders(0, 0, 0, 0)
-
-## The height of an chat entry. Set this to None to have the entries
-## dynamically adjust height.
-define gui.phone_height = None
-
-## The spacing between chat entries when gui.phone_height is None
-define gui.phone_spacing = 0
-
 ## These are additional modifiers for the text specifically,
 ## separate from the speech bubbles each character has
 define gui.phone_text_line_spacing = 10
