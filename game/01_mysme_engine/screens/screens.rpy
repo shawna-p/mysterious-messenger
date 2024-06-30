@@ -175,8 +175,6 @@ init python:
     config.character_id_prefixes.append('namebox')
 
 
-
-
 style window:
     is default
     xysize (config.screen_width,324)
@@ -212,7 +210,7 @@ style vn_mode_button:
     align (0.98, 0.01)
 
 style vn_mode_window:
-    xysize (config.screen_width,324)
+    xysize (config.screen_width, 324)
     align (0.5, 1.0)
 
 style vn_mode_button_text:
@@ -230,7 +228,7 @@ style call_window:
     ysize 500
     yalign 0.5
     background 'call_overlay'
-    padding(50,50)
+    padding (50, 50)
 
 style vn_button:
     color '#76D0B7'
