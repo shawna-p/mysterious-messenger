@@ -368,8 +368,6 @@ init python:
                     or store.email_reply or store.answer_shown)):
             screen_dict = {'screen' : 'answer_choice_text'}
             kwargs.update(screen_dict)
-        #elif store.answer_shown:
-        #    store.answer_shown = False
         store.answer_shown = True
         store.pre_choosing = True
         # Some code that might be used if I figure out how to get
