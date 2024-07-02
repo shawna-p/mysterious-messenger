@@ -377,7 +377,6 @@ init python:
         #             or store.email_reply)
         #         and (store.in_phone_call
         #             or store.vn_choice)):
-        #     print_file("Executed")
         #     renpy.ast.statement_name("menu-with-caption")
         #     # Get the dialogue
         #     # what = store._last_say_what
