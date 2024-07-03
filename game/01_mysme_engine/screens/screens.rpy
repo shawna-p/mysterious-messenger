@@ -361,13 +361,11 @@ init python:
 
         # Check if we're in a chatroom
         if gamestate == CHAT and not store.answer_shown:
-            screen_dict = {'screen' : 'answer_choice'}
-            kwargs.update(screen_dict)
+            kwargs['screen'] = "answer_choice"
         if (store.text_person and store.text_person.real_time_text
                 and not (gamestate in (PHONE, VNMODE)
                     or store.email_reply or store.answer_shown)):
-            screen_dict = {'screen' : 'answer_choice_text'}
-            kwargs.update(screen_dict)
+            kwargs['screen'] = 'answer_choice_text'
         store.answer_shown = True
         store.pre_choosing = True
         # Some code that might be used if I figure out how to get
