@@ -112,6 +112,37 @@ init python:
 
         return args, kwargs
 
+    # This lets the program shuffle menu options
+    renpy_menu = menu
+    def menu(items):
+        # Copy the items list
+        items = list(items)
+        global shuffle
+        if shuffle and shuffle not in ["last", "default"]:
+            renpy.random.shuffle(items)
+        elif shuffle == "last":
+            last = items.pop()
+            renpy.random.shuffle(items)
+            items.append(last)
+        elif shuffle == "default":
+            # Don't shuffle or modify these answers
+            shuffle = True
+            return renpy_menu(items)
+        shuffle = True
+
+        # If observing, check which items have already been seen
+        new_items = []
+        if store.observing and not store._in_replay and store.current_choices:
+            # Restrict choices to what's been selected this playthrough
+            the_choice = store.current_choices.pop(0)
+            new_items = [ i for i in items if i[0] == the_choice ]
+        if store.observing and not new_items:
+            new_items = [ i for i in items if i[1].get_chosen() ]
+        if new_items:
+            items = new_items
+        return renpy_menu(items)
+
+
 default answer_shown = False
 define config.menu_arguments_callback = menu_args_callback
 
