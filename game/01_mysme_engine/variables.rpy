@@ -1004,18 +1004,8 @@ init -6 python:
         return None
 
     # Don't let the player rollback the game by scrolling.
-    try:
-        config.keymap['rollback'].remove('mousedown_4')
-    except ValueError:
-        pass
-    try:
-        config.keymap['rollback'].remove('K_PAGEUP')
-    except ValueError:
-        pass
-    try:
-        config.keymap['rollback'].remove('repeat_K_PAGEUP')
-    except ValueError:
-        pass
+    config.keymap['rollback'] = [ ]
+
     # Allow right clicks for alternate button actions.
     try:
         config.keymap['game_menu'].remove('mouseup_3')
