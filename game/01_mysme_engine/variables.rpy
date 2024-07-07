@@ -1005,6 +1005,7 @@ init -6 python:
 
     # Don't let the player rollback the game by scrolling.
     config.keymap['rollback'] = [ ]
+    _rollback = False
 
     # Allow right clicks for alternate button actions.
     try:
