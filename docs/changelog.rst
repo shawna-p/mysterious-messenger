@@ -111,6 +111,8 @@ QoL Improvements
       - Bold and italics are allowed on the history screen.
     * - Screens & styles cleanup
       - Screens and style code has been cleaned up to remove outdated property names and organize styles better.
+    * - Choice reorganization
+      - The choice screens + related code have been relocated to their own file for better organization.
 
 .. _incompat-3-4-0:
 
