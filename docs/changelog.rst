@@ -86,6 +86,8 @@ Fixes
       - Various style properties (particularly outlines) have been cleaned up across the program.
     * - Updated screen language
       - ``dismiss`` has replaced full-screen buttons where possible (7.5/8.0+).
+    * - Rollback
+      - Rollback properly disabled due to conflicts with gameplay flow.
 
 
 .. _qol-3-4-0:
