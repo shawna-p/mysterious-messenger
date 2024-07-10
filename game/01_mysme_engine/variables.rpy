@@ -1007,7 +1007,7 @@ init -6 python:
     config.keymap['rollback'] = [ ]
     _rollback = False
 
-    # Allow right clicks for alternate button actions.
+    ## Remove right clicking from accessing the game menu.
     try:
         config.keymap['game_menu'].remove('mouseup_3')
     except ValueError:
