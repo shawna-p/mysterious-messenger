@@ -2,12 +2,12 @@
 # Special Bubbles
 #************************************
 
-
 ###############################################################################
 ##
 ## All the Special Bubble stats
 ##
 ###############################################################################
+init offset = -20
 
 ## SPIKE
 ## Small Spike Bubble
@@ -108,6 +108,7 @@ define gui.sigh_m_offset = (130, 38)
 ## Large Sigh Bubble
 define gui.sigh_l_padding = (45, 60, 45, 110)
 define gui.sigh_l_offset = (125, 38)
+init offset = 0
 
 
 ####################################
