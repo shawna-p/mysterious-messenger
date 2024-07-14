@@ -318,7 +318,7 @@ define gui.choice_button_width = 740
 define gui.choice_button_height = 221
 define gui.choice_button_tile = False
 define gui.choice_button_borders = Borders(40, 30, 40, 30)
-define gui.choice_button_text_font = "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+define gui.choice_button_text_font = gui.serif_1
 define gui.choice_button_text_size = gui.text_size
 define gui.choice_button_text_xalign = 0.0
 define gui.choice_button_text_idle_color = "#000000"
@@ -334,7 +334,7 @@ define gui.choice_button_text_hover_color = "#000000"
 ## The save slot button.
 define gui.slot_button_width = 715
 define gui.slot_button_height = 142
-define gui.slot_button_borders = Borders(15,10,15,10)
+define gui.slot_button_borders = Borders(15, 10, 15, 10)
 define gui.slot_button_text_size = 12
 define gui.slot_button_text_xalign = 0.0
 define gui.slot_button_text_idle_color = gui.idle_small_color
