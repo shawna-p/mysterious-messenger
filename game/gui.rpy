@@ -343,10 +343,6 @@ define gui.slot_button_text_idle_color = gui.idle_small_color
 define config.thumbnail_width = 122
 define config.thumbnail_height = 122
 
-## The number of columns and rows in the grid of save slots.
-define gui.file_slot_cols = 1
-define gui.file_slot_rows = 50
-
 
 ## Positioning and Spacing #####################################################
 ##
