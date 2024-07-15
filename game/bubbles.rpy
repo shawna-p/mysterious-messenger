@@ -110,7 +110,6 @@ define gui.sigh_l_padding = (45, 60, 45, 110)
 define gui.sigh_l_offset = (125, 38)
 init offset = 0
 
-
 ####################################
 ## Speech bubbles - GLOW variant
 ####################################
@@ -121,7 +120,6 @@ style glow_bubble:
     xalign 0.0
     padding (25, 28, 25, 22)
     pos (138, 38)
-
 
 ####################################
 ## Speech bubbles - For TEXT
@@ -140,7 +138,6 @@ style bubble_text:
 style bubble_text_long:
     is bubble_text
     xsize gui.phone_text_xsize_long
-
 
 # This is for the "special" speech bubbles
 # It centers the text and evens the line breaks
@@ -224,7 +221,6 @@ style filler_bubble:
 style filler_bubble_text:
     size 35
 
-
 ####################################
 ## Super Special Bubbles
 ####################################
@@ -277,21 +273,16 @@ style spike2_l is spike_l
 
 style cloud_s:
     padding gui.cloud_s_padding
-
 style cloud_m:
     padding gui.cloud_m_padding
-
 style cloud_l:
     padding gui.cloud_l_padding
-
 style cloud2_l:
     padding (65, 60, 70, 70)
 style cloud2_m:
     is cloud_m
 style cloud2_s:
     is cloud_s
-
-
 style cloud_l2:
     padding gui.cloud_l2_padding
 
