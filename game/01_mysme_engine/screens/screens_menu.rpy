@@ -597,7 +597,7 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
         # Contains the save slots.
         vpgrid id 'save_load_vp':
             style_prefix "save_load"
-            cols gui.file_slot_cols
+            cols 1
             rows slots_per_column
 
             # This adds the 'backup' save slot to the top when loading
@@ -632,7 +632,6 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
                 yoffset 71
 
             ## This displays all the regular save slots
-            #for i in range(gui.file_slot_cols * gui.file_slot_rows):
             for i in range(begin_range, end_range):
                 python:
                     slot = i + 1
