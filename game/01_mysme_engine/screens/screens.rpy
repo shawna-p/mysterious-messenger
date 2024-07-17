@@ -899,10 +899,6 @@ screen nvl_dialogue(dialogue):
                 text d.what:
                     id d.what_id
 
-transform slow_fade(delay=0.5):
-    alpha 0.0
-    linear delay alpha 1.0
-
 ## This controls the maximum number of NVL-mode entries that can be displayed at
 ## once.
 define config.nvl_list_length = gui.nvl_list_length
