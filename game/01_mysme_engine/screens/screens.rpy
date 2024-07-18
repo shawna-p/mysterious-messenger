@@ -865,6 +865,7 @@ screen nvl(dialogue, items=None):
 
         viewport:
             align (0.5, 0.2)
+            yalign 1.0
             mousewheel True
             has vbox
             spacing 40
