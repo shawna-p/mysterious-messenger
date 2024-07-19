@@ -467,10 +467,6 @@ define gui.history_text_xalign = 0.0
 ## The borders of the background of the NVL-mode background window.
 define gui.nvl_borders = Borders(0, 20, 0, 20)
 
-## The maximum number of NVL-mode entries Ren'Py will display. When more entries
-## than this are to be show, the oldest entry will be removed.
-define gui.nvl_list_length = 20
-
 ## The spacing between NVL-mode entries when gui.nvl_height is None, and between
 ## NVL-mode entries and an NVL-mode menu.
 define gui.nvl_spacing = 20

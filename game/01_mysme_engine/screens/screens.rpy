@@ -900,9 +900,9 @@ screen nvl_dialogue(dialogue):
                 text d.what:
                     id d.what_id
 
-## This controls the maximum number of NVL-mode entries that can be displayed at
-## once.
-define config.nvl_list_length = gui.nvl_list_length
+## The maximum number of NVL-mode entries Ren'Py will display. When more entries
+## than this are to be show, the oldest entry will be removed.
+define config.nvl_list_length = 20
 
 
 style nvl_window:
