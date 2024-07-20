@@ -499,21 +499,6 @@ define gui.nvl_button_xalign = 0.0
 define gui.nvl_button_ypos = 200
 
 
-## Chat Spacing ###############################################################
-##
-## Controls the spacing and look of dialogue said by characters in the messenger
-
-## These are additional modifiers for the text specifically,
-## separate from the speech bubbles each character has
-define gui.phone_text_line_spacing = 10
-define gui.phone_text_xalign = 0.0
-define gui.phone_text_ypos2 = 6
-
-## Some extra variables
-define gui.phone_text_xsize_long = 377
-define gui.long_line_min_width = 377
-define gui.longer_than = 420
-
 
 ## Localization ################################################################
 
