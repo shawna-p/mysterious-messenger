@@ -938,11 +938,6 @@ define gui.nvl_thought_ypos = 7
 define gui.nvl_thought_width = 750
 define gui.nvl_thought_xalign = 0.5
 
-## The position of nvl menu_buttons.
-define gui.nvl_button_xpos = 380
-define gui.nvl_button_xalign = 0.0
-define gui.nvl_button_ypos = 200
-
 
 style nvl_window:
     is default
@@ -986,11 +981,12 @@ style nvl_thought:
     text_align gui.nvl_thought_xalign
     layout ("subtitle" if gui.nvl_text_xalign else "tex")
 
+
+## The position of nvl menu_buttons.
 style nvl_button:
     is button
-    properties gui.button_properties("nvl_button")
-    xpos gui.nvl_button_xpos
-    xanchor gui.nvl_button_xalign
+    xpos 380 ypos 200
+    xalign 0.0
 
 style nvl_button_text:
     is button_text
