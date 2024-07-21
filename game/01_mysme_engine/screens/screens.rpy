@@ -905,6 +905,45 @@ screen nvl_dialogue(dialogue):
 define config.nvl_list_length = 20
 
 
+## NVL-Mode ####################################################################
+##
+## The NVL-mode screen displays the dialogue spoken by NVL-mode characters.
+
+## The borders of the background of the NVL-mode background window.
+define gui.nvl_borders = Borders(0, 20, 0, 20)
+
+## The spacing between NVL-mode entries when gui.nvl_height is None, and between
+## NVL-mode entries and an NVL-mode menu.
+define gui.nvl_spacing = 20
+
+## The position, width, and alignment of the label giving the name of the
+## speaking character.
+define gui.nvl_name_xpos = 70
+define gui.nvl_name_ypos = 0
+define gui.nvl_name_width = 127
+define gui.nvl_name_xalign = 0.5
+
+## The position, width, and alignment of the dialogue text.
+define gui.nvl_text_xpos = 130
+define gui.nvl_text_ypos = 7
+define gui.nvl_text_width = 500
+define gui.nvl_text_xalign = 0.0
+
+
+## The position, width, and alignment of nvl_thought text (the text said by the
+## nvl_narrator character.)
+
+define gui.nvl_thought_xpos = 550
+define gui.nvl_thought_ypos = 7
+define gui.nvl_thought_width = 750
+define gui.nvl_thought_xalign = 0.5
+
+## The position of nvl menu_buttons.
+define gui.nvl_button_xpos = 380
+define gui.nvl_button_xalign = 0.0
+define gui.nvl_button_ypos = 200
+
+
 style nvl_window:
     is default
     xfill True
