@@ -923,12 +923,6 @@ define gui.nvl_name_ypos = 0
 define gui.nvl_name_width = 127
 define gui.nvl_name_xalign = 0.5
 
-## The position, width, and alignment of the dialogue text.
-define gui.nvl_text_xpos = 130
-define gui.nvl_text_ypos = 7
-define gui.nvl_text_width = 500
-define gui.nvl_text_xalign = 0.0
-
 
 
 style nvl_window:
@@ -954,15 +948,17 @@ style nvl_label:
     min_width gui.nvl_name_width
     text_align gui.nvl_name_xalign
 
+
+## The position, width, and alignment of the dialogue text.
 style nvl_dialogue:
     is say_dialogue
-    xpos gui.nvl_text_xpos
-    xanchor gui.nvl_text_xalign
-    ypos gui.nvl_text_ypos
-    xsize gui.nvl_text_width
-    min_width gui.nvl_text_width
-    text_align gui.nvl_text_xalign
-    layout ("subtitle" if gui.nvl_text_xalign else "tex")
+    xpos 130
+    xanchor 0.0
+    ypos 7
+    xsize 500
+    min_width 500
+    text_align 0.0
+    layout "tex"
 
 ## The position, width, and alignment of nvl_thought text (the text said by the
 ## nvl_narrator character.)
