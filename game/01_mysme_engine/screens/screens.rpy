@@ -930,14 +930,6 @@ define gui.nvl_text_width = 500
 define gui.nvl_text_xalign = 0.0
 
 
-## The position, width, and alignment of nvl_thought text (the text said by the
-## nvl_narrator character.)
-
-define gui.nvl_thought_xpos = 550
-define gui.nvl_thought_ypos = 7
-define gui.nvl_thought_width = 750
-define gui.nvl_thought_xalign = 0.5
-
 
 style nvl_window:
     is default
@@ -972,14 +964,17 @@ style nvl_dialogue:
     text_align gui.nvl_text_xalign
     layout ("subtitle" if gui.nvl_text_xalign else "tex")
 
+## The position, width, and alignment of nvl_thought text (the text said by the
+## nvl_narrator character.)
+
 style nvl_thought:
-    xpos gui.nvl_thought_xpos
-    xanchor gui.nvl_thought_xalign
-    ypos gui.nvl_thought_ypos
-    xsize gui.nvl_thought_width
-    min_width gui.nvl_thought_width
-    text_align gui.nvl_thought_xalign
-    layout ("subtitle" if gui.nvl_text_xalign else "tex")
+    xpos 550
+    xanchor 0.5
+    ypos 7
+    xsize 750
+    min_width 750
+    text_align 0.5
+    layout "subtitle"
 
 
 ## The position of nvl menu_buttons.
