@@ -916,13 +916,6 @@ define gui.nvl_borders = Borders(0, 20, 0, 20)
 ## NVL-mode entries and an NVL-mode menu.
 define gui.nvl_spacing = 20
 
-## The position, width, and alignment of the label giving the name of the
-## speaking character.
-define gui.nvl_name_xpos = 70
-define gui.nvl_name_ypos = 0
-define gui.nvl_name_width = 127
-define gui.nvl_name_xalign = 0.5
-
 
 
 style nvl_window:
@@ -938,15 +931,17 @@ style nvl_entry:
     xfill True
     ysize None
 
+## The position, width, and alignment of the label giving the name of the
+## speaking character.
 style nvl_label:
     is say_label
-    xpos gui.nvl_name_xpos
-    xanchor gui.nvl_name_xalign
-    ypos gui.nvl_name_ypos
+    xpos 70
+    xanchor 0.5
+    ypos 0
     yanchor 0.0
-    xsize gui.nvl_name_width
-    min_width gui.nvl_name_width
-    text_align gui.nvl_name_xalign
+    xsize 127
+    min_width 127
+    text_align 0.5
 
 
 ## The position, width, and alignment of the dialogue text.
