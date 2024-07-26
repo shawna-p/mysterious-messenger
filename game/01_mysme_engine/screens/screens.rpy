@@ -909,9 +909,6 @@ define config.nvl_list_length = 20
 ##
 ## The NVL-mode screen displays the dialogue spoken by NVL-mode characters.
 
-## The borders of the background of the NVL-mode background window.
-define gui.nvl_borders = Borders(0, 20, 0, 20)
-
 ## The spacing between NVL-mode entries when gui.nvl_height is None, and between
 ## NVL-mode entries and an NVL-mode menu.
 define gui.nvl_spacing = 20
@@ -924,7 +921,8 @@ style nvl_window:
     yfill True
 
     background "#000c"
-    padding gui.nvl_borders.padding
+    ## The borders of the background of the NVL-mode background window.
+    padding (0, 20, 0, 20)
 
 style nvl_entry:
     is default
