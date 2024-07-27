@@ -909,12 +909,6 @@ define config.nvl_list_length = 20
 ##
 ## The NVL-mode screen displays the dialogue spoken by NVL-mode characters.
 
-## The spacing between NVL-mode entries when gui.nvl_height is None, and between
-## NVL-mode entries and an NVL-mode menu.
-define gui.nvl_spacing = 20
-
-
-
 style nvl_window:
     is default
     xfill True
