@@ -213,12 +213,6 @@ define gui.history_allow_tags = set(['b', 'i'])
 ## The number of blocks of dialogue history Ren'Py will keep.
 define config.history_length = 250
 
-## The position, width, and alignment of the label giving the name of the
-## speaking character.
-define gui.history_name_xpos = 160
-define gui.history_name_ypos = 0
-define gui.history_name_width = 165
-define gui.history_name_xalign = 1.0
 
 ## The position, width, and alignment of the dialogue text.
 define gui.history_text_xpos = 170
@@ -227,17 +221,19 @@ define gui.history_text_width = 560
 define gui.history_text_xalign = 0.0
 
 
+## The position, width, and alignment of the label giving the name of the
+## speaking character.
 style history_name:
     is gui_label
-    xpos gui.history_name_xpos
-    xanchor gui.history_name_xalign
-    ypos gui.history_name_ypos
-    xsize gui.history_name_width
+    xpos 160
+    xanchor 1.0
+    ypos 0
+    xsize 165
 
 style history_name_text:
     is gui_label_text
-    min_width gui.history_name_width
-    text_align gui.history_name_xalign
+    min_width 165
+    text_align 1.0
 
 style history_text:
     is gui_text
