@@ -214,11 +214,6 @@ define gui.history_allow_tags = set(['b', 'i'])
 define config.history_length = 250
 
 
-## The position, width, and alignment of the dialogue text.
-define gui.history_text_xpos = 170
-define gui.history_text_ypos = 2
-define gui.history_text_width = 560
-define gui.history_text_xalign = 0.0
 
 
 ## The position, width, and alignment of the label giving the name of the
@@ -235,15 +230,16 @@ style history_name_text:
     min_width 165
     text_align 1.0
 
+## The position, width, and alignment of the dialogue text.
 style history_text:
     is gui_text
-    xpos gui.history_text_xpos
-    ypos gui.history_text_ypos
-    xanchor gui.history_text_xalign
-    xsize gui.history_text_width
-    min_width gui.history_text_width
-    text_align gui.history_text_xalign
-    layout ("subtitle" if gui.history_text_xalign else "tex")
+    xpos 170
+    ypos 2
+    xanchor 0.0
+    xsize 560
+    min_width 560
+    text_align 0.0
+    layout "tex"
 
 style history_label:
     is gui_label
