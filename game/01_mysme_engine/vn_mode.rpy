@@ -153,9 +153,7 @@ screen history():
     # Close button
     button:
         background "#00000066"
-        xalign 0.5
-        yalign 0.0
-        focus_mask True
+        xalign 0.5 yalign 0.0
         xysize (config.screen_width, 99)
         action Hide('history')
         keysym "rollback"
@@ -212,8 +210,6 @@ define gui.history_allow_tags = set(['b', 'i'])
 
 ## The number of blocks of dialogue history Ren'Py will keep.
 define config.history_length = 250
-
-
 
 
 ## The position, width, and alignment of the label giving the name of the
