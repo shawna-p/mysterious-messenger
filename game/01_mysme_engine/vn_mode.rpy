@@ -156,7 +156,7 @@ screen history():
         xalign 0.5 yalign 0.0
         xysize (config.screen_width, 99)
         action Hide('history')
-        keysym "rollback"
+        keysym ["rollback", "game_menu"]
         text "Close" style "CG_close_button_text":
             yalign 0.5 xpos 20
             if persistent.dialogue_outlines:
