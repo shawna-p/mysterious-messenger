@@ -201,7 +201,9 @@ screen history():
                             outlines [ (2, "#000") ]
 
             if not _history_list:
-                label _("The dialogue history is empty.")
+                label _("The dialogue history is empty."):
+                    if persistent.dialogue_outlines:
+                        text_outlines [ (2, "#000") ]
             null height 10
 
 
