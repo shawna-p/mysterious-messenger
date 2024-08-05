@@ -213,7 +213,6 @@ define gui.history_allow_tags = set(['b', 'i'])
 ## The number of blocks of dialogue history Ren'Py will keep.
 define config.history_length = 250
 
-
 ## The position, width, and alignment of the label giving the name of the
 ## speaking character.
 style history_name:
@@ -239,6 +238,7 @@ style history_text:
     text_align 0.0
     layout "tex"
 
+## Used for the "dialogue history is empty" message
 style history_label:
     is gui_label
     xfill True
