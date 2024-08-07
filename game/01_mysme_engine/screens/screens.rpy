@@ -180,6 +180,14 @@ style window:
     xysize (config.screen_width,324)
     align (0.5, 1.0)
 
+## The width, height, and borders of the box containing the character's name, or
+## None to automatically size it.
+define gui.namebox_width = None
+define gui.namebox_height = None
+
+## The borders of the box containing the character's name, in left, top, right,
+## bottom order.
+define gui.namebox_borders = Borders(5, 5, 5, 5)
 style namebox:
     is default
     xpos gui.name_xpos
