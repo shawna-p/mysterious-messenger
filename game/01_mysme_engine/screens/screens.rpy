@@ -185,9 +185,6 @@ style window:
 define gui.namebox_width = None
 define gui.namebox_height = None
 
-## The borders of the box containing the character's name, in left, top, right,
-## bottom order.
-define gui.namebox_borders = Borders(5, 5, 5, 5)
 style namebox:
     is default
     xpos gui.name_xpos
@@ -195,8 +192,9 @@ style namebox:
     xsize gui.namebox_width
     ypos gui.name_ypos
     ysize gui.namebox_height
-
-    padding gui.namebox_borders.padding
+    ## The borders of the box containing the character's name, in
+    ## left, top, right, bottom order.
+    padding (5, 5, 5, 5)
 
 style say_label:
     is default
