@@ -224,17 +224,6 @@ define gui.textbox_height = 320
 ## center, and 1.0 is the bottom.
 define gui.textbox_yalign = 0.94
 
-
-## The placement of the speaking character's name, relative to the textbox.
-## These can be a whole number of pixels from the left or top, or 0.5 to center.
-define gui.name_xpos = 130
-define gui.name_ypos = 6
-
-## The horizontal alignment of the character's name. This can be 0.0 for left-
-## aligned, 0.5 for centered, and 1.0 for right-aligned.
-define gui.name_xalign = 0.5
-
-
 ## The placement of dialogue relative to the textbox. These can be a whole
 ## number of pixels relative to the left or top side of the textbox, or 0.5 to
 ## center.
