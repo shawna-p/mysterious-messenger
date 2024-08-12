@@ -181,28 +181,18 @@ style window:
 
 style namebox:
     is default
-    xpos gui.name_xpos
-    xanchor gui.name_xalign
+    xpos 130
+    xanchor 0.5
     xysize (None, None)
-    ypos gui.name_ypos
+    ypos 6
     ## The borders of the box containing the character's name, in
     ## left, top, right, bottom order.
     padding (5, 5, 5, 5)
 
-## The placement of the speaking character's name, relative to the textbox.
-## These can be a whole number of pixels from the left or top, or 0.5 to center.
-define gui.name_xpos = 130
-define gui.name_ypos = 6
-
-## The horizontal alignment of the character's name. This can be 0.0 for left-
-## aligned, 0.5 for centered, and 1.0 for right-aligned.
-define gui.name_xalign = 0.5
-
-
 style say_label:
     is default
     properties gui.text_properties("name", accent=True)
-    xalign gui.name_xalign
+    xalign 0.5
     yalign 0.5
 
 style say_dialogue:
