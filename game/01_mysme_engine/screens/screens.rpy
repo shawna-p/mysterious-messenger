@@ -189,11 +189,14 @@ style namebox:
     ## left, top, right, bottom order.
     padding (5, 5, 5, 5)
 
+## The name
 style say_label:
     is default
     properties gui.text_properties("name", accent=True)
     xalign 0.5
     yalign 0.5
+    size 28
+    font gui.sans_serif_1
 
 style say_dialogue:
     is default
