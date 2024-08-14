@@ -176,7 +176,7 @@ init python:
 
 style window:
     is default
-    xysize (config.screen_width,324)
+    xysize (config.screen_width, 324)
     align (0.5, 1.0)
 
 style namebox:
@@ -198,25 +198,12 @@ style say_label:
     size 28
     font gui.sans_serif_1
 
-## The placement of dialogue relative to the textbox. These can be a whole
-## number of pixels relative to the left or top side of the textbox, or 0.5 to
-## center.
-define gui.dialogue_xpos = 20
-define gui.dialogue_ypos = 75
-
-## The maximum width of dialogue text, in pixels.
-define gui.dialogue_width = 700
-
-## The horizontal alignment of the dialogue text. This can be 0.0 for left-
-## aligned, 0.5 for centered, and 1.0 for right-aligned.
-define gui.dialogue_text_xalign = 0.0
-
 style say_dialogue:
     is default
     properties gui.text_properties("dialogue")
-    xpos gui.dialogue_xpos
-    xsize gui.dialogue_width
-    ypos gui.dialogue_ypos
+    xpos 20
+    xsize 700
+    ypos 75
 
 style say_thought is say_dialogue
 style namebox_label is say_label
@@ -275,10 +262,10 @@ screen input(prompt):
     window:
 
         vbox:
-            xalign gui.dialogue_text_xalign
-            xpos gui.dialogue_xpos
-            xsize gui.dialogue_width
-            ypos gui.dialogue_ypos
+            xalign 0.0
+            xpos 20
+            xsize 700
+            ypos 75
 
             text prompt style "input_prompt"
             input id "input"
@@ -286,12 +273,12 @@ screen input(prompt):
 style input_prompt is default
 
 style input_prompt:
-    xalign gui.dialogue_text_xalign
+    xalign 0.0
     properties gui.text_properties("input_prompt")
 
 style input:
-    xalign gui.dialogue_text_xalign
-    xmaximum gui.dialogue_width
+    xalign 0.0
+    xmaximum 700
 
 
 ## About screen ################################################################
