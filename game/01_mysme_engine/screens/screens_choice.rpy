@@ -143,6 +143,21 @@ init python:
         return renpy_menu(items)
 
 
+## Choice Buttons ##############################################################
+##
+## Choice buttons are used in the in-game menus.
+
+define gui.choice_button_width = 740
+define gui.choice_button_height = 221
+define gui.choice_button_tile = False
+define gui.choice_button_borders = Borders(40, 30, 40, 30)
+define gui.choice_button_text_font = gui.serif_1
+define gui.choice_button_text_size = gui.text_size
+define gui.choice_button_text_xalign = 0.0
+define gui.choice_button_text_idle_color = "#000000"
+define gui.choice_button_text_hover_color = "#000000"
+
+
 default answer_shown = False
 define config.menu_arguments_callback = menu_args_callback
 
