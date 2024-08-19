@@ -298,8 +298,6 @@ define config.narrator_menu = True
 ##
 ## Choice buttons are used in the in-game menus.
 
-define gui.choice_button_width = 740
-define gui.choice_button_height = 221
 define gui.choice_button_tile = False
 define gui.choice_button_borders = Borders(40, 30, 40, 30)
 define gui.choice_button_text_font = gui.serif_1
@@ -318,10 +316,13 @@ style choice_vbox:
 
 style choice_button is default:
     properties gui.button_properties("choice_button")
+    xsize 740 ysize 221
+    padding (40, 30)
     activate_sound "audio/sfx/UI/answer_select.mp3"
 
 style choice_button_text is default:
     properties gui.button_text_properties("choice_button")
+
 
 style text_msg_choice_vbox:
     is choice_vbox
