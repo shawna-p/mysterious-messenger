@@ -300,11 +300,6 @@ define config.narrator_menu = True
 
 define gui.choice_button_tile = False
 define gui.choice_button_borders = Borders(40, 30, 40, 30)
-define gui.choice_button_text_font = gui.serif_1
-define gui.choice_button_text_size = gui.text_size
-define gui.choice_button_text_xalign = 0.0
-define gui.choice_button_text_idle_color = "#000000"
-define gui.choice_button_text_hover_color = "#000000"
 
 ## The spacing between menu choices.
 define gui.choice_spacing = 5
@@ -320,8 +315,13 @@ style choice_button is default:
     padding (40, 30)
     activate_sound "audio/sfx/UI/answer_select.mp3"
 
+define gui.choice_button_text_font = gui.serif_1
+define gui.choice_button_text_size = gui.text_size
+define gui.choice_button_text_xalign = 0.0
 style choice_button_text is default:
     properties gui.button_text_properties("choice_button")
+    idle_color "#000"
+    hover_color "#000"
 
 
 style text_msg_choice_vbox:
