@@ -315,13 +315,13 @@ style choice_button is default:
     padding (40, 30)
     activate_sound "audio/sfx/UI/answer_select.mp3"
 
-define gui.choice_button_text_font = gui.serif_1
-define gui.choice_button_text_size = gui.text_size
-define gui.choice_button_text_xalign = 0.0
 style choice_button_text is default:
     properties gui.button_text_properties("choice_button")
     idle_color "#000"
     hover_color "#000"
+    font gui.serif_1
+    text_align 0.0 xalign 0.0
+    size gui.text_size
 
 
 style text_msg_choice_vbox:
