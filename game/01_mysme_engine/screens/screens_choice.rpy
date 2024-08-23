@@ -311,7 +311,7 @@ style choice_vbox:
 
 style choice_button is default:
     properties gui.button_properties("choice_button")
-    background Frame("gui/button/choice_button[_prefix].png", 40, 30, 40, 30)
+    background Frame("gui/button/choice[_prefix]_background.png", 40, 30, 40, 30)
     xsize 740 ysize 221
     padding (40, 30)
     activate_sound "audio/sfx/UI/answer_select.mp3"
