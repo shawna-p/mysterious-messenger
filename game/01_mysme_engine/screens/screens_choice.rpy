@@ -298,9 +298,6 @@ define config.narrator_menu = True
 ##
 ## Choice buttons are used in the in-game menus.
 
-define gui.choice_button_tile = False
-define gui.choice_button_borders = Borders(40, 30, 40, 30)
-
 ## The spacing between menu choices.
 define gui.choice_spacing = 5
 
@@ -310,7 +307,6 @@ style choice_vbox:
     spacing gui.choice_spacing
 
 style choice_button is default:
-    properties gui.button_properties("choice_button")
     background Frame("gui/button/choice[_prefix]_background.png", 40, 30, 40, 30)
     xsize 740 ysize 221
     padding (40, 30)
