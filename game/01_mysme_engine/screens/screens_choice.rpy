@@ -310,7 +310,6 @@ style choice_button is default:
     activate_sound "audio/sfx/UI/answer_select.mp3"
 
 style choice_button_text is default:
-    properties gui.button_text_properties("choice_button")
     idle_color "#000"
     hover_color "#000"
     font gui.serif_1
