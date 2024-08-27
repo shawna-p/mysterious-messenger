@@ -280,9 +280,6 @@ define gui.skip_ypos = 9
 ## The vertical position of the notify screen.
 define gui.notify_ypos = 38
 
-## Buttons in the navigation section of the main and game menus.
-define gui.navigation_spacing = 4
-
 ## Controls the amount of spacing between preferences.
 define gui.pref_spacing = 9
 
