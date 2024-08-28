@@ -201,20 +201,6 @@ define gui.interface_text_size = 30
 ## The size of labels in the game's user interface.
 define gui.label_text_size = 30
 
-
-## Dialogue ####################################################################
-##
-## These variables control how dialogue is displayed on the screen one line at a
-## time.
-
-## The height of the textbox containing dialogue.
-define gui.textbox_height = 320
-
-## The placement of the textbox vertically on the screen. 0.0 is the top, 0.5 is
-## center, and 1.0 is the bottom.
-define gui.textbox_yalign = 0.94
-
-
 ## Buttons #####################################################################
 ##
 ## These variables, along with the image files in gui/button, control aspects of
