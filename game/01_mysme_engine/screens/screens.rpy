@@ -369,7 +369,7 @@ style mute_all_button is check_button
 style mute_all_button_text is check_button_text
 
 style pref_label:
-    top_margin gui.pref_spacing
+    top_margin 9
     bottom_margin 2
 
 style pref_label_text:

@@ -280,9 +280,6 @@ define gui.skip_ypos = 9
 ## The vertical position of the notify screen.
 define gui.notify_ypos = 38
 
-## Controls the amount of spacing between preferences.
-define gui.pref_spacing = 9
-
 ## Controls the amount of spacing between preference buttons.
 define gui.pref_button_spacing = 0
 
