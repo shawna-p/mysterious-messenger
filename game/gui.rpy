@@ -256,10 +256,6 @@ define gui.quick_button_text_selected_color = gui.accent_color
 ## These variables control the positioning and spacing of various user interface
 ## elements.
 
-## The position of the left side of the navigation buttons, relative to the left
-## side of the screen.
-define gui.navigation_xpos = 34
-
 ## The vertical position of the skip indicator.
 define gui.skip_ypos = 9
 
