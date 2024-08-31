@@ -843,20 +843,14 @@ transform notify_appear:
     on hide:
         linear .5 alpha 0.0
 
-## The frame that is used as part of the notify screen.
-define gui.notify_frame_borders = Borders(14, 5, 34, 5)
-## The vertical position of the notify screen.
-define gui.notify_ypos = 38
-
-
 style notify_frame is empty
 style notify_text is gui_text
 
 style notify_frame:
-    ypos gui.notify_ypos
+    ypos 38
 
-    background Frame("gui/notify.png", gui.notify_frame_borders, tile=gui.frame_tile)
-    padding gui.notify_frame_borders.padding
+    background Frame("gui/notify.png", 14, 5, 34, 5, tile=False)
+    padding (14, 5, 34, 5)
 
 style notify_text:
     properties gui.text_properties("notify")
