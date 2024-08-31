@@ -259,9 +259,6 @@ define gui.quick_button_text_selected_color = gui.accent_color
 ## The vertical position of the skip indicator.
 define gui.skip_ypos = 9
 
-## The vertical position of the notify screen.
-define gui.notify_ypos = 38
-
 ## Controls the amount of spacing between preference buttons.
 define gui.pref_button_spacing = 0
 
@@ -288,9 +285,6 @@ define gui.confirm_frame_borders = Borders(34, 34, 34, 34)
 
 ## The frame that is used as part of the skip screen.
 define gui.skip_frame_borders = Borders(14, 5, 43, 5)
-
-## The frame that is used as part of the notify screen.
-define gui.notify_frame_borders = Borders(14, 5, 34, 5)
 
 ## Should frame backgrounds be tiled?
 define gui.frame_tile = False
