@@ -805,12 +805,8 @@ style skip_frame:
     background Frame("gui/skip.png", gui.skip_frame_borders, tile=gui.frame_tile)
     padding gui.skip_frame_borders.padding
 
-## The size of text on the notify screen.
-define gui.notify_text_size = 25
-
-
 style skip_text:
-    size gui.notify_text_size
+    size 25
 
 style skip_triangle:
     ## We have to use a font that has the BLACK RIGHT-POINTING SMALL TRIANGLE
@@ -853,7 +849,7 @@ style notify_frame:
     padding (14, 5, 34, 5)
 
 style notify_text:
-    properties gui.text_properties("notify")
+    size 25
 
 
 ## NVL screen ##################################################################
