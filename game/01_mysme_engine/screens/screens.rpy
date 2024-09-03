@@ -802,8 +802,8 @@ style skip_triangle is skip_text
 
 style skip_frame:
     ypos gui.skip_ypos
-    background Frame("gui/skip.png", gui.skip_frame_borders, tile=gui.frame_tile)
-    padding gui.skip_frame_borders.padding
+    background Frame("gui/skip.png", 14, 5, 43, 5, False)
+    padding (14, 5, 43, 5)
 
 style skip_text:
     size 25
