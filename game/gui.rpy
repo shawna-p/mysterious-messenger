@@ -277,14 +277,8 @@ define gui.main_menu_text_xalign = 1.0
 ## These variables control the look of frames that can contain user interface
 ## components when an overlay or window is not present.
 
-## Generic frames.
-define gui.frame_borders = Borders(4, 4, 4, 4)
-
 ## The frame that is used as part of the confirm screen.
 define gui.confirm_frame_borders = Borders(34, 34, 34, 34)
-
-## Should frame backgrounds be tiled?
-define gui.frame_tile = False
 
 
 ## Bars, Scrollbars, and Sliders ###############################################
