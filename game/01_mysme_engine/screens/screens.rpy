@@ -720,7 +720,7 @@ style confirm_button is gui_medium_button
 style confirm_button_text is gui_medium_button_text
 
 style confirm_frame:
-    padding gui.confirm_frame_borders.padding
+    padding (34, 34)
     xalign .5
     yalign .5
     background "menu_popup_bkgrd"
