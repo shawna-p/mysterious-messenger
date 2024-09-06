@@ -262,12 +262,6 @@ define gui.skip_ypos = 9
 ## Controls the amount of spacing between preference buttons.
 define gui.pref_button_spacing = 0
 
-## The spacing between file page buttons.
-define gui.page_spacing = 0
-
-## The spacing between file slots.
-define gui.slot_spacing = 5
-
 ## The position of the main menu text.
 define gui.main_menu_text_xalign = 1.0
 

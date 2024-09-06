@@ -345,7 +345,7 @@ style slot_name_text is slot_button_text
 style slot_vpgrid:
     xysize (745,1170)
     xalign 0.01
-    spacing gui.slot_spacing
+    spacing 5
 
 style slot_hbox:
     spacing 8

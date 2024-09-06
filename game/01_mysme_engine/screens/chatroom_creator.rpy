@@ -1671,7 +1671,7 @@ screen chatroom_file_slots(title, current_page=0, num_pages=5, slots_per_column=
             xalign 0.5
             yalign 0.0
 
-            spacing gui.slot_spacing
+            spacing 5
 
             for i in range(begin_range, end_range):
 
