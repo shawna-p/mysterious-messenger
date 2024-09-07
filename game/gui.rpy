@@ -262,9 +262,6 @@ define gui.skip_ypos = 9
 ## Controls the amount of spacing between preference buttons.
 define gui.pref_button_spacing = 0
 
-## The position of the main menu text.
-define gui.main_menu_text_xalign = 1.0
-
 
 ## Bars, Scrollbars, and Sliders ###############################################
 ##
