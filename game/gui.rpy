@@ -259,9 +259,6 @@ define gui.quick_button_text_selected_color = gui.accent_color
 ## The vertical position of the skip indicator.
 define gui.skip_ypos = 9
 
-## Controls the amount of spacing between preference buttons.
-define gui.pref_button_spacing = 0
-
 
 ## Bars, Scrollbars, and Sliders ###############################################
 ##
