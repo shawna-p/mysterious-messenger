@@ -801,7 +801,7 @@ style skip_text is gui_text
 style skip_triangle is skip_text
 
 style skip_frame:
-    ypos gui.skip_ypos
+    ypos 9
     background Frame("gui/skip.png", 14, 5, 43, 5, False)
     padding (14, 5, 43, 5)
 

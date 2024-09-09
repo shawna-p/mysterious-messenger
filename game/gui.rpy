@@ -251,15 +251,6 @@ define gui.quick_button_text_size = 12
 define gui.quick_button_text_idle_color = gui.idle_small_color
 define gui.quick_button_text_selected_color = gui.accent_color
 
-## Positioning and Spacing #####################################################
-##
-## These variables control the positioning and spacing of various user interface
-## elements.
-
-## The vertical position of the skip indicator.
-define gui.skip_ypos = 9
-
-
 ## Bars, Scrollbars, and Sliders ###############################################
 ##
 ## These control the look and size of bars, scrollbars, and sliders.
