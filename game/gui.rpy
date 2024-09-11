@@ -259,7 +259,6 @@ define gui.quick_button_text_selected_color = gui.accent_color
 ## bars are only used in creator-written screens.
 
 ## True if bar images should be tiled. False if they should be linearly scaled.
-define gui.scrollbar_tile = False
 define gui.slider_tile = False
 
 ## Horizontal borders.
