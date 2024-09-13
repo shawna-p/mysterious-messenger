@@ -47,18 +47,18 @@ style prompt_text is gui_text:
 
 style bar:
     ysize 22
-    left_bar Frame("gui/bar/left.png", gui.bar_borders, tile=False)
-    right_bar Frame("gui/bar/right.png", gui.bar_borders, tile=False)
+    left_bar Frame("gui/bar/left.png", 4, 4, tile=False)
+    right_bar Frame("gui/bar/right.png", 4, 4, tile=False)
 
 style vbar:
     xsize 22
-    top_bar Frame("gui/bar/top.png", gui.vbar_borders, tile=False)
-    bottom_bar Frame("gui/bar/bottom.png", gui.vbar_borders, tile=False)
+    top_bar Frame("gui/bar/top.png", 4, 4, tile=False)
+    bottom_bar Frame("gui/bar/bottom.png", 4, 4, tile=False)
 
 style scrollbar:
     ysize 11
-    base_bar Frame("gui/scrollbar/horizontal_[prefix_]bar.png", gui.scrollbar_borders, tile=False)
-    thumb Frame("gui/scrollbar/horizontal_[prefix_]thumb.png", gui.scrollbar_borders, tile=False)
+    base_bar Frame("gui/scrollbar/horizontal_[prefix_]bar.png", 4, 4, tile=False)
+    thumb Frame("gui/scrollbar/horizontal_[prefix_]thumb.png", 4, 4, tile=False)
     unscrollable "hide"
 
 style vscrollbar:

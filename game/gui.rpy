@@ -259,8 +259,6 @@ define gui.quick_button_text_selected_color = gui.accent_color
 ## bars are only used in creator-written screens.
 
 ## Horizontal borders.
-define gui.bar_borders = Borders(4, 4, 4, 4)
-define gui.scrollbar_borders = Borders(4, 4, 4, 4)
 define gui.slider_borders = Borders(4, 4, 4, 4)
 
 ## Vertical borders.
