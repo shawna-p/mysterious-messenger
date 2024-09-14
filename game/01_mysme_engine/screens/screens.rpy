@@ -72,12 +72,12 @@ style slider:
     thumb "gui/slider/horizontal_[prefix_]thumb.png"
     left_gutter 10
     right_gutter 10
-    left_bar Frame("gui/slider/left_horizontal_bar.png", gui.slider_borders, tile=False)
-    right_bar Frame("gui/slider/right_horizontal_bar.png", gui.slider_borders, tile=False)
+    left_bar Frame("gui/slider/left_horizontal_bar.png", 4, 4, tile=False)
+    right_bar Frame("gui/slider/right_horizontal_bar.png", 4, 4, tile=False)
 
 style vslider:
     xsize 22
-    base_bar Frame("gui/slider/vertical_[prefix_]bar.png", gui.vslider_borders, tile=False)
+    base_bar Frame("gui/slider/vertical_[prefix_]bar.png", 4, 4, tile=False)
     thumb "gui/slider/vertical_[prefix_]thumb.png"
 
 

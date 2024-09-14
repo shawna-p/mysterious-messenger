@@ -258,13 +258,9 @@ define gui.quick_button_text_selected_color = gui.accent_color
 ## The default GUI only uses sliders and vertical scrollbars. All of the other
 ## bars are only used in creator-written screens.
 
-## Horizontal borders.
-define gui.slider_borders = Borders(4, 4, 4, 4)
-
 ## Vertical borders.
 define gui.vbar_borders = Borders(4, 4, 4, 4)
 define gui.vscrollbar_borders = Borders(4, 4, 4, 4)
-define gui.vslider_borders = Borders(4, 4, 4, 4)
 
 ## What to do with unscrollable scrollbars in the gui. "hide" hides them, while
 ## None shows them.
