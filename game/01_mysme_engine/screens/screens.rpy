@@ -391,7 +391,7 @@ style check_vbox:
     spacing 0
 
 style check_button:
-    padding gui.check_button_borders.padding
+    padding (50, 4, 4, 4)
     foreground "gui/button/check_[prefix_]foreground.png"
 
 style check_button_text:
