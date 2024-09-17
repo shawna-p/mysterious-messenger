@@ -240,9 +240,6 @@ define gui.button_text_xalign = 0.0
 ##
 ## These customizations are used by the default interface:
 
-define gui.page_button_borders = Borders(9, 4, 9, 4)
-
-define gui.quick_button_borders = Borders(9, 4, 9, 0)
 define gui.quick_button_text_size = 12
 define gui.quick_button_text_idle_color = gui.idle_small_color
 define gui.quick_button_text_selected_color = gui.accent_color
