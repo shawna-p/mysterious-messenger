@@ -233,17 +233,6 @@ define gui.button_text_insensitive_color = gui.insensitive_color
 ## is right).
 define gui.button_text_xalign = 0.0
 
-
-## These variables override settings for different kinds of buttons. Please see
-## the gui documentation for the kinds of buttons available, and what each is
-## used for.
-##
-## These customizations are used by the default interface:
-
-define gui.quick_button_text_size = 12
-define gui.quick_button_text_idle_color = gui.idle_small_color
-define gui.quick_button_text_selected_color = gui.accent_color
-
 ## Bars, Scrollbars, and Sliders ###############################################
 ##
 ## These control the look and size of bars, scrollbars, and sliders.
