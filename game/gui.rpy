@@ -217,12 +217,6 @@ define gui.button_borders = Borders(4, 4, 4, 4)
 ## will be linearly scaled.
 define gui.button_tile = False
 
-## The font used by the button.
-define gui.button_text_font = gui.interface_text_font
-
-## The size of the text used by the button.
-define gui.button_text_size = gui.interface_text_size
-
 
 ## Bars, Scrollbars, and Sliders ###############################################
 ##

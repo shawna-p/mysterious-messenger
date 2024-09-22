@@ -41,6 +41,8 @@ style button_text is gui_text:
     hover_color gui.hover_color
     selected_color gui.selected_color
     insensitive_color gui.insensitive_color
+    size gui.interface_text_size
+    font gui.interface_text_font
 
 
 style label_text is gui_text:
