@@ -201,16 +201,6 @@ define gui.interface_text_size = 30
 ## The size of labels in the game's user interface.
 define gui.label_text_size = 30
 
-## Buttons #####################################################################
-##
-## These variables, along with the image files in gui/button, control aspects of
-## how buttons are displayed.
-
-## The width and height of a button, in pixels. If None, Ren'Py computes a size.
-define gui.button_width = None
-define gui.button_height = None
-
-
 ## Bars, Scrollbars, and Sliders ###############################################
 ##
 ## These control the look and size of bars, scrollbars, and sliders.
