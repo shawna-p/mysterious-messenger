@@ -24,6 +24,8 @@ style hyperlink_text:
 
 style gui_text:
     properties gui.text_properties("interface")
+    size 30
+    font gui.sans_serif_1
 
 
 style button:
