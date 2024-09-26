@@ -51,6 +51,7 @@ style button_text is gui_text:
 
 style label_text is gui_text:
     properties gui.text_properties("label", accent=True)
+    size 30
 
 style prompt_text is gui_text:
     properties gui.text_properties("prompt")
