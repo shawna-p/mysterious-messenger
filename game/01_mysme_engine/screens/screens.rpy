@@ -46,7 +46,7 @@ style button_text is gui_text:
     selected_color gui.selected_color
     insensitive_color gui.insensitive_color
     size gui.interface_text_size
-    font gui.interface_text_font
+    font gui.sans_serif_1
 
 
 style label_text is gui_text:

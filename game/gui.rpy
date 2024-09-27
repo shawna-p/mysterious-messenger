@@ -189,9 +189,6 @@ init python:
 ## The font used for in-game text.
 define gui.text_font = gui.sans_serif_1
 
-## The font used for out-of-game text.
-define gui.interface_text_font = gui.sans_serif_1
-
 ## The size of normal dialogue text.
 define gui.text_size = 33
 
