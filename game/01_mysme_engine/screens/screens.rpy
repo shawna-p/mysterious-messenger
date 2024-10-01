@@ -41,8 +41,8 @@ style button_text is gui_text:
     properties gui.text_properties("button")
     yalign 0.5 xalign 0.0
     text_align 0.0
-    idle_color gui.idle_color
-    hover_color gui.hover_color
+    idle_color "#ababab"
+    hover_color "#3e8478"
     selected_color gui.selected_color
     insensitive_color gui.insensitive_color
     size gui.interface_text_size
