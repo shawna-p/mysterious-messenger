@@ -15,15 +15,14 @@ style default:
     font gui.sans_serif_1
 
 style input:
-    properties gui.text_properties("input", accent=True)
     adjust_spacing False
+    color "#ffffff"
 
 style hyperlink_text:
     color "#00b08d"
     hover_underline True
 
 style gui_text:
-    properties gui.text_properties("interface")
     size 30 color "#FFF"
     font gui.sans_serif_1
 
