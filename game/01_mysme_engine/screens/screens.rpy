@@ -205,6 +205,7 @@ style namebox:
 style say_label:
     is default
     properties gui.text_properties("name", accent=True)
+    color gui.accent_color
     xalign 0.5
     yalign 0.5
     size 28
