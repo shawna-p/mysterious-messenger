@@ -51,7 +51,7 @@ style button_text is gui_text:
 style label_text is gui_text:
     properties gui.text_properties("label", accent=True)
     size 30
-    color gui.accent_color
+    color "#FFF"
 
 style prompt_text is gui_text:
     properties gui.text_properties("prompt")
@@ -205,7 +205,7 @@ style namebox:
 style say_label:
     is default
     properties gui.text_properties("name", accent=True)
-    color gui.accent_color
+    color "#FFF"
     xalign 0.5
     yalign 0.5
     size 28
