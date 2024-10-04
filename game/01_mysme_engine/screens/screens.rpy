@@ -42,8 +42,8 @@ style button_text is gui_text:
     text_align 0.0
     idle_color "#ababab"
     hover_color "#3e8478"
-    selected_color gui.selected_color
-    insensitive_color gui.insensitive_color
+    selected_color "#FFF"
+    insensitive_color "#8888887f"
     size gui.interface_text_size
     font gui.sans_serif_1
 
