@@ -580,7 +580,7 @@ style help_label:
     right_padding 17
 
 style help_label_text:
-    size gui.text_size
+    size 33
     xalign 1.0
     text_align 1.0
 
