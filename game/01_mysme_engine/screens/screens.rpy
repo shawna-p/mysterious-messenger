@@ -37,7 +37,6 @@ style button:
     insensitive_background None
 
 style button_text is gui_text:
-    properties gui.text_properties("button")
     yalign 0.5 xalign 0.0
     text_align 0.0
     idle_color "#ababab"
