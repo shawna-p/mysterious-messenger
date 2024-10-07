@@ -53,8 +53,7 @@ style label_text is gui_text:
     size 30
     color "#FFF"
 
-style prompt_text is gui_text:
-    properties gui.text_properties("prompt")
+style prompt_text is gui_text
 
 
 style bar:
