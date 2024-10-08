@@ -198,17 +198,6 @@ define gui.interface_text_size = 30
 ## The size of labels in the game's user interface.
 define gui.label_text_size = 30
 
-## Bars, Scrollbars, and Sliders ###############################################
-##
-## These control the look and size of bars, scrollbars, and sliders.
-##
-## The default GUI only uses sliders and vertical scrollbars. All of the other
-## bars are only used in creator-written screens.
-
-## What to do with unscrollable scrollbars in the gui. "hide" hides them, while
-## None shows them.
-define gui.unscrollable = "hide"
-
 
 ## Localization ################################################################
 
