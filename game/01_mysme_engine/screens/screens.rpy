@@ -54,7 +54,6 @@ style label_text is gui_text:
 
 style prompt_text is gui_text
 
-
 style bar:
     ysize 22
     left_bar Frame("gui/bar/left.png", 4, 4, tile=False)
@@ -281,11 +280,10 @@ screen input(prompt):
             text prompt style "input_prompt"
             input id "input"
 
-style input_prompt is default
 
 style input_prompt:
+    is default
     xalign 0.0
-    properties gui.text_properties("input_prompt")
 
 style input:
     xalign 0.0
