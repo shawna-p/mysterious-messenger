@@ -36,7 +36,8 @@ style button:
     selected_hover_background None
     insensitive_background None
 
-style button_text is gui_text:
+style button_text:
+    is gui_text
     yalign 0.5 xalign 0.0
     text_align 0.0
     idle_color "#ababab"
@@ -47,7 +48,8 @@ style button_text is gui_text:
     font gui.sans_serif_1
 
 
-style label_text is gui_text:
+style label_text:
+    is gui_text
     properties gui.text_properties("label", accent=True)
     size 30
     color "#FFF"
