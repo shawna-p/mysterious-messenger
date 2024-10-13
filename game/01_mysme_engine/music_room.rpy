@@ -244,7 +244,7 @@ style music_room_title:
     background None xalign 0.5 bottom_padding 15
     yalign 0.5 xsize config.screen_width-440
 style music_room_title_text:
-    font gui.name_text_font
+    font gui.sans_serif_1xb
     size 40 xalign 0.5
     text_align 0.5
     color "#fff"
