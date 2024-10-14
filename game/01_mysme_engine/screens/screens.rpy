@@ -211,7 +211,6 @@ style say_label:
 
 style say_dialogue:
     is default
-    properties gui.text_properties("dialogue")
     xpos 20
     xsize 700
     ypos 75
