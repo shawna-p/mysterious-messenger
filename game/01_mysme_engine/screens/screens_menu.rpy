@@ -531,14 +531,6 @@ style route_select_button:
 ## image, and text describing the contents of the save slot. A save slot uses
 ## image files in gui/button, like the other kinds of buttons.
 
-## The save slot button.
-define gui.slot_button_width = 715
-define gui.slot_button_height = 142
-define gui.slot_button_borders = Borders(15, 10, 15, 10)
-define gui.slot_button_text_size = 12
-define gui.slot_button_text_xalign = 0.0
-define gui.slot_button_text_idle_color = gui.idle_small_color
-
 ## The width and height of thumbnails used by the save slots.
 define config.thumbnail_width = 122
 define config.thumbnail_height = 122
