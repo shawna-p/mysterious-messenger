@@ -360,14 +360,6 @@ style slot_hbox:
     spacing 8
     xsize 695
 
-## The save slot button.
-# define gui.slot_button_width = 715
-# define gui.slot_button_height = 142
-# define gui.slot_button_borders = Borders(15, 10, 15, 10)
-define gui.slot_button_text_size = 12
-define gui.slot_button_text_xalign = 0.0
-define gui.slot_button_text_idle_color = gui.idle_small_color
-
 style slot_button:
     is gui_button
     properties gui.button_properties("slot_button")
@@ -375,11 +367,12 @@ style slot_button:
     xysize (715, 142)
     background Frame("gui/button/slot_[prefix_]background.png", 15, 10, 15, 10, tile=False)
 
-
-
 style slot_button_text:
     is gui_button_text
     properties gui.button_text_properties("slot_button")
+    size 12
+    xalign 0.0 text_align 0.0
+    idle_color gui.idle_small_color
 
 
 style slider_label is pref_label
