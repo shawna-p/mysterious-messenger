@@ -389,7 +389,7 @@ style pref_label_text:
     yalign 1.0
 
 style pref_vbox:
-    xsize 420#190
+    xsize 420
 
 style radio_vbox:
     spacing 0
@@ -406,9 +406,6 @@ style check_vbox:
 style check_button:
     padding (50, 4, 4, 4)
     foreground "gui/button/check_[prefix_]foreground.png"
-
-style check_button_text:
-    properties gui.button_text_properties("check_button")
 
 style slider_slider:
     xsize 296
