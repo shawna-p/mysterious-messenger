@@ -409,7 +409,6 @@ style slider_slider:
 
 style slider_button:
     is gui_button
-    properties gui.button_properties("slider_button")
     yalign 0.5
     left_margin 9
 
