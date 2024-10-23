@@ -414,7 +414,6 @@ style slider_button:
 
 style slider_button_text:
     is gui_button_text
-    properties gui.button_text_properties("slider_button")
 
 style slider_vbox:
     xsize 380
