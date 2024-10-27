@@ -563,9 +563,6 @@ style help_text is gui_text
 style help_button:
     xmargin 7
 
-style help_button_text:
-    properties gui.button_text_properties("help_button")
-
 style help_label:
     xsize 211
     right_padding 17
