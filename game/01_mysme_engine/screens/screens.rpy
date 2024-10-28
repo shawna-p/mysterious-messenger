@@ -743,7 +743,6 @@ style confirm_prompt_text:
     layout "subtitle"
 
 style confirm_button:
-    #properties gui.button_properties("confirm_button")
     xsize 200
     background "menu_popup_btn"
     padding(20,20)
