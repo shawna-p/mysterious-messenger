@@ -749,7 +749,6 @@ style confirm_button:
     hover_foreground "menu_popup_btn_hover"
 
 style confirm_button_text:
-    properties gui.button_text_properties("confirm_button")
     color "#eeeeee"
     hover_color "#ffffff"
     xalign 0.5
