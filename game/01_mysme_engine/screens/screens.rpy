@@ -50,7 +50,6 @@ style button_text:
 
 style label_text:
     is gui_text
-    properties gui.text_properties("label", accent=True)
     size 30
     color "#FFF"
 
