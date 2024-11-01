@@ -673,7 +673,7 @@ screen script_error(message, link=False, link_text=False):
             if link:
                 null height -53
                 textbutton link_text:
-                    style 'button_text'
+                    yalign 0.5
                     text_layout "subtitle"
                     text_style 'button_text'
                     text_text_align 0.5 xalign 0.5
