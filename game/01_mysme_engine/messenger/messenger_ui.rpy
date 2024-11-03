@@ -299,7 +299,7 @@ screen phone_overlay(is_menu_pause=False):
                                         label='just_return')])
 
     frame:
-        ypos 105 yalign 0.5
+        ypos 105 yanchor 0.5
         if starter_story:
             xalign 0.5
         else:
