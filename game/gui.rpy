@@ -6,6 +6,8 @@
 ## to run before init statements in any other file.
 init offset = -20
 
+define config.check_conflicting_properties = True
+
 ## Calling gui.init resets the styles to sensible default values, and sets the
 ## width and height of the game.
 init python:
