@@ -271,7 +271,7 @@ screen input(prompt):
     window:
 
         vbox:
-            xalign 0.0
+            xanchor 0.0
             xpos 20
             xsize 700
             ypos 75
