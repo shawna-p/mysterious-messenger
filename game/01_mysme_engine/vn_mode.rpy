@@ -127,7 +127,7 @@ default vn_choice = False
 
 screen vn_overlay():
 
-    add my_menu_clock xalign 0.0 yalign 0.0 xpos 5
+    add my_menu_clock xanchor 0.0 yanchor 0.0 xpos 5
 
 
 ################################################
