@@ -1246,7 +1246,7 @@ screen sound_settings():
             frame:
                 xsize 675 bottom_padding 25
                 background "menu_settings_panel"
-                padding(10,10)
+                xpadding 10 top_padding 10
                 has vbox
                 xalign 0.5
                 spacing 15
