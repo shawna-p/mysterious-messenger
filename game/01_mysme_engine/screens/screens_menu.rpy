@@ -1043,11 +1043,6 @@ screen menu_header(title, return_action=NullAction,
                 idle "settings_gear"
                 hover "settings_gear_rotate"
                 focus_mask None
-                # Eventually I'd like to get the settings button
-                # working during phone calls, but there are too
-                # many bugs so it's commented out
-                # if renpy.get_screen("in_call") and not renpy.get_screen("choice"):
-                #     action [Preference("auto-forward", "disable"), Show("preferences")]
                 if (not renpy.get_screen("choice")
                         and not renpy.get_screen("in_call")
                         and not text_person):
