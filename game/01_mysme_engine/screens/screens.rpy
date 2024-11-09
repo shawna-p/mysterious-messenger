@@ -713,13 +713,9 @@ screen messenger_error():
                                 Hide('messenger_error')]
                         keysym "rollback"
 
-style confirm_frame is gui_frame
-style confirm_prompt is gui_prompt
-style confirm_prompt_text is gui_prompt_text
-style confirm_button is gui_medium_button
-style confirm_button_text is gui_medium_button_text
 
 style confirm_frame:
+    is gui_frame
     padding (34, 34)
     xalign .5
     yalign .5
@@ -736,18 +732,22 @@ style confirm_hbox:
     xalign 0.5
     spacing 100
 
+style confirm_prompt is gui_prompt
 style confirm_prompt_text:
+    is gui_prompt_text
     font gui.sans_serif_1
     text_align 0.5
     layout "subtitle"
 
 style confirm_button:
+    is gui_medium_button
     xsize 200
     background "menu_popup_btn"
     padding(20,20)
     hover_foreground "menu_popup_btn_hover"
 
 style confirm_button_text:
+    is gui_medium_button_text
     color "#eeeeee"
     hover_color "#ffffff"
     xalign 0.5
