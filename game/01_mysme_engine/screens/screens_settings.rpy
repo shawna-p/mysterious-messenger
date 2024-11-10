@@ -1261,11 +1261,10 @@ screen sound_settings():
                     spacing 5
                     yalign 0.5
                     xsize 625
-                    for c in all_characters:
-                        if c not in novoice_chars:
-                            # Unknown and Saeran are lumped into Ray's
-                            # voice button and MC doesn't speak
-                            use voice_buttons(c)
+                    for c in [x for x in all_characters if x not in novoice_chars]:
+                        # Unknown and Saeran are lumped into Ray's
+                        # voice button and MC doesn't speak
+                        use voice_buttons(c)
                     use voice_buttons("Other", 'other')
 
             frame:
