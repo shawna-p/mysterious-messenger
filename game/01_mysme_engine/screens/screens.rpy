@@ -732,7 +732,8 @@ style confirm_hbox:
     xalign 0.5
     spacing 100
 
-style confirm_prompt is gui_prompt
+style confirm_prompt:
+    is gui_prompt
 style confirm_prompt_text:
     is gui_prompt_text
     font gui.sans_serif_1
