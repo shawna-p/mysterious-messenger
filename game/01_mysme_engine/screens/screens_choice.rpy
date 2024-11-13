@@ -303,13 +303,15 @@ style choice_vbox:
     yalign 0.5
     spacing 5
 
-style choice_button is default:
+style choice_button:
+    is default
     background Frame("gui/button/choice[_prefix]_background.png", 40, 30, 40, 30)
     xsize 740 ysize 221
     padding (40, 30)
     activate_sound "audio/sfx/UI/answer_select.mp3"
 
-style choice_button_text is default:
+style choice_button_text:
+    is default
     idle_color "#000"
     hover_color "#000"
     font gui.serif_1
