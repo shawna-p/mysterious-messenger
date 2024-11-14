@@ -1301,13 +1301,12 @@ screen sound_settings():
 
 style sound_settings_frame:
     is default
-    xysize(675,400)
-    background "menu_settings_panel" padding(10,10)
+    xysize (675, 400)
+    background "menu_settings_panel" padding (10, 10)
 
 style other_settings_frame:
-    is default
-    background "menu_settings_panel" padding (10,10)
-    xsize 675
+    is sound_settings_frame
+    ysize None
 
 style sound_settings_vbox:
     is default
