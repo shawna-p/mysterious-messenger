@@ -838,16 +838,15 @@ transform notify_appear:
     on hide:
         linear .5 alpha 0.0
 
-style notify_frame is empty
-style notify_text is gui_text
 
 style notify_frame:
+    is empty
     ypos 38
-
     background Frame("gui/notify.png", 14, 5, 34, 5, tile=False)
     padding (14, 5, 34, 5)
 
 style notify_text:
+    is gui_text
     size 25
 
 
