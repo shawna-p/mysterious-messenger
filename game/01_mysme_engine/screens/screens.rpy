@@ -795,19 +795,19 @@ transform delayed_blink(delay, cycle):
         repeat
 
 
-style skip_frame is empty
-style skip_text is gui_text
-style skip_triangle is skip_text
 
 style skip_frame:
+    is empty
     ypos 9
     background Frame("gui/skip.png", 14, 5, 43, 5, False)
     padding (14, 5, 43, 5)
 
 style skip_text:
+    is gui_text
     size 25
 
 style skip_triangle:
+    is skip_text
     ## We have to use a font that has the BLACK RIGHT-POINTING SMALL TRIANGLE
     ## glyph in it.
     font "DejaVuSans.ttf"
