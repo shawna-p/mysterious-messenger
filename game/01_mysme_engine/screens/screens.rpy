@@ -553,13 +553,13 @@ screen gamepad_help():
     textbutton _("Calibrate") action GamepadCalibrate()
 
 
-style help_button is gui_button
 style help_button_text is gui_button_text
 style help_label is gui_label
 style help_label_text is gui_label_text
 style help_text is gui_text
 
 style help_button:
+    is gui_button
     xmargin 7
 
 style help_label:
