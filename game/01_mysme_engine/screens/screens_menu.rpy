@@ -1888,7 +1888,6 @@ screen developer_settings():
                         style_prefix "other_settings_end"
                         action [Hide('developer_settings'),
                                 Show('multitouch_test')]
-
             else:
                 hbox:
                     align (0.5, 0.5)
