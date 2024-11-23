@@ -1240,11 +1240,12 @@ screen heart_exchange_confirm(heart_to_exchange):
                             CConfirm("Completed!")]
                 textbutton _("Cancel") action Hide('heart_exchange_confirm')
 
-
     ## Right-click and escape answer "no".
     key "game_menu" action Hide('heart_exchange_confirm')
 
+
 init python:
+
     class SpendHourglass(Show):
         """
         A class to simplify showing a confirmation popup to the player
@@ -1296,9 +1297,9 @@ screen hourglass_spend_confirmation(msg, num_hg, action):
                     CConfirm("You don't have enough hourglasses."))
                 textbutton _("Cancel") action Hide('hourglass_spend_confirmation')
 
-
     ## Right-click and escape answer "no".
     key "game_menu" action Hide('hourglass_spend_confirmation')
+
 
 style heart_hg_exchange_frame:
     align (0.5, 0.5)
@@ -1333,11 +1334,11 @@ image link_hex = "Menu Screens/Chat Hub/link-creaticca-creative-agency.webp"
 ## Icon made by Pixel perfect from www.flaticon.com
 image exit_hex = "Menu Screens/Chat Hub/exit-pixel-perfect.webp"
 
-
 image new_profile_update = Frame("Menu Screens/Chat Hub/main_profile_new_update.webp", 0, 0)
 image no_profile_update = Frame("Menu Screens/Chat Hub/main_profile_normal.webp", 0, 0)
 
 init python:
+
     def MMMainChatroom():
         """Return the action used when clicking Main Chatroom on the chat hub."""
         if persistent.real_time:
@@ -1380,6 +1381,7 @@ init python:
         """Return the action used to view a character's profile."""
         return [SetField(person, 'seen_updates', True),
                 Show('chara_profile', who=person)]
+
 
 screen chat_home(reshow=False):
 
@@ -1886,7 +1888,6 @@ screen developer_settings():
                         style_prefix "other_settings_end"
                         action [Hide('developer_settings'),
                                 Show('multitouch_test')]
-
             else:
                 hbox:
                     align (0.5, 0.5)
