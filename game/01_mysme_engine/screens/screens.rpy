@@ -633,6 +633,7 @@ screen no_modal_confirm(message, yes_action, no_action=False):
     style_prefix 'confirm'
     add 'gui/overlay/confirm.png'
     frame:
+        modal True # Prevent clicks under the frame
         vbox:
             label _(message) style 'confirm_prompt' xalign 0.5
             hbox:
