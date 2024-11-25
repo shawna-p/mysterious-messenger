@@ -918,7 +918,7 @@ screen email_choice(items, email):
         style_prefix 'email_choice'
         for num, i in enumerate(items):
             textbutton i[0] at the_anim(float(num*0.2)):
-                if show_email_answers and email.is_correct_choice(i[1]):
+                if persistent.show_email_answers and email.is_correct_choice(i[1]):
                     foreground 'seen_choice_check'
                 action [Function(email.finish_choice, i[1]),
                     Hide('email_choice')]

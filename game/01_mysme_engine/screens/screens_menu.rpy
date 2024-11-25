@@ -2021,12 +2021,12 @@ screen email_testing():
                     xysize (350, 80)
                     action CConfirm("Are you sure you want to invite all the guests at once?",
                         Function(invite_all_guests))
-                textbutton "Indicate correct answer ({})".format("ON" if show_email_answers else "OFF"):
+                textbutton "Indicate correct answer ({})".format("ON" if persistent.show_email_answers else "OFF"):
                     style_prefix 'other_settings_end'
                     align (0.5, 0.5)
                     xysize (270, 80)
                     text_size 28 text_line_spacing -10
-                    action ToggleVariable('show_email_answers')
+                    action ToggleVariable('persistent.show_email_answers')
 
 label simulate_party:
     hide screen email_testing
@@ -2039,7 +2039,7 @@ label simulate_party:
     return
 
 default testing_emails = False
-default show_email_answers = False
+default persistent.show_email_answers = False
 
 init python:
 
