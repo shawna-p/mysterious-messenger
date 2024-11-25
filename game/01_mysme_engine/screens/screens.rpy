@@ -633,6 +633,7 @@ screen no_modal_confirm(message, yes_action, no_action=False):
     style_prefix 'confirm'
     add 'gui/overlay/confirm.png'
     frame:
+        modal True # Prevent clicks under the frame
         vbox:
             label _(message) style 'confirm_prompt' xalign 0.5
             hbox:
@@ -651,7 +652,7 @@ screen no_modal_confirm(message, yes_action, no_action=False):
                         + "exit this chatroom? Please note that you cannot "
                         + "participate once you leave. If you want to enter "
                         + "this chatroom again, you will need to buy it back."),
-                                    [Jump('exit_item_early')])], NullAction())
+                                    Jump('exit_item_early'))], NullAction())
         repeat True
 
 ## Screen which displays script error messages to the user
