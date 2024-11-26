@@ -2098,7 +2098,6 @@ screen program_updates(update=None):
     frame:
         style_prefix 'update_box'
         text "Your program version: v[config.version]"
-        # text 'Ignored: ' + ', '.join(persistent.ignored_versions)
 
         imagebutton:
             auto 'input_close_%s'
