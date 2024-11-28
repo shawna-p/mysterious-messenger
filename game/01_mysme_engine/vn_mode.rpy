@@ -208,7 +208,7 @@ screen history():
 
 
 ## This determines what tags are allowed to be displayed on the history screen.
-define gui.history_allow_tags = set(['b', 'i'])
+define gui.history_allow_tags = set(['b', 'i', 'u', 's', 'font', 'color', 'size'])
 
 ## The number of blocks of dialogue history Ren'Py will keep.
 define config.history_length = 250
