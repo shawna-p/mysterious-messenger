@@ -169,12 +169,9 @@ screen history():
         mousewheel True
         draggable True
         side_yfill True
-        ysize config.screen_height-100
-        yalign 1.0
+        style_prefix "history"
 
         vbox:
-            style_prefix "history"
-            spacing 20
             null height 5
             for h in _history_list:
 
@@ -212,6 +209,13 @@ define gui.history_allow_tags = set(['b', 'i', 'u', 's', 'font', 'color', 'size'
 
 ## The number of blocks of dialogue history Ren'Py will keep.
 define config.history_length = 250
+
+style history_viewport:
+    ysize config.screen_height-100
+    yalign 1.0
+
+style history_vbox:
+    spacing 20
 
 ## The position, width, and alignment of the label giving the name of the
 ## speaking character.
