@@ -152,13 +152,10 @@ screen history():
 
     # Close button
     button:
-        background "#00000066"
-        xalign 0.5 yalign 0.0
-        xysize (config.screen_width, 99)
+        style_prefix 'history_close'
         action Hide('history')
         keysym ["rollback", "game_menu"]
         text "Close" style "CG_close_button_text":
-            yalign 0.5 xpos 20
             if persistent.dialogue_outlines:
                 outlines [ (2, "#000") ]
                 font gui.sans_serif_1xb
@@ -250,3 +247,11 @@ style history_label:
 style history_label_text:
     is gui_label_text
     xalign 0.5
+
+style history_close_button:
+    background "#00000066"
+    xalign 0.5 yalign 0.0
+    xysize (config.screen_width, 99)
+style history_close_text:
+    is CG_close_button_text
+    yalign 0.5 xpos 20
