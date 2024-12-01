@@ -627,6 +627,7 @@ screen confirm(message, yes_action, no_action=False, show_link=False):
     if no_action:
         key "game_menu" action no_action
 
+define exit_item_early_msg = _("Do you really want to exit this chatroom? Please note that you cannot participate once you leave. If you want to enter this chatroom again, you will need to buy it back.")
 # Screen used specifically for the confirm prompt during a continuous menu
 screen no_modal_confirm(message, yes_action, no_action=False):
     zorder 200
@@ -648,11 +649,9 @@ screen no_modal_confirm(message, yes_action, no_action=False):
     # can replace this screen with the regular confirm screen.
     timer 0.1:
         action If(on_screen_choices == 0,
-                [Hide('no_modal_confirm'), CConfirm(("Do you really want to "
-                        + "exit this chatroom? Please note that you cannot "
-                        + "participate once you leave. If you want to enter "
-                        + "this chatroom again, you will need to buy it back."),
-                                    Jump('exit_item_early'))])
+                [Hide('no_modal_confirm'),
+                CConfirm(__(exit_item_early_msg),
+                Jump('exit_item_early'))])
         repeat True
 
 ## Screen which displays script error messages to the user
