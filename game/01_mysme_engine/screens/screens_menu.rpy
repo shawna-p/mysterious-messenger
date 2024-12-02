@@ -1359,9 +1359,7 @@ init python:
         Return the action used to refresh the home screen. Performs several
         actions such as auto-saving and checking for Honey Buddha chips.
         """
-        return If(renpy.get_screen('chip_tap')
-                    or renpy.get_screen('chip_cloud')
-                    or renpy.get_screen('chip_end'),
+        return If(renpy.get_screen('chip_bag'), # The tag
                 SetField(persistent, 'just_loaded', False),
                 [SetField(persistent, 'just_loaded', False),
                 SetVariable('text_person', None),
