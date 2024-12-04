@@ -279,8 +279,7 @@ screen phone_overlay(is_menu_pause=False):
                             SetVariable('gamestate', VNMODE),
                             Function(purge_temp_texts),
                             If(is_menu_pause,
-                                Function(renpy.jump_out_of_context,
-                                    label='chat_end'),
+                                Start('chat_end'),
                                 Jump('chat_end'))]
                 else:
                     idle 'skip_to_end_idle'
