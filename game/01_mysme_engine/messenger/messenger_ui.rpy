@@ -292,10 +292,8 @@ screen phone_overlay(is_menu_pause=False):
                         else:
                             action If(renpy.call_stack_depth() > 1,
                                 [Function(renpy.pop_call),
-                                    Function(renpy.jump_out_of_context,
-                                        label='just_return')],
-                                [Function(renpy.jump_out_of_context,
-                                        label='just_return')])
+                                    Start('just_return')],
+                                [Start('just_return')])
 
     frame:
         ypos 105 yanchor 0.5
