@@ -348,8 +348,7 @@ screen phone_overlay(is_menu_pause=False):
                 # Back button during the chat creator jumps back to it
                 elif (is_main_menu_replay):
                     action If(is_menu_pause,
-                        Function(renpy.jump_out_of_context,
-                            label='chatroom_creator_setup'),
+                        Start('chatroom_creator_setup'),
                         Jump('chatroom_creator_setup'))
                 # Back button when the chat is expired jumps out of it
                 elif (observing or current_timeline_item.currently_expired):
