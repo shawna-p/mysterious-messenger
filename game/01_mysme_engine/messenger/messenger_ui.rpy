@@ -376,8 +376,7 @@ screen phone_overlay(is_menu_pause=False):
                         + "participate once you leave. If you want to enter "
                         + "this chatroom again, you will need to buy it back."),
                                     [If(is_menu_pause,
-                                        Function(renpy.jump_out_of_context,
-                                            label='exit_item_early'),
+                                        Start('exit_item_early'),
                                         Jump('exit_item_early'))])
 
 
