@@ -364,8 +364,7 @@ screen phone_overlay(is_menu_pause=False):
                         + "enter this chatroom again, you will need to buy it "
                         + "back."), yes_action=[Hide('no_modal_confirm'),
                                 If(is_menu_pause,
-                                    Function(renpy.jump_out_of_context,
-                                        label='exit_item_early'),
+                                    Start('exit_item_early'),
                                     Jump('exit_item_early'))],
                             no_action=[Hide('no_modal_confirm')])
                 # Otherwise, the player is trying to exit the chat while
