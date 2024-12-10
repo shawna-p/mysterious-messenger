@@ -1111,8 +1111,7 @@ screen menu_header(title, return_action=NullAction,
                                     + " text message? You won't be able to"
                                     + " continue this conversation."),
                                     If(_menu and not main_menu,
-                                        Function(renpy.jump_out_of_context,
-                                            label='leave_inst_text'),
+                                        Start('leave_inst_text'),
                                         Jump('leave_inst_text')))
                     else:
                         action If(_menu and not main_menu,
