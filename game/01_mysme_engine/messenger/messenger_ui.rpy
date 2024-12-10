@@ -222,6 +222,17 @@ init python:
                 Fixed('charging_icon',
                 xysize=(18,26), xalign=0.5, yalign=0.4)), 0.5
 
+    def MMGoTo(label, condition=None):
+        """
+        A convenience action which will jump out of context to a label if
+        the condition is True, otherwise it will jump normally.
+        """
+        if condition is None:
+            condition = store._menu
+        if condition:
+            return Start(label)
+        return Jump(label)
+
 image battery_remaining = DynamicDisplayable(battery_level_bar)
 image battery_empty = DynamicDisplayable(battery_empty_bar)
 image charging_icon = DynamicDisplayable(battery_charge_icon)
@@ -278,9 +289,7 @@ screen phone_overlay(is_menu_pause=False):
                             SetField(persistent, 'on_route', True),
                             SetVariable('gamestate', VNMODE),
                             Function(purge_temp_texts),
-                            If(is_menu_pause,
-                                Start('chat_end'),
-                                Jump('chat_end'))]
+                            MMGoTo("chat_end", is_menu_pause)]
                 else:
                     idle 'skip_to_end_idle'
                     hover 'skip_to_end_hover'
