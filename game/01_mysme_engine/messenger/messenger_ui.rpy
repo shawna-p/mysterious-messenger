@@ -379,9 +379,7 @@ screen phone_overlay(is_menu_pause=False):
                         + "exit this chatroom? Please note that you cannot "
                         + "participate once you leave. If you want to enter "
                         + "this chatroom again, you will need to buy it back."),
-                                    [If(is_menu_pause,
-                                        Start('exit_item_early'),
-                                        Jump('exit_item_early'))])
+                                MMGoTo("exit_item_early", is_menu_pause))
 
 
 #************************************
