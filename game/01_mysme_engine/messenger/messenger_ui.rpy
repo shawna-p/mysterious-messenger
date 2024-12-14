@@ -368,9 +368,7 @@ screen phone_overlay(is_menu_pause=False):
                         + "cannot participate once you leave. If you want to "
                         + "enter this chatroom again, you will need to buy it "
                         + "back."), yes_action=[Hide('no_modal_confirm'),
-                                If(is_menu_pause,
-                                    Start('exit_item_early'),
-                                    Jump('exit_item_early'))],
+                                MMGoTo("exit_item_early", is_menu_pause)],
                             no_action=[Hide('no_modal_confirm')])
                 # Otherwise, the player is trying to exit the chat while
                 # it's still "active"
