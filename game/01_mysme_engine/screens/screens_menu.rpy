@@ -1110,7 +1110,8 @@ screen menu_header(title, return_action=NullAction,
                         action CConfirm(("Do you really want to leave this"
                                     + " text message? You won't be able to"
                                     + " continue this conversation."),
-                                    MMGoTo("leave_inst_text", _menu and not main_menu))
+                                    MMGoTo("leave_inst_text",
+                                        _menu and not main_menu))
                     else:
                         action If(_menu and not main_menu,
                             Return(), return_action)
