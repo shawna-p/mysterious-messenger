@@ -1053,10 +1053,6 @@ screen menu_header(title, return_action=NullAction,
                                 ShowMenu('preferences')]
                     else:
                         action ShowMenu("preferences")
-                else:
-                    action Function(print, "Settings won't work because: choice? ",
-                        renpy.get_screen("choice"), " in_call? ", renpy.get_screen("in_call"),
-                        " text person? ", text_person)
         else:
             null width 72
 
