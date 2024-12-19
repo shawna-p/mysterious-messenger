@@ -363,11 +363,8 @@ screen phone_overlay(is_menu_pause=False):
                 elif on_screen_choices > 0:
                     # Continuous menus must continue on or their animation
                     # timing will de-sync.
-                    action Show('no_modal_confirm', message=("Do you really "
-                        + "want to exit this chatroom? Please note that you "
-                        + "cannot participate once you leave. If you want to "
-                        + "enter this chatroom again, you will need to buy it "
-                        + "back."), yes_action=[Hide('no_modal_confirm'),
+                    action Show('no_modal_confirm', message=MM_LEAVE_EARLY,
+                            yes_action=[Hide('no_modal_confirm'),
                                 MMGoTo("exit_item_early", is_menu_pause)],
                             no_action=[Hide('no_modal_confirm')])
                 # Otherwise, the player is trying to exit the chat while
@@ -379,6 +376,7 @@ screen phone_overlay(is_menu_pause=False):
                         + "this chatroom again, you will need to buy it back."),
                                 MMGoTo("exit_item_early", is_menu_pause))
 
+define MM_LEAVE_EARLY = _("Do you really want to exit this chatroom? Please note that you cannot participate once you leave. If you want to enter this chatroom again, you will need to buy it back.")
 
 #************************************
 # Countdown Screen
