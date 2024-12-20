@@ -370,10 +370,7 @@ screen phone_overlay(is_menu_pause=False):
                 # Otherwise, the player is trying to exit the chat while
                 # it's still "active"
                 else:
-                    action CConfirm(("Do you really want to "
-                        + "exit this chatroom? Please note that you cannot "
-                        + "participate once you leave. If you want to enter "
-                        + "this chatroom again, you will need to buy it back."),
+                    action CConfirm(MM_LEAVE_EARLY,
                                 MMGoTo("exit_item_early", is_menu_pause))
 
 define MM_LEAVE_EARLY = _("Do you really want to exit this chatroom? Please note that you cannot participate once you leave. If you want to enter this chatroom again, you will need to buy it back.")
