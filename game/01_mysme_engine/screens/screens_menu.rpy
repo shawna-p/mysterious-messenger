@@ -1103,9 +1103,7 @@ screen menu_header(title, return_action=NullAction,
                             and ((renpy.get_screen('text_message_screen')
                                 and len(renpy.get_return_stack()) > 0)
                             or renpy.get_screen('text_message_pause_screen'))):
-                        action CConfirm(("Do you really want to leave this"
-                                    + " text message? You won't be able to"
-                                    + " continue this conversation."),
+                        action CConfirm(MM_LEAVE_TEXT_EARLY,
                                     MMGoTo("leave_inst_text",
                                         _menu and not main_menu))
                     else:
@@ -1127,6 +1125,8 @@ screen menu_header(title, return_action=NullAction,
             align (0.5, 0.0)
             spacing 10
             transclude
+
+define MM_LEAVE_TEXT_EARLY = _("Do you really want to leave this text message? You won't be able to continue this conversation.")
 
 style hg_hp_hbox:
     spacing -52
