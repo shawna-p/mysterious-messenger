@@ -1025,8 +1025,7 @@ screen guest_info_popup(guest, unlocked):
                             vbox:
                                 null height 10
                                 add 'plot_lock' align (0.5, 0.5)
-                                text ("Information will be unlocked when"
-                                + " this guest attends the party.")
+                                text ("Information will be unlocked when this guest attends the party.")
                 vbox:
                     fixed:
                         xsize 620//2
