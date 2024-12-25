@@ -1199,9 +1199,8 @@ init -6 python:
             print("ERROR while checking for updates:", e)
             print("Could not connect to the internet to check for updates")
             if force:
-                renpy.show_screen("confirm", message=("Could not check for "
-                    + "updates. Make sure you're connected to the internet "
-                    + "before trying again."),
+                renpy.show_screen("confirm",
+                    message=("Could not check for updates. Make sure you're connected to the internet before trying again."),
                     yes_action=Hide('confirm'))
             return
 
