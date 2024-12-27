@@ -1157,8 +1157,7 @@ init -6 python:
             random_hour -= 24
 
         # Now return the time, formatted as "00:00" in a string
-        return ("{:02d}".format(random_hour) + ":"
-            + "{:02d}".format(random_min), new_day_diff)
+        return ("{:02d}:{:02d}".format(random_hour, random_min), new_day_diff)
 
     def played_all_available():
         """Return True if the player has played all available story items."""
