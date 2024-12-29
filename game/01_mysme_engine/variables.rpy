@@ -417,9 +417,8 @@ init -6 python:
             """Return the time formatted as displayed for phone calls."""
 
             # Returns a time like 10:15 PM, 25/10
-            return (self.twelve_hour + ":" + self.minute
-                + " " + self.am_pm + ", " + self.day + "/"
-                + self.month_num)
+            return "{}:{} {}, {}/{}".format(self.twelve_hour, self.minute,
+                self.am_pm, self.day, self.month_num)
 
         def get_twelve_hour(self):
             """Return the time formatted as 10:45 AM"""
