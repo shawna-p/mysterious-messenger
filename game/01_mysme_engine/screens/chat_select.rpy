@@ -445,9 +445,7 @@ screen timeline_item_display(day, day_num, item, index):
                             Function(renpy.restart_interaction),
                             AutoSave()],
 
-                            CConfirm(("Would you like to"
-                                    + " participate in the chat conversation"
-                                    + " that has passed?"),
+                            CConfirm(("Would you like to participate in the chat conversation that has passed?"),
                                 [Function(item.buy_back),
                                 Function(renpy.retain_after_load),
                                 Function(renpy.restart_interaction),
