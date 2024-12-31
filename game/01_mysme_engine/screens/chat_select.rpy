@@ -513,9 +513,7 @@ screen timeline_item_display(day, day_num, item, index):
                 background story_mode.timeline_img(can_play_story_mode)
                 if story_mode.available and can_play_story_mode:
                     hover_foreground story_mode.timeline_img(can_play_story_mode)
-                    action CConfirm(("If you start the party"
-                            + " before answering a guest's emails, that guest"
-                            + " will not attend the party. Continue?"),
+                    action CConfirm(("If you start the party before answering a guest's emails, that guest will not attend the party. Continue?"),
                             [SetVariable('current_timeline_item',
                                     story_mode),
                                 Jump('play_timeline_item')])
