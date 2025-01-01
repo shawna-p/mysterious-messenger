@@ -422,8 +422,7 @@ init -6 python:
 
         def get_twelve_hour(self):
             """Return the time formatted as 10:45 AM"""
-
-            return self.twelve_hour + ':' + self.minute + ' ' + self.am_pm
+            return "{}:{} {}".format(self.twelve_hour, self.minute, self.am_pm)
 
         def get_text_msg_time(self):
             """Return the time formatted for text messages."""
