@@ -428,10 +428,8 @@ init -6 python:
             """Return the time formatted for text messages."""
 
             # Returns a time like 15/08/2020 11:58 PM
-            return (self.day + '/' + self.month_num
-                        + '/' + self.year + ' '
-                        + self.twelve_hour + ':'
-                        + self.minute + self.am_pm)
+            return "{}/{}/{} {}:{} {}".format(self.day, self.month_num,
+                self.year, self.twelve_hour, self.minute, self.am_pm)
 
         @property
         def text_separator_time(self):
