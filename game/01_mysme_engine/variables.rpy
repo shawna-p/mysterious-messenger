@@ -436,8 +436,8 @@ init -6 python:
             """Return the time formatted for the text message date separator."""
 
             # Returns a time like 2020.08.15 Saturday
-            return (self.year + '.' + self.month_num + '.' + self.day
-                + ' ' + self.weekday)
+            return "{}.{}.{} {}".format(self.year, self.month_num, self.day,
+                self.weekday)
 
         def has_occurred(self):
             """
