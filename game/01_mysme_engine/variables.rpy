@@ -731,11 +731,8 @@ init -6 python:
         argument.
         """
 
-        return [
-                (renpy.TEXT_TAG, u"size=+10"),
-            ] + contents + [
-                (renpy.TEXT_TAG, u"/size"),
-            ]
+        return [(renpy.TEXT_TAG, u"size=+10"),
+            ] + contents + [(renpy.TEXT_TAG, u"/size")]
 
     def resize_center_bg(img):
         return Transform(img,
