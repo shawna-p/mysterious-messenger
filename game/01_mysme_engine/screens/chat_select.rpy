@@ -633,9 +633,7 @@ screen timeline_story_calls(phonecall, item, was_played):
                             Function(renpy.restart_interaction),
                             AutoSave()],
 
-                        CConfirm(("Would you like to"
-                                + " call " + phonecall.caller.name + " back to "
-                                + " participate in this phone call?"),
+                        CConfirm(("Would you like to call {} back to participate in this phone call?".format(phonecall.caller.name)),
                             [Function(phonecall.buy_back),
                             Function(renpy.retain_after_load),
                             Function(renpy.restart_interaction),
