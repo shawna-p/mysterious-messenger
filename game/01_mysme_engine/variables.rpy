@@ -422,25 +422,22 @@ init -6 python:
 
         def get_twelve_hour(self):
             """Return the time formatted as 10:45 AM"""
-
-            return self.twelve_hour + ':' + self.minute + ' ' + self.am_pm
+            return "{}:{} {}".format(self.twelve_hour, self.minute, self.am_pm)
 
         def get_text_msg_time(self):
             """Return the time formatted for text messages."""
 
             # Returns a time like 15/08/2020 11:58 PM
-            return (self.day + '/' + self.month_num
-                        + '/' + self.year + ' '
-                        + self.twelve_hour + ':'
-                        + self.minute + self.am_pm)
+            return "{}/{}/{} {}:{} {}".format(self.day, self.month_num,
+                self.year, self.twelve_hour, self.minute, self.am_pm)
 
         @property
         def text_separator_time(self):
             """Return the time formatted for the text message date separator."""
 
             # Returns a time like 2020.08.15 Saturday
-            return (self.year + '.' + self.month_num + '.' + self.day
-                + ' ' + self.weekday)
+            return "{}.{}.{} {}".format(self.year, self.month_num, self.day,
+                self.weekday)
 
         def has_occurred(self):
             """
@@ -734,11 +731,8 @@ init -6 python:
         argument.
         """
 
-        return [
-                (renpy.TEXT_TAG, u"size=+10"),
-            ] + contents + [
-                (renpy.TEXT_TAG, u"/size"),
-            ]
+        return [(renpy.TEXT_TAG, u"size=+10"),
+            ] + contents + [(renpy.TEXT_TAG, u"/size")]
 
     def resize_center_bg(img):
         return Transform(img,

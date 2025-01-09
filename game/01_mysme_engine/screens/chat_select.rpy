@@ -554,9 +554,7 @@ screen timeline_item_display(day, day_num, item, index):
                         [SetVariable('current_timeline_item', item),
                         Jump('execute_plot_branch')],
 
-                        CConfirm(("The game branches here."
-                                + " Missed story may appear depending on"
-                                + " the time right now. Continue?"),
+                        CConfirm(("The game branches here. Missed story may appear depending on the time right now. Continue?"),
                             [SetVariable('current_timeline_item', item),
                                 Jump('execute_plot_branch')]))
                 else:
@@ -565,13 +563,11 @@ screen timeline_item_display(day, day_num, item, index):
                         [SetVariable('current_timeline_item', item),
                         Jump('execute_plot_branch')],
 
-                        CConfirm(("The game branches here."
-                            + " Continue?"),
+                        CConfirm(("The game branches here. Continue?"),
                         [SetVariable('current_timeline_item', item),
                             Jump('execute_plot_branch')]))
             else:
-                action CConfirm(("Please proceed after"
-                            + " completing the unseen old conversations."))
+                action CConfirm(("Please proceed after completing the unseen old conversations."))
 
 ## Screen to display story calls
 screen timeline_story_calls(phonecall, item, was_played):
