@@ -687,9 +687,7 @@ screen timeline_continue_button(story_time):
     style_prefix 'timeline_continue'
     button:
         action If(played_all_available(),
-            CConfirm(("Would you like to purchase the next"
-                                + " day? You can participate in all "
-                                + " conversations for the next 24 hours."),
+            CConfirm(("Would you like to purchase the next day? You can participate in all  conversations for the next 24 hours."),
                 [Function(make_24h_available),
                     Function(check_and_unlock_story),
                     Function(renpy.retain_after_load),
