@@ -1206,9 +1206,9 @@ init -6 python:
                 # Program is up-to-date; reset available update and return
                 store.persistent.available_update = [ ]
                 if force:
-                    renpy.show_screen("confirm", message=("Your program is "
-                        + "already up-to-date."),
-                    yes_action=Hide('confirm'))
+                    renpy.show_screen("confirm",
+                        message=("Your program is already up-to-date."),
+                        yes_action=Hide('confirm'))
                 if not test:
                     return
             # Otherwise, notify the user that they can update to this
