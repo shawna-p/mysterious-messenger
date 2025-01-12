@@ -696,8 +696,8 @@ init -4 python:
                 return None
             # Special case for the second glowing bubble variant
             elif self.specBubble and self.specBubble in ['glow2', 'glow3']:
-                self.saved_bubble_bg = Frame("Bubble/Special/" + self.who.file_id
-                    + "_" + self.specBubble + ".webp", 25, 25)
+                self.saved_bubble_bg = Frame("Bubble/Special/{}_{}.webp".format(
+                    self.who.file_id, self.specBubble), 25, 25)
                 return self.saved_bubble_bg
             # Glow bubble
             elif self.bounce:
