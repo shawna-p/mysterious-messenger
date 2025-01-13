@@ -673,9 +673,8 @@ init -4 python:
             # Is a character trying to use someone else's bubble?
             if self.specBubble and len(self.specBubble.split('_')) > 2:
                 self.saved_bubble_bg = "Bubble/Special/" + self.specBubble + ".webp"
-                return self.saved_bubble_bg
 
-            if self.specBubble and self.specBubble not in ['glow2', 'glow3']:
+            elif self.specBubble and self.specBubble not in ['glow2', 'glow3']:
                 # First, check if there's a specific variant for the character
                 possible_ext = [".webp", ".png", ".jpg"]
                 bubble_name = ("Bubble/Special/" + self.who.file_id + "_"
@@ -683,33 +682,30 @@ init -4 python:
                 for ext in possible_ext:
                     if renpy.loadable(bubble_name + ext):
                         self.saved_bubble_bg = bubble_name + ext
-                        return bubble_name + ext
+                        return self.saved_bubble_bg
                 bubble_name = "Bubble/Special/" + self.specBubble
                 for ext in possible_ext:
                     if renpy.loadable(bubble_name + ext):
                         self.saved_bubble_bg = bubble_name + ext
-                        return bubble_name + ext
+                        return self.saved_bubble_bg
                 ScriptError("Could not find bubble background for",
                     self.specBubble, header="Chatrooms",
                     subheader="Custom Bubbles")
                 self.saved_bubble_bg = None
-                return None
             # Special case for the second glowing bubble variant
             elif self.specBubble and self.specBubble in ['glow2', 'glow3']:
                 self.saved_bubble_bg = Frame("Bubble/Special/{}_{}.webp".format(
                     self.who.file_id, self.specBubble), 25, 25)
-                return self.saved_bubble_bg
             # Glow bubble
             elif self.bounce:
                 self.saved_bubble_bg = self.who.glow_bubble_img
-                return self.saved_bubble_bg
             # Regular speech bubble
             elif self.who != answer:
                 self.saved_bubble_bg = self.who.reg_bubble_img
-                return self.saved_bubble_bg
             else:
                 self.saved_bubble_bg = None
-                return None
+
+            return self.saved_bubble_bg
 
         def alt_text(self, anti):
             """Return text for self-voicing."""
