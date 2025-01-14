@@ -60,9 +60,7 @@ init python:
                     or not has_alpha(self.the_name)
                     or not has_valid_chars(self.the_name)):
                 renpy.show_screen('notify',
-                    message=("Names must be between 2 and 20 characters long"
-                    + " and can only contain alphabet characters, dashes,"
-                    + " spaces, and apostrophes."))
+                    message=("Names must be between 2 and 20 characters long and can only contain alphabet characters, dashes, spaces, and apostrophes."))
             else:
                 persistent.name = self.the_name
                 renpy.save_persistent()
