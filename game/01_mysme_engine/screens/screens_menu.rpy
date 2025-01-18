@@ -621,10 +621,9 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
                             style_prefix 'save_desc'
                             has vbox
                             fixed:
-                                text ("This is a backup file that"
-                                        + " is auto-generated")
-                            text ("Today: " + access_json(mm_auto, 'today')
-                                    + access_json(mm_auto, 'day_suffix')):
+                                text ("This is a backup file that is auto-generated")
+                            text ("Today: {}{}".format(access_json(mm_auto, 'today'),
+                                    access_json(mm_auto, 'day_suffix'))):
                                 yalign 1.0
                         frame:
                             style_prefix 'save_stamp'
