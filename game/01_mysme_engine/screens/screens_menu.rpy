@@ -844,12 +844,8 @@ init python:
             load_next_day = True
             if the_day == next_day:
                 next_day = "NEXT"
-            load_msg = ("There is a difference between the save time and "
-                + "the present time. It may cause missed conversations or "
-                + "phone calls during the time gap. Would you like to "
-                + "continue?\n\nSave Time: " + the_day + " DAY "
-                + file_time + "\n\nLoad Time: " + next_day + " DAY "
-                + current_hour + ":" + current_min)
+            load_msg = "There is a difference between the save time and the present time. It may cause missed conversations or phone calls during the time gap. Would you like to continue?\n\nSave Time: {} DAY {}\n\nLoad Time: {} DAY {}:{}".format(
+                the_day, file_time, next_day, current_hour, current_min)
         else:
             load_msg = ("There is a difference between the save time and "
                 + "the present time. It may cause missed conversations or "
