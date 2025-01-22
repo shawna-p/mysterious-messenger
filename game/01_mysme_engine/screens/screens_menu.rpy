@@ -847,11 +847,8 @@ init python:
             load_msg = "There is a difference between the save time and the present time. It may cause missed conversations or phone calls during the time gap. Would you like to continue?\n\nSave Time: {} DAY {}\n\nLoad Time: {} DAY {}:{}".format(
                 the_day, file_time, next_day, current_hour, current_min)
         else:
-            load_msg = ("There is a difference between the save time and "
-                + "the present time. It may cause missed conversations or "
-                + "phone calls during the time gap. Would you like to "
-                + "continue?\n\nSave Time: {} DAY {}\n\nLoad Time: {} DAY {}:{}".format(
-                    the_day, file_time, the_day, current_hour, current_min))
+            load_msg = ("There is a difference between the save time and the present time. It may cause missed conversations or phone calls during the time gap. Would you like to continue?\n\nSave Time: {} DAY {}\n\nLoad Time: {} DAY {}:{}".format(
+                the_day, file_time, the_day, current_hour, current_min))
 
         if store.persistent.real_time:
             if load_next_day:
