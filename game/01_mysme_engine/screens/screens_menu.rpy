@@ -1812,16 +1812,9 @@ screen developer_settings():
                     ysize 80
                     xsize 285
                     yalign 1.0
-                    if not main_menu:
-                        action CConfirm(("Resetting your persistent variables may cause information to be lost. You will need to start a new game after resetting your persistent variables.\nContinue?"),
-                            [Function(reset_old_persistent),
-                                Jump('restart_game')])
-                    else:
-                        action CConfirm(("Resetting your persistent"
-                            + " variables may cause information to be lost. You "
-                            + "will need to start a new game after resetting your "
-                            + "persistent variables.\nContinue?"),
-                            [Function(reset_old_persistent)])
+                    action CConfirm(("Resetting your persistent variables may cause information to be lost. You will need to start a new game after resetting your persistent variables.\nContinue?"),
+                        [Function(reset_old_persistent),
+                            If(not main_menu, Jump('restart_game'))])
 
                 textbutton _('Documentation'):
                     style "other_settings_end_button"
