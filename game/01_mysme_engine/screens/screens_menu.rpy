@@ -1833,12 +1833,7 @@ screen developer_settings():
                         ysize 80
                         xsize 285
                         align (0.5, 0.5)
-                        action CConfirm("This will cause Mysterious Messenger to forget"
-                            + " all previously unlocked images and reset all persistent"
-                            + " albums in the {b}all_albums{/b} variable.\n\nDo you"
-                            + " want to continue?\n\n{size=-10}{i}Note: Resetting"
-                            + " albums will cause the script to be reloaded, which"
-                            + " may take a few seconds.{/i}{/size}",
+                        action CConfirm("This will cause Mysterious Messenger to forget all previously unlocked images and reset all persistent albums in the {b}all_albums{/b} variable.\n\nDo you want to continue?\n\n{size=-10}{i}Note: Resetting albums will cause the script to be reloaded, which may take a few seconds.{/i}{/size}",
                                 Function(reset_albums))
                     textbutton _("Chatroom Creator"):
                         style "other_settings_end_button"
