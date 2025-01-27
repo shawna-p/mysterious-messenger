@@ -785,9 +785,7 @@ screen other_settings():
             text "Max Chat Bubbles" style "settings_style" xpos 55 ypos 5
             vbox:
                 null height 15
-                text ("The maximum number of chat bubbles that can be loaded "
-                    + "in one chatroom. Too many chat bubbles may slow down "
-                    + "the game.")
+                text ("The maximum number of chat bubbles that can be loaded in one chatroom. Too many chat bubbles may slow down the game.")
                 hbox:
                     textbutton "20" action SetVariable('bubbles_to_keep', 20)
                     textbutton "40" action SetVariable('bubbles_to_keep', 40)
@@ -801,9 +799,7 @@ screen other_settings():
             textbutton _('Go to Mode Select'):
                 action [Function(renpy.full_restart)]
             textbutton _('Start Over'):
-                action CConfirm(("Are you sure you want to"
-                        + " start over? You'll be unable to return to this"
-                        + " point except through a save file."),
+                action CConfirm(("Are you sure you want to start over? You'll be unable to return to this point except through a save file."),
                         If(main_menu,
                             Start('restart_game'),
                             Jump("restart_game")))
