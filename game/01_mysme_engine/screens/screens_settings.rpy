@@ -799,9 +799,7 @@ screen other_settings():
             textbutton _('Go to Mode Select'):
                 action [Function(renpy.full_restart)]
             textbutton _('Start Over'):
-                action CConfirm(("Are you sure you want to"
-                        + " start over? You'll be unable to return to this"
-                        + " point except through a save file."),
+                action CConfirm(("Are you sure you want to start over? You'll be unable to return to this point except through a save file."),
                         If(main_menu,
                             Start('restart_game'),
                             Jump("restart_game")))
