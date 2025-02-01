@@ -785,7 +785,7 @@ screen other_settings():
             text "Max Chat Bubbles" style "settings_style" xpos 55 ypos 5
             vbox:
                 null height 15
-                text ("The maximum number of chat bubbles that can be loaded in one chatroom. Too many chat bubbles may slow down the game.")
+                text "The maximum number of chat bubbles that can be loaded in one chatroom. Too many chat bubbles may slow down the game."
                 hbox:
                     textbutton "20" action SetVariable('bubbles_to_keep', 20)
                     textbutton "40" action SetVariable('bubbles_to_keep', 40)
