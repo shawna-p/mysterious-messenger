@@ -142,8 +142,8 @@ screen spaceship_thoughts():
                 xysize (651, 240) style 'frame'
                 align (0.5, 0.7)
 
-            text _("The spaceship does not always move forward... it orbits"
-                + " around :D") style 'space_title2'
+            text _("The spaceship does not always move forward... it orbits around :D"):
+                style 'space_title2'
 
 style space_title1:
     font gui.serif_1
