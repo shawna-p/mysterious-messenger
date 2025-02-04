@@ -135,8 +135,8 @@ screen spaceship_thoughts():
             xysize (680, 374)
             align (0.5, 0.5)
             background the_thought.img
-            text _("The spaceship's sensors have caught the RFA members' "
-                + "meaningless thoughts.") style 'space_title1'
+            text _("The spaceship's sensors have caught the RFA members' meaningless thoughts."):
+                style 'space_title1'
 
             label the_thought.thought text_style 'space_thought_mid':
                 xysize (651, 240) style 'frame'
