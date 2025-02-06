@@ -458,12 +458,12 @@ init -6 python:
                     or current_timeline_item.currently_expired),
                 [Jump('exit_item_early')],
 
-                CConfirm(("Do you really want to hang up this call? Please note that you cannot participate once you leave. If you want to participate in this call again, you will need to buy it back."),
+                CConfirm("Do you really want to hang up this call? Please note that you cannot participate once you leave. If you want to participate in this call again, you will need to buy it back.",
                 [Hide('phone_say'),
                     Jump('exit_item_early')]
                 ))
         else:
-            return CConfirm(("Do you really want to end this phone call? You may not be able to have this conversation again if you hang up."),
+            return CConfirm("Do you really want to end this phone call? You may not be able to have this conversation again if you hang up.",
                         [Hide('phone_say'), Jump('hang_up')])
 
     def MMIncomingCall(phonecall, starter=False):
