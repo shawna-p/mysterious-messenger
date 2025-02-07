@@ -132,7 +132,7 @@ screen day_display(day, day_num):
                         Show('timeline', day=day, day_num=day_num)]
                 activate_sound 'audio/sfx/UI/select_day.mp3'
             else:
-                action CConfirm(("There is no story available on this day yet. Keep playing the game to see more!"))
+                action CConfirm("There is no story available on this day yet. Keep playing the game to see more!")
             xalign 0.5
 
         # This displays the story completion percentage
@@ -445,7 +445,7 @@ screen timeline_item_display(day, day_num, item, index):
                             Function(renpy.restart_interaction),
                             AutoSave()],
 
-                            CConfirm(("Would you like to participate in the chat conversation that has passed?"),
+                            CConfirm("Would you like to participate in the chat conversation that has passed?",
                                 [Function(item.buy_back),
                                 Function(renpy.retain_after_load),
                                 Function(renpy.restart_interaction),
