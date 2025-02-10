@@ -563,7 +563,7 @@ screen timeline_item_display(day, day_num, item, index):
                         [SetVariable('current_timeline_item', item),
                         Jump('execute_plot_branch')],
 
-                        CConfirm(("The game branches here. Continue?"),
+                        CConfirm("The game branches here. Continue?",
                         [SetVariable('current_timeline_item', item),
                             Jump('execute_plot_branch')]))
             else:
