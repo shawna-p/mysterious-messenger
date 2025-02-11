@@ -567,7 +567,7 @@ screen timeline_item_display(day, day_num, item, index):
                         [SetVariable('current_timeline_item', item),
                             Jump('execute_plot_branch')]))
             else:
-                action CConfirm(("Please proceed after completing the unseen old conversations."))
+                action CConfirm("Please proceed after completing the unseen old conversations.")
 
 ## Screen to display story calls
 screen timeline_story_calls(phonecall, item, was_played):
