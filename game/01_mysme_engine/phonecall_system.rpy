@@ -463,7 +463,7 @@ init -6 python:
                     Jump('exit_item_early')]
                 ))
         else:
-            return CConfirm(("Do you really want to end this phone call? You may not be able to have this conversation again if you hang up."),
+            return CConfirm("Do you really want to end this phone call? You may not be able to have this conversation again if you hang up.",
                         [Hide('phone_say'), Jump('hang_up')])
 
     def MMIncomingCall(phonecall, starter=False):

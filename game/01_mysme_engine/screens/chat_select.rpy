@@ -132,7 +132,7 @@ screen day_display(day, day_num):
                         Show('timeline', day=day, day_num=day_num)]
                 activate_sound 'audio/sfx/UI/select_day.mp3'
             else:
-                action CConfirm(("There is no story available on this day yet. Keep playing the game to see more!"))
+                action CConfirm("There is no story available on this day yet. Keep playing the game to see more!")
             xalign 0.5
 
         # This displays the story completion percentage
@@ -445,7 +445,7 @@ screen timeline_item_display(day, day_num, item, index):
                             Function(renpy.restart_interaction),
                             AutoSave()],
 
-                            CConfirm(("Would you like to participate in the chat conversation that has passed?"),
+                            CConfirm("Would you like to participate in the chat conversation that has passed?",
                                 [Function(item.buy_back),
                                 Function(renpy.retain_after_load),
                                 Function(renpy.restart_interaction),
@@ -513,7 +513,7 @@ screen timeline_item_display(day, day_num, item, index):
                 background story_mode.timeline_img(can_play_story_mode)
                 if story_mode.available and can_play_story_mode:
                     hover_foreground story_mode.timeline_img(can_play_story_mode)
-                    action CConfirm(("If you start the party before answering a guest's emails, that guest will not attend the party. Continue?"),
+                    action CConfirm("If you start the party before answering a guest's emails, that guest will not attend the party. Continue?",
                             [SetVariable('current_timeline_item',
                                     story_mode),
                                 Jump('play_timeline_item')])
@@ -554,7 +554,7 @@ screen timeline_item_display(day, day_num, item, index):
                         [SetVariable('current_timeline_item', item),
                         Jump('execute_plot_branch')],
 
-                        CConfirm(("The game branches here. Missed story may appear depending on the time right now. Continue?"),
+                        CConfirm("The game branches here. Missed story may appear depending on the time right now. Continue?",
                             [SetVariable('current_timeline_item', item),
                                 Jump('execute_plot_branch')]))
                 else:
@@ -563,11 +563,11 @@ screen timeline_item_display(day, day_num, item, index):
                         [SetVariable('current_timeline_item', item),
                         Jump('execute_plot_branch')],
 
-                        CConfirm(("The game branches here. Continue?"),
+                        CConfirm("The game branches here. Continue?",
                         [SetVariable('current_timeline_item', item),
                             Jump('execute_plot_branch')]))
             else:
-                action CConfirm(("Please proceed after completing the unseen old conversations."))
+                action CConfirm("Please proceed after completing the unseen old conversations.")
 
 ## Screen to display story calls
 screen timeline_story_calls(phonecall, item, was_played):
