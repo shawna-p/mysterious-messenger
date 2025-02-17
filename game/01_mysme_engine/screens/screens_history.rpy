@@ -311,7 +311,7 @@ screen timeline_item_history(item):
                     else:
                         background Fixed('history_chat_inactive', "#000c")
                         foreground "#0003"
-                        action CConfirm(("You have not yet viewed this chat in-game."))
+                        action CConfirm("You have not yet viewed this chat in-game.")
                     add 'history_chat_participated' align (0.5, 0.5)
                     if not item.played_regular:
                         add 'plot_lock' align (0.5, 0.5)
