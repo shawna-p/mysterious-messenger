@@ -1812,7 +1812,7 @@ screen developer_settings():
                     ysize 80
                     xsize 285
                     yalign 1.0
-                    action CConfirm(("Resetting your persistent variables may cause information to be lost. You will need to start a new game after resetting your persistent variables.\nContinue?"),
+                    action CConfirm("Resetting your persistent variables may cause information to be lost. You will need to start a new game after resetting your persistent variables.\nContinue?",
                         [Function(reset_old_persistent),
                             If(not main_menu, Jump('restart_game'))])
 
