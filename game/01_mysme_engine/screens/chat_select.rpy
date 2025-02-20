@@ -708,7 +708,7 @@ screen timeline_continue_button(story_time):
                 viewport:
                     text "Continue..."
             frame:
-                text "Next story available at " + story_time
+                text "Next story available at {}".format(story_time)
 
 style timeline_continue_button:
     xysize (620, 110)
