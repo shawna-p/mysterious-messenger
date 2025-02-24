@@ -451,11 +451,10 @@ init -6 python:
         """Return the action for hanging up the phone."""
         if incoming:
             return [Stop('music'),
-                Function(call_hang_up_incoming, current_call),
-                Show('chat_home')]
+                    Function(call_hang_up_incoming, current_call),
+                    Show('chat_home')]
         if story:
-            return If((observing
-                    or current_timeline_item.currently_expired),
+            return If(observing or current_timeline_item.currently_expired,
                 [Jump('exit_item_early')],
 
                 CConfirm("Do you really want to hang up this call? Please note that you cannot participate once you leave. If you want to participate in this call again, you will need to buy it back.",
@@ -464,19 +463,19 @@ init -6 python:
                 ))
         else:
             return CConfirm("Do you really want to end this phone call? You may not be able to have this conversation again if you hang up.",
-                        [Hide('phone_say'), Jump('hang_up')])
+                    [Hide('phone_say'), Jump('hang_up')])
 
     def MMIncomingCall(phonecall, starter=False):
         """Return the action for an incoming call."""
         if starter:
             return [Stop('music'),
-                SetVariable('current_call', phonecall),
-                Return()]
+                    SetVariable('current_call', phonecall),
+                    Return()]
         else:
             return [Stop('music'),
-                        Preference("auto-forward", "enable"),
-                        SetVariable('current_call', phonecall),
-                        Jump('play_phone_call')]
+                    Preference("auto-forward", "enable"),
+                    SetVariable('current_call', phonecall),
+                    Jump('play_phone_call')]
 
     def MMIncomingCountdown(call_countdown):
         """
@@ -531,8 +530,8 @@ screen phone_calls():
 
     tag menu
 
-    on 'show' action [AutoSave()]
-    on 'replace' action [AutoSave()]
+    on 'show' action AutoSave()
+    on 'replace' action AutoSave()
 
     use menu_header("Call History", [Show('chat_home', Dissolve(0.5)),
                                     AutoSave()]):
