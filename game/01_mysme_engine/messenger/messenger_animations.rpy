@@ -191,7 +191,7 @@ init python:
         speednum = str(int((round(9.0 - ((store.persistent.pv - 0.2)
                                                     / 0.15), 1))))
 
-        speedtxt = Text("SPEED", style='speednum_style', size=30)
+        speedtxt = Text(_("SPEED"), style='speednum_style', size=30)
         numtxt = Text(speednum, style='speednum_style', align=(.5,.5))
         return VBox(speedtxt, numtxt), 0.05
 
