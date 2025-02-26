@@ -234,7 +234,7 @@ screen signature_screen(phone=True):
         null height 70
         if (observing or current_timeline_item.currently_expired):
             null height 10
-        text "This conversation will be archived in the RFA records.":
+        text _("This conversation will be archived in the RFA records."):
             layout 'subtitle' size 30
             if persistent.custom_footers:
                 color "#fff"
@@ -246,7 +246,7 @@ screen signature_screen(phone=True):
                 label str(collected_hg):
                     background 'hg_sign'
 
-        text "I hereby agree to treat this conversation as confidential.":
+        text _("I hereby agree to treat this conversation as confidential."):
             if persistent.custom_footers:
                 color "#fff"
 
