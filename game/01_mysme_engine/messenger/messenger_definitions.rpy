@@ -714,7 +714,7 @@ init -4 python:
                 return ""
 
             if self.img:
-                return self.who.p_name + " sent a photo"
+                return _("{} sent a photo".format(self.who.p_name))
             else:
                 return renpy.filter_text_tags(self.what,
                                     allow=gui.history_allow_tags)
