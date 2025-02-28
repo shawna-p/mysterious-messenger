@@ -59,7 +59,7 @@ screen pause_button():
             draggable True
             align (0.5, 1.0)
             xysize (config.screen_width, 113)
-            label "Choose a reply":
+            label _("Choose a reply"):
                 style 'frame' text_style 'text'
                 align (0.5, 1.0)
                 background "#282828"
@@ -118,7 +118,7 @@ screen stop_chat_screen(wait_for_interact=False):
     zorder 4
     tag chat_footer
 
-    default wait_text = str(wait_for_interact) if wait_for_interact else "Click the link to proceed"
+    default wait_text = str(wait_for_interact) if wait_for_interact else _("Click the link to proceed")
 
     viewport:
         # Use this viewport to "consume" the mouse input so the player
@@ -172,14 +172,7 @@ define myClock = Clock(30)
 init python:
     def in_chat_fn(st, at):
         """Display the names of the characters in the chatroom."""
-
-        list_of_char = ''
-        for index, chara in enumerate(store.in_chat):
-            list_of_char += chara
-            if index+1 < len(store.in_chat):
-                list_of_char += ', '
-
-        return Text(list_of_char, style='in_chat_list_style'), None
+        return Text(', '.join(store.in_chat), style='in_chat_list_style'), None
 
     def battery_charge_icon(st, at):
         """Display the charging or fully charged battery icons."""
