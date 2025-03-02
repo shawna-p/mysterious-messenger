@@ -285,13 +285,13 @@ label chatroom_replay():
                     if persistent.screenshake:
                         renpy.show_layer_at([shake], 'animated_bg')
                 elif first == "enter":
-                    mystring = second.name + " has entered the chatroom."
+                    mystring = _("{} has entered the chatroom.".format(second.name))
                     addchat(special_msg, mystring, persistent.pv)
                     if second.name not in in_chat:
                         in_chat.append(second.name)
                     renpy.restart_interaction()
                 elif first == "exit":
-                    mystring = second.name + " has left the chatroom."
+                    mystring = _("{} has left the chatroom.".format(second.name))
                     addchat(special_msg, mystring, persistent.pv)
                     if second.name in in_chat:
                         in_chat.remove(second.name)
