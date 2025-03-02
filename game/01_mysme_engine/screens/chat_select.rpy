@@ -236,8 +236,8 @@ screen timeline(day, day_num):
                 if (not main_menu and persistent.real_time
                         and day_num == today_day_num
                         and not unlock_24_time
-                        and not story_time == 'Unknown Time'
-                        and not story_time == 'Plot Branch'):
+                        and not story_time == _('Unknown Time')
+                        and not story_time == _('Plot Branch')):
                     hbox:
                         # Show the 'Continue'/Buyahead button
                         use timeline_continue_button(story_time)
@@ -613,7 +613,7 @@ screen timeline_story_calls(phonecall, item, was_played):
                         text phonecall.caller.name style 'chat_timeline_text'
                     # The title of the call, or just "Story Call"
                     fixed:
-                        $ the_title = phonecall.title or "Story Call"
+                        $ the_title = phonecall.title or _("Story Call")
                         text the_title style 'chat_timeline_text'
 
         if phonecall.currently_expired:
