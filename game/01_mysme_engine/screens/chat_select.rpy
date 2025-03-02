@@ -132,7 +132,7 @@ screen day_display(day, day_num):
                         Show('timeline', day=day, day_num=day_num)]
                 activate_sound 'audio/sfx/UI/select_day.mp3'
             else:
-                action CConfirm("There is no story available on this day yet. Keep playing the game to see more!")
+                action CConfirm(_("There is no story available on this day yet. Keep playing the game to see more!"))
             xalign 0.5
 
         # This displays the story completion percentage
@@ -153,7 +153,7 @@ screen day_display(day, day_num):
                     xysize (80, 30)
                     align (0.5, 0.5)
                     background 'day_percent_border'
-                    text '[partic_percent]%'
+                    text '[partic_percent]\%'
         fixed:
             xfit True yfit True
             add day.day_icon
