@@ -687,13 +687,13 @@ screen timeline_continue_button(story_time):
     style_prefix 'timeline_continue'
     button:
         action If(played_all_available(),
-            CConfirm("Would you like to purchase the next day? You can participate in all  conversations for the next 24 hours.",
+            CConfirm(_("Would you like to purchase the next day? You can participate in all  conversations for the next 24 hours."),
                 [Function(make_24h_available),
                     Function(check_and_unlock_story),
                     Function(renpy.retain_after_load),
                     Function(renpy.restart_interaction),
                     AutoSave()]),
-            CConfirm("You have not played all the available story yet."))
+            CConfirm(_("You have not played all the available story yet.")))
         if hacked_effect and persistent.hacking_effects:
             add Transform('day_reg_hacked_long',
                             yzoom=0.75):
@@ -706,9 +706,9 @@ screen timeline_continue_button(story_time):
                     yalign 0.0
                     add Transform("header_hg", zoom=0.8) xalign 0.5 yalign 0.5
                 viewport:
-                    text "Continue..."
+                    text _("Continue...")
             frame:
-                text "Next story available at {}".format(story_time)
+                text _("Next story available at {}".format(story_time))
 
 style timeline_continue_button:
     xysize (620, 110)
