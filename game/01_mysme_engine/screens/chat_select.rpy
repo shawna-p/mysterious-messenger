@@ -236,8 +236,8 @@ screen timeline(day, day_num):
                 if (not main_menu and persistent.real_time
                         and day_num == today_day_num
                         and not unlock_24_time
-                        and not story_time == 'Unknown Time'
-                        and not story_time == 'Plot Branch'):
+                        and not story_time == _('Unknown Time')
+                        and not story_time == _('Plot Branch')):
                     hbox:
                         # Show the 'Continue'/Buyahead button
                         use timeline_continue_button(story_time)
@@ -445,7 +445,7 @@ screen timeline_item_display(day, day_num, item, index):
                             Function(renpy.restart_interaction),
                             AutoSave()],
 
-                            CConfirm("Would you like to participate in the chat conversation that has passed?",
+                            CConfirm(_("Would you like to participate in the chat conversation that has passed?"),
                                 [Function(item.buy_back),
                                 Function(renpy.retain_after_load),
                                 Function(renpy.restart_interaction),
@@ -513,7 +513,7 @@ screen timeline_item_display(day, day_num, item, index):
                 background story_mode.timeline_img(can_play_story_mode)
                 if story_mode.available and can_play_story_mode:
                     hover_foreground story_mode.timeline_img(can_play_story_mode)
-                    action CConfirm("If you start the party before answering a guest's emails, that guest will not attend the party. Continue?",
+                    action CConfirm(_("If you start the party before answering a guest's emails, that guest will not attend the party. Continue?"),
                             [SetVariable('current_timeline_item',
                                     story_mode),
                                 Jump('play_timeline_item')])
@@ -554,7 +554,7 @@ screen timeline_item_display(day, day_num, item, index):
                         [SetVariable('current_timeline_item', item),
                         Jump('execute_plot_branch')],
 
-                        CConfirm("The game branches here. Missed story may appear depending on the time right now. Continue?",
+                        CConfirm(_("The game branches here. Missed story may appear depending on the time right now. Continue?"),
                             [SetVariable('current_timeline_item', item),
                                 Jump('execute_plot_branch')]))
                 else:
@@ -563,11 +563,11 @@ screen timeline_item_display(day, day_num, item, index):
                         [SetVariable('current_timeline_item', item),
                         Jump('execute_plot_branch')],
 
-                        CConfirm("The game branches here. Continue?",
+                        CConfirm(_("The game branches here. Continue?"),
                         [SetVariable('current_timeline_item', item),
                             Jump('execute_plot_branch')]))
             else:
-                action CConfirm("Please proceed after completing the unseen old conversations.")
+                action CConfirm(_("Please proceed after completing the unseen old conversations."))
 
 ## Screen to display story calls
 screen timeline_story_calls(phonecall, item, was_played):
@@ -613,7 +613,7 @@ screen timeline_story_calls(phonecall, item, was_played):
                         text phonecall.caller.name style 'chat_timeline_text'
                     # The title of the call, or just "Story Call"
                     fixed:
-                        $ the_title = phonecall.title or "Story Call"
+                        $ the_title = phonecall.title or _("Story Call")
                         text the_title style 'chat_timeline_text'
 
         if phonecall.currently_expired:
@@ -629,7 +629,7 @@ screen timeline_story_calls(phonecall, item, was_played):
                             Function(renpy.restart_interaction),
                             AutoSave()],
 
-                        CConfirm("Would you like to call {} back to participate in this phone call?".format(phonecall.caller.name),
+                        CConfirm(_("Would you like to call {} back to participate in this phone call?".format(phonecall.caller.name)),
                             [Function(phonecall.buy_back),
                             Function(renpy.retain_after_load),
                             Function(renpy.restart_interaction),
@@ -687,13 +687,13 @@ screen timeline_continue_button(story_time):
     style_prefix 'timeline_continue'
     button:
         action If(played_all_available(),
-            CConfirm("Would you like to purchase the next day? You can participate in all  conversations for the next 24 hours.",
+            CConfirm(_("Would you like to purchase the next day? You can participate in all  conversations for the next 24 hours."),
                 [Function(make_24h_available),
                     Function(check_and_unlock_story),
                     Function(renpy.retain_after_load),
                     Function(renpy.restart_interaction),
                     AutoSave()]),
-            CConfirm("You have not played all the available story yet."))
+            CConfirm(_("You have not played all the available story yet.")))
         if hacked_effect and persistent.hacking_effects:
             add Transform('day_reg_hacked_long',
                             yzoom=0.75):
@@ -706,9 +706,9 @@ screen timeline_continue_button(story_time):
                     yalign 0.0
                     add Transform("header_hg", zoom=0.8) xalign 0.5 yalign 0.5
                 viewport:
-                    text "Continue..."
+                    text _("Continue...")
             frame:
-                text "Next story available at {}".format(story_time)
+                text _("Next story available at {}".format(story_time))
 
 style timeline_continue_button:
     xysize (620, 110)
