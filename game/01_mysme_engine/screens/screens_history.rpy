@@ -19,7 +19,7 @@ screen select_history():
 
     tag menu
 
-    use menu_header("History", Show('main_menu', Dissolve(0.5))):
+    use menu_header(_("History"), Show('main_menu', Dissolve(0.5))):
 
         style_prefix "select_history"
         frame:
@@ -38,13 +38,13 @@ screen select_history():
                     action Show('select_history_route', Dissolve(0.5))
                     hbox:
                         add 'history_icon_chat' yalign 0.5
-                        text "CHAT HISTORY"
+                        text _("CHAT HISTORY")
 
                 button:
                     action Show('achievement_gallery', Dissolve(0.5))
                     hbox:
                         add 'history_icon_album' yalign 0.5
-                        text "ACHIEVEMENTS"
+                        text _("ACHIEVEMENTS")
 
                 button:
                     action Show('guestbook', Dissolve(0.5))
@@ -56,7 +56,7 @@ screen select_history():
                     action Show('music_room', Dissolve(0.5), mr=mm_mr)
                     hbox:
                         add 'history_icon_album' yalign 0.5
-                        text "MUSIC ROOM"
+                        text _("MUSIC ROOM")
 
 style select_history_hbox:
     is default
