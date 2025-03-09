@@ -96,7 +96,7 @@ screen select_history_route():
 
     tag menu
 
-    use menu_header("History", Show('main_menu', Dissolve(0.5))):
+    use menu_header(_("History"), Show('main_menu', Dissolve(0.5))):
         viewport:
             xysize (config.screen_width, config.screen_height-172)
             mousewheel True draggable True
