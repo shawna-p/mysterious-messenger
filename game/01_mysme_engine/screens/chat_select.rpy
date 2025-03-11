@@ -826,7 +826,7 @@ screen guest_count():
             add 'text_msg_line' xysize (250, 30) yalign 0.5
         frame:
             style_prefix 'guest_header'
-            text "GUEST COUNT"
+            text _("GUEST COUNT")
         hbox:
             style_prefix 'guest_count'
             text "( " font gui.serif_2xb
