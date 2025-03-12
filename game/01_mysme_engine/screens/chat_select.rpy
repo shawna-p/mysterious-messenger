@@ -884,7 +884,7 @@ screen guests_arrived():
         first_spacing 10
         spacing 5
         null height 65
-        text "Party Guest Result":
+        text _("Party Guest Result"):
             if persistent.custom_footers:
                 color "#fff"
             font gui.blocky_font size 30
@@ -896,7 +896,7 @@ screen guests_arrived():
             frame:
                 add 'party_grade'
 
-        text "All the guests have arrived.":
+        text _("All the guests have arrived."):
             if persistent.custom_footers:
                 color "#fff"
             size 30
