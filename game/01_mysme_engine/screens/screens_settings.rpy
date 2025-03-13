@@ -191,7 +191,7 @@ screen profile_pic():
     modal True
 
     if persistent.first_boot:
-        use menu_header("Customize your Profile"):
+        use menu_header(_("Customize your Profile")):
             use pic_and_pronouns()
             null height 150
             textbutton _('Confirm'):
@@ -203,7 +203,7 @@ screen profile_pic():
     else:
         on 'replaced' action Function(change_mc_pfp_callback)
         on 'hide' action Function(change_mc_pfp_callback)
-        use menu_header("Profile", [Show('chat_home', Dissolve(0.5))]):
+        use menu_header(_("Profile"), [Show('chat_home', Dissolve(0.5))]):
             use pic_and_pronouns()
             if not in_chat_creator:
                 use points_and_saveload()
