@@ -104,23 +104,23 @@ init python:
         if hour < 7:
             # Early morning
             greet_dict = late_night_greeting
-            optional_text = "You're up late! "
+            optional_text = _("You're up late! ")
         elif hour < 12:
             # Morning
             greet_dict = morning_greeting
-            optional_text = "Good morning! "
+            optional_text = _("Good morning! ")
         elif hour < 17:
             # Afternoon
             greet_dict = afternoon_greeting
-            optional_text = "Good afternoon! "
+            optional_text = _("Good afternoon! ")
         elif hour < 21:
             # Evening
             greet_dict = evening_greeting
-            optional_text = "Good evening! "
+            optional_text = _("Good evening! ")
         else:
             # Night greeting
             greet_dict = night_greeting
-            optional_text = "It's getting late! "
+            optional_text = _("It's getting late! ")
 
         # Randomly pick a key from the list
         greet_char = renpy.random.choice(get_dict_keys(greet_dict))
