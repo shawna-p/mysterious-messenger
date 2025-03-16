@@ -291,14 +291,14 @@ screen pic_and_pronouns():
                     # but it's the way that makes the radio buttons work in an
                     # odd edge case the first time you start the game
                     add 'she_her_pronoun_radio'
-                    text 'she/her' style 'pronoun_radio_text'
+                    text _('she/her') style 'pronoun_radio_text'
 
                 button:
                     action [SetField(persistent, "pronoun", "he/him")]
                     has hbox
                     spacing 10
                     add 'he_him_pronoun_radio'
-                    text 'he/him' style 'pronoun_radio_text'
+                    text _('he/him') style 'pronoun_radio_text'
 
 
                 button:
@@ -306,7 +306,7 @@ screen pic_and_pronouns():
                     has hbox
                     spacing 10
                     add 'they_them_pronoun_radio'
-                    text 'they/them' style 'pronoun_radio_text'
+                    text _('they/them') style 'pronoun_radio_text'
             null height -40
             # Pick your gender
             frame:
@@ -314,7 +314,7 @@ screen pic_and_pronouns():
                 padding (5, 2)
                 has hbox:
                     spacing 4
-                text "Gender:" size 30 align (0.5, 0.5)
+                text _("Gender:") size 30 align (0.5, 0.5)
                 imagebutton:
                     idle 'mc_gender_picker'
                     hover 'mc_gender_picker_hover'
