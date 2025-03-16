@@ -252,7 +252,7 @@ screen pic_and_pronouns():
                     action [SetVariable('old_name', persistent.name),
                         Show('input_popup', prompt='Please input a name.')]
             null height 13
-            text "Chatroom Username:" size 28 color "#fff" font gui.serif_1
+            text _("Chatroom Username:") size 28 color "#fff" font gui.serif_1
             null height 2
             # Edit MC's chatroom name
             fixed:
@@ -268,7 +268,7 @@ screen pic_and_pronouns():
                     # the player doesn't want to change it
                     action [Show('input_template',
                         the_var='persistent.chat_name',
-                        prompt='Please input a username for the chatroom.',
+                        prompt=_('Please input a username for the chatroom.'),
                         default=persistent.chat_name, length=20,
                         allow=allowed_username_chars,
                         can_close=True, copypaste=True),
