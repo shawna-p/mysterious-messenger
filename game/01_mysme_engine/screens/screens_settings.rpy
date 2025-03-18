@@ -344,7 +344,7 @@ screen pick_mc_pfp():
             auto 'input_close_%s'
             action [Hide('pick_mc_pfp')]
 
-        text "Choose your profile picture"
+        text _("Choose your profile picture")
 
         vpgrid:
             cols 4
@@ -355,7 +355,7 @@ screen pick_mc_pfp():
             if can_pick:
                 button:
                     background 'menu_ringtone_box'
-                    text "Select from file" style 'pick_pfp_text2'
+                    text _("Select from file") style 'pick_pfp_text2'
                     hover_foreground "menu_ringtone_box"
                     action Function(set_pfp_from_file)
             for img in pfp_list:
@@ -372,7 +372,7 @@ screen pick_mc_pfp():
                         add 'plot_lock' align (0.5, 0.5)
                         add 'header_hg' align (0.95, 0.95)
                         action SpendHourglass(
-                            "Would you like to unlock this profile picture for 1 hourglass?",
+                            _("Would you like to unlock this profile picture for 1 hourglass?"),
                             1, [AddToSet(persistent.mc_unlocked_pfps, img),
                                 If(not change_pfp_achievement.has(),
                                 [change_your_pfp_achievement.Grant(),
