@@ -282,7 +282,7 @@ screen pic_and_pronouns():
             has vbox
             vbox:
                 xalign 0.5
-                text "Pronouns"
+                text _("Pronouns")
                 button:
                     action [SetField(persistent, "pronoun", "she/her")]
                     has hbox
@@ -323,8 +323,8 @@ screen pic_and_pronouns():
                     focus_mask Solid("#f0f8", xysize=(192, 55))
                     action Function(toggle_gender)
 
-define allowed_username_chars = " -'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_=+:;/?|.,><~`♥♣♠•○♂♀♪★☆↑↓→←↔↕▲▼©○†✚∞®☎☏℡™"
-define allowed_alphabet = " -'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+define allowed_username_chars = _(" -'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_=+:;/?|.,><~`♥♣♠•○♂♀♪★☆↑↓→←↔↕▲▼©○†✚∞®☎☏℡™")
+define allowed_alphabet = _(" -'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
 image cannot_find_img = 'rounded-rectangle-mask.webp'
 
