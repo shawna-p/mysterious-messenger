@@ -482,7 +482,7 @@ screen points_and_saveload():
                 align (0.5, 0.25)
                 has vbox
                 spacing 5
-                text "Ending Achievement":
+                text _("Ending Achievement"):
                     size 30 font gui.sans_serif_1xb color "#fff"
                 null height 20
                 #for r in [r2 for r2 in all_routes if not r2 in [fan_route, everlasting_party, my_new_route]]:
