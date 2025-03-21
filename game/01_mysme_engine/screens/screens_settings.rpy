@@ -593,7 +593,7 @@ style pronoun_radio_text:
 ########################################################
 ## The Input Prompt to get text from the user
 ########################################################
-default old_name = "Rainbow"
+default old_name = _("Rainbow")
 
 screen input_popup(prompt=''):
 
