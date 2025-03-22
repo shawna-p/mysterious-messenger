@@ -128,7 +128,7 @@ init python:
         # Randomly pick a greeting
         the_greeting = renpy.random.choice(greet_dict[greet_char])
 
-        if the_greeting.english == "Welcome to Mysterious Messenger!":
+        if the_greeting.english == _("Welcome to Mysterious Messenger!"):
             greet_text_english = optional_text + the_greeting.english
         else:
             greet_text_english = the_greeting.english
@@ -308,7 +308,7 @@ screen main_menu():
                 action MMOriginalStory()
                 vbox:
                     add "menu_original_story" xpos 20
-                    text "Original\nStory"
+                    text _("Original\nStory")
 
             vbox:
                 spacing 15
@@ -320,7 +320,7 @@ screen main_menu():
                     action MMMainLoad()
                     vbox:
                         add "menu_save_load" xpos 25
-                        text "Save & Load"
+                        text _("Save & Load")
 
                 # After Ending
                 # Mid Right
@@ -330,7 +330,7 @@ screen main_menu():
                     action MMSettings()
                     vbox:
                         add "menu_after_ending" align (0.5, 0.5)
-                        text "Settings"
+                        text _("Settings")
         hbox:
             spacing 15
             # History
@@ -341,7 +341,7 @@ screen main_menu():
                 action MMHistory()
                 vbox:
                     add "menu_history" align (0.5, 0.5)
-                    text "History"
+                    text _("History")
 
             # DLC
             # Bottom Right
@@ -355,9 +355,9 @@ screen main_menu():
                 vbox:
                     add "menu_dlc" align (0.5, 0.5)
                     if config.developer:
-                        text "Developer"
+                        text _("Developer")
                     else:
-                        text "Extras"
+                        text _("Extras")
 
     # The update button. Only checks for and shows updates if this
     # is a developer version (not a full release).
