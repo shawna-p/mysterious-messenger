@@ -455,7 +455,7 @@ style menu_text_small:
 ## to select, but as of now simply starts the game
 screen route_select_screen():
     tag menu
-    use menu_header("Mode Select", Show('main_menu', Dissolve(0.5))):
+    use menu_header(_("Mode Select"), Show('main_menu', Dissolve(0.5))):
         frame:
             xysize (720, config.screen_height-164)
             yalign 1.0
@@ -471,7 +471,7 @@ screen route_select_screen():
                             align (0.08, 0.5)
                         action Start()
                         frame:
-                            text "Tutorial Day"
+                            text _("Tutorial Day")
                     # Casual/Jaehee's route is only available to a player who
                     # has completed Tutorial Day
                     button:
@@ -482,13 +482,13 @@ screen route_select_screen():
                                 hbox:
                                     align (0.4, 0.5)
                                     add 'plot_lock' align (0.5, 0.5)
-                                    text "Casual Story"
+                                    text _("Casual Story")
                             else:
-                                text "Casual Story"
+                                text _("Casual Story")
                         if completed_branches(tutorial_route) > 0:
                             action Start('example_casual_start')
                         else:
-                            action CConfirm("This route is locked until you've played through Tutorial Day at least once.")
+                            action CConfirm(_("This route is locked until you've played through Tutorial Day at least once."))
                             hover_foreground None
 
 style route_select_frame:
