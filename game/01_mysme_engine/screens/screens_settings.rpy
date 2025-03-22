@@ -252,7 +252,7 @@ screen pic_and_pronouns():
                     action [SetVariable('old_name', persistent.name),
                         Show('input_popup', prompt='Please input a name.')]
             null height 13
-            text "Chatroom Username:" size 28 color "#fff" font gui.serif_1
+            text _("Chatroom Username:") size 28 color "#fff" font gui.serif_1
             null height 2
             # Edit MC's chatroom name
             fixed:
@@ -268,7 +268,7 @@ screen pic_and_pronouns():
                     # the player doesn't want to change it
                     action [Show('input_template',
                         the_var='persistent.chat_name',
-                        prompt='Please input a username for the chatroom.',
+                        prompt=_('Please input a username for the chatroom.'),
                         default=persistent.chat_name, length=20,
                         allow=allowed_username_chars,
                         can_close=True, copypaste=True),
@@ -282,7 +282,7 @@ screen pic_and_pronouns():
             has vbox
             vbox:
                 xalign 0.5
-                text "Pronouns"
+                text _("Pronouns")
                 button:
                     action [SetField(persistent, "pronoun", "she/her")]
                     has hbox
@@ -291,14 +291,14 @@ screen pic_and_pronouns():
                     # but it's the way that makes the radio buttons work in an
                     # odd edge case the first time you start the game
                     add 'she_her_pronoun_radio'
-                    text 'she/her' style 'pronoun_radio_text'
+                    text _('she/her') style 'pronoun_radio_text'
 
                 button:
                     action [SetField(persistent, "pronoun", "he/him")]
                     has hbox
                     spacing 10
                     add 'he_him_pronoun_radio'
-                    text 'he/him' style 'pronoun_radio_text'
+                    text _('he/him') style 'pronoun_radio_text'
 
 
                 button:
@@ -306,7 +306,7 @@ screen pic_and_pronouns():
                     has hbox
                     spacing 10
                     add 'they_them_pronoun_radio'
-                    text 'they/them' style 'pronoun_radio_text'
+                    text _('they/them') style 'pronoun_radio_text'
             null height -40
             # Pick your gender
             frame:
@@ -314,7 +314,7 @@ screen pic_and_pronouns():
                 padding (5, 2)
                 has hbox:
                     spacing 4
-                text "Gender:" size 30 align (0.5, 0.5)
+                text _("Gender:") size 30 align (0.5, 0.5)
                 imagebutton:
                     idle 'mc_gender_picker'
                     hover 'mc_gender_picker_hover'
@@ -323,8 +323,8 @@ screen pic_and_pronouns():
                     focus_mask Solid("#f0f8", xysize=(192, 55))
                     action Function(toggle_gender)
 
-define allowed_username_chars = " -'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_=+:;/?|.,><~`♥♣♠•○♂♀♪★☆↑↓→←↔↕▲▼©○†✚∞®☎☏℡™"
-define allowed_alphabet = " -'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+define allowed_username_chars = _(" -'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_=+:;/?|.,><~`♥♣♠•○♂♀♪★☆↑↓→←↔↕▲▼©○†✚∞®☎☏℡™")
+define allowed_alphabet = _(" -'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
 image cannot_find_img = 'rounded-rectangle-mask.webp'
 
@@ -344,7 +344,7 @@ screen pick_mc_pfp():
             auto 'input_close_%s'
             action [Hide('pick_mc_pfp')]
 
-        text "Choose your profile picture"
+        text _("Choose your profile picture")
 
         vpgrid:
             cols 4
@@ -355,7 +355,7 @@ screen pick_mc_pfp():
             if can_pick:
                 button:
                     background 'menu_ringtone_box'
-                    text "Select from file" style 'pick_pfp_text2'
+                    text _("Select from file") style 'pick_pfp_text2'
                     hover_foreground "menu_ringtone_box"
                     action Function(set_pfp_from_file)
             for img in pfp_list:
@@ -372,7 +372,7 @@ screen pick_mc_pfp():
                         add 'plot_lock' align (0.5, 0.5)
                         add 'header_hg' align (0.95, 0.95)
                         action SpendHourglass(
-                            "Would you like to unlock this profile picture for 1 hourglass?",
+                            _("Would you like to unlock this profile picture for 1 hourglass?"),
                             1, [AddToSet(persistent.mc_unlocked_pfps, img),
                                 If(not change_pfp_achievement.has(),
                                 [change_your_pfp_achievement.Grant(),
@@ -482,7 +482,7 @@ screen points_and_saveload():
                 align (0.5, 0.25)
                 has vbox
                 spacing 5
-                text "Ending Achievement":
+                text _("Ending Achievement"):
                     size 30 font gui.sans_serif_1xb color "#fff"
                 null height 20
                 #for r in [r2 for r2 in all_routes if not r2 in [fan_route, everlasting_party, my_new_route]]:
@@ -593,7 +593,7 @@ style pronoun_radio_text:
 ########################################################
 ## The Input Prompt to get text from the user
 ########################################################
-default old_name = "Rainbow"
+default old_name = _("Rainbow")
 
 screen input_popup(prompt=''):
 
