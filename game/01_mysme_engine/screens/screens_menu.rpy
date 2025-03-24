@@ -543,7 +543,7 @@ screen save():
     default slots_per_column = 7
     default begin_page = 0
 
-    use menu_header("Save", Hide('save', Dissolve(0.5))):
+    use menu_header(_("Save"), Hide('save', Dissolve(0.5))):
         if in_chat_creator:
             use chatroom_file_slots(_("Save"), current_page, num_pages,
                 slots_per_column, begin_page)
@@ -561,7 +561,7 @@ screen load():
     default slots_per_column = 7
     default begin_page = 0
 
-    use menu_header("Load", Hide('load', Dissolve(0.5))):
+    use menu_header(_("Load"), Hide('load', Dissolve(0.5))):
         if in_chat_creator:
             use chatroom_file_slots(_("Load"), current_page, num_pages,
                 slots_per_column, begin_page)
