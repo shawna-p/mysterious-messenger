@@ -609,7 +609,7 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
             rows slots_per_column
 
             # This adds the 'backup' save slot to the top when loading
-            if title == "Load" and FileLoadable(mm_auto) and current_page == 0:
+            if renpy.get_screen("load") and FileLoadable(mm_auto) and current_page == 0:
                 button:
                     background 'save_auto_idle'
                     hover_background 'save_auto_hover'
@@ -621,8 +621,8 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
                             style_prefix 'save_desc'
                             has vbox
                             fixed:
-                                text ("This is a backup file that is auto-generated")
-                            text ("Today: {}{}".format(access_json(mm_auto, 'today'),
+                                text _("This is a backup file that is auto-generated")
+                            text _("Today: {}{}".format(access_json(mm_auto, 'today'),
                                     access_json(mm_auto, 'day_suffix'))):
                                 yalign 1.0
                         frame:
@@ -662,13 +662,13 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
                             if FileLoadable(slot):
                                 fixed:
                                     text access_json(slot, 'title')
-                                text ("Today: " + access_json(slot, 'today')
+                                text _("Today: " + access_json(slot, 'today')
                                     + access_json(slot, 'day_suffix')):
                                     yalign 1.0
                             else:
                                 fixed:
-                                    text "Empty Slot"
-                                text "Tap an empty slot to save" yalign 1.0
+                                    text _("Empty Slot")
+                                text _("Tap an empty slot to save") yalign 1.0
 
                         frame:
                             style_prefix 'save_stamp'
