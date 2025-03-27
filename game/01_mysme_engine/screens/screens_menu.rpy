@@ -963,7 +963,7 @@ screen menu_header(title, return_action=NullAction,
 
     python:
         # Ensures the background music is playing
-        if title not in ("In Call", "Music Room"):
+        if title not in (_("In Call"), _("Music Room")):
             if (renpy.music.get_playing(channel='music') != mystic_chat
                     and not hacked_effect):
                 renpy.music.queue(mystic_chat, loop=True)
@@ -1046,7 +1046,7 @@ screen menu_header(title, return_action=NullAction,
             null width 72
 
     # Header
-    if title != "Original Story" and title != "In Call":
+    if title != _("Original Story") and title != _("In Call"):
         frame:
             ysize 80
             yalign align_new_dimensions(0.058)
@@ -1069,7 +1069,7 @@ screen menu_header(title, return_action=NullAction,
 
 
     if not persistent.first_boot:
-        if title != "Original Story" and title != "In Call":
+        if title != _("Original Story") and title != _("In Call"):
             # Back button
             imagebutton:
                 xalign 0.013
