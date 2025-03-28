@@ -1100,12 +1100,12 @@ screen menu_header(title, return_action=NullAction,
                             Return(), return_action)
 
 
-    if title == "Save" or title == "Load" or title == "Mode Select":
+    if renpy.get_screen("save") or renpy.get_screen("load") or title == _("Mode Select"):
         transclude
     else:
         frame:
             padding (0, 0)
-            if title != "Original Story" and title != "In Call":
+            if title != _("Original Story") and title != _("In Call"):
                 xysize (config.screen_width, config.screen_height-172+20)
             else:
                 xysize (config.screen_width, config.screen_height-172+80)
