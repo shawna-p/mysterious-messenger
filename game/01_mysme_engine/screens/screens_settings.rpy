@@ -775,17 +775,17 @@ style my_input:
 screen other_settings():
     tag settings_screen
     modal True
-    use menu_header("Settings", If(_menu and not main_menu,
+    use menu_header(_("Settings"), If(_menu and not main_menu,
             Return(), Hide('other_settings', Dissolve(0.5)))):
         null height 3
-        use settings_tabs("Others")
+        use settings_tabs(_("Others"))
         null height 10
         frame:
             style_prefix 'bubble_select'
             text "Max Chat Bubbles" style "settings_style" xpos 55 ypos 5
             vbox:
                 null height 15
-                text "The maximum number of chat bubbles that can be loaded in one chatroom. Too many chat bubbles may slow down the game."
+                text _("The maximum number of chat bubbles that can be loaded in one chatroom. Too many chat bubbles may slow down the game.")
                 hbox:
                     textbutton "20" action SetVariable('bubbles_to_keep', 20)
                     textbutton "40" action SetVariable('bubbles_to_keep', 40)
