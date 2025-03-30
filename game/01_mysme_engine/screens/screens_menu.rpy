@@ -1169,14 +1169,14 @@ screen hearts_to_hg():
     frame:
         style_prefix 'heart_hg_exchange'
         has vbox
-        text "You can exchange 100 hearts for a single hourglass.\nPlease choose the amount you would like to exchange."
+        text _("You can exchange 100 hearts for a single hourglass.\nPlease choose the amount you would like to exchange.")
         hbox:
             style_prefix "sig_points"
             spacing 25
             frame:
                 background 'heart_sign'
                 text str(persistent.HP-int(heart_to_exchange)*100)
-            text ">>>" color "#fff" align (0.5, 0.5)
+            text _(">>>") color "#fff" align (0.5, 0.5)
             frame:
                 background 'hg_sign'
                 text "+" + str(int(heart_to_exchange))
