@@ -1179,7 +1179,7 @@ screen hearts_to_hg():
             text _(">>>") color "#fff" align (0.5, 0.5)
             frame:
                 background 'hg_sign'
-                text "+" + str(int(heart_to_exchange))
+                text "+{}".format(str(int(heart_to_exchange)))
         # Slider here
         hbox:
             style_prefix "sound_settings"
