@@ -1207,7 +1207,7 @@ screen heart_exchange_confirm(heart_to_exchange):
 
     frame:
         vbox:
-            label "The amount of hearts you set will be used. Would you like to continue?":
+            label _("The amount of hearts you set will be used. Would you like to continue?"):
                 style "confirm_prompt"
                 xalign 0.5
             frame:
