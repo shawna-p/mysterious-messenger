@@ -117,6 +117,8 @@ QoL Improvements
       - Screens and style code has been cleaned up to remove outdated property names and organize styles better.
     * - Choice reorganization
       - The choice screens + related code have been relocated to their own file for better organization.
+    * - String fixes
+      - String formatting has been cleaned up across the program.
 
 .. _incompat-3-4-0:
 
