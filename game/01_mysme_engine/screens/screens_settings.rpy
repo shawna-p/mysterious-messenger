@@ -863,10 +863,10 @@ screen preferences():
     tag settings_screen
     modal True
 
-    use menu_header("Settings", If(_menu and not main_menu,
+    use menu_header(_("Settings"), If(_menu and not main_menu,
             Return(), Hide('preferences', Dissolve(0.5)))):
         null height 3
-        use settings_tabs("Preferences")
+        use settings_tabs(_("Preferences"))
 
         viewport:
             style 'other_settings_viewport'
