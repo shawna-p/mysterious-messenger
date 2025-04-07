@@ -1220,7 +1220,7 @@ screen heart_exchange_confirm(heart_to_exchange):
                     action [Function(update_hg_hp, int(heart_to_exchange)),
                             Hide('hearts_to_hg'),
                             Hide('heart_exchange_confirm'),
-                            CConfirm("Completed!")]
+                            CConfirm(_("Completed!"))]
                 textbutton _("Cancel") action Hide('heart_exchange_confirm')
 
     ## Right-click and escape answer "no".
