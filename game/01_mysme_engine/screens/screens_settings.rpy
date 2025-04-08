@@ -880,7 +880,7 @@ screen preferences():
             frame:
                 xysize (675,550)
                 background "menu_settings_panel"
-                text "Other Settings" style "settings_style" xpos 45 ypos 2
+                text _("Other Settings") style "settings_style" xpos 45 ypos 2
                 style_prefix "settings_slider"
                 vbox:
                     null height 30 # For the 'title'
