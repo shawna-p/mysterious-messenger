@@ -92,7 +92,7 @@ screen loading_screen():
         maximum(540, 140) style 'frame'
         xalign 0.5 yalign 0.445
 
-    text "Loading..." style "loading_text"
+    text _("Loading...") style "loading_text"
 
     add 'load_circle' xalign 0.5 yalign 0.745
     imagebutton:
