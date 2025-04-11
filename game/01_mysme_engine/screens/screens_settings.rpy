@@ -971,19 +971,19 @@ screen preferences():
             frame:
                 xysize(675,380)
                 background "menu_settings_panel"
-                text "Accessibility Options":
+                text _("Accessibility Options"):
                     style "settings_style" xpos 40 ypos -4
 
                 hbox:
                     null height 30
                     box_wrap_spacing 30
                     #xfill True
-                    use toggle_buttons('hacking_effects', "Hacking Effects")
-                    use toggle_buttons('screenshake', "Screen Shake")
-                    use toggle_buttons('banners', "Chatroom Banners")
-                    use toggle_buttons('use_timed_menus', "Timed Menus")
-                    use toggle_buttons('animated_icons', "Animated Icons")
-                    use toggle_buttons('dialogue_outlines', "Dialogue Outlines")
+                    use toggle_buttons('hacking_effects', _("Hacking Effects"))
+                    use toggle_buttons('screenshake', _("Screen Shake"))
+                    use toggle_buttons('banners', _("Chatroom Banners"))
+                    use toggle_buttons('use_timed_menus', _("Timed Menus"))
+                    use toggle_buttons('animated_icons', _("Animated Icons"))
+                    use toggle_buttons('dialogue_outlines', _("Dialogue Outlines"))
 
 style ringtone_change:
     color '#fff'
