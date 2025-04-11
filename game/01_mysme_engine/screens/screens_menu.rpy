@@ -1277,7 +1277,7 @@ screen hourglass_spend_confirmation(msg, num_hg, action):
                 text "{}".format(num_hg*-1)
             hbox:
                 textbutton _("Confirm") action If(persistent.HG>=num_hg, yes_action,
-                    CConfirm("You don't have enough hourglasses."))
+                    CConfirm(_("You don't have enough hourglasses.")))
                 textbutton _("Cancel") action Hide('hourglass_spend_confirmation')
 
     ## Right-click and escape answer "no".
