@@ -1380,7 +1380,7 @@ screen chat_home(reshow=False):
     default num_row = -(-(len(character_list)-sub_num) // num_col)
     default extra_space = (config.screen_width-9-8-8-pfp_size) - (num_col * pfp_size)
 
-    use menu_header("Original Story"):
+    use menu_header(_("Original Story")):
         # Note that only characters in the list 'character_list' will
         # show up here as profile pictures
         frame:
