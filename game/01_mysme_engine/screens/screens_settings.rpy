@@ -1179,7 +1179,7 @@ screen sound_settings():
     tag settings_screen
     modal True
 
-    use menu_header("Settings", If(_menu and not main_menu,
+    use menu_header(_("Settings"), If(_menu and not main_menu,
             Return(), Hide('sound_settings', Dissolve(0.5)))):
         null height 3
         use settings_tabs("Sound")
