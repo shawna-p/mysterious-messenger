@@ -1197,7 +1197,7 @@ screen sound_settings():
             frame:
                 has fixed
                 yfit True
-                text "Sound" style "settings_style" xpos 55 ypos -5
+                text _("Sound") style "settings_style" xpos 55 ypos -5
                 style_prefix "sound_settings"
                 vbox:
                     null height 45
