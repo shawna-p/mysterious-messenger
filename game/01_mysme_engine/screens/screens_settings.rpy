@@ -1182,7 +1182,7 @@ screen sound_settings():
     use menu_header(_("Settings"), If(_menu and not main_menu,
             Return(), Hide('sound_settings', Dissolve(0.5)))):
         null height 3
-        use settings_tabs("Sound")
+        use settings_tabs(_("Sound"))
         viewport:
             style_prefix 'other_settings'
             draggable True
