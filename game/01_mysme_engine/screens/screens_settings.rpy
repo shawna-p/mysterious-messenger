@@ -1245,7 +1245,7 @@ screen sound_settings():
                 xalign 0.5
                 spacing 15
                 xsize 625
-                text "Voice" style "settings_style" xpos 55 ypos -5
+                text _("Voice") style "settings_style" xpos 55 ypos -5
                 style_prefix None
                 # There are few voiced lines in this program, so currently
                 # the effects of these buttons will not be very noticeable
@@ -1259,7 +1259,7 @@ screen sound_settings():
                         # Unknown and Saeran are lumped into Ray's
                         # voice button and MC doesn't speak
                         use voice_buttons(c)
-                    use voice_buttons("Other", 'other')
+                    use voice_buttons(_("Other"), 'other')
 
             frame:
                 style_prefix 'tone_selection'
