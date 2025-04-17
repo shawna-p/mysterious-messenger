@@ -1438,7 +1438,7 @@ screen chat_home(reshow=False):
             else:
                 add "gray_maincircle" xalign 0.5 yalign 0.5
             add "msg_mainicon" xalign 0.5 yalign 0.5
-            text "MESSAGE" style 'hex_text' yalign 0.85
+            text _("MESSAGE") style 'hex_text' yalign 0.85
 
 
         # Calls
