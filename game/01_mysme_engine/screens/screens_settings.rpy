@@ -1263,7 +1263,7 @@ screen sound_settings():
 
             frame:
                 style_prefix 'tone_selection'
-                text "Ringtone" style "settings_style" xpos 55 ypos 5
+                text _("Ringtone") style "settings_style" xpos 55 ypos 5
                 vbox:
                     null height 30
                     button:
