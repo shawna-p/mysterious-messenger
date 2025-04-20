@@ -77,9 +77,9 @@ define narrator = Character(None, kind=vn_character)
 # Giving Sarah the property `image='sarah'` means you can use her
 # dialogue to also show images of her with a different expression.
 # See tutorial_6_meeting.rpy for an example of this
-define sarah_vn = Character("Sarah", kind=vn_character, image='sarah')
+define sarah_vn = Character(_("Sarah"), kind=vn_character, image='sarah')
 
-define chief_vn = Character("Chief Han", kind=vn_character,
+define chief_vn = Character(_("Chief Han"), kind=vn_character,
                                         image='chairman_han')
 
 
