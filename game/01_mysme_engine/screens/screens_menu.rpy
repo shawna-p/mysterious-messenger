@@ -1459,7 +1459,7 @@ screen chat_home(reshow=False):
                 add "gray_maincircle" xalign 0.5 yalign 0.5
 
             add "call_mainicon" xalign 0.5 yalign 0.5
-            text "CALL" style 'hex_text' yalign 0.85
+            text _("CALL") style 'hex_text' yalign 0.85
 
         # Emails
         button:
