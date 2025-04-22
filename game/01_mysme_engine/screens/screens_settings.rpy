@@ -1269,7 +1269,7 @@ screen sound_settings():
                     button:
                         vbox:
                             align (0.5, 0.5)
-                            text "Text Sound" style 'ringtone_change'
+                            text _("Text Sound") style 'ringtone_change'
                             text persistent.text_tone_name:
                                 style 'ringtone_description'
                         action Show('ringtone_dropdown',
