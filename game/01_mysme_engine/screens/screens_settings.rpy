@@ -1277,7 +1277,7 @@ screen sound_settings():
                     button:
                         vbox:
                             align (0.5, 0.5)
-                            text "Email Sound" style 'ringtone_change'
+                            text _("Email Sound") style 'ringtone_change'
                             text persistent.email_tone_name:
                                 style 'ringtone_description'
                         action Show('ringtone_dropdown',
@@ -1287,7 +1287,7 @@ screen sound_settings():
                     button:
                         vbox:
                             align (0.5, 0.5)
-                            text "Ringtone" style 'ringtone_change'
+                            text _("Ringtone") style 'ringtone_change'
                             text persistent.phone_tone_name:
                                 style 'ringtone_description'
                         action Show('ringtone_dropdown',
