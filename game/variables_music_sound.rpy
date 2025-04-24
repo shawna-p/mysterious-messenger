@@ -60,8 +60,8 @@ define xmas_urban_night_cityscape = "audio/music/Urban Night Cityscape (ver. X-M
 # when audio captions are turned on.
 # Songs in this dictionary are also automatically added to the music room.
 define music_dictionary = {
-    mystic_chat : "Upbeat saxophone music",
-    mystic_chat2 : "Upbeat saxophone music with electric guitar",
+    mystic_chat : _("Upbeat saxophone music"),
+    mystic_chat2 : _("Upbeat saxophone music with electric guitar"),
     mystic_op_instrumental : "Upbeat pop instrumental with percussion",
     mysterious_clues : "Sinister bell music",
     urban_night_cityscape : "Sophisticated orchestral music",
