@@ -1380,9 +1380,9 @@ screen voice_buttons(char, voice_char=None):
         button:
             xysize (60, 40)
             xalign 1.0
-            idle_child Text("On", style="voice_toggle_on")
-            hover_child Text("On", style="voice_toggle_on")
-            selected_child Text("Off", style="voice_toggle_off")
+            idle_child Text(_("On"), style="voice_toggle_on")
+            hover_child Text(_("On"), style="voice_toggle_on")
+            selected_child Text(_("Off"), style="voice_toggle_off")
             action ToggleVoiceMute(voice_char)
 
 style voice_toggle_on:
