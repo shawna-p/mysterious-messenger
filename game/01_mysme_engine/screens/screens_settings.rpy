@@ -1440,11 +1440,11 @@ screen ringtone_dropdown(title):
 
                 # List of the ringtones
                 for tone in cat.tones:
-                    textbutton _(tone.title):
+                    textbutton tone.title:
                         style 'ringtone_button'
                         text_style 'ringtone_button_text'
                         selected getattr(persistent, p_field) == tone.file
-                        if title != "Ringtone":
+                        if title != _("Ringtone"):
                             activate_sound tone.file
                             action [SetField(persistent,
                                         p_field, tone.file),
