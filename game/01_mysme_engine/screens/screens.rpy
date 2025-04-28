@@ -148,10 +148,10 @@ screen say(who, what):
                 if persistent.vn_window_alpha < 0.1:
                     yoffset -275+20
                 imagebutton:
-                    idle Text("Auto", style="vn_button_hover")
-                    hover Text("Auto", style="vn_button")
-                    selected_idle Text("Auto", style="vn_button")
-                    selected_hover Text("Auto", style="vn_button_hover")
+                    idle Text(_("Auto"), style="vn_button_hover")
+                    hover Text(_("Auto"), style="vn_button")
+                    selected_idle Text(_("Auto"), style="vn_button")
+                    selected_hover Text(_("Auto"), style="vn_button_hover")
                     action Preference("auto-forward", "toggle")
 
                 imagebutton:
