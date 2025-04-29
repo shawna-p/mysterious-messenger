@@ -155,11 +155,11 @@ screen say(who, what):
                     action Preference("auto-forward", "toggle")
 
                 imagebutton:
-                    idle Text("Skip", style="vn_button")
-                    hover Text("Skip", style="vn_button_hover")
+                    idle Text(_("Skip"), style="vn_button")
+                    hover Text(_("Skip"), style="vn_button_hover")
                     selected renpy.is_skipping()
-                    selected_idle Text("Stop", style="vn_button")
-                    selected_hover Text("Stop", style="vn_button_hover")
+                    selected_idle Text(_("Stop"), style="vn_button")
+                    selected_hover Text(_("Stop"), style="vn_button_hover")
                     action Skip()
                     activate_sound 'audio/sfx/UI/vn_skip.mp3'
 
