@@ -164,8 +164,8 @@ screen say(who, what):
                     activate_sound 'audio/sfx/UI/vn_skip.mp3'
 
                 imagebutton:
-                    idle Text("Log", style="vn_button")
-                    hover Text("Log", style="vn_button_hover")
+                    idle Text(_("Log"), style="vn_button")
+                    hover Text(_("Log"), style="vn_button_hover")
                     action Show('history')
 
 
