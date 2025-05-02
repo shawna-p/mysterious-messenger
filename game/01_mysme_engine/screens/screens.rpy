@@ -613,7 +613,7 @@ screen confirm(message, yes_action, no_action=False, show_link=False):
 
     frame:
         vbox:
-            label _(message):
+            label message:
                 style "confirm_prompt"
                 xalign 0.5
             if show_link:
@@ -645,7 +645,7 @@ screen no_modal_confirm(message, yes_action, no_action=False):
     frame:
         modal True # Prevent clicks under the frame
         vbox:
-            label _(message) style 'confirm_prompt' xalign 0.5
+            label message style 'confirm_prompt' xalign 0.5
             hbox:
                 textbutton _("Confirm") action yes_action
                 if no_action:
