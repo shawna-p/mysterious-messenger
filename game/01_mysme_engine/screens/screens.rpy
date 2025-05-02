@@ -147,11 +147,8 @@ screen say(who, what):
             hbox:
                 if persistent.vn_window_alpha < 0.1:
                     yoffset -275+20
-                imagebutton:
-                    idle Text(_("Auto"), style="vn_button_hover")
-                    hover Text(_("Auto"), style="vn_button")
-                    selected_idle Text(_("Auto"), style="vn_button")
-                    selected_hover Text(_("Auto"), style="vn_button_hover")
+                textbutton _("Auto"):
+                    style 'vn_auto_skip_log'
                     action Preference("auto-forward", "toggle")
 
                 imagebutton:
@@ -247,6 +244,7 @@ style vn_button:
     size 55
     outlines [(1, '#000')]
     kerning -1
+    hover_color "#999999"
 
 style vn_button_hover:
     color "#999999"
@@ -254,6 +252,17 @@ style vn_button_hover:
     size 55
     outlines [(1, '#000')]
     kerning -1
+
+style vn_auto_skip_log:
+    padding (0, 0) background None
+style vn_auto_skip_log_text:
+    is vn_button
+    idle_color "#999"
+    hover_color "#76D0B7"
+    selected_idle_color "#76D0B7"
+    selected_hover_color "#999"
+
+
 
 ## Input screen ################################################################
 ##
