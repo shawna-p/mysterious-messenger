@@ -675,7 +675,7 @@ screen script_error(message, link=False, link_text=False):
     add "gui/overlay/confirm.png"
     frame:
         vbox:
-            label _(message):
+            label message:
                 style "confirm_prompt"
                 xalign 0.5
             if link:
@@ -832,7 +832,7 @@ screen notify(message):
 
     zorder 100
     style_prefix "notify"
-    if message != False:
+    if message is not False:
         frame at notify_appear:
             text "[message!tq]"
 
