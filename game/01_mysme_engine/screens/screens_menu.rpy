@@ -1487,7 +1487,7 @@ screen chat_home(reshow=False):
             add "rfa_chatcircle" yalign 0.5 xalign 0.5
             add "blue_chatcircle" xalign 0.5 yalign 0.5
             add "chat_icon" xalign 0.5 yalign 0.5
-            text "CHATROOM" style 'hex_text' size 34
+            text _("CHATROOM") style 'hex_text' size 34
 
 
         # Links/etc on the left side of the screen
