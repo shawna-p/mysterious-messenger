@@ -69,7 +69,7 @@ screen adjust_fonts():
             action Hide('adjust_fonts')
             keysym "rollback"
 
-        text "Adjust Fonts" style "settings_style" xpos 55 ypos 5
+        text _("Adjust Fonts") style "settings_style" xpos 55 ypos 5
 
         viewport:
             xysize(600, config.screen_height-394)
