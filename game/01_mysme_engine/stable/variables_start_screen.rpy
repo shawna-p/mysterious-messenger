@@ -30,8 +30,8 @@ init -6 python:
 ## Greeting Text
 ## These are defaults for when the DayGreeting object does not have
 ## a translation
-default greet_text_korean = "제 프로그램으로 환영합니다!"
-default greet_text_english = "Welcome to Mysterious Messenger!"
+default greet_text_korean = _("제 프로그램으로 환영합니다!")
+default greet_text_english = _("Welcome to Mysterious Messenger!")
 default greet_eng_size = 27
 default greet_kor_size = 25
 
