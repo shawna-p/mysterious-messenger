@@ -333,7 +333,7 @@ init -50 python:
     ## this value to True, it'll prevent them from activating or appearing
     ## in the achievements list.
     IGNORE_ACHIEVEMENTS = False
-    ui_achievement = Achievement("Farewell, Old UI", "modified_ui",
+    ui_achievement = Achievement(_("Farewell, Old UI"), "modified_ui",
         "Turn on the modified UI from the settings.",
         Crop((0, 0, 155, 155), Transform("Phone UI/bg_secure.webp", xsize=155, fit="contain"))
     )
