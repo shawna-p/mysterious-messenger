@@ -337,7 +337,7 @@ init -50 python:
         "Turn on the modified UI from the settings.",
         Crop((0, 0, 155, 155), Transform("Phone UI/bg_secure.webp", xsize=155, fit="contain"))
     )
-    animated_bg_achievement = Achievement("Now for some Pizazz!", "animated_bgs",
+    animated_bg_achievement = Achievement(_("Now for some Pizazz!"), "animated_bgs",
         "Turn on the animated chatroom backgrounds from the settings.",
         Crop((0, 0, 155, 155), Transform("Phone UI/bg-rainy-day.webp", xsize=155, fit="contain"))
     )
