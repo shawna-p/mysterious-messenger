@@ -341,7 +341,7 @@ init -50 python:
         "Turn on the animated chatroom backgrounds from the settings.",
         Crop((0, 0, 155, 155), Transform("Phone UI/bg-rainy-day.webp", xsize=155, fit="contain"))
     )
-    tutorial_ending1 = Achievement("Made it to the End", "tut_end_1",
+    tutorial_ending1 = Achievement(_("Made it to the End"), "tut_end_1",
         "See at least one ending on Tutorial Day.",
         Crop((0, 55, 155, 155), Transform("VN Mode/Backgrounds/normal_end.webp", xsize=155, fit="contain"))
     )
