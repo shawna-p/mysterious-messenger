@@ -1507,7 +1507,7 @@ screen chat_home(reshow=False):
                 selected None
                 action Show('guestbook')
                 add "guest_icon" xalign 0.5 yalign 0.3
-                text "GUEST"
+                text _("GUEST")
 
             # Developer Settings ("Shop")
             button:
