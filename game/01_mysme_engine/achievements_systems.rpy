@@ -345,7 +345,7 @@ init -50 python:
         "See at least one ending on Tutorial Day.",
         Crop((0, 55, 155, 155), Transform("VN Mode/Backgrounds/normal_end.webp", xsize=155, fit="contain"))
     )
-    tutorial_ending2 = Achievement("Gotta See 'Em All", "tut_end_2",
+    tutorial_ending2 = Achievement(_("Gotta See 'Em All"), "tut_end_2",
         "See all the endings on Tutorial Day.",
         Crop((0, 55, 155, 155), Transform("VN Mode/Backgrounds/good_end.webp", xsize=155, fit="contain"))
     )
