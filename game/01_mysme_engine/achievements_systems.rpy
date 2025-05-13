@@ -349,7 +349,7 @@ init -50 python:
         "See all the endings on Tutorial Day.",
         Crop((0, 55, 155, 155), Transform("VN Mode/Backgrounds/good_end.webp", xsize=155, fit="contain"))
     )
-    make_a_call_achievement = Achievement("Ring Ring", "make_a_call",
+    make_a_call_achievement = Achievement(_("Ring Ring"), "make_a_call",
         "Try calling someone on the phone.",
         Transform("Phone Calls/call_contact_empty.webp", xsize=155, fit="contain")
     )
