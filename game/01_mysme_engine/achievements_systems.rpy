@@ -353,7 +353,7 @@ init -50 python:
         "Try calling someone on the phone.",
         Transform("Phone Calls/call_contact_empty.webp", xsize=155, fit="contain")
     )
-    try_real_time_achievement = Achievement("IRL", "irl",
+    try_real_time_achievement = Achievement(_("IRL"), "irl",
         "Turn on real-time mode from the settings.",
         Fixed(
             Transform("Menu Screens/Main Menu/dlc.webp", xsize=155, fit="contain"),
