@@ -361,7 +361,7 @@ init -50 python:
             fit_first=True
         )
     )
-    expired_achievement = Achievement("Missed it by That Much", "expired",
+    expired_achievement = Achievement(_("Missed it by That Much"), "expired",
         "Play through a chatroom that's expired.",
         "Menu Screens/Main Menu/save_load.webp"
     )
