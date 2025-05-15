@@ -365,7 +365,7 @@ init -50 python:
         "Play through a chatroom that's expired.",
         "Menu Screens/Main Menu/save_load.webp"
     )
-    first_cg_achievement = Achievement("New Image", "unlock_first_cg",
+    first_cg_achievement = Achievement(_("New Image"), "unlock_first_cg",
         "Unlock an image in the CG Gallery.",
         "CGs/common_album_cover.webp",
     )
