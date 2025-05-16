@@ -1500,7 +1500,7 @@ screen chat_home(reshow=False):
                 selected new_cg > 0
                 action MMGallery()
                 add "album_icon" xalign 0.5 yalign 0.35
-                text "ALBUM"
+                text _("ALBUM")
 
             # Guest
             button:
