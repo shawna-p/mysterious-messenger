@@ -1520,9 +1520,9 @@ screen chat_home(reshow=False):
                     action Show('game_extras')
                 add "developer_settings" xalign 0.55 yalign 0.35
                 if config.developer:
-                    text "DEVELOPER" size 18
+                    text _("DEVELOPER") size 18
                 else:
-                    text "EXTRAS"
+                    text _("EXTRAS")
 
             # Link ("Notice")
             button:
