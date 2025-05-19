@@ -1529,7 +1529,7 @@ screen chat_home(reshow=False):
                 selected None
                 action Show('links')
                 add 'link_hex' align (0.5, 0.35)
-                text "LINKS"
+                text _("LINKS")
 
             # Exit to main menu ("Link")
             button:
