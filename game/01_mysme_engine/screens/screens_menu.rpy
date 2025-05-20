@@ -1536,7 +1536,7 @@ screen chat_home(reshow=False):
                 selected None
                 action MainMenu()
                 add 'exit_hex' align (0.6, 0.38)
-                text "MAIN MENU" size 18
+                text _("MAIN MENU") size 18
 
         ## Spaceship
         add "dot_line" xalign 0.5 yalign .97
