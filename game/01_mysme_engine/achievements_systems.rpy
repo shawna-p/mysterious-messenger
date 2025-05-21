@@ -369,7 +369,7 @@ init -50 python:
         "Unlock an image in the CG Gallery.",
         "CGs/common_album_cover.webp",
     )
-    change_pfp_achievement = Achievement("Wait, I didn't pick that", "change_pfp",
+    change_pfp_achievement = Achievement(_("Wait, I didn't pick that"), "change_pfp",
         "Change a character's profile picture.",
         "Menu Screens/Main Menu/s_greeting.webp",
     )
