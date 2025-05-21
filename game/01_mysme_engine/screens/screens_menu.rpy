@@ -1658,7 +1658,7 @@ screen links():
         frame:
             style_prefix 'link_menu'
             vbox:
-                text "Follow Program Updates"
+                text _("Follow Program Updates")
                 grid 2 1:
                     button:
                         vbox:
