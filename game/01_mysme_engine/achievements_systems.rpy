@@ -373,7 +373,7 @@ init -50 python:
         "Change a character's profile picture.",
         "Menu Screens/Main Menu/s_greeting.webp",
     )
-    first_guest_achievement = Achievement("Get this Party Started", "first_guest",
+    first_guest_achievement = Achievement(_("Get this Party Started"), "first_guest",
         "Have one or more guests attend the party.",
         "Email/a_grade.webp",
         )
