@@ -377,7 +377,7 @@ init -50 python:
         "Have one or more guests attend the party.",
         "Email/a_grade.webp",
         )
-    change_your_pfp_achievement = Achievement("New Look, New Me", "change_my_pfp",
+    change_your_pfp_achievement = Achievement(_("New Look, New Me"), "change_my_pfp",
         "Unlock a bonus image for your own profile picture.",
         Crop((0, 60, 155, 155),
             Transform("CGs/common_album/cg-3.webp", xsize=155, fit="contain"))
