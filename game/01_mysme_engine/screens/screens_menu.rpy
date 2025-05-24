@@ -1654,7 +1654,7 @@ style hex_text:
 ##########################################################
 screen links():
     tag menu
-    use menu_header("Links", Show('chat_home', Dissolve(0.5))):
+    use menu_header(_("Links"), Show('chat_home', Dissolve(0.5))):
         frame:
             style_prefix 'link_menu'
             vbox:
