@@ -1672,7 +1672,7 @@ screen links():
                             style_prefix 'link_btn'
                             fixed:
                                 add 'github'
-                            text "GitHub"
+                            text _("GitHub")
                         action OpenURL('https://github.com/shawna-p/mysterious-messenger')
                 null height 5
                 button:
