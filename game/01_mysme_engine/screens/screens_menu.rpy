@@ -1665,7 +1665,7 @@ screen links():
                             style_prefix 'link_btn'
                             fixed:
                                 add 'discord'
-                            text 'Discord'
+                            text _('Discord')
                         action OpenURL('https://discord.gg/BPbPcpk')
                     button:
                         vbox:
