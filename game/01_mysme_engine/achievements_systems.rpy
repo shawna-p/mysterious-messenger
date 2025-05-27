@@ -382,7 +382,7 @@ init -50 python:
         Crop((0, 60, 155, 155),
             Transform("CGs/common_album/cg-3.webp", xsize=155, fit="contain"))
         )
-    malfunctioning_achievement = Achievement("I-it's malfunctioning!",
+    malfunctioning_achievement = Achievement(_("I-it's malfunctioning!"),
         "malfunction_achieve", "Hang up on Ray's Tutorial Day call.",
         "Phone Calls/call_button_hang_up.webp"
         )
