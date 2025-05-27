@@ -1654,7 +1654,7 @@ style hex_text:
 ##########################################################
 screen links():
     tag menu
-    use menu_header("Links", Show('chat_home', Dissolve(0.5))):
+    use menu_header(_("Links"), Show('chat_home', Dissolve(0.5))):
         frame:
             style_prefix 'link_menu'
             vbox:
@@ -1665,14 +1665,14 @@ screen links():
                             style_prefix 'link_btn'
                             fixed:
                                 add 'discord'
-                            text 'Discord'
+                            text _('Discord')
                         action OpenURL('https://discord.gg/BPbPcpk')
                     button:
                         vbox:
                             style_prefix 'link_btn'
                             fixed:
                                 add 'github'
-                            text "GitHub"
+                            text _("GitHub")
                         action OpenURL('https://github.com/shawna-p/mysterious-messenger')
                 null height 5
                 button:
