@@ -386,7 +386,7 @@ init -50 python:
         "malfunction_achieve", "Hang up on Ray's Tutorial Day call.",
         "Phone Calls/call_button_hang_up.webp"
         )
-    hidden_pfp_achievement = Achievement("Who Are You?",
+    hidden_pfp_achievement = Achievement(_("Who Are You?"),
         "hidden_pfp_achieve", "Change your profile picture to the black-haired man.",
         Crop((0, 0, 155, 155),
             Transform("CGs/common_album/cg-2.webp", xsize=155, fit="contain")),
