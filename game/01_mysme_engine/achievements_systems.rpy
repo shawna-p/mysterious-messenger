@@ -334,7 +334,7 @@ init -50 python:
     ## in the achievements list.
     IGNORE_ACHIEVEMENTS = False
     ui_achievement = Achievement(_("Farewell, Old UI"), "modified_ui",
-        "Turn on the modified UI from the settings.",
+        _("Turn on the modified UI from the settings."),
         Crop((0, 0, 155, 155), Transform("Phone UI/bg_secure.webp", xsize=155, fit="contain"))
     )
     animated_bg_achievement = Achievement(_("Now for some Pizazz!"), "animated_bgs",
