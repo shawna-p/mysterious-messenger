@@ -342,7 +342,7 @@ init -50 python:
         Crop((0, 0, 155, 155), Transform("Phone UI/bg-rainy-day.webp", xsize=155, fit="contain"))
     )
     tutorial_ending1 = Achievement(_("Made it to the End"), "tut_end_1",
-        "See at least one ending on Tutorial Day.",
+        _("See at least one ending on Tutorial Day."),
         Crop((0, 55, 155, 155), Transform("VN Mode/Backgrounds/normal_end.webp", xsize=155, fit="contain"))
     )
     tutorial_ending2 = Achievement(_("Gotta See 'Em All"), "tut_end_2",
