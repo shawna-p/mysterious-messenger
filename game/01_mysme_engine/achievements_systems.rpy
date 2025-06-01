@@ -338,7 +338,7 @@ init -50 python:
         Crop((0, 0, 155, 155), Transform("Phone UI/bg_secure.webp", xsize=155, fit="contain"))
     )
     animated_bg_achievement = Achievement(_("Now for some Pizazz!"), "animated_bgs",
-        "Turn on the animated chatroom backgrounds from the settings.",
+        _("Turn on the animated chatroom backgrounds from the settings."),
         Crop((0, 0, 155, 155), Transform("Phone UI/bg-rainy-day.webp", xsize=155, fit="contain"))
     )
     tutorial_ending1 = Achievement(_("Made it to the End"), "tut_end_1",
