@@ -346,7 +346,7 @@ init -50 python:
         Crop((0, 55, 155, 155), Transform("VN Mode/Backgrounds/normal_end.webp", xsize=155, fit="contain"))
     )
     tutorial_ending2 = Achievement(_("Gotta See 'Em All"), "tut_end_2",
-        "See all the endings on Tutorial Day.",
+        _("See all the endings on Tutorial Day."),
         Crop((0, 55, 155, 155), Transform("VN Mode/Backgrounds/good_end.webp", xsize=155, fit="contain"))
     )
     make_a_call_achievement = Achievement(_("Ring Ring"), "make_a_call",
