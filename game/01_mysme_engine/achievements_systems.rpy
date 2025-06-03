@@ -350,7 +350,7 @@ init -50 python:
         Crop((0, 55, 155, 155), Transform("VN Mode/Backgrounds/good_end.webp", xsize=155, fit="contain"))
     )
     make_a_call_achievement = Achievement(_("Ring Ring"), "make_a_call",
-        "Try calling someone on the phone.",
+        _("Try calling someone on the phone."),
         Transform("Phone Calls/call_contact_empty.webp", xsize=155, fit="contain")
     )
     try_real_time_achievement = Achievement(_("IRL"), "irl",
