@@ -1680,7 +1680,7 @@ screen links():
                     action OpenURL('https://ko-fi.com/fen')
 
                 null height 20
-                text "Additional Credits"
+                text _("Additional Credits")
                 vbox:
                     style_prefix 'credits'
                     text "Developer settings icon made by Freepik"
