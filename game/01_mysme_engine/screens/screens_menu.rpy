@@ -1683,7 +1683,7 @@ screen links():
                 text _("Additional Credits")
                 vbox:
                     style_prefix 'credits'
-                    text "Developer settings icon made by Freepik"
+                    text _("Developer settings icon made by Freepik")
                     text "Link icon made by Creaticca Creative Agency"
                     text "Exit to Main Menu icon made by Pixel perfect"
                     text "Zodiac symbols made by Freepik"
