@@ -1685,7 +1685,7 @@ screen links():
                     style_prefix 'credits'
                     text _("Developer settings icon made by Freepik")
                     text _("Link icon made by Creaticca Creative Agency")
-                    text "Exit to Main Menu icon made by Pixel perfect"
+                    text _("Exit to Main Menu icon made by Pixel perfect")
                     text "Zodiac symbols made by Freepik"
                     text "All creators can be found at {a=https://www.flaticon.com/}www.flaticon.com{/a},\nicons used under the Freepik License"
 
