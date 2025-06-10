@@ -1687,7 +1687,7 @@ screen links():
                     text _("Link icon made by Creaticca Creative Agency")
                     text _("Exit to Main Menu icon made by Pixel perfect")
                     text _("Zodiac symbols made by Freepik")
-                    text "All creators can be found at {a=https://www.flaticon.com/}www.flaticon.com{/a},\nicons used under the Freepik License"
+                    text _("All creators can be found at {a=https://www.flaticon.com/}www.flaticon.com{/a},\nicons used under the Freepik License")
 
 style credits_text:
     is text
