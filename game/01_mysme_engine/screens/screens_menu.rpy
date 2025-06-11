@@ -1760,7 +1760,7 @@ screen developer_settings():
             action Hide('developer_settings')
             keysym "rollback"
 
-        text "Developer Settings" style "settings_style" xpos 55 ypos 5
+        text _("Developer Settings") style "settings_style" xpos 55 ypos 5
 
         vbox:
             style_prefix "other_settings"
