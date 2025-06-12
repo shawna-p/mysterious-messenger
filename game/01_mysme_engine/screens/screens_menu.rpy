@@ -1773,7 +1773,7 @@ screen developer_settings():
                 has vbox
                 spacing 6
                 first_spacing 15
-                text "Variables for testing":
+                text _("Variables for testing"):
                     style "settings_style" xpos 45 ypos -3
                 style_prefix "check"
                 textbutton _("Testing Mode"):
