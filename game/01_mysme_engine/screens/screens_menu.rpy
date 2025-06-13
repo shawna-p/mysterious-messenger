@@ -1894,7 +1894,7 @@ screen choose_screen_ratio():
             action Hide('choose_screen_ratio')
             keysym "rollback"
 
-        text "Choose a screen ratio" style "settings_style" xpos 55 ypos 5
+        text _("Choose a screen ratio") style "settings_style" xpos 55 ypos 5
 
         vbox:
             style_prefix "other_settings"
