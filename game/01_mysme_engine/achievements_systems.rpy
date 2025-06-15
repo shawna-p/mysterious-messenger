@@ -362,7 +362,7 @@ init -50 python:
         )
     )
     expired_achievement = Achievement(_("Missed it by That Much"), "expired",
-        "Play through a chatroom that's expired.",
+        _("Play through a chatroom that's expired."),
         "Menu Screens/Main Menu/save_load.webp"
     )
     first_cg_achievement = Achievement(_("New Image"), "unlock_first_cg",
