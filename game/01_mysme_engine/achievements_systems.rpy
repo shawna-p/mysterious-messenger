@@ -366,7 +366,7 @@ init -50 python:
         "Menu Screens/Main Menu/save_load.webp"
     )
     first_cg_achievement = Achievement(_("New Image"), "unlock_first_cg",
-        "Unlock an image in the CG Gallery.",
+        _("Unlock an image in the CG Gallery."),
         "CGs/common_album_cover.webp",
     )
     change_pfp_achievement = Achievement(_("Wait, I didn't pick that"), "change_pfp",
