@@ -370,7 +370,7 @@ init -50 python:
         "CGs/common_album_cover.webp",
     )
     change_pfp_achievement = Achievement(_("Wait, I didn't pick that"), "change_pfp",
-        "Change a character's profile picture.",
+        _("Change a character's profile picture."),
         "Menu Screens/Main Menu/s_greeting.webp",
     )
     first_guest_achievement = Achievement(_("Get this Party Started"), "first_guest",
