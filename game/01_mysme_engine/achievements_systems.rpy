@@ -374,7 +374,7 @@ init -50 python:
         "Menu Screens/Main Menu/s_greeting.webp",
     )
     first_guest_achievement = Achievement(_("Get this Party Started"), "first_guest",
-        "Have one or more guests attend the party.",
+        _("Have one or more guests attend the party."),
         "Email/a_grade.webp",
         )
     change_your_pfp_achievement = Achievement(_("New Look, New Me"), "change_my_pfp",
