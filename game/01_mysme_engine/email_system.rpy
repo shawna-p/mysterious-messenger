@@ -610,7 +610,7 @@ screen email_popup(e, hide_screen='email_popup'):
             action Hide(hide_screen)
         hbox:
             add 'new_text_envelope'
-            text 'NEW'
+            text _('NEW')
         vbox:
             hbox:
                 style_prefix 'email_popup2'
