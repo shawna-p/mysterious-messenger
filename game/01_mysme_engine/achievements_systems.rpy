@@ -392,7 +392,7 @@ init -50 python:
             Transform("CGs/common_album/cg-2.webp", xsize=155, fit="contain")),
         hidden=True)
     progress_stat_achievement = Achievement(_("Finish all the test achievements"),
-        "all_tutorial_achieve", "Complete all the achievements included with the base game.",
+        "all_tutorial_achieve", _("Complete all the achievements included with the base game."),
         "Menu Screens/Main Menu/menu_gift.webp",
         stat_max=13
     )
