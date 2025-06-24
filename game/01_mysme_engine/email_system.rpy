@@ -615,7 +615,7 @@ screen email_popup(e, hide_screen='email_popup'):
             hbox:
                 style_prefix 'email_popup2'
                 add Transform(e.guest.thumbnail, zoom=0.6)
-                text "You have a new message from @" + e.guest.name
+                text _("You have a new message from @") + e.guest.name
 
             # This button takes you directly to the email. It is
             # included so long as the email popup is not shown
