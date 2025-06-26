@@ -610,7 +610,7 @@ screen email_popup(e, hide_screen='email_popup'):
             action Hide(hide_screen)
         hbox:
             add 'new_text_envelope'
-            text _('NEW')
+            text _("NEW")
         vbox:
             hbox:
                 style_prefix 'email_popup2'
@@ -621,7 +621,7 @@ screen email_popup(e, hide_screen='email_popup'):
             # included so long as the email popup is not shown
             # during phone calls or chatrooms.
             if gamestate is None:
-                textbutton _('Go to') action MMGoToEmail(hide_screen)
+                textbutton _("Go to") action MMGoToEmail(hide_screen)
 
     timer 3.25 action Hide(hide_screen, Dissolve(0.25))
 
