@@ -685,7 +685,7 @@ screen email_hub():
     on 'show' action [AutoSave()]
 
 
-    use menu_header('Email', Show('chat_home', Dissolve(0.5))):
+    use menu_header(_("Email"), Show('chat_home', Dissolve(0.5))):
         null height 3
         frame:
             style_prefix 'email_hub'
