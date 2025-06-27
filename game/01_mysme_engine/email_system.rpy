@@ -692,7 +692,7 @@ screen email_hub():
             has vbox
             null height -15
             if not email_list:
-                text "Inbox is empty"
+                text _("Inbox is empty")
             for e in email_list[current_page*emails_per_page:current_page*emails_per_page+emails_per_page]:
                 use email_button(e)
 
