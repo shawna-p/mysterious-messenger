@@ -1907,9 +1907,9 @@ screen choose_screen_ratio():
                 has vbox
                 spacing 6
                 style_prefix "check"
-                textbutton _("9:16 (Default)"):
+                textbutton _("9:16 (Default){#screen_resolution}"):
                     action SetScreenVariable('vheight', 16)
-                textbutton _("9:19"):
+                textbutton "9:19":
                     action SetScreenVariable('vheight', 19)
 
             hbox:
