@@ -1921,7 +1921,7 @@ screen choose_screen_ratio():
                     xysize (285, 80)
                     action If(vheight == persistent.virt_screen_height,
                         Hide('choose_screen_ratio'),
-                        CConfirm("Are you sure? The game will restart to apply your changes.",
+                        CConfirm(_("Are you sure? The game will restart to apply your changes."),
                         [SetField(persistent, 'virt_screen_height', vheight),
                         Function(renpy.quit, relaunch=True)]))
 
