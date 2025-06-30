@@ -700,7 +700,7 @@ screen email_hub():
             style_prefix 'email_hub'
             imagebutton:
                 idle Transform("email_next", xzoom=-1)
-                align (0.5, 0.5)
+                align (0.5, 0.5) alt _("Previous Page")
                 if current_page > 0:
                     action SetScreenVariable('current_page', current_page-1)
                     activate_sound 'audio/sfx/UI/email_next_arrow.mp3'
@@ -712,6 +712,7 @@ screen email_hub():
             imagebutton:
                 idle "email_next"
                 align (0.5, 0.5)
+                alt _("Next Page")
                 if current_page < num_pages - 1:
                     action SetScreenVariable('current_page', current_page+1)
                     activate_sound 'audio/sfx/UI/email_next_arrow.mp3'
