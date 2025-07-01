@@ -837,10 +837,11 @@ screen open_email(e):
                 vbox:
                     spacing 10
                     fixed:
-                        text 'From: ' + e.guest.name
-                    text ('[[Date] ' + e.sent_time.month_num
-                            + '/' + e.sent_time.day) size 27
-                    text ('[[Time] ' + e.sent_time.get_twelve_hour()) size 27
+                        text _('From: ') + e.guest.name
+                    text _("[[Date] {}/{}").format(e.sent_time.month_num,
+                        e.sent_time.day) size 27
+
+                    text _("[[Time] {}").format(e.sent_time.get_twelve_hour()) size 27
 
                 textbutton _('Reply'):
                     insensitive_foreground 'menu_select_btn_inactive'
