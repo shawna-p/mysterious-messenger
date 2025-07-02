@@ -1949,7 +1949,7 @@ screen email_testing():
             action Hide('email_testing')
             keysym "rollback"
 
-        text "Test Emails" style "settings_style" xpos 55 ypos 5
+        text _("Test Emails") style "settings_style" xpos 55 ypos 5
 
         viewport:
             xysize (630, 600) yoffset -100
