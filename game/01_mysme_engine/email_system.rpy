@@ -951,7 +951,7 @@ screen guestbook():
 
     default return_action = Show('select_history', dissolve) if main_menu else Show('chat_home', dissolve)
 
-    use menu_header("Guest", return_action):
+    use menu_header(_("Guest"), return_action):
         vpgrid id 'guest_vp':
             xysize (740, config.screen_height-134-30)
             yfill True
