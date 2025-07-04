@@ -989,7 +989,7 @@ screen guestbook():
                         # This guest is unknown to the player
                         background VBox(Null(height=20),
                             Transform('img_locked', xysize=(155, 155), fit="contain"))
-                        action CConfirm("You have not yet\nencountered this guest")
+                        action CConfirm(_("You have not yet\nencountered this guest"))
 
 
 image guest_story = 'Email/story_available.webp'
