@@ -1958,10 +1958,10 @@ screen email_testing():
             yalign 0.5
             style_prefix "other_settings"
             for guest in all_guests:
-                textbutton "Invite {} (@{})".format(guest.dialogue_name, guest.name):
+                textbutton _("Invite {} (@{})").format(guest.dialogue_name, guest.name):
                     text_idle_color "#fff"
                     action [Function(execute_invite_guest, guest),
-                        CConfirm("Invited guest {}".format(guest.name))]
+                        CConfirm(_("Invited guest {}").format(guest.name))]
         vbox:
             align (0.5, 1.0)
             spacing 40
