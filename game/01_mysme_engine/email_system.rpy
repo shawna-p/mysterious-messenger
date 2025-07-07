@@ -1017,7 +1017,7 @@ screen guest_info_popup(guest, unlocked):
             hbox:
                 style_prefix 'guest_desc'
                 vbox:
-                    text "[[Personal Info]" size 25 font gui.sans_serif_1b
+                    text _("[[Personal Info]") size 25 font gui.sans_serif_1b
                     frame:
                         if unlocked:
                             text guest.personal_info
