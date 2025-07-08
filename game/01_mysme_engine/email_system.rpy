@@ -1061,7 +1061,7 @@ label guest_info():
         $ persistent.guestbook[guest_replay_info.name] = 'viewed'
         if not persistent.animated_icons:
             $ popup_tag = get_random_screen_tag()
-            $ renpy.show_screen('stackable_notifications', message="Hourglass +1",
+            $ renpy.show_screen('stackable_notifications', message=_("Hourglass +1"),
                 hide_screen=popup_tag, _tag=popup_tag)
         else:
             $ popup_tag = get_random_screen_tag()
