@@ -1072,7 +1072,7 @@ label guest_info():
 
     scene bg rfa_party_3
     show expression expr
-    who "[what!i]"
+    who "[what!it]"
     $ viewing_guest = False
     $ renpy.end_replay()
     return
