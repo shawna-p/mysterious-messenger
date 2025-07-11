@@ -1017,7 +1017,7 @@ screen guest_info_popup(guest, unlocked):
             hbox:
                 style_prefix 'guest_desc'
                 vbox:
-                    text "[[Personal Info]" size 25 font gui.sans_serif_1b
+                    text _("[[Personal Info]") size 25 font gui.sans_serif_1b
                     frame:
                         if unlocked:
                             text guest.personal_info
@@ -1061,7 +1061,7 @@ label guest_info():
         $ persistent.guestbook[guest_replay_info.name] = 'viewed'
         if not persistent.animated_icons:
             $ popup_tag = get_random_screen_tag()
-            $ renpy.show_screen('stackable_notifications', message="Hourglass +1",
+            $ renpy.show_screen('stackable_notifications', message=_("Hourglass +1"),
                 hide_screen=popup_tag, _tag=popup_tag)
         else:
             $ popup_tag = get_random_screen_tag()
@@ -1072,7 +1072,7 @@ label guest_info():
 
     scene bg rfa_party_3
     show expression expr
-    who "[what!i]"
+    who "[what!it]"
     $ viewing_guest = False
     $ renpy.end_replay()
     return
