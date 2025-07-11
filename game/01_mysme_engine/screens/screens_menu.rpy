@@ -1972,7 +1972,7 @@ screen email_testing():
                     align (0.5, 0.5)
                     xysize (350, 80)
                     action [Function(send_emails_now),
-                        CConfirm("Outstanding email replies delivered.")]
+                        CConfirm(_("Outstanding email replies delivered."))]
                 textbutton "Start Party":
                     style_prefix 'other_settings_end'
                     align (0.5, 0.5)
