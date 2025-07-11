@@ -1967,7 +1967,7 @@ screen email_testing():
             spacing 40
             hbox:
                 spacing 40
-                textbutton "Force email replies":
+                textbutton _("Force email replies"):
                     style_prefix "other_settings_end"
                     align (0.5, 0.5)
                     xysize (350, 80)
