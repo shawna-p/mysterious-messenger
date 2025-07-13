@@ -1980,7 +1980,7 @@ screen email_testing():
                     action Jump('simulate_party')
             hbox:
                 spacing 40
-                textbutton "Invite all guests":
+                textbutton _("Invite all guests"):
                     style_prefix "other_settings_end"
                     align (0.5, 0.5)
                     xysize (350, 80)
