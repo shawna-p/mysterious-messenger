@@ -1984,7 +1984,7 @@ screen email_testing():
                     style_prefix "other_settings_end"
                     align (0.5, 0.5)
                     xysize (350, 80)
-                    action CConfirm("Are you sure you want to invite all the guests at once?",
+                    action CConfirm(_("Are you sure you want to invite all the guests at once?"),
                         Function(invite_all_guests))
                 textbutton "Indicate correct answer ({})".format("ON" if persistent.show_email_answers else "OFF"):
                     style_prefix 'other_settings_end'
