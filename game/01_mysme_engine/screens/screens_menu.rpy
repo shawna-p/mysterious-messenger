@@ -1986,7 +1986,7 @@ screen email_testing():
                     xysize (350, 80)
                     action CConfirm(_("Are you sure you want to invite all the guests at once?"),
                         Function(invite_all_guests))
-                textbutton "Indicate correct answer ({})".format("ON" if persistent.show_email_answers else "OFF"):
+                textbutton "Indicate correct answer ({})".format(_("ON") if persistent.show_email_answers else _("OFF")):
                     style_prefix 'other_settings_end'
                     align (0.5, 0.5)
                     xysize (270, 80)
