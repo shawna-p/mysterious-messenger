@@ -2062,7 +2062,7 @@ screen program_updates(update=None):
     add "#000a"
     frame:
         style_prefix 'update_box'
-        text "Your program version: v[config.version]"
+        text _("Your program version: v[config.version]")
 
         imagebutton:
             auto 'input_close_%s'
