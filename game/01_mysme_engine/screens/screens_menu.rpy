@@ -1991,7 +1991,7 @@ screen email_testing():
                     align (0.5, 0.5)
                     xysize (270, 80)
                     text_size 28 text_line_spacing -10
-                    action ToggleVariable('persistent.show_email_answers')
+                    action ToggleField(persistent, 'show_email_answers')
 
 label simulate_party:
     hide screen email_testing
