@@ -2071,7 +2071,7 @@ screen program_updates(update=None):
                     Hide('program_updates')],
                 Hide('program_updates'))]
 
-        text "Program Updates" style "settings_style" xpos 55 ypos 5
+        text _("Program Updates") style "settings_style" xpos 55 ypos 5
 
         vbox:
             style_prefix "update_program"
