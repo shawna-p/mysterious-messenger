@@ -2077,7 +2077,7 @@ screen program_updates(update=None):
             style_prefix "update_program"
             null height 30
             frame:
-                text "A new update for Mysterious Messenger is available!":
+                text _("A new update for Mysterious Messenger is available!"):
                     font gui.curlicue_font
                     text_align 0.5
                     xalign 0.5
