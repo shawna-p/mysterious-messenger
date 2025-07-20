@@ -2092,7 +2092,7 @@ screen program_updates(update=None):
                 font gui.sans_serif_1xb
             hbox:
                 fixed:
-                    text "Publish date:" xalign 1.0 font gui.sans_serif_1b
+                    text _("Publish date:") xalign 1.0 font gui.sans_serif_1b
                 fixed:
                     text publish_time
             hbox:
