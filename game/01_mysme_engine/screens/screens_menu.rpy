@@ -2097,7 +2097,7 @@ screen program_updates(update=None):
                     text publish_time
             hbox:
                 fixed:
-                    text "Prerelease:" xalign 1.0 font gui.sans_serif_1b
+                    text _("Prerelease:") xalign 1.0 font gui.sans_serif_1b
                 fixed:
                     text is_prerelease
             if dl_link:
