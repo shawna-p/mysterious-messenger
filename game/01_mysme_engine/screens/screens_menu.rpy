@@ -2101,7 +2101,7 @@ screen program_updates(update=None):
                 fixed:
                     text is_prerelease
             if dl_link:
-                textbutton "Download Link":
+                textbutton _("Download Link"):
                     action OpenURL(dl_link)
             null height 20
             textbutton _("Ignore this release"):
