@@ -124,7 +124,7 @@ screen viewCG_fullsize(fullsizeCG):
             background Solid("#00000066")
             xysize (config.screen_width, 99)
 
-            textbutton "Close":
+            textbutton _("Close"):
                 style_prefix "CG_close"
                 action Return()
                 if persistent.dialogue_outlines:
