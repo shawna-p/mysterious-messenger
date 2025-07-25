@@ -622,7 +622,7 @@ screen photo_album():
                 # have less than three as well. You can also add another row by
                 # adding another hbox.
                 hbox:
-                    use char_album('cg_label_ju', 'Jumin Han',
+                    use char_album('cg_label_ju', _('Jumin Han'),
                                     persistent.ju_album, 'ju_album_cover')
                     use char_album('cg_label_z', 'ZEN',
                                     persistent.z_album, 'z_album_cover')
