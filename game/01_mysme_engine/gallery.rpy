@@ -626,7 +626,7 @@ screen photo_album():
                                     persistent.ju_album, 'ju_album_cover')
                     use char_album('cg_label_z', _('ZEN'),
                                     persistent.z_album, 'z_album_cover')
-                    use char_album('cg_label_s', '707',
+                    use char_album('cg_label_s', _('707'),
                                     persistent.s_album, 's_album_cover')
                 hbox:
                     use char_album('cg_label_y', 'Yoosung★',
