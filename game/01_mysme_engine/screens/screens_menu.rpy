@@ -2172,7 +2172,7 @@ screen update_preferences():
     frame:
         style_prefix 'update_box'
         ysize 300 + ignored_size + 80 + 18*2
-        text "Your program version: v[config.version]"
+        text _("Your program version: v[config.version]")
 
         imagebutton:
             auto 'input_close_%s'
