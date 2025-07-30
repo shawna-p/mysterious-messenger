@@ -633,7 +633,7 @@ screen photo_album():
                                     persistent.y_album, 'y_album_cover')
                     use char_album('cg_label_ja', _('Jaehee Kang'),
                                     persistent.ja_album, 'ja_album_cover')
-                    use char_album('cg_label_v', 'V',
+                    use char_album('cg_label_v', _('V'),
                                     persistent.v_album, 'v_album_cover')
                 hbox:
                     use char_album('cg_label_u', 'Unknown',
