@@ -636,7 +636,7 @@ screen photo_album():
                     use char_album('cg_label_v', _('V'),
                                     persistent.v_album, 'v_album_cover')
                 hbox:
-                    use char_album('cg_label_u', 'Unknown',
+                    use char_album('cg_label_u', _('Unknown'),
                                     persistent.u_album, 'u_album_cover')
                     use char_album('cg_label_r', 'Ray',
                                     persistent.r_album, 'r_album_cover')
