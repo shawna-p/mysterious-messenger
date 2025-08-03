@@ -2179,7 +2179,7 @@ screen update_preferences():
             action Hide('update_preferences')
             keysym "rollback"
 
-        text "Update Preferences" style "settings_style" xpos 55 ypos 5
+        text _("Update Preferences") style "settings_style" xpos 55 ypos 5
 
         vbox:
             style 'update_program_vbox'
