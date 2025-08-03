@@ -640,7 +640,7 @@ screen photo_album():
                                     persistent.u_album, 'u_album_cover')
                     use char_album('cg_label_r', _('Ray'),
                                     persistent.r_album, 'r_album_cover')
-                    use char_album('cg_label_common', 'Common',
+                    use char_album('cg_label_common', _('Common'),
                                     persistent.common_album, 'common_album_cover')
         else:
             vpgrid:
