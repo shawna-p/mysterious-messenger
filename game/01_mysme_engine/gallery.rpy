@@ -631,16 +631,16 @@ screen photo_album():
                 hbox:
                     use char_album('cg_label_y', _('Yoosung★'),
                                     persistent.y_album, 'y_album_cover')
-                    use char_album('cg_label_ja', 'Jaehee Kang',
+                    use char_album('cg_label_ja', _('Jaehee Kang'),
                                     persistent.ja_album, 'ja_album_cover')
-                    use char_album('cg_label_v', 'V',
+                    use char_album('cg_label_v', _('V'),
                                     persistent.v_album, 'v_album_cover')
                 hbox:
-                    use char_album('cg_label_u', 'Unknown',
+                    use char_album('cg_label_u', _('Unknown'),
                                     persistent.u_album, 'u_album_cover')
-                    use char_album('cg_label_r', 'Ray',
+                    use char_album('cg_label_r', _('Ray'),
                                     persistent.r_album, 'r_album_cover')
-                    use char_album('cg_label_common', 'Common',
+                    use char_album('cg_label_common', _('Common'),
                                     persistent.common_album, 'common_album_cover')
         else:
             vpgrid:
