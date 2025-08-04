@@ -2192,7 +2192,7 @@ screen update_preferences():
                 action ToggleField(persistent, 'check_for_prerelease')
 
             if persistent.ignored_versions:
-                text "Ignored releases:" style 'update_program_text'
+                text _("Ignored releases:") style 'update_program_text'
                 frame:
                     background "#0005"
                     padding (18, 18)
