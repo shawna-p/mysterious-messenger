@@ -2201,7 +2201,7 @@ screen update_preferences():
                     has vbox
                     spacing 3
                     for ver in persistent.ignored_versions[-10:]:
-                        textbutton _(ver):
+                        textbutton ver:
                             ysize 44
                             style_prefix "check"
                             selected True
