@@ -740,7 +740,7 @@ screen character_gallery(album, caption, name):
 
     tag menu
 
-    use menu_header('Photo Album', Show('photo_album', Dissolve(0.5))):
+    use menu_header(_('Photo Album'), Show('photo_album', Dissolve(0.5))):
 
         vbox:
             align (0.5, 1.0)
