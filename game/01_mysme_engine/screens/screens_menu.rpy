@@ -2179,7 +2179,7 @@ screen update_preferences():
             action Hide('update_preferences')
             keysym "rollback"
 
-        text "Update Preferences" style "settings_style" xpos 55 ypos 5
+        text _("Update Preferences") style "settings_style" xpos 55 ypos 5
 
         vbox:
             style 'update_program_vbox'
@@ -2192,7 +2192,7 @@ screen update_preferences():
                 action ToggleField(persistent, 'check_for_prerelease')
 
             if persistent.ignored_versions:
-                text "Ignored releases:" style 'update_program_text'
+                text _("Ignored releases:") style 'update_program_text'
                 frame:
                     background "#0005"
                     padding (18, 18)
@@ -2201,7 +2201,7 @@ screen update_preferences():
                     has vbox
                     spacing 3
                     for ver in persistent.ignored_versions[-10:]:
-                        textbutton _(ver):
+                        textbutton ver:
                             ysize 44
                             style_prefix "check"
                             selected True
