@@ -795,7 +795,7 @@ init python:
                 [album, caption, name, index]),
             final_action],
 
-            CConfirm("This image is not yet unlocked"))
+            CConfirm(_("This image is not yet unlocked")))
 
 style album_text_short:
     align (0.5, 0.5)
