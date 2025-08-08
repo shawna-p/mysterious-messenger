@@ -13,14 +13,14 @@ init 3 python:
             mr_name = key
         ## For the most part, this uses the file name as the song name,
         ## with the following two exceptions.
-        if mr_name == "Mystic_Messenger_Opening_Instrumental_Version":
-            mr_name = "Mystic Messenger Opening (Instrumental Ver.)"
-        elif mr_name == "Geniusly Hacked Bedop":
-            mr_name = "Geniusly Hacked Bebop"
+        if mr_name == _("Mystic_Messenger_Opening_Instrumental_Version"):
+            mr_name = _("Mystic Messenger Opening (Instrumental Ver.)")
+        elif mr_name == _("Geniusly Hacked Bedop"):
+            mr_name = _("Geniusly Hacked Bebop")
         mm_mr.add(
             name=mr_name,
             path=key,
-            artist="Flaming Heart",
+            artist=_("Flaming Heart"),
         )
 
 define myconfig.UNLOCK_TRACKS_FOR_DEVELOPMENT = False
