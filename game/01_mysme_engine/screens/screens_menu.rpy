@@ -2232,7 +2232,7 @@ screen chara_profile(who):
     tag settings_screen
     modal True
 
-    use menu_header("Profile", Hide('chara_profile', Dissolve(0.5))):
+    use menu_header(_("Profile"), Hide('chara_profile', Dissolve(0.5))):
         frame:
             xysize (config.screen_width, 1170)
 
