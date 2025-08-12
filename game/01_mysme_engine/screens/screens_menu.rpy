@@ -2232,7 +2232,7 @@ screen chara_profile(who):
     tag settings_screen
     modal True
 
-    use menu_header("Profile", Hide('chara_profile', Dissolve(0.5))):
+    use menu_header(_("Profile"), Hide('chara_profile', Dissolve(0.5))):
         frame:
             xysize (config.screen_width, 1170)
 
@@ -2252,7 +2252,7 @@ screen chara_profile(who):
                 yalign 0.645 spacing 8
                 text who.name style "profile_header_text"
                 if persistent.available_call_indicator and call_available(who):
-                    text "Online" color "#fff" text_align 0.5 size 22 xalign 0.5
+                    text _("Online") color "#fff" text_align 0.5 size 22 xalign 0.5
             fixed:
                 xysize (700, 260)
                 yalign 0.95
@@ -2284,7 +2284,7 @@ screen pick_chara_pfp(who):
             auto 'input_close_%s'
             action [Hide('pick_chara_pfp')]
 
-        text "Choose {}'s profile picture".format(who.name)
+        text _("Choose {}'s profile picture").format(who.name)
 
         vpgrid:
             rows num_rows
