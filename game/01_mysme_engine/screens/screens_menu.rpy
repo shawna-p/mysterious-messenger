@@ -2284,7 +2284,7 @@ screen pick_chara_pfp(who):
             auto 'input_close_%s'
             action [Hide('pick_chara_pfp')]
 
-        text "Choose {}'s profile picture".format(who.name)
+        text _("Choose {}'s profile picture").format(who.name)
 
         vpgrid:
             rows num_rows
