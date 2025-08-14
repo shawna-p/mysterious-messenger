@@ -2306,7 +2306,7 @@ screen pick_chara_pfp(who):
                             Hide('pick_chara_pfp')]
                     elif is_unlocked_pfp(img, condition) is None:
                         background Transform(img, xysize=(140,140))
-                        action CConfirm("Would you like to unlock this profile picture for [pfp_cost] hearts?",
+                        action CConfirm(_("Would you like to unlock this profile picture for [pfp_cost] hearts?"),
                             If(persistent.spendable_hearts.get(
                                 who.file_id, 0) >= pfp_cost,
                             [SetDict(persistent.spendable_hearts, who.file_id,
