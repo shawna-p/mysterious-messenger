@@ -2294,7 +2294,7 @@ screen pick_chara_pfp(who):
             scrollbars "vertical"
             button:
                 background 'menu_ringtone_box'
-                text "Revert to default" style 'pick_pfp_text2'
+                text _("Revert to default") style 'pick_pfp_text2'
                 hover_foreground "menu_ringtone_box"
                 action SetField(who, 'bonus_pfp', False)
             for img, condition in pfp_list:
