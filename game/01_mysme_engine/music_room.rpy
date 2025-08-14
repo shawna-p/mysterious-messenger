@@ -88,7 +88,7 @@ screen music_room(mr):
     tag menu
     default current_track = mr.get_current_song()
 
-    use menu_header("Music Room", Return()):
+    use menu_header(_("Music Room"), Return()):
         fixed:
             style_prefix 'music_room'
             xfill True yfill True
