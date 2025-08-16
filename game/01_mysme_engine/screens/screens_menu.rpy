@@ -2313,7 +2313,7 @@ screen pick_chara_pfp(who):
                                 persistent.spendable_hearts.get(who.file_id,
                                 0)-pfp_cost),
                             AddToSet(persistent.bought_prof_pics, img)],
-                            CConfirm("You do not have enough heart points with {} to purchase this picture.".format(who.name))))
+                            CConfirm(_("You do not have enough heart points with {} to purchase this picture.").format(who.name))))
                         add "#0005" xysize (140, 140)
                         add 'plot_lock' align (0.5, 0.5)
                         add 'header_heart' align (0.95, 0.95)
