@@ -2319,7 +2319,7 @@ screen pick_chara_pfp(who):
                         add 'header_heart' align (0.95, 0.95)
                     else:
                         background Transform('img_locked', xysize=(140, 140))
-                        action CConfirm("You have not yet unlocked this profile picture.")
+                        action CConfirm(_("You have not yet unlocked this profile picture."))
 
     if not in_chat_creator:
         frame:
