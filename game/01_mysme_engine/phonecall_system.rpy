@@ -533,7 +533,7 @@ screen phone_calls():
     on 'show' action AutoSave()
     on 'replace' action AutoSave()
 
-    use menu_header("Call History", [Show('chat_home', Dissolve(0.5)),
+    use menu_header(_("Call History"), [Show('chat_home', Dissolve(0.5)),
                                     AutoSave()]):
         null height 3
         frame:

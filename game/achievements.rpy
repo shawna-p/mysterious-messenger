@@ -83,7 +83,7 @@ screen achievement_gallery():
 
     tag menu
 
-    use menu_header("Achievements", Return()):
+    use menu_header(_("Achievements"), Return()):
 
         viewport id 'achievement_vp':
             style_prefix 'achieve'
