@@ -133,7 +133,7 @@ screen music_room(mr):
                     xalign 0.5 spacing 60
                     ################## Shuffle button ##################
                     imagebutton:
-                        idle "shuffle_button"
+                        idle "shuffle_button" alt _("Shuffle")
                         at colorize_button(MUSIC_ROOM_INSENSITIVE_COLOR,
                             MUSIC_ROOM_IDLE_COLOR), zoom_button(0.9)
                         action mr.ToggleShuffle()
