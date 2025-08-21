@@ -545,7 +545,7 @@ screen phone_calls():
                 background "menu_tab_active"
                 has hbox
                 add 'call_history_icon'
-                text "History"
+                text _("History")
             null width 10
             button:
                 action Show("phone_contacts", Dissolve(0.5))
