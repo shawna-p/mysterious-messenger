@@ -551,7 +551,7 @@ screen phone_calls():
                 action Show("phone_contacts", Dissolve(0.5))
                 has hbox
                 add 'contact_icon'
-                text "Contacts"
+                text _("Contacts")
 
         viewport:
             style_prefix 'call_display'
