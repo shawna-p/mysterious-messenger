@@ -595,7 +595,7 @@ screen phone_calls():
                         imagebutton:
                             idle 'call_replay_active'
                             insensitive 'call_replay_inactive'
-                            align(0.5, 0.5)
+                            align(0.5, 0.5) alt _("Replay call")
                             xysize(96,85)
                             sensitive i.playback
                             hover Transform('call_replay_active', zoom=1.1,
