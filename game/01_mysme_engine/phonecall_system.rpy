@@ -603,7 +603,7 @@ screen phone_calls():
                             action MMReplayCall(i)
 
                         imagebutton:
-                            idle 'call_back'
+                            idle 'call_back' alt _("Call Back")
                             insensitive Transform('call_back',
                                 matrixcolor=SaturationMatrix(0.0))
                             align(0.5, 0.5)
