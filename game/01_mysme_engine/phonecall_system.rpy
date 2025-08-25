@@ -634,7 +634,7 @@ screen phone_contacts():
     tag menu
     default contact_list = [ c for c in character_list if c != m]
 
-    use menu_header("Contacts", Show('chat_home', Dissolve(0.5))):
+    use menu_header(_("Contacts"), Show('chat_home', Dissolve(0.5))):
 
         null height 3
 
