@@ -139,7 +139,7 @@ screen music_room(mr):
                         action mr.ToggleShuffle()
                     ############ Previous, play/pause, next buttons ############
                     imagebutton:
-                        idle "prev_button"
+                        idle "prev_button" _("Previous Song")
                         at colorize_button(), zoom_button(0.65)
                         action mr.Previous()
                     imagebutton:
