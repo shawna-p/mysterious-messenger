@@ -545,13 +545,13 @@ screen phone_calls():
                 background "menu_tab_active"
                 has hbox
                 add 'call_history_icon'
-                text "History"
+                text _("History")
             null width 10
             button:
                 action Show("phone_contacts", Dissolve(0.5))
                 has hbox
                 add 'contact_icon'
-                text "Contacts"
+                text _("Contacts")
 
         viewport:
             style_prefix 'call_display'
@@ -595,7 +595,7 @@ screen phone_calls():
                         imagebutton:
                             idle 'call_replay_active'
                             insensitive 'call_replay_inactive'
-                            align(0.5, 0.5)
+                            align(0.5, 0.5) alt _("Replay call")
                             xysize(96,85)
                             sensitive i.playback
                             hover Transform('call_replay_active', zoom=1.1,
@@ -603,7 +603,7 @@ screen phone_calls():
                             action MMReplayCall(i)
 
                         imagebutton:
-                            idle 'call_back'
+                            idle 'call_back' alt _("Call Back")
                             insensitive Transform('call_back',
                                 matrixcolor=SaturationMatrix(0.0))
                             align(0.5, 0.5)
@@ -634,7 +634,7 @@ screen phone_contacts():
     tag menu
     default contact_list = [ c for c in character_list if c != m]
 
-    use menu_header("Contacts", Show('chat_home', Dissolve(0.5))):
+    use menu_header(_("Contacts"), Show('chat_home', Dissolve(0.5))):
 
         null height 3
 
