@@ -646,7 +646,7 @@ screen phone_contacts():
                 action Show("phone_calls", Dissolve(0.5))
                 has hbox
                 add 'call_history_icon'
-                text "History"
+                text _("History")
             null width 10
             button:
                 hover_background None
