@@ -8,7 +8,7 @@ screen text_message_hub():
     on 'replace' action [AutoSave()]
     on 'show' action [AutoSave()]
 
-    use menu_header('Text Message', Show('chat_home', Dissolve(0.5))):
+    use menu_header(_('Text Message'), Show('chat_home', Dissolve(0.5))):
         null height 3
         viewport:
             xsize 725
