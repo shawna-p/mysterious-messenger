@@ -653,7 +653,7 @@ screen phone_contacts():
                 background "menu_tab_active"
                 has hbox
                 add 'contact_icon'
-                text "Contacts"
+                text _("Contacts")
 
         vpgrid:
             style_prefix 'call_display'
