@@ -715,6 +715,7 @@ screen phone_contact_btn(person):
             imagebutton:
                 background person.file_id + '_contact'
                 idle person.file_id + '_contact'
+                alt _("Call [person.name]")
                 hover_foreground person.file_id + '_contact'
                 action MMOutgoingCall(caller=person)
             text person.name style 'contact_text'
