@@ -785,7 +785,7 @@ screen in_call(who=ja, story_call=False):
     default show_timer = True
     default countup = 0
 
-    use menu_header("In Call"):
+    use menu_header(_("In Call")):
         fixed:
             xysize (config.screen_width, config.screen_height-84)
             vbox:
