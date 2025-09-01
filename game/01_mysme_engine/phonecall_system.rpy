@@ -835,7 +835,7 @@ screen incoming_call(phonecall, countdown_time=10):
     on 'show' action SetScreenVariable('call_countdown', countdown_time)
     on 'replace' action SetScreenVariable('call_countdown', countdown_time)
 
-    use menu_header("In Call"):
+    use menu_header(_("In Call")):
         frame:
             xysize (config.screen_width, config.screen_height-84)
             frame:
