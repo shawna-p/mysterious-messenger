@@ -881,7 +881,7 @@ screen incoming_call(phonecall, countdown_time=10):
                 has vbox
                 align (0.5, 0.6)
                 spacing 10
-                text "Incoming Call" color '#fff' xalign 0.5 size 40
+                text _("Incoming Call") color '#fff' xalign 0.5 size 40
                 if (not starter_story and not isinstance(phonecall, StoryCall)):
                     text "[call_countdown]" xalign 0.5  color '#fff' size 80
 
