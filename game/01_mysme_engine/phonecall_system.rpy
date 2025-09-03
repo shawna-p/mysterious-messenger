@@ -914,7 +914,7 @@ screen phone_footer(answer_action=False, center_item=False, hangup_action=False)
             if answer_action:
                 imagebutton:
                     align (0.5, 0.5)
-                    idle 'call_answer'
+                    idle 'call_answer' alt _("Answer Call")
                     hover Transform('call_answer', zoom=1.1)
                     action answer_action
         fixed:
