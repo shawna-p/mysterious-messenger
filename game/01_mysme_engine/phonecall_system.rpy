@@ -927,6 +927,7 @@ screen phone_footer(answer_action=False, center_item=False, hangup_action=False)
                     selected _preferences.afm_enable
                     selected_idle 'call_pause'
                     idle 'call_play'
+                    alt _("Toggle audio auto-advance")
                     action MMPauseCall()
 
         frame:
