@@ -935,7 +935,7 @@ screen phone_footer(answer_action=False, center_item=False, hangup_action=False)
             align (0.5, 0.5)
             if hangup_action:
                 imagebutton:
-                    align (0.5, 0.5)
+                    align (0.5, 0.5) alt _("End Call")
                     idle 'call_hang_up'
                     hover Transform('call_hang_up', zoom=1.1)
                     action hangup_action
