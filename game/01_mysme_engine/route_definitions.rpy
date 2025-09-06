@@ -206,7 +206,7 @@ init -6 python:
                     return self.day
             except AttributeError:
                 pass
-            return self.day + " Day"
+            return self.day + __(" Day")
 
         def set_label(self, lbl):
             """
