@@ -378,7 +378,7 @@ init -6 python:
         """
 
         def __init__(self, default_branch, branch_list=None,
-                    route_history_title="Common",
+                    route_history_title=_("Common"),
                     has_end_title="unset", history_background=None):
             """
             Creates a Route object to store an entire route.
