@@ -463,7 +463,7 @@ init -6 python:
             if route_history_title.endswith(" -route"):
                 self.route_history_title = route_history_title[:-7]
             else:
-                self.route_history_title = route_history_title + " Route"
+                self.route_history_title = route_history_title + __(" Route")
 
 
             # Now combine the given branches into one large list
