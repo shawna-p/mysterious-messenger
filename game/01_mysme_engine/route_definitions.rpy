@@ -873,7 +873,7 @@ init -6 python:
 
     def send_temp_texts():
         """
-        Delivery any text messages that were temporarily staged during
+        Deliver any text messages that were temporarily staged during
         the last story item.
         """
 
