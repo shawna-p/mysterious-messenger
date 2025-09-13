@@ -236,8 +236,7 @@ screen timeline(day, day_num):
                 if (not main_menu and persistent.real_time
                         and day_num == today_day_num
                         and not unlock_24_time
-                        and story_time != 'Unknown Time'
-                        and story_time != 'Plot Branch'):
+                        and story_time not in ('Unknown Time', 'Plot Branch')):
                     hbox:
                         # Show the 'Continue'/Buyahead button
                         use timeline_continue_button(story_time)
