@@ -992,7 +992,7 @@ screen edit_msg_menu(msg, ind):
             anchor (0.0, 0.5)
         has vbox
         textbutton "Remove message":
-            action CConfirm("Are you sure you want to delete the message \"{}\"?".format(filter_what),
+            action CConfirm(_("Are you sure you want to delete the message \"{}\"?").format(filter_what),
                 [RemoveFromSet(chatlog, msg),
                 Hide('edit_msg_menu'),
                 SetVariable('edit_msg_index', -1)])
