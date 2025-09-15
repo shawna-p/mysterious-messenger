@@ -996,7 +996,7 @@ screen edit_msg_menu(msg, ind):
                 [RemoveFromSet(chatlog, msg),
                 Hide('edit_msg_menu'),
                 SetVariable('edit_msg_index', -1)])
-        textbutton "Insert message before":
+        textbutton _("Insert message before"):
             action [SetVariable('insert_msg_index', ind),
                 Hide('edit_msg_menu')]
         if msg.who != special_msg:
