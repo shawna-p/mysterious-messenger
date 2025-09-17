@@ -1000,7 +1000,7 @@ screen edit_msg_menu(msg, ind):
             action [SetVariable('insert_msg_index', ind),
                 Hide('edit_msg_menu')]
         if msg.who != special_msg:
-            textbutton "Edit " + edit_item:
+            textbutton __("Edit ") + edit_item:
                 action If(msg.img,
                     [Hide('edit_msg_menu'),
                     Show('select_emote', edit=True)],
