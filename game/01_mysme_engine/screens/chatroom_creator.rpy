@@ -1008,7 +1008,7 @@ screen edit_msg_menu(msg, ind):
                     Hide('edit_msg_menu'),
                     Show('dialogue_edit_popup')])
             if msg.who != m:
-                textbutton "Change bubble":
+                textbutton _("Change bubble"):
                     action [Hide('edit_msg_menu'),
                         Show('select_bubble', editing=True)]
 
