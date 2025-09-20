@@ -1051,7 +1051,7 @@ screen effects_tab():
     hbox:
         spacing 50
         align (0.5, 0.0)
-        textbutton "Add Emoji":
+        textbutton _("Add Emoji"):
             style_prefix "other_settings_end"
             action Show('select_emote')
         textbutton "Special Bubbles":
