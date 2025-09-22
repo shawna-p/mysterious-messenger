@@ -1054,7 +1054,7 @@ screen effects_tab():
         textbutton _("Add Emoji"):
             style_prefix "other_settings_end"
             action Show('select_emote')
-        textbutton "Special Bubbles":
+        textbutton _("Special Bubbles"):
             style_prefix "other_settings_end"
             action Show('select_bubble')
     null height 20
