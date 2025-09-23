@@ -1061,7 +1061,7 @@ screen effects_tab():
     hbox:
         spacing 12
         align (0.5, 1.0)
-        textbutton "Add Shake":
+        textbutton _("Add Shake"):
             style_prefix 'other_settings_end'
             action Function(add_replay_direction,
                 text="Effect: Screen shake",
