@@ -1066,7 +1066,7 @@ screen effects_tab():
             action Function(add_replay_direction,
                 text="Effect: Screen shake",
                 entry=("shake", current_background))
-        textbutton "Add Animations":
+        textbutton _("Add Animations"):
             style_prefix 'other_settings_end'
             action Show('select_anim')
         textbutton "Add Banners":
