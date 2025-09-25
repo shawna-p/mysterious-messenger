@@ -1069,7 +1069,7 @@ screen effects_tab():
         textbutton _("Add Animations"):
             style_prefix 'other_settings_end'
             action Show('select_anim')
-        textbutton "Add Banners":
+        textbutton _("Add Banners"):
             style_prefix 'other_settings_end'
             action Show('select_banner')
 
