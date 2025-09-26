@@ -33,7 +33,7 @@ screen select_history():
                             Show('photo_album', Dissolve(0.5))]
                     hbox:
                         add 'history_icon_album' yalign 0.5
-                        text 'ALBUM'
+                        text _('ALBUM')
                 button:
                     action Show('select_history_route', Dissolve(0.5))
                     hbox:
