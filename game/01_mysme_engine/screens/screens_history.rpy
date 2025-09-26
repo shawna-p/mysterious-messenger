@@ -50,7 +50,7 @@ screen select_history():
                     action Show('guestbook', Dissolve(0.5))
                     hbox:
                         add 'history_icon_guest'
-                        text 'GUEST'
+                        text _('GUEST')
 
                 button:
                     action Show('music_room', Dissolve(0.5), mr=mm_mr)
