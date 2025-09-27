@@ -449,7 +449,7 @@ screen history_timeline_story_calls(phonecall, item):
                         yoffset 0
                 # Thing that says the caller's name
                 fixed:
-                    $ the_title = phonecall.title or "Story Call"
+                    $ the_title = phonecall.title or _("Story Call")
                     text the_title style 'chat_timeline_text' yoffset 0
 
         # The replay icons
