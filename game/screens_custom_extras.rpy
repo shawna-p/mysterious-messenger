@@ -21,7 +21,7 @@ screen game_extras():
             alt _("Return")
             action Hide('game_extras')
 
-        text "Extras" style "settings_style" xpos 55 ypos 5
+        text _("Extras") style "settings_style" xpos 55 ypos 5
 
         vbox:
             style_prefix "other_settings"
