@@ -1112,7 +1112,7 @@ screen select_anim():
                         selected_foreground "#fff3"
                         at hack_transform()
                         action [SetScreenVariable('anim_msg',
-                                "Effect: Green hack scroll"),
+                                _("Effect: Green hack scroll")),
                             SetScreenVariable('anim_entry',
                                 ('hack', 'regular'))]
                     imagebutton:
