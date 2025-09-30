@@ -51,7 +51,7 @@ default persistent.HG = 100
 # Define extra history items here, such as route prologues. The first string
 # is the name of the button, and the second is the label it's found at.
 define extra_history_items = [
-    ("Tutorial Prologue", "start")
+    (_("Tutorial Prologue"), "start")
     ]
 
 ########################################
