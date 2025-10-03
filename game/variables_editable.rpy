@@ -515,9 +515,9 @@ init python:
 # The description, approximate number of hearts, and number of hourglasses
 default chip_prize_list = RandomBag( [
     (_("A clump of cat hair."), 30, 0),
-    ("Jumin's old toothbrush.", 20, 0),
-    ("Some Honey Buddha Chip crumbs.", 24, 0),
-    ("Jaehee's spare pair of glasses.", 65, 0),
+    (_("Jumin's old toothbrush."), 20, 0),
+    (_("Some Honey Buddha Chip crumbs."), 24, 0),
+    (_("Jaehee's spare pair of glasses."), 65, 0),
     ("Yoosung's left sock.", 33, 0),
     ("Your middle school photo album!", 19, 0),
     ("Toothpaste that tastes like Honey Buddha Chips", 69, 0),
