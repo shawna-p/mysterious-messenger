@@ -51,7 +51,7 @@ default persistent.HG = 100
 # Define extra history items here, such as route prologues. The first string
 # is the name of the button, and the second is the label it's found at.
 define extra_history_items = [
-    ("Tutorial Prologue", "start")
+    (_("Tutorial Prologue"), "start")
     ]
 
 ########################################
@@ -514,10 +514,10 @@ init python:
 # Chip thoughts are organized in a tuple with three items:
 # The description, approximate number of hearts, and number of hourglasses
 default chip_prize_list = RandomBag( [
-    ('A clump of cat hair.', 30, 0),
-    ("Jumin's old toothbrush.", 20, 0),
-    ("Some Honey Buddha Chip crumbs.", 24, 0),
-    ("Jaehee's spare pair of glasses.", 65, 0),
+    (_("A clump of cat hair."), 30, 0),
+    (_("Jumin's old toothbrush."), 20, 0),
+    (_("Some Honey Buddha Chip crumbs."), 24, 0),
+    (_("Jaehee's spare pair of glasses."), 65, 0),
     ("Yoosung's left sock.", 33, 0),
     ("Your middle school photo album!", 19, 0),
     ("Toothpaste that tastes like Honey Buddha Chips", 69, 0),
