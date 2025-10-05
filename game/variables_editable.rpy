@@ -519,7 +519,7 @@ default chip_prize_list = RandomBag( [
     (_("Some Honey Buddha Chip crumbs."), 24, 0),
     (_("Jaehee's spare pair of glasses."), 65, 0),
     (_("Yoosung's left sock."), 33, 0),
-    ("Your middle school photo album!", 19, 0),
+    (_("Your middle school photo album!"), 19, 0),
     ("Toothpaste that tastes like Honey Buddha Chips", 69, 0),
     ("A completion certificate for mid-level dating.", 100, 0),
     ("It's a present for you.", 67, 0),
