@@ -1132,7 +1132,7 @@ screen select_anim():
                         at transform:
                             zoom 0.3
                         action [SetScreenVariable('anim_msg',
-                                "Effect: Red static scroll"),
+                                _("Effect: Red static scroll")),
                             SetScreenVariable('anim_entry',
                                 ('hack', 'red_static'))]
                     imagebutton:
