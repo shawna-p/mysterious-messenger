@@ -1143,7 +1143,7 @@ screen select_anim():
                         at transform:
                             zoom 0.3
                         action [SetScreenVariable('anim_msg',
-                                "Animation: Secure Chat"),
+                                _("Animation: Secure Chat")),
                             SetScreenVariable('anim_entry',
                                 ('anim', 'secure_anim'))]
 
