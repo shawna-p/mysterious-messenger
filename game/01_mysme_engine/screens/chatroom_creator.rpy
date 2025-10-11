@@ -1148,7 +1148,7 @@ screen select_anim():
                                 ('anim', 'secure_anim'))]
 
             if anim_entry and anim_entry[0] == 'hack':
-                textbutton "Reverse Animation":
+                textbutton _("Reverse Animation"):
                     style_prefix 'check'
                     action ToggleScreenVariable('anim_reverse')
 
