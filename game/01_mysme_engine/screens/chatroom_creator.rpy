@@ -1189,7 +1189,7 @@ screen select_emote(edit=False):
                         pos=(220, 280), anchor=(0.5, 0.0))
                     hbox:
                         xoffset 6
-                        text "Emojis:"
+                        text _("Emojis:")
                         text emoji_speaker.name size 27
                 button:
                     style_prefix 'font_options'
