@@ -1143,12 +1143,12 @@ screen select_anim():
                         at transform:
                             zoom 0.3
                         action [SetScreenVariable('anim_msg',
-                                "Animation: Secure Chat"),
+                                _("Animation: Secure Chat")),
                             SetScreenVariable('anim_entry',
                                 ('anim', 'secure_anim'))]
 
             if anim_entry and anim_entry[0] == 'hack':
-                textbutton "Reverse Animation":
+                textbutton _("Reverse Animation"):
                     style_prefix 'check'
                     action ToggleScreenVariable('anim_reverse')
 
@@ -1189,7 +1189,7 @@ screen select_emote(edit=False):
                         pos=(220, 280), anchor=(0.5, 0.0))
                     hbox:
                         xoffset 6
-                        text "Emojis:"
+                        text _("Emojis:")
                         text emoji_speaker.name size 27
                 button:
                     style_prefix 'font_options'
