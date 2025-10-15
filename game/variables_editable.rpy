@@ -525,7 +525,7 @@ default chip_prize_list = RandomBag( [
     (_("It's a present for you."), 67, 0),
     (_("A very normal industrial product."), 86, 0),
     (_("This Honey Boss Chip began in 1987 England..."), 34, 0),
-    ("Disco lights! Let's dance!", 69, 0),
+    (_("Disco lights! Let's dance!"), 69, 0),
     ("Yoosung's blessed hair strands. Blow on it and make a wish!", 443, 4),
     ("A chip bag full of chip dust", 10, 0),
     ("There's mold on these...", 19, 0)
