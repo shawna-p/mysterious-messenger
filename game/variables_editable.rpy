@@ -528,7 +528,7 @@ default chip_prize_list = RandomBag( [
     (_("Disco lights! Let's dance!"), 69, 0),
     (_("Yoosung's blessed hair strands. Blow on it and make a wish!"), 443, 4),
     (_("A chip bag full of chip dust"), 10, 0),
-    ("There's mold on these...", 19, 0)
+    (_("There's mold on these..."), 19, 0)
     # Feel free to add more things
     ] )
 
