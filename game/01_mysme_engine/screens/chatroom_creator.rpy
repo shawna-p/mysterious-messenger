@@ -1272,7 +1272,7 @@ screen select_bubble(editing=False):
                         anchor=(0.5, 0.0))
                     hbox:
                         xoffset 6
-                        text "Speaker:"
+                        text _("Speaker:")
                         text the_entry.who.name size 27
             frame:
                 xysize (630,760)
