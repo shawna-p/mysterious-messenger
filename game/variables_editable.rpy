@@ -537,7 +537,7 @@ default chip_prize_list = RandomBag( [
 default space_thoughts = RandomBag( [
     SpaceThought(ja, _("I should have broken these shoes in better before wearing them to work today.")),
     SpaceThought(ju, _("I wonder how Elizabeth the 3rd is doing at home.")),
-    SpaceThought(s, "Maybe I should Noogle how to get chip crumbs out of my keyboard..."),
+    SpaceThought(s, _("Maybe I should Noogle how to get chip crumbs out of my keyboard...")),
     SpaceThought(y, "Yes! Chocolate milk is on sale!"),
     SpaceThought(z, "Maybe I should learn how to braid my hair..."),
     SpaceThought(r, "I can't believe I accidentally used one of the other Believer's shampoo. My hair smells like lemons."),
