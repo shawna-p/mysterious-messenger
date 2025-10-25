@@ -1401,7 +1401,7 @@ screen select_banner():
                 sensitive selected_banner is not None
                 action [Hide('select_banner'),
                     Function(add_replay_direction,
-                        "Banner: " + str(selected_banner),
+                        __("Banner: ") + str(selected_banner),
                         ("banner", selected_banner))]
 ##############################################
 ## OTHER TAB
