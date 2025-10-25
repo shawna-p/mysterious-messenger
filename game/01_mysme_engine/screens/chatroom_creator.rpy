@@ -1411,7 +1411,7 @@ screen other_cc_tab():
     hbox:
         spacing 50
         align (0.5, 0.0)
-        textbutton "Select Background":
+        textbutton _("Select Background"):
             style_prefix 'other_settings_end'
             action Show('select_background')
         textbutton "Add Music":
