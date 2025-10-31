@@ -1421,7 +1421,7 @@ screen other_cc_tab():
     hbox:
         spacing 12
         xalign 0.5
-        textbutton "Add Participants":
+        textbutton _("Add Participants"):
             style_prefix 'other_settings_end'
             action Show("select_participants")
         textbutton "Play Chat":
