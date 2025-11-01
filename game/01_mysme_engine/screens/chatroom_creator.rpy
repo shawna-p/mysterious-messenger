@@ -1424,7 +1424,7 @@ screen other_cc_tab():
         textbutton _("Add Participants"):
             style_prefix 'other_settings_end'
             action Show("select_participants")
-        textbutton "Play Chat":
+        textbutton _("Play Chat"):
             style_prefix 'other_settings_end'
             action [Function(play_chatlog),
                 Call('rewatch_chatroom_main_menu')]
