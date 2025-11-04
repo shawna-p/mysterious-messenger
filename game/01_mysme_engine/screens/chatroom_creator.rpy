@@ -1448,7 +1448,7 @@ screen other_cc_tab():
             style_prefix 'tone_selection'
             vbox:
                 align (0.5, 0.5)
-                text "Rename Chat" style 'ringtone_change'
+                text _("Rename Chat") style 'ringtone_change'
                 text "[save_name]":
                     style 'ringtone_description'
             action Show('input_template', None,
