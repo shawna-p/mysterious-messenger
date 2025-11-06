@@ -1452,7 +1452,7 @@ screen other_cc_tab():
                 text "[save_name]":
                     style 'ringtone_description'
             action Show('input_template', None,
-                'save_name', prompt='Enter a chatroom title',
+                'save_name', prompt=_('Enter a chatroom title'),
                 default=save_name, length=25,
                 allow=allowed_username_chars, accept_blank=False,
                 can_close=True)
