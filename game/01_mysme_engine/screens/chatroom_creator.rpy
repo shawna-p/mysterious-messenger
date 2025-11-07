@@ -1506,7 +1506,7 @@ screen select_music():
                                 SetScreenVariable('temp_path', path),
                                 Play('music', path)]
 
-            textbutton "Add to the beginning of the chat":
+            textbutton _("Add to the beginning of the chat"):
                 style_prefix 'check'
                 action ToggleScreenVariable('at_beginning')
 
