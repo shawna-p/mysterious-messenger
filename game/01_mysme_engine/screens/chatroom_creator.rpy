@@ -1414,21 +1414,21 @@ screen other_cc_tab():
         textbutton _("Select Background"):
             style_prefix 'other_settings_end'
             action Show('select_background')
-        textbutton "Add Music":
+        textbutton _("Add Music"):
             style_prefix 'other_settings_end'
             action Show("select_music")
     null height 20
     hbox:
         spacing 12
         xalign 0.5
-        textbutton "Add Participants":
+        textbutton _("Add Participants"):
             style_prefix 'other_settings_end'
             action Show("select_participants")
-        textbutton "Play Chat":
+        textbutton _("Play Chat"):
             style_prefix 'other_settings_end'
             action [Function(play_chatlog),
                 Call('rewatch_chatroom_main_menu')]
-        textbutton "Generate Code":
+        textbutton _("Generate Code"):
             style_prefix 'other_settings_end'
             action [Function(chatroom_to_code)]
     null height 35
@@ -1448,11 +1448,11 @@ screen other_cc_tab():
             style_prefix 'tone_selection'
             vbox:
                 align (0.5, 0.5)
-                text "Rename Chat" style 'ringtone_change'
+                text _("Rename Chat") style 'ringtone_change'
                 text "[save_name]":
                     style 'ringtone_description'
             action Show('input_template', None,
-                'save_name', prompt='Enter a chatroom title',
+                'save_name', prompt=_('Enter a chatroom title'),
                 default=save_name, length=25,
                 allow=allowed_username_chars, accept_blank=False,
                 can_close=True)
@@ -1506,7 +1506,7 @@ screen select_music():
                                 SetScreenVariable('temp_path', path),
                                 Play('music', path)]
 
-            textbutton "Add to the beginning of the chat":
+            textbutton _("Add to the beginning of the chat"):
                 style_prefix 'check'
                 action ToggleScreenVariable('at_beginning')
 
@@ -1514,7 +1514,7 @@ screen select_music():
             textbutton _('Confirm'):
                 style_prefix 'chatc_confirm'
                 action [Function(add_replay_direction,
-                        'Play Music: ' + str(temp_music),
+                        __('Play Music: ') + str(temp_music),
                         ('play music', temp_path),
                         at_beginning),
                     Hide('select_music')]#Play('music', mystic_chat),
