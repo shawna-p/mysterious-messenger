@@ -1514,7 +1514,7 @@ screen select_music():
             textbutton _('Confirm'):
                 style_prefix 'chatc_confirm'
                 action [Function(add_replay_direction,
-                        'Play Music: ' + str(temp_music),
+                        __('Play Music: ') + str(temp_music),
                         ('play music', temp_path),
                         at_beginning),
                     Hide('select_music')]#Play('music', mystic_chat),
