@@ -542,7 +542,7 @@ default space_thoughts = RandomBag( [
     SpaceThought(z, _("Maybe I should learn how to braid my hair...")),
     SpaceThought(r, _("I can't believe I accidentally used one of the other Believer's shampoo. My hair smells like lemons.")),
     SpaceThought(ri, _("Hmm... the soup tastes different today.")),
-    SpaceThought(sa, "So... sleepy..."),
+    SpaceThought(sa, _("So... sleepy...")),
     SpaceThought(v, "The weather is so very lovely today. Maybe I'll go for a walk.")
     ] )
 
