@@ -1572,7 +1572,7 @@ screen select_background():
                 style_prefix 'check'
                 action ToggleVariable('cc_cracked_overlay')
 
-            textbutton "Add to the beginning of the chat":
+            textbutton _("Add to the beginning of the chat"):
                 style_prefix 'check'
                 action ToggleScreenVariable('at_beginning')
 
