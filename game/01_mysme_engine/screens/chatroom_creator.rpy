@@ -1697,7 +1697,7 @@ screen chatroom_file_slots(title, current_page=0, num_pages=5, slots_per_column=
                         # Displays the most recent chatroom title + day
                         if FileLoadable(slot, page=page):
                             fixed:
-                                text "Chatroom Creator"
+                                text _("Chatroom Creator")
                             text "Title: " + FileSaveName(slot, page=page):
                                 yalign 1.0 layout "nobreak"
                         else:
