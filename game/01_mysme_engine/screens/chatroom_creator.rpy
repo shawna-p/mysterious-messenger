@@ -1568,11 +1568,11 @@ screen select_background():
                             add ccbg2:
                                 xysize (187, 333)
                             action SetScreenVariable('temp_bg', ccbg)
-            textbutton "Use cracked overlay":
+            textbutton _("Use cracked overlay"):
                 style_prefix 'check'
                 action ToggleVariable('cc_cracked_overlay')
 
-            textbutton "Add to the beginning of the chat":
+            textbutton _("Add to the beginning of the chat"):
                 style_prefix 'check'
                 action ToggleScreenVariable('at_beginning')
 
@@ -1697,7 +1697,7 @@ screen chatroom_file_slots(title, current_page=0, num_pages=5, slots_per_column=
                         # Displays the most recent chatroom title + day
                         if FileLoadable(slot, page=page):
                             fixed:
-                                text "Chatroom Creator"
+                                text _("Chatroom Creator")
                             text "Title: " + FileSaveName(slot, page=page):
                                 yalign 1.0 layout "nobreak"
                         else:
