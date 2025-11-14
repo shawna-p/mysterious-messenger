@@ -1702,7 +1702,7 @@ screen chatroom_file_slots(title, current_page=0, num_pages=5, slots_per_column=
                                 yalign 1.0 layout "nobreak"
                         else:
                             fixed:
-                                text "Empty Slot"
+                                text _("Empty Slot")
                             text "Tap an empty slot to save" yalign 1.0
 
                     frame:
