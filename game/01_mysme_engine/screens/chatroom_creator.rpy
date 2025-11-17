@@ -1698,12 +1698,12 @@ screen chatroom_file_slots(title, current_page=0, num_pages=5, slots_per_column=
                         if FileLoadable(slot, page=page):
                             fixed:
                                 text _("Chatroom Creator")
-                            text "Title: " + FileSaveName(slot, page=page):
+                            text __("Title: ") + FileSaveName(slot, page=page):
                                 yalign 1.0 layout "nobreak"
                         else:
                             fixed:
-                                text "Empty Slot"
-                            text "Tap an empty slot to save" yalign 1.0
+                                text _("Empty Slot")
+                            text _("Tap an empty slot to save") yalign 1.0
 
                     frame:
                         style_prefix 'save_stamp'
