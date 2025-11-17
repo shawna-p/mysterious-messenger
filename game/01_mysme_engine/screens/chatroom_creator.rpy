@@ -1703,7 +1703,7 @@ screen chatroom_file_slots(title, current_page=0, num_pages=5, slots_per_column=
                         else:
                             fixed:
                                 text _("Empty Slot")
-                            text "Tap an empty slot to save" yalign 1.0
+                            text _("Tap an empty slot to save") yalign 1.0
 
                     frame:
                         style_prefix 'save_stamp'
