@@ -1732,6 +1732,7 @@ screen chatroom_file_slots(title, current_page=0, num_pages=5, slots_per_column=
                 imagebutton:
                     idle Transform("email_next", xzoom=-1, zoom=1.5)
                     align (0.5, 0.5)
+                    alt _("Previous Page")
                     action [SetScreenVariable('begin_page', begin_page-5)]
                     activate_sound 'audio/sfx/UI/email_next_arrow.mp3'
 
