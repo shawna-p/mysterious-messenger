@@ -1600,6 +1600,7 @@ screen select_participants():
         imagebutton:
             align (1.0, 0.0)
             auto 'input_close_%s'
+            alt _("Close")
             action Hide('select_participants')
             keysym "rollback"
         vbox:
