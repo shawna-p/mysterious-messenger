@@ -1565,6 +1565,7 @@ screen select_background():
                         button:
                             xysize (187, 333)
                             selected_foreground "#fff3"
+                            alt ccbg
                             add ccbg2:
                                 xysize (187, 333)
                             action SetScreenVariable('temp_bg', ccbg)
