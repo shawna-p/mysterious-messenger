@@ -1565,6 +1565,7 @@ screen select_background():
                         button:
                             xysize (187, 333)
                             selected_foreground "#fff3"
+                            alt ccbg
                             add ccbg2:
                                 xysize (187, 333)
                             action SetScreenVariable('temp_bg', ccbg)
@@ -1600,6 +1601,7 @@ screen select_participants():
         imagebutton:
             align (1.0, 0.0)
             auto 'input_close_%s'
+            alt _("Close")
             action Hide('select_participants')
             keysym "rollback"
         vbox:
@@ -1720,6 +1722,7 @@ screen chatroom_file_slots(title, current_page=0, num_pages=5, slots_per_column=
                             hover Transform('save_trash',zoom=1.05)
                             idle 'save_trash'
                             xalign 1.0
+                            alt _("Delete Save")
                             action FileDelete(slot, page=page)
 
                     key "save_delete" action FileDelete(slot, page=page)
@@ -1732,6 +1735,7 @@ screen chatroom_file_slots(title, current_page=0, num_pages=5, slots_per_column=
                 imagebutton:
                     idle Transform("email_next", xzoom=-1, zoom=1.5)
                     align (0.5, 0.5)
+                    alt _("Previous Page")
                     action [SetScreenVariable('begin_page', begin_page-5)]
                     activate_sound 'audio/sfx/UI/email_next_arrow.mp3'
 
@@ -1749,6 +1753,7 @@ screen chatroom_file_slots(title, current_page=0, num_pages=5, slots_per_column=
             if begin_page < 5:
                 imagebutton:
                     idle Transform("email_next", zoom=1.5)
+                    alt _("Next page")
                     align (0.5, 0.5)
                     action [SetScreenVariable('begin_page', begin_page+5)]
                     activate_sound 'audio/sfx/UI/email_next_arrow.mp3'
