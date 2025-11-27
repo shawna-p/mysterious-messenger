@@ -576,7 +576,7 @@ default loading_tips = [
     _("Tap the Links button in the hub screen to go to the Mysterious Messenger Discord."),
     _("Want to contribute to the program? Submit a pull request to the Mysterious Messenger GitHub!"),
     _("There are many accessibility options in the Settings menu."),
-    "Found a bug? Report it on the Mysterious Messenger GitHub.",
+    _("Found a bug? Report it on the Mysterious Messenger GitHub."),
     "Like the program? Consider donating to my Ko-Fi in Links.",
     "Is there a feature you want to see? Let me know in the Mysterious Messenger Discord.",
     "Did you know? You can turn on Audio Captions from the Settings menu.",
