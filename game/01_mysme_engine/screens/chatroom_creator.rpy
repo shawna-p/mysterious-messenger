@@ -1533,6 +1533,7 @@ screen select_background():
         yalign 0.6
         imagebutton:
             align (1.0, 0.0)
+            alt _("Close")
             auto 'input_close_%s'
             action Hide('select_background')
             keysym "rollback"
