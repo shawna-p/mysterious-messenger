@@ -1460,6 +1460,7 @@ screen other_cc_tab():
             style_prefix None
             xysize (161, 70)
             align (.5, .5)
+            alt _("Load")
             idle Transform("load_btn", align=(0.5, 0.5))
             hover Transform("load_btn", zoom=1.1)
             action Show("load", Dissolve(0.5))
