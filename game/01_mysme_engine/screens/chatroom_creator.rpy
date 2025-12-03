@@ -1390,6 +1390,7 @@ screen select_banner():
                         button:
                             foreground Transform('banner ' + ban, xsize=520,
                                 fit='contain')
+                            alt ban + __(" banner")
                             hover_background '#e0e0e0'
                             selected_background '#a8a8a8'
                             xysize (520, 170)
