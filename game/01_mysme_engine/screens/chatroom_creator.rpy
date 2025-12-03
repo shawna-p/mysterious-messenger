@@ -1441,6 +1441,7 @@ screen other_cc_tab():
             style_prefix None
             xysize (161, 70)
             align (.5, .5)
+            alt _("Save")
             idle Transform("save_btn", align=(0.5, 0.5))
             hover Transform("save_btn", zoom=1.1)
             action Show("save", Dissolve(0.5))
