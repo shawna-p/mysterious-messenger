@@ -1369,6 +1369,7 @@ screen select_banner():
         imagebutton:
             align (1.0, 0.0)
             auto 'input_close_%s'
+            alt _("Close")
             action Hide('select_banner')
             keysym "rollback"
         vbox:
@@ -1390,6 +1391,7 @@ screen select_banner():
                         button:
                             foreground Transform('banner ' + ban, xsize=520,
                                 fit='contain')
+                            alt ban + __(" banner")
                             hover_background '#e0e0e0'
                             selected_background '#a8a8a8'
                             xysize (520, 170)
@@ -1441,6 +1443,7 @@ screen other_cc_tab():
             style_prefix None
             xysize (161, 70)
             align (.5, .5)
+            alt _("Save")
             idle Transform("save_btn", align=(0.5, 0.5))
             hover Transform("save_btn", zoom=1.1)
             action Show("save", Dissolve(0.5))
@@ -1460,6 +1463,7 @@ screen other_cc_tab():
             style_prefix None
             xysize (161, 70)
             align (.5, .5)
+            alt _("Load")
             idle Transform("load_btn", align=(0.5, 0.5))
             hover Transform("load_btn", zoom=1.1)
             action Show("load", Dissolve(0.5))
@@ -1480,6 +1484,7 @@ screen select_music():
         imagebutton:
             align (1.0, 0.0)
             auto 'input_close_%s'
+            alt _("Close")
             action Hide('select_music')
             keysym "rollback"
         vbox:
