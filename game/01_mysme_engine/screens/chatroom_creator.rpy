@@ -1322,6 +1322,7 @@ screen select_bubble(editing=False):
                             hover_background '#e0e0e0'
                             selected_background '#a8a8a8'
                             selected (bubble_dict['bubble'] == bub)
+                            alt bub + __(" bubble")
                             if "glow" not in bub:
                                 action [CaptureFocus("bubble_drop"),
                                     SetDict(bubble_dict, 'bubble', bub),
