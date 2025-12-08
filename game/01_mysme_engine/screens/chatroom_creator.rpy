@@ -1304,6 +1304,7 @@ screen select_bubble(editing=False):
                                 xysize (580//2, 220)
                                 hover_background '#e0e0e0'
                                 selected_background '#a8a8a8'
+                                alt bubble_user.name + __(" glow bubble")
                                 selected (bubble_dict['bounce']
                                     and bubble_dict['bubble'] is None)
                                 action [SetDict(bubble_dict, 'size', None),
