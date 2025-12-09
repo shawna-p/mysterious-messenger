@@ -1290,6 +1290,7 @@ screen select_bubble(editing=False):
                             hover_background '#e0e0e0'
                             selected_background '#a8a8a8'
                             selected not bubble_dict['bounce']
+                            alt bubble_user.name + __(" normal bubble")
                             action [SetDict(bubble_dict, 'size', None),
                                 SetDict(bubble_dict, 'bubble', None),
                                 SetDict(bubble_dict, 'bounce', False)]
