@@ -1215,6 +1215,7 @@ screen select_emote(edit=False):
                             xysize (int(310*0.63),int(310*0.63))
                             hover_background '#e0e0e0'
                             selected_background '#a8a8a8'
+                            alt emote
                             add Transform(emote, zoom=0.63) align (0.5, 0.5)
                             action ToggleScreenVariable('selected_emote',
                                 emote)
