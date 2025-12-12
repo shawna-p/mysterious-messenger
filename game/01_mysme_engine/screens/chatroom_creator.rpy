@@ -1140,6 +1140,7 @@ screen select_anim():
                             crop=(80, 200, config.screen_width, 1000))
                         hover_foreground "#fff5"
                         selected_foreground "#fff3"
+                        alt _("Secure Chat Animation")
                         at transform:
                             zoom 0.3
                         action [SetScreenVariable('anim_msg',
