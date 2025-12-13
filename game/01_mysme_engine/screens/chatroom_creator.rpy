@@ -1140,6 +1140,7 @@ screen select_anim():
                             crop=(80, 200, config.screen_width, 1000))
                         hover_foreground "#fff5"
                         selected_foreground "#fff3"
+                        alt _("Secure Chat Animation")
                         at transform:
                             zoom 0.3
                         action [SetScreenVariable('anim_msg',
@@ -1215,6 +1216,7 @@ screen select_emote(edit=False):
                             xysize (int(310*0.63),int(310*0.63))
                             hover_background '#e0e0e0'
                             selected_background '#a8a8a8'
+                            alt emote
                             add Transform(emote, zoom=0.63) align (0.5, 0.5)
                             action ToggleScreenVariable('selected_emote',
                                 emote)
@@ -1246,6 +1248,7 @@ screen select_bubble(editing=False):
         imagebutton:
             align (1.0, 0.0)
             auto 'input_close_%s'
+            alt _("Close")
             action Hide('select_bubble')
         vbox:
             spacing 20
@@ -1290,6 +1293,7 @@ screen select_bubble(editing=False):
                             hover_background '#e0e0e0'
                             selected_background '#a8a8a8'
                             selected not bubble_dict['bounce']
+                            alt bubble_user.name + __(" normal bubble")
                             action [SetDict(bubble_dict, 'size', None),
                                 SetDict(bubble_dict, 'bubble', None),
                                 SetDict(bubble_dict, 'bounce', False)]
@@ -1304,6 +1308,7 @@ screen select_bubble(editing=False):
                                 xysize (580//2, 220)
                                 hover_background '#e0e0e0'
                                 selected_background '#a8a8a8'
+                                alt bubble_user.name + __(" glow bubble")
                                 selected (bubble_dict['bounce']
                                     and bubble_dict['bubble'] is None)
                                 action [SetDict(bubble_dict, 'size', None),
@@ -1322,6 +1327,7 @@ screen select_bubble(editing=False):
                             hover_background '#e0e0e0'
                             selected_background '#a8a8a8'
                             selected (bubble_dict['bubble'] == bub)
+                            alt bub + __(" bubble")
                             if "glow" not in bub:
                                 action [CaptureFocus("bubble_drop"),
                                     SetDict(bubble_dict, 'bubble', bub),
