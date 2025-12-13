@@ -581,7 +581,7 @@ default loading_tips = [
     _("Is there a feature you want to see? Let me know in the Mysterious Messenger Discord."),
     _("Did you know? You can turn on Audio Captions from the Settings menu."),
     _("You can toggle animated backgrounds on or off from the Settings menu."),
-    "Testing Mode in the Developer menu makes it easy to test routes.",
+    _("Testing Mode in the Developer menu makes it easy to test routes."),
     "Sometimes characters might send you a message when you change your profile picture."
 ]
 
