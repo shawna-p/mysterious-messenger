@@ -1131,6 +1131,7 @@ screen select_anim():
                         selected_foreground "#fff3"
                         at transform:
                             zoom 0.3
+                        alt _("Effect: Red static scroll")
                         action [SetScreenVariable('anim_msg',
                                 _("Effect: Red static scroll")),
                             SetScreenVariable('anim_entry',
