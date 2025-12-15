@@ -582,6 +582,6 @@ default loading_tips = [
     _("Did you know? You can turn on Audio Captions from the Settings menu."),
     _("You can toggle animated backgrounds on or off from the Settings menu."),
     _("Testing Mode in the Developer menu makes it easy to test routes."),
-    "Sometimes characters might send you a message when you change your profile picture."
+    _("Sometimes characters might send you a message when you change your profile picture."),
 ]
 
