@@ -1120,6 +1120,7 @@ screen select_anim():
                         hover_foreground "#fff5"
                         selected_foreground "#fff3"
                         at hack_transform()
+                        alt _("Effect: Red hack scroll")
                         action [SetScreenVariable('anim_msg',
                                 _("Effect: Red hack scroll")),
                             SetScreenVariable('anim_entry',
