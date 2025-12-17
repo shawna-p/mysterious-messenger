@@ -1110,6 +1110,7 @@ screen select_anim():
                         idle 'hack scroll'
                         hover_foreground "#fff5"
                         selected_foreground "#fff3"
+                        alt _("Effect: Green hack scroll")
                         at hack_transform()
                         action [SetScreenVariable('anim_msg',
                                 _("Effect: Green hack scroll")),
