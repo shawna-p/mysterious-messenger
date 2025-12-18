@@ -1089,6 +1089,7 @@ screen select_anim():
         imagebutton:
             align (1.0, 0.0)
             auto 'input_close_%s'
+            alt _("Close")
             action Hide('select_anim')
             keysym "rollback"
         vbox:
