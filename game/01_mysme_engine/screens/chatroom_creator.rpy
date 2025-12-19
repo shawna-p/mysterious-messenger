@@ -1089,6 +1089,7 @@ screen select_anim():
         imagebutton:
             align (1.0, 0.0)
             auto 'input_close_%s'
+            alt _("Close")
             action Hide('select_anim')
             keysym "rollback"
         vbox:
@@ -1110,6 +1111,7 @@ screen select_anim():
                         idle 'hack scroll'
                         hover_foreground "#fff5"
                         selected_foreground "#fff3"
+                        alt _("Effect: Green hack scroll")
                         at hack_transform()
                         action [SetScreenVariable('anim_msg',
                                 _("Effect: Green hack scroll")),
@@ -1120,6 +1122,7 @@ screen select_anim():
                         hover_foreground "#fff5"
                         selected_foreground "#fff3"
                         at hack_transform()
+                        alt _("Effect: Red hack scroll")
                         action [SetScreenVariable('anim_msg',
                                 _("Effect: Red hack scroll")),
                             SetScreenVariable('anim_entry',
@@ -1131,6 +1134,7 @@ screen select_anim():
                         selected_foreground "#fff3"
                         at transform:
                             zoom 0.3
+                        alt _("Effect: Red static scroll")
                         action [SetScreenVariable('anim_msg',
                                 _("Effect: Red static scroll")),
                             SetScreenVariable('anim_entry',
