@@ -120,7 +120,7 @@ python early hide:
     def parse_timed_menu(l):
         l.expect_block('timed menu statement')
         # Declare a given label as a global label
-        label = l.label_name(declare=True)
+        label = l.label_name()
 
         arguments_dict = c_parse_arguments(l)
 
@@ -394,7 +394,7 @@ python early hide:
         # Ren'Py script. It may also receive arguments or a label name.
         l.expect_block('continuous menu statement')
         # Check if there is a label
-        label = l.label_name(declare=True)
+        label = l.label_name()
 
         # Get any arguments
         arguments_info = renpy.parser.parse_arguments(l)
