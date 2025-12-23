@@ -62,8 +62,8 @@ define xmas_urban_night_cityscape = "audio/music/Urban Night Cityscape (ver. X-M
 define music_dictionary = {
     mystic_chat : _("Upbeat saxophone music"),
     mystic_chat2 : _("Upbeat saxophone music with electric guitar"),
-    mystic_op_instrumental : "Upbeat pop instrumental with percussion",
-    mysterious_clues : "Sinister bell music",
+    mystic_op_instrumental : _("Upbeat pop instrumental with percussion"),
+    mysterious_clues : _("Sinister bell music"),
     urban_night_cityscape : "Sophisticated orchestral music",
     urban_night_cityscape_v2 : "Melancholy orchestral music",
     narcissistic_jazz : "Jazzy piano solo",
