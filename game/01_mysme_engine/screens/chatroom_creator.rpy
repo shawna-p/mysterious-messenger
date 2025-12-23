@@ -771,6 +771,7 @@ screen dialogue_tab(show_fonts, compact_ver=False):
             xsize 67
             add "#000"
             add 'text_size_reset'
+            alt _("Reset text size")
             sensitive styles_dict['size'] != 0
             action [SetDict(styles_dict, 'size', 0),
                 If(compact_ver, Function(update_edit_text))]
