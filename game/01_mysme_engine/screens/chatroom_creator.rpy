@@ -1035,7 +1035,7 @@ screen dialogue_edit_popup():
         yalign 0.85
         imagebutton:
             align (1.0, 0.0) xoffset 20
-            auto 'input_close_%s'
+            auto 'input_close_%s' alt _("Close")
             action Hide('dialogue_edit_popup')
             keysym "rollback"
         vbox:
