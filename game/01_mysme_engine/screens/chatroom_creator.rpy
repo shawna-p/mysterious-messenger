@@ -763,6 +763,7 @@ screen dialogue_tab(show_fonts, compact_ver=False):
             insensitive_foreground "#ccc5"
             add "#000"
             add 'text_size_increase'
+            alt _("Increase text size")
             sensitive styles_dict['size'] < 50
             selected styles_dict['size'] > 0
             action [SetDict(styles_dict, 'size', styles_dict['size']+5),
