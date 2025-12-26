@@ -747,7 +747,7 @@ screen dialogue_tab(show_fonts, compact_ver=False):
             action [ToggleDict(styles_dict, 'underline'),
                 If(compact_ver, Function(update_edit_text))]
             vbox:
-                text "U" underline True
+                text _("U{#underline}") underline True
                 add Solid("#fff") xysize (30, 1) xalign 0.5
         button:
             xsize 67
