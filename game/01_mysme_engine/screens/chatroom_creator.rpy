@@ -752,22 +752,23 @@ screen dialogue_tab(show_fonts, compact_ver=False):
         button:
             xsize 67
             insensitive_foreground "#5555"
-            add "#000"
-            add 'text_size_decrease'
             sensitive styles_dict['size'] >= -5 # allow two size decreases
             selected styles_dict['size'] < 0
             action [SetDict(styles_dict, 'size', styles_dict['size']-5),
                 If(compact_ver, Function(update_edit_text))]
+            alt _("Decrease text size")
+            add "#000"
+            add 'text_size_decrease'
         button:
             xsize 67
             insensitive_foreground "#ccc5"
-            add "#000"
-            add 'text_size_increase'
             alt _("Increase text size")
             sensitive styles_dict['size'] < 50
             selected styles_dict['size'] > 0
             action [SetDict(styles_dict, 'size', styles_dict['size']+5),
                 If(compact_ver, Function(update_edit_text))]
+            add "#000"
+            add 'text_size_increase'
         button:
             xsize 67
             add "#000"
