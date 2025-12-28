@@ -739,7 +739,7 @@ screen dialogue_tab(show_fonts, compact_ver=False):
                 If(compact_ver, Function(update_edit_text))]
         button:
             add "#000"
-            text "I" italic True
+            text _("I{#italics}") italic True
             action [ToggleDict(styles_dict, 'italics'),
                 If(compact_ver, Function(update_edit_text))]
         button:
