@@ -734,7 +734,7 @@ screen dialogue_tab(show_fonts, compact_ver=False):
         # Font styles and stuff
         button:
             add "#000"
-            text "B" font gui.sans_serif_1xb
+            text _("B{#bold}") font gui.sans_serif_1xb
             action [ToggleDict(styles_dict, 'bold'),
                 If(compact_ver, Function(update_edit_text))]
         button:
