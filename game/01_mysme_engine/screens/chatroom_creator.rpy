@@ -733,19 +733,22 @@ screen dialogue_tab(show_fonts, compact_ver=False):
         style_prefix 'font_options'
         # Font styles and stuff
         button:
-            add "#000"
-            text _("B{#bold}") font gui.sans_serif_1xb
+            alt _("Bold")
             action [ToggleDict(styles_dict, 'bold'),
                 If(compact_ver, Function(update_edit_text))]
-        button:
             add "#000"
-            text _("I{#italics}") italic True
+            text _("B{#bold}") font gui.sans_serif_1xb
+        button:
+            alt _("Italics")
             action [ToggleDict(styles_dict, 'italics'),
                 If(compact_ver, Function(update_edit_text))]
-        button:
             add "#000"
+            text _("I{#italics}") italic True
+        button:
+            alt _("Underline")
             action [ToggleDict(styles_dict, 'underline'),
                 If(compact_ver, Function(update_edit_text))]
+            add "#000"
             vbox:
                 text _("U{#underline}") underline True
                 add Solid("#fff") xysize (30, 1) xalign 0.5
