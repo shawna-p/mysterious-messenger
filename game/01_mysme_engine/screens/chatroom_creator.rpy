@@ -707,7 +707,7 @@ screen add_enter_exit_msg():
         style_prefix 'font_options'
         xysize (210, 47)
         add "#000"
-        text "Add Exit Msg" size 27
+        text _("Add Exit Msg") size 27
         action Function(create_enter_exit, the_entry.who, False)
 
 screen dialogue_tab(show_fonts, compact_ver=False):
