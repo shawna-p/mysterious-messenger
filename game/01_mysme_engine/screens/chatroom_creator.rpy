@@ -721,7 +721,7 @@ screen dialogue_tab(show_fonts, compact_ver=False):
                 Show('pick_speaker'))
             hbox:
                 xoffset 6
-                text "Speaker:"
+                text _("Speaker:")
                 if compact_ver:
                     text chatlog[edit_msg_index].who.name size 27
                 else:
