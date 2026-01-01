@@ -701,7 +701,7 @@ screen add_enter_exit_msg():
         style_prefix 'font_options'
         xysize (210, 47)
         add "#000"
-        text "Add Enter Msg" size 27
+        text _("Add Enter Msg") size 27
         action Function(create_enter_exit, the_entry.who, True)
     button:
         style_prefix 'font_options'
