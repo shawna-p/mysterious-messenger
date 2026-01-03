@@ -831,6 +831,7 @@ screen open_email(e):
         style_prefix 'open_email'
         imagebutton:
             auto 'input_close_%s'
+            alt _("Close")
             action Hide('open_email')
         vbox:
             hbox:
