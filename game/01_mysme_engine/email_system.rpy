@@ -606,6 +606,7 @@ screen email_popup(e, hide_screen='email_popup'):
         style_prefix 'email_popup'
         imagebutton:
             align (1.0, 0.0)
+            alt _("Close")
             auto 'input_close_%s'
             action Hide(hide_screen)
         hbox:
