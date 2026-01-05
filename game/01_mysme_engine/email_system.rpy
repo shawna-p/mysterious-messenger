@@ -977,17 +977,20 @@ screen guestbook():
                         background VBox(Null(height=20),
                             Transform(guest.thumbnail, xysize=(155, 155),
                                 fit="contain"))
+                        alt __("Guest: @") + guest.name
                         action Show('guest_info_popup',
                                 guest=guest, unlocked=False)
                     elif (persistent.guestbook[guest.name] == "attended"
                             or persistent.guestbook[guest.name] == 'viewed'):
                         # The guest has attended the party
+                        alt __("Guest: @") + guest.name
                         background VBox(Null(height=20),
                             Transform(guest.thumbnail, xysize=(155, 155),
                                 fit="contain"))
                         action Show('guest_info_popup',
                             guest=guest, unlocked=True)
                     else:
+                        alt _("Guest: Unknown")
                         # This guest is unknown to the player
                         background VBox(Null(height=20),
                             Transform('img_locked', xysize=(155, 155), fit="contain"))
