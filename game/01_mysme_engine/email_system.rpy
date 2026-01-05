@@ -1012,6 +1012,7 @@ screen guest_info_popup(guest, unlocked):
         yfit True
         imagebutton:
             auto 'input_close_%s'
+            alt _("Close")
             action [Hide('guest_info_popup')]
         vbox:
             text '@[guest.name]':
