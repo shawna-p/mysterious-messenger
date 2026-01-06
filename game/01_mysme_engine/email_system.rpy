@@ -1047,6 +1047,7 @@ screen guest_info_popup(guest, unlocked):
                             hover Transform('guest_story', zoom=1.1)
                             action MMGuestStory(guest)
                             insensitive 'guest_story_locked'
+                            alt _("View Guest Story")
 
 default guest_replay_info = None
 label guest_info():
