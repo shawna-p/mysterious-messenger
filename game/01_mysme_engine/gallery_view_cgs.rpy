@@ -136,6 +136,7 @@ screen viewCG_fullsize(fullsizeCG):
                     style_prefix 'cg_full'
                     padding (10, 40)
                     align (1.0, 0.5) xoffset -60
+                    alt _("Toggle Fullscreen")
                     action ToggleScreenVariable('fullscreen_on')
                     has hbox
                     text "[[" xalign 1.0
