@@ -608,7 +608,7 @@ screen photo_album():
 
         null_height = (((1170 - (220*grid_row) - (40*(grid_row-1))) // 2) - 50)
 
-    use menu_header('Photo Album', return_action):
+    use menu_header(_("Photo Album"), return_action):
 
         if isinstance(all_albums[0], list) or isinstance(all_albums[0], tuple):
             # Retained for backwards compatibility. Displays the albums.
