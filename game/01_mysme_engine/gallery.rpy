@@ -740,7 +740,7 @@ screen character_gallery(album, caption, name):
 
     tag menu
 
-    use menu_header(_('Photo Album'), Show('photo_album', Dissolve(0.5))):
+    use menu_header(_("Photo Album"), Show('photo_album', Dissolve(0.5))):
 
         vbox:
             align (0.5, 1.0)
@@ -953,7 +953,7 @@ screen viewCG_fullsize_album(album, caption, name):
             background Solid("#00000066")
             xysize (config.screen_width, 99)
 
-            textbutton "Close":
+            textbutton _("Close"):
                 style_prefix "CG_close"
                 if persistent.dialogue_outlines:
                     text_outlines [ (2, "#000") ]
