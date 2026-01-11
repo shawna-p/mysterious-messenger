@@ -144,7 +144,7 @@ screen music_room(mr):
                         action mr.Previous()
                     imagebutton:
                         at colorize_button(), zoom_button(0.5)
-                        idle "pause_button" hover "pause_button"
+                        idle "pause_button" hover "pause_button" alt _("Play/Pause")
                         selected_idle "play_button" selected_hover "play_button"
                         action mr.PlayAction()
                     imagebutton:
