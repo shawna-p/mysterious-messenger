@@ -148,7 +148,7 @@ screen music_room(mr):
                         selected_idle "play_button" selected_hover "play_button"
                         action mr.PlayAction()
                     imagebutton:
-                        idle "next_button"
+                        idle "next_button" alt _("Next Song")
                         at colorize_button(), zoom_button(0.65)
                         action mr.Next()
                     ################## Repeat all, repeat one buttons ##################
