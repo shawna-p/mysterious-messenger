@@ -156,6 +156,7 @@ screen music_room(mr):
                         at colorize_button(idle=MUSIC_ROOM_INSENSITIVE_COLOR,
                             hover=MUSIC_ROOM_IDLE_COLOR), zoom_button(0.9)
                         idle "repeat_all_button"
+                        alt _("Toggle Repeat")
                         if mr.single_track:
                             foreground "repeat_one_button"
                         action mr.CycleLoop()
