@@ -424,7 +424,7 @@ screen gallery_popup():
     dismiss action gal_close
 
     use confirm(
-        "Thanks for downloading Mysterious Messenger! The gallery system has updated since the last version, so we'll take a moment now to ensure your images remain unlocked. See the documentation for more on how to update your gallery to the new definition style.",
+        _("Thanks for downloading Mysterious Messenger! The gallery system has updated since the last version, so we'll take a moment now to ensure your images remain unlocked. See the documentation for more on how to update your gallery to the new definition style."),
         gal_close
     )
 
