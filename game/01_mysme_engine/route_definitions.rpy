@@ -33,7 +33,7 @@ init -6 python:
     def TheParty(vn_label, trigger_time=False, save_img='auto'):
         """Return a StoryMode object defined to be the party."""
 
-        return StoryMode(title="The Party", vn_label=vn_label,
+        return StoryMode(title=_("The Party"), vn_label=vn_label,
             trigger_time=trigger_time, party=True, save_img=save_img)
 
 
