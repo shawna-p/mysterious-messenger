@@ -387,7 +387,7 @@ init -6 python:
             if last_msg.who.right_msgr:
                 return "You sent an image."
             else:
-                msg = last_msg.who.name + " sent an image."
+                msg = last_msg.who.name + __(" sent an image.")
                 if len(msg) > num_char:
                     return msg[:num_char].strip() + '...'
                 else:
