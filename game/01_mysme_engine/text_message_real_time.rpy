@@ -23,6 +23,7 @@ screen text_answer(act=False):
         background Fixed(Solid("#000"), 'text_answer_active', xysize=(468,95))
         hover_background Fixed(Solid("#000"), 'text_answer_animation', xysize=(468,95))
         activate_sound "audio/sfx/UI/answer_screen.mp3"
+        alt _("Answer")
         if not renpy.get_screen("choice") and not act:
             action [Show('text_pause_button'), Return()]
         elif act:
