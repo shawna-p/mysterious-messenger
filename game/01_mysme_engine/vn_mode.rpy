@@ -155,7 +155,7 @@ screen history():
         style_prefix 'history_close'
         action Hide('history')
         keysym ["rollback", "game_menu"]
-        text "Close" style "CG_close_button_text":
+        text _("Close") style "CG_close_button_text":
             if persistent.dialogue_outlines:
                 outlines [ (2, "#000") ]
                 font gui.sans_serif_1xb
