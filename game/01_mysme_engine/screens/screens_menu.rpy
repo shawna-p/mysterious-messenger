@@ -662,7 +662,7 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
                             if FileLoadable(slot):
                                 fixed:
                                     text access_json(slot, 'title')
-                                text _("Today: " + access_json(slot, 'today')
+                                text (__("Today: ") + access_json(slot, 'today')
                                     + access_json(slot, 'day_suffix')):
                                     yalign 1.0
                             else:
