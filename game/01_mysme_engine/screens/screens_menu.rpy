@@ -684,6 +684,7 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
                                     hover Transform('save_trash',zoom=1.05)
                                     idle 'save_trash'
                                     xalign 1.0
+                                    alt _("Delete save")
                                     action FileDelete(slot)
 
                     key "save_delete" action FileDelete(slot)
