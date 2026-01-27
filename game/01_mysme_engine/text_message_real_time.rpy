@@ -37,6 +37,7 @@ screen inactive_text_answer():
         ysize 95
         yalign 1.0 yoffset -25
         background 'text_answer_inactive'
+        alt _("Answer")
         add 'text_answer_text' xalign 0.5 yalign 0.5
 
 #####################################

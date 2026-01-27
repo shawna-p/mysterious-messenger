@@ -622,8 +622,8 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
                             has vbox
                             fixed:
                                 text _("This is a backup file that is auto-generated")
-                            text _("Today: {}{}".format(access_json(mm_auto, 'today'),
-                                    access_json(mm_auto, 'day_suffix'))):
+                            text _("Today: {}{}").format(access_json(mm_auto, 'today'),
+                                    access_json(mm_auto, 'day_suffix')):
                                 yalign 1.0
                         frame:
                             style_prefix 'save_stamp'
@@ -662,7 +662,7 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
                             if FileLoadable(slot):
                                 fixed:
                                     text access_json(slot, 'title')
-                                text _("Today: " + access_json(slot, 'today')
+                                text (__("Today: ") + access_json(slot, 'today')
                                     + access_json(slot, 'day_suffix')):
                                     yalign 1.0
                             else:
@@ -684,6 +684,7 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
                                     hover Transform('save_trash',zoom=1.05)
                                     idle 'save_trash'
                                     xalign 1.0
+                                    alt _("Delete save")
                                     action FileDelete(slot)
 
                     key "save_delete" action FileDelete(slot)
