@@ -681,12 +681,12 @@ init python:
 
         if n_email + n_text + n_call > 0:
             # Show the player a notification of unread messages
-            popup_msg += "You have "
+            popup_msg += __("You have ")
 
             if n_email > 0:
-                popup_msg += str(n_email) + " unread email"
+                popup_msg += str(n_email) + __(" unread email")
                 if n_email > 1:
-                    popup_msg += "s"
+                    popup_msg += __("s{#plural_emails}")
 
             if n_text > 0 and n_email > 0 and n_call > 0:
                 popup_msg += ", "
