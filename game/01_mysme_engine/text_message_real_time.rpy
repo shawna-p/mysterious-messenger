@@ -55,6 +55,7 @@ screen text_pause_button():
         xalign 0.5
         focus_mask True
         keysym "K_SPACE"
+        alt _("Pause")
         idle "text_pause_button"
         if not choosing:
             action ShowMenu('text_message_pause_screen')
