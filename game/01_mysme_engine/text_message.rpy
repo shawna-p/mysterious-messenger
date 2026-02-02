@@ -214,7 +214,7 @@ screen text_msg_popup(c, last_msg=False, hide_screen='text_msg_popup',
 
         hbox:
             add 'new_text_envelope'
-            text 'NEW'
+            text _('NEW')
 
         vbox:
             hbox:
