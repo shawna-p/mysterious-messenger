@@ -72,6 +72,7 @@ screen text_message_pause_screen():
         focus_mask True
         idle "text_play_button"
         keysym "K_SPACE"
+        alt _("Play")
         action Return()
 
 
