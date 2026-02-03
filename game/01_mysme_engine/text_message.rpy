@@ -224,7 +224,7 @@ screen text_msg_popup(c, last_msg=False, hide_screen='text_msg_popup',
                 vbox:
                     style_prefix None
                     style 'text_popup_vbox2'
-                    text "From: " + c.name color '#fff'
+                    text __("From: ") + c.name color '#fff'
 
                     label text_popup_preview(last_msg):
                         style_prefix 'text_popup_preview'
