@@ -328,6 +328,7 @@ screen text_message_footer(c):
             foreground Transform('text_answer_text', align=(0.5, 0.5))
             insensitive_background None
             insensitive_foreground None
+            alt _("Answer")
             if not renpy.get_screen("choice"):
                 action [Jump('play_text_message')]
                 activate_sound "audio/sfx/UI/answer_screen.mp3"
