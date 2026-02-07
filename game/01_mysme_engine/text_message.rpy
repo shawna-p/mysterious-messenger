@@ -476,6 +476,7 @@ screen text_animation(i, animate=False, anti=False):
                     imagebutton:
                         focus_mask True
                         idle smallCG(cg_helper(i.what))
+                        alt _("Open image")
                         if not choosing:
                             action ShowCG(i.what)
                 else:
