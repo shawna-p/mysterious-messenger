@@ -360,7 +360,7 @@ label zen_pfp_callback_unknown2():
     # `new_choices` will allow you to add to the existing choices instead
     # of replacing them.
     $ space_thoughts.add_choices(
-        SpaceThought(z, "[name] changed [their] profile picture to that random guy again... why [do_does] [they] like that picture so much?")
+        SpaceThought(z, _("[name] changed [their] profile picture to that random guy again... why [do_does] [they] like that picture so much?"))
     )
     return
 
