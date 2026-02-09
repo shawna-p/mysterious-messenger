@@ -368,5 +368,5 @@ label ju_pfp_callback_ju_18():
     # Jumin will change his profile picture to match the player's
     # and update his status
     $ ju.prof_pic = "Profile Pics/Jumin/ju-18.webp"
-    $ ju.status = "I see [name] has recognized Elizabeth the 3rd's beauty."
+    $ ju.status = _("I see [name] has recognized Elizabeth the 3rd's beauty.")
     return
