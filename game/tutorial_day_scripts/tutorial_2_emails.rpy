@@ -115,11 +115,11 @@ default rainbow = Guest(
 ## The first string, "example", is what will show up in the
 ## email chain as the guest's 'email' e.g. "longcat" shows up
 ## as "@longcat" in the email chain.
-"rainbow",
+_("rainbow"),
 
 ## The next string is the name of the guest as it should show up in the
 ## guestbook when they arrive at the party e.g. "Long Cat"
-"Rainbow",
+_("Rainbow"),
 
 ## This string is the image to use for the guest's
 ## thumbnail. It should be 155x155px
@@ -132,12 +132,11 @@ default rainbow = Guest(
 
 ## This next string is a short description of the guest, shown in the
 ## guestbook when they have been invited.
-"Rainbow Unicorn, the creator of this program.",
+_("Rainbow Unicorn, the creator of this program."),
 
 ## Personal Info section on the guest, shown in the guestbook after the
 ## guest has attended the party.
-"Rainbow started working on this project back in 2018 and they're excited to share it with the world!",
-
+_("Rainbow started working on this project back in 2018 and they're excited to share it with the world!"),
 ## This is the beginning email that will be sent to the player after the guest
 ## is invited. It is usually easier to write this with triple quotes so you
 ## can incorporate line breaks. This text is parsed to remove leading whitespace
