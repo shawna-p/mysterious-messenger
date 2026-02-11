@@ -142,7 +142,7 @@ _("Rainbow started working on this project back in 2018 and they're excited to s
 ## can incorporate line breaks. This text is parsed to remove leading whitespace
 ## and replace single newlines with a space, so you can indent the string
 ## for readability and keep it within the character limit.
-"""Hi [name]!
+_p("""Hi [name]!
 
 Really excited to hear about this party you're holding! Can't wait to see
 how things will turn out for you. Zen told me to make sure your inbox is
@@ -153,7 +153,7 @@ outside? Please let me know as soon as possible!
 
 Thanks,
 
-Rainbow Unicorn""", # don't forget the comma after the quotes
+Rainbow Unicorn"""), # don't forget the comma after the quotes
 
 ## This differs from the previous way to define guests. Here, you will define
 ## the sequence of choices the player has to answer the guest.
