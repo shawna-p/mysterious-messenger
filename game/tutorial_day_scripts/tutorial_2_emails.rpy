@@ -339,14 +339,14 @@ EmailReply(
 # guestbook.
 
 ## The dialogue Rainbow says when arriving at the party.
-"Oh, it's so exciting to be at the party! I can't wait to see everyone.",
+_("Oh, it's so exciting to be at the party! I can't wait to see everyone."),
 
 ## The ChatCharacter variable of the person who should talk about this
 ## guest in the long description in the guestbook.
 z,
 
 ## What the previous character says about this guest.
-"Is Rainbow's name a reference to me? Haha, well, I am quite a rainbow unicorn if I do say so myself~",
+_("Is Rainbow's name a reference to me? Haha, well, I am quite a rainbow unicorn if I do say so myself~"),
 
 ## The expression/displayable name of the character to show
 "zen front party happy",
