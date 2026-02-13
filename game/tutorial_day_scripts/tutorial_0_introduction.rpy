@@ -360,7 +360,7 @@ label zen_pfp_callback_unknown2():
     # `new_choices` will allow you to add to the existing choices instead
     # of replacing them.
     $ space_thoughts.add_choices(
-        SpaceThought(z, "[name] changed [their] profile picture to that random guy again... why [do_does] [they] like that picture so much?")
+        SpaceThought(z, _("[name] changed [their] profile picture to that random guy again... why [do_does] [they] like that picture so much?"))
     )
     return
 
@@ -368,5 +368,5 @@ label ju_pfp_callback_ju_18():
     # Jumin will change his profile picture to match the player's
     # and update his status
     $ ju.prof_pic = "Profile Pics/Jumin/ju-18.webp"
-    $ ju.status = "I see [name] has recognized Elizabeth the 3rd's beauty."
+    $ ju.status = _("I see [name] has recognized Elizabeth the 3rd's beauty.")
     return

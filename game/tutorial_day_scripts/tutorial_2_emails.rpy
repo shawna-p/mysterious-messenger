@@ -115,11 +115,11 @@ default rainbow = Guest(
 ## The first string, "example", is what will show up in the
 ## email chain as the guest's 'email' e.g. "longcat" shows up
 ## as "@longcat" in the email chain.
-"rainbow",
+_("rainbow"),
 
 ## The next string is the name of the guest as it should show up in the
 ## guestbook when they arrive at the party e.g. "Long Cat"
-"Rainbow",
+_("Rainbow"),
 
 ## This string is the image to use for the guest's
 ## thumbnail. It should be 155x155px
@@ -132,18 +132,17 @@ default rainbow = Guest(
 
 ## This next string is a short description of the guest, shown in the
 ## guestbook when they have been invited.
-"Rainbow Unicorn, the creator of this program.",
+_("Rainbow Unicorn, the creator of this program."),
 
 ## Personal Info section on the guest, shown in the guestbook after the
 ## guest has attended the party.
-"Rainbow started working on this project back in 2018 and they're excited to share it with the world!",
-
+_("Rainbow started working on this project back in 2018 and they're excited to share it with the world!"),
 ## This is the beginning email that will be sent to the player after the guest
 ## is invited. It is usually easier to write this with triple quotes so you
 ## can incorporate line breaks. This text is parsed to remove leading whitespace
 ## and replace single newlines with a space, so you can indent the string
 ## for readability and keep it within the character limit.
-"""Hi [name]!
+_p("""Hi [name]!
 
 Really excited to hear about this party you're holding! Can't wait to see
 how things will turn out for you. Zen told me to make sure your inbox is
@@ -154,7 +153,7 @@ outside? Please let me know as soon as possible!
 
 Thanks,
 
-Rainbow Unicorn""", # don't forget the comma after the quotes
+Rainbow Unicorn"""), # don't forget the comma after the quotes
 
 ## This differs from the previous way to define guests. Here, you will define
 ## the sequence of choices the player has to answer the guest.
@@ -340,14 +339,14 @@ EmailReply(
 # guestbook.
 
 ## The dialogue Rainbow says when arriving at the party.
-"Oh, it's so exciting to be at the party! I can't wait to see everyone.",
+_("Oh, it's so exciting to be at the party! I can't wait to see everyone."),
 
 ## The ChatCharacter variable of the person who should talk about this
 ## guest in the long description in the guestbook.
 z,
 
 ## What the previous character says about this guest.
-"Is Rainbow's name a reference to me? Haha, well, I am quite a rainbow unicorn if I do say so myself~",
+_("Is Rainbow's name a reference to me? Haha, well, I am quite a rainbow unicorn if I do say so myself~"),
 
 ## The expression/displayable name of the character to show
 "zen front party happy",

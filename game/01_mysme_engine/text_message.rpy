@@ -214,7 +214,7 @@ screen text_msg_popup(c, last_msg=False, hide_screen='text_msg_popup',
 
         hbox:
             add 'new_text_envelope'
-            text 'NEW'
+            text _('NEW')
 
         vbox:
             hbox:
@@ -224,7 +224,7 @@ screen text_msg_popup(c, last_msg=False, hide_screen='text_msg_popup',
                 vbox:
                     style_prefix None
                     style 'text_popup_vbox2'
-                    text "From: " + c.name color '#fff'
+                    text __("From: ") + c.name color '#fff'
 
                     label text_popup_preview(last_msg):
                         style_prefix 'text_popup_preview'
@@ -328,6 +328,7 @@ screen text_message_footer(c):
             foreground Transform('text_answer_text', align=(0.5, 0.5))
             insensitive_background None
             insensitive_foreground None
+            alt _("Answer")
             if not renpy.get_screen("choice"):
                 action [Jump('play_text_message')]
                 activate_sound "audio/sfx/UI/answer_screen.mp3"
@@ -475,6 +476,7 @@ screen text_animation(i, animate=False, anti=False):
                     imagebutton:
                         focus_mask True
                         idle smallCG(cg_helper(i.what))
+                        alt _("Open image")
                         if not choosing:
                             action ShowCG(i.what)
                 else:
