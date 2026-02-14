@@ -694,7 +694,7 @@ init python:
                 popup_msg += " and "
 
             if n_text > 0:
-                popup_msg += str(n_text) + " unread text message"
+                popup_msg += str(n_text) + __(" unread text message")
                 if n_text > 1:
                     popup_msg += "s"
 
