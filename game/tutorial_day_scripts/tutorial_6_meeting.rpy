@@ -181,7 +181,7 @@ label after_popcorn_chat():
 
     $ space_thoughts.new_choices( [
         SpaceThought(ja, _("What I wouldn't give to go home and watch one of Zen's DVDs...")),
-        SpaceThought(ju, "Elizabeth the 3rd's safety is the most important thing right now."),
+        SpaceThought(ju, _("Elizabeth the 3rd's safety is the most important thing right now.")),
         SpaceThought(s, "My poor Elly... I just want to cuddle her..."),
         SpaceThought(y, "I can't wait to get home and try the new LOLOL expansion."),
         SpaceThought(z, "I wish Mr. Trust Fund would stop talking about his cat."),
