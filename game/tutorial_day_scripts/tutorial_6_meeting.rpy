@@ -184,7 +184,7 @@ label after_popcorn_chat():
         SpaceThought(ju, _("Elizabeth the 3rd's safety is the most important thing right now.")),
         SpaceThought(s, _("My poor Elly... I just want to cuddle her...")),
         SpaceThought(y, _("I can't wait to get home and try the new LOLOL expansion.")),
-        SpaceThought(z, "I wish Mr. Trust Fund would stop talking about his cat."),
+        SpaceThought(z, _("I wish Mr. Trust Fund would stop talking about his cat.")),
         SpaceThought(r, "Oh no... I added too much sugar."),
         SpaceThought(v, "Did I eat breakfast this morning?")
         ] )
