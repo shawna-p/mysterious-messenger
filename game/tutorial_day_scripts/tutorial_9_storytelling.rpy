@@ -66,7 +66,7 @@ label other_storytelling():
     y "{=curly}You can use this feature for a lot of neat things ^^{/=curly}"
     msg y "There's also another feature, customizable links."
     msg y "They look like this!"
-    y "Click Link" (link_title="Address", link_action=JumpVN('other_storytelling_link_vn'))
+    y "Click Link" (link_title=_("Address"), link_action=JumpVN('other_storytelling_link_vn'))
     stop chat "Click on the link to continue"
     msg y "You might have noticed that the link can't be clicked anymore" ser1
     msg y "now that we're back in the chat" ser1
