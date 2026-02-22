@@ -180,7 +180,7 @@ label ja_text_own_dog():
         # accept_blank=False means the game won't allow the player to click
         # "Confirm" until they've entered at least one character
         # for the dog's name.
-        call get_input('player_dog_name', "Enter your dog's name", accept_blank=False)
+        call get_input('player_dog_name', _("Enter your dog's name"), accept_blank=False)
         msg m "[player_dog_name]" pv 0
         ja "[player_dog_name]...?"
         ja "Hmm, thank you for sharing."
