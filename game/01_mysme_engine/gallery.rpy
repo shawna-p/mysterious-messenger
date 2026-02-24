@@ -774,6 +774,7 @@ screen character_gallery(album, caption, name):
                 for index, photo in enumerate(album):
                     imagebutton:
                         idle photo.thumbnail
+                        alt _("View Image")
                         if not photo.seen_in_album and photo.unlocked:
                             foreground 'new_sign'
                         action MMViewGallery(index, photo, album, caption, name)
