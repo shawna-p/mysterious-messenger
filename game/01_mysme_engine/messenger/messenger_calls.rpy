@@ -214,6 +214,7 @@ screen save_and_exit():
         focus_mask True
         idle "save_exit"
         keysym "K_SPACE"
+        alt _("Save and Exit")
         action Return()
 
 label press_save_and_exit():
