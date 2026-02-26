@@ -16,6 +16,7 @@ screen answer_button(act=None):
         idle 'transparent_answer'
         activate_sound "audio/sfx/UI/answer_screen.mp3"
         if not act:
+            alt _("Toggle Pause")
             action [Show('pause_button'), Return()]
         else:
             action act
