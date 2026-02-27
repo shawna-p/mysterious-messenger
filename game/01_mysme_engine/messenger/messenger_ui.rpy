@@ -19,6 +19,7 @@ screen answer_button(act=None):
             alt _("Toggle Pause")
             action [Show('pause_button'), Return()]
         else:
+            alt _("Answer")
             action act
         keysym "K_SPACE"
 
