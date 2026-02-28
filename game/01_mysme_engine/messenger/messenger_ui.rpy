@@ -42,6 +42,7 @@ screen continue_button():
         idle 'transparent_answer'
         action Return()
         keysym "K_SPACE"
+        alt _("Continue")
 
 #####################################
 # Pause/Play footers
