@@ -79,6 +79,7 @@ screen pause_button():
                     and not renpy.get_screen('answer_choice')):
                 action ShowMenu('play_button_pause_chat')
                 keysym "K_SPACE"
+                alt _("Toggle Pause")
 
         if not choosing:
             use fast_slow_buttons()
