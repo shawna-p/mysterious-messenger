@@ -114,6 +114,7 @@ screen play_button_pause_chat():
         focus_mask True
         idle 'phone_play'
         keysym "K_SPACE"
+        alt _("Play")
         action Return()
 
 # This screen is visible when the chat is paused;
