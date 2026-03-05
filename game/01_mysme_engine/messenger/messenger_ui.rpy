@@ -161,6 +161,7 @@ screen fast_slow_buttons():
         focus_mask None
         idle "fast_slow_button"
         keysym "K_LEFT"
+        alt _("Slow down chat")
         action [Function(slow_pv),
                 Hide('speed_num'),
                 Show("speed_num")]
