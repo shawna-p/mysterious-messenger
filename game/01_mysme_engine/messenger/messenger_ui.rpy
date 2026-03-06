@@ -268,6 +268,7 @@ screen phone_overlay(is_menu_pause=False):
         imagebutton:
             align (0.5, 0.5)
             auto 'maxSpeed_%s'
+            alt _("Toggle Skipping")
             focus_mask True
             selected renpy.is_skipping()
             if not choosing and not renpy.get_screen('no_modal_confirm'):
