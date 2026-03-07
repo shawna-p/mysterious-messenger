@@ -284,6 +284,7 @@ screen phone_overlay(is_menu_pause=False):
                     idle 'skip_intro_idle'
                     hover 'skip_intro_hover'
                     if not renpy.get_screen('no_modal_confirm'):
+                        alt _("Skip Intro")
                         action [If(renpy.call_stack_depth() > 0,
                                 Function(renpy.pop_call), NullAction()),
                             SetField(persistent, 'first_boot', False),
