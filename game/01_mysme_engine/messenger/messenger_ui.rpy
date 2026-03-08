@@ -356,6 +356,7 @@ screen phone_overlay(is_menu_pause=False):
                     action None
                 # Back button during a history replay ends it
                 elif _in_replay:
+                    alt _("End Replay")
                     action EndReplay(False)
                 # Back button during the chat creator jumps back to it
                 elif (is_main_menu_replay):
