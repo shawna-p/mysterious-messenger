@@ -360,6 +360,7 @@ screen phone_overlay(is_menu_pause=False):
                     action EndReplay(False)
                 # Back button during the chat creator jumps back to it
                 elif (is_main_menu_replay):
+                    alt _("Exit preview")
                     action MMGoTo('chatroom_creator_setup', is_menu_pause)
                 # Back button when the chat is expired jumps out of it
                 elif (observing or current_timeline_item.currently_expired):
