@@ -364,6 +364,7 @@ screen phone_overlay(is_menu_pause=False):
                     action MMGoTo('chatroom_creator_setup', is_menu_pause)
                 # Back button when the chat is expired jumps out of it
                 elif (observing or current_timeline_item.currently_expired):
+                    alt _("Back")
                     action MMGoTo("exit_item_early", is_menu_pause)
                 elif on_screen_choices > 0:
                     # Continuous menus must continue on or their animation
