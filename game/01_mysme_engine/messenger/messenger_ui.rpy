@@ -367,6 +367,7 @@ screen phone_overlay(is_menu_pause=False):
                     alt _("Back")
                     action MMGoTo("exit_item_early", is_menu_pause)
                 elif on_screen_choices > 0:
+                    alt _("Exit Chat")
                     # Continuous menus must continue on or their animation
                     # timing will de-sync.
                     action Show('no_modal_confirm', message=MM_LEAVE_EARLY,
