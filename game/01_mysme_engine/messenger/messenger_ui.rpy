@@ -377,6 +377,7 @@ screen phone_overlay(is_menu_pause=False):
                 # Otherwise, the player is trying to exit the chat while
                 # it's still "active"
                 else:
+                    alt _("Exit Chat")
                     action CConfirm(MM_LEAVE_EARLY,
                                 MMGoTo("exit_item_early", is_menu_pause))
 
