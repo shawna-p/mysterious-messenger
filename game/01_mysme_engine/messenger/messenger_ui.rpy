@@ -482,6 +482,7 @@ screen continue_answer_button(themenu):
         idle "transparent_answer"
         activate_sound "audio/sfx/UI/answer_screen.mp3"
         keysym "K_SPACE"
+        alt _("Answer")
         action [SetVariable("choosing", True),
                 SetVariable('timed_choose', True),
                 Hide('answer_countdown'),
