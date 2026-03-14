@@ -78,7 +78,7 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
                         ## indicates where messages will be inserted.
                         button:
                             style_prefix "cc_insert"
-                            action CConfirm("Stop inserting messages here?",
+                            action CConfirm(_("Stop inserting messages here?"),
                                 SetVariable('insert_msg_index', -1))
                             has vbox
                             text "Insert Message Here" size 45
