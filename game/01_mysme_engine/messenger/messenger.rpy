@@ -81,7 +81,7 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
                             action CConfirm(_("Stop inserting messages here?"),
                                 SetVariable('insert_msg_index', -1))
                             has vbox
-                            text "Insert Message Here" size 45
+                            text _("Insert Message Here") size 45
                             text "(Click to remove)" size 22
                     button:
                         style 'cc_button2'
