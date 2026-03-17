@@ -435,6 +435,7 @@ screen timeline_item_display(day, day_num, item, index):
                     yalign 0.9
                     xalign 0.5
                     idle 'expired_chat'
+                    alt _("Participate in expired chat")
                     hover_background 'btn_hover:expired_chat'
                     if item.available or persistent.unlock_all_story:
                         action If(persistent.testing_mode,
