@@ -490,6 +490,7 @@ screen timeline_item_display(day, day_num, item, index):
             has hbox
             add 'vn_marker'
             button:
+                alt _("Story Mode")
                 foreground item.story_mode.timeline_img(can_play_story_mode)
                 hover_foreground (item.story_mode.timeline_img(
                         can_play_story_mode) + '_hover')
