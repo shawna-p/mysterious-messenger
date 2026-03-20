@@ -512,6 +512,7 @@ screen timeline_item_display(day, day_num, item, index):
             style_prefix 'party_timeline_vn'
             button:
                 background story_mode.timeline_img(can_play_story_mode)
+                alt _("The Party")
                 if story_mode.available and can_play_story_mode:
                     hover_foreground story_mode.timeline_img(can_play_story_mode)
                     action CConfirm(_("If you start the party before answering a guest's emails, that guest will not attend the party. Continue?"),
