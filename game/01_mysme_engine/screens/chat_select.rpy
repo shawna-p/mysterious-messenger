@@ -544,7 +544,7 @@ screen timeline_item_display(day, day_num, item, index):
                 spacing 15
                 align (0.5, 0.5)
                 add 'plot_lock'
-                text 'Tap to unlock' color '#fff' xalign 0.5 yalign 0.5
+                text _("Tap to unlock") color '#fff' xalign 0.5 yalign 0.5
             # Check if the player has seen all items before
             # they try to branch
             if can_branch():
