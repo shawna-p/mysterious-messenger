@@ -623,6 +623,7 @@ screen timeline_story_calls(phonecall, item, was_played):
                 yalign 0.85
                 xalign 0.5
                 idle 'expired_chat'
+                alt _("Restore expired call")
                 hover_background 'btn_hover:expired_chat'
                 if phonecall.available or persistent.unlock_all_story:
                     action If(persistent.testing_mode,
