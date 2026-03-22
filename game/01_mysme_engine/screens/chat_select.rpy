@@ -772,7 +772,7 @@ label guest_party_showcase():
         $ guest_dialogue = attending_guests_list[j].dialogue_what
 
         # The guest says their designated dialogue here
-        "[guest_name]" "[guest_dialogue]"
+        "[guest_name!t]" "[guest_dialogue!t]"
 
         # And then is hidden
         if j % 2 == 0:
