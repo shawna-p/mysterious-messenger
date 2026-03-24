@@ -704,7 +704,7 @@ init python:
                 popup_msg += " and "
 
             if n_call > 0:
-                popup_msg += str(n_call) + " missed call"
+                popup_msg += str(n_call) + __(" missed call")
                 if n_call > 1:
                     popup_msg += "s"
 
