@@ -1184,7 +1184,7 @@ screen select_emote(edit=False):
         yalign 0.6
         imagebutton:
             align (1.0, 0.0)
-            auto 'input_close_%s'
+            auto 'input_close_%s' alt _("Close")
             action Hide('select_emote')
         vbox:
             spacing 20
