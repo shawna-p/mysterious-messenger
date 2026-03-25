@@ -1240,12 +1240,8 @@ screen select_emote(edit=False):
 
 screen select_bubble(editing=False):
 
-    if editing:
-        default bubble_dict = bubble_info
-        default bubble_who = chatlog[edit_msg_index].who
-    else:
-        default bubble_dict = edit_bubble_info
-        default bubble_who = the_entry.who
+    default bubble_dict = bubble_info if editing else edit_bubble_info
+    default bubble_who = chatlog[edit_msg_index].who if editing else the_entry.who
 
     zorder 100
     modal True
