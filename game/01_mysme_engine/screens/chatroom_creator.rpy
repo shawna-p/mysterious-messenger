@@ -1163,7 +1163,7 @@ screen select_anim():
                     style_prefix 'check'
                     action ToggleScreenVariable('anim_reverse')
 
-            textbutton _('Confirm'):
+            textbutton _("Confirm"):
                 style_prefix 'chatc_confirm'
                 action [Hide('select_anim'),
                     Function(add_replay_direction,
@@ -1184,7 +1184,7 @@ screen select_emote(edit=False):
         yalign 0.6
         imagebutton:
             align (1.0, 0.0)
-            auto 'input_close_%s'
+            auto 'input_close_%s' alt _("Close")
             action Hide('select_emote')
         vbox:
             spacing 20
@@ -1231,7 +1231,7 @@ screen select_emote(edit=False):
                             action ToggleScreenVariable('selected_emote',
                                 emote)
 
-            textbutton _('Confirm'):
+            textbutton _("Confirm"):
                 style_prefix 'chatc_confirm'
                 action [Function(add_emote, selected_emote, edit=edit),
                     If(not edit and insert_msg_index == -1,
@@ -1240,12 +1240,8 @@ screen select_emote(edit=False):
 
 screen select_bubble(editing=False):
 
-    if editing:
-        default bubble_dict = bubble_info
-        default bubble_who = chatlog[edit_msg_index].who
-    else:
-        default bubble_dict = edit_bubble_info
-        default bubble_who = the_entry.who
+    default bubble_dict = bubble_info if editing else edit_bubble_info
+    default bubble_who = chatlog[edit_msg_index].who if editing else the_entry.who
 
     zorder 100
     modal True
@@ -1353,7 +1349,7 @@ screen select_bubble(editing=False):
                                     style 'glow_bubble'
                                     add Null(height=100, width=150)
 
-            textbutton _('Confirm'):
+            textbutton _("Confirm"):
                 style_prefix 'chatc_confirm'
                 action If(not editing,
                     [chat_dialogue_input.Disable(),
@@ -1414,7 +1410,7 @@ screen select_banner():
                             action ToggleScreenVariable('selected_banner',
                                 ban, None)
 
-            textbutton _('Confirm'):
+            textbutton _("Confirm"):
                 style_prefix 'chatc_confirm'
                 sensitive selected_banner is not None
                 action [Hide('select_banner'),
@@ -1532,7 +1528,7 @@ screen select_music():
                 action ToggleScreenVariable('at_beginning')
 
 
-            textbutton _('Confirm'):
+            textbutton _("Confirm"):
                 style_prefix 'chatc_confirm'
                 action [Function(add_replay_direction,
                         __('Play Music: ') + str(temp_music),
@@ -1600,7 +1596,7 @@ screen select_background():
                 action ToggleScreenVariable('at_beginning')
 
 
-            textbutton _('Confirm'):
+            textbutton _("Confirm"):
                 style_prefix 'chatc_confirm'
                 action [Function(add_replay_direction, 'Background: ' + temp_bg,
                     ('background', temp_bg), at_beginning=at_beginning),
@@ -1649,7 +1645,7 @@ screen select_participants():
                                 action ToggleSetMembership(cc_participants,
                                     who)
 
-            textbutton _('Confirm'):
+            textbutton _("Confirm"):
                 style_prefix 'chatc_confirm'
                 action [Hide('select_participants')]
 
