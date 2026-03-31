@@ -155,7 +155,7 @@ style history_route_hbox:
 
 screen extra_history_hbox(items):
     for title, lbl in items:
-        textbutton _(title):
+        textbutton "[title!t]":
             xsize min((650 // len(items) - 20), 305)
             text_text_align 0.5
             text_align (0.5, 0.5)
