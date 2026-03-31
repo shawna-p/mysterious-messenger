@@ -33,7 +33,7 @@ screen select_history():
                             Show('photo_album', Dissolve(0.5))]
                     hbox:
                         add 'history_icon_album' yalign 0.5
-                        text _('ALBUM')
+                        text _("ALBUM")
                 button:
                     action Show('select_history_route', Dissolve(0.5))
                     hbox:
@@ -50,7 +50,7 @@ screen select_history():
                     action Show('guestbook', Dissolve(0.5))
                     hbox:
                         add 'history_icon_guest'
-                        text _('GUEST')
+                        text _("GUEST")
 
                 button:
                     action Show('music_room', Dissolve(0.5), mr=mm_mr)
@@ -121,7 +121,7 @@ screen select_history_route():
                         use extra_history_hbox([extra_history_items[-1]])
 
             for route in all_routes:
-                textbutton _(route.route_history_title):
+                textbutton "[route.route_history_title!t]":
                     if route.history_background:
                         background Transform(route.history_background, alpha=0.8)
                         hover_background route.history_background
@@ -155,7 +155,7 @@ style history_route_hbox:
 
 screen extra_history_hbox(items):
     for title, lbl in items:
-        textbutton _(title):
+        textbutton "[title!t]":
             xsize min((650 // len(items) - 20), 305)
             text_text_align 0.5
             text_align (0.5, 0.5)

@@ -1785,7 +1785,7 @@ screen load_chat():
     default slots_per_column = 7
     default begin_page = 0
 
-    use menu_header("Chat Creator Load", Hide('load_chat', Dissolve(0.5)))
+    use menu_header(_("Chat Creator Load"), Hide('load_chat', Dissolve(0.5)))
     use chatroom_file_slots(_("Load"), current_page, num_pages,
         slots_per_column, begin_page)
 
