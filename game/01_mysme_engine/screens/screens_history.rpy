@@ -235,12 +235,10 @@ image call_missed_outline = "Menu Screens/History/call_icon_missed_outline.webp"
 
 screen timeline_item_history(item):
 
+    # Determine if the participants list needs to scroll or not
+    default part_anim = participant_scroll if isinstance(item, ChatRoom) and get_participants(item) and len(get_participants(item)) > 4 else null_anim
+
     python:
-        # Determine if the participants list needs to scroll or not
-        part_anim = null_anim
-        if isinstance(item, ChatRoom) and get_participants(item):
-            if len(get_participants(item)) > 4:
-                part_anim = participant_scroll
 
         # ChatRoom story mode displays similarly to solo StoryMode in
         # some cases
