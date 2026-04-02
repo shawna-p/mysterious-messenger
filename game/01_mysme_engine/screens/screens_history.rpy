@@ -237,18 +237,10 @@ screen timeline_item_history(item):
 
     # Determine if the participants list needs to scroll or not
     default part_anim = participant_scroll if isinstance(item, ChatRoom) and get_participants(item) and len(get_participants(item)) > 4 else null_anim
+    # ChatRoom story mode displays similarly to solo StoryMode in some cases
+    default story_mode = item if isinstance(item, StoryMode) else item.story_mode if isinstance(item, ChatRoom) and item.story_mode else None
 
     python:
-
-        # ChatRoom story mode displays similarly to solo StoryMode in
-        # some cases
-        if isinstance(item, StoryMode):
-            story_mode = item
-        elif isinstance(item, ChatRoom) and item.story_mode:
-            story_mode = item.story_mode
-        else:
-            story_mode = None
-
         # StoryCall items display the same if they are alone or not
         if isinstance(item, StoryCall):
             story_calls = [item]
