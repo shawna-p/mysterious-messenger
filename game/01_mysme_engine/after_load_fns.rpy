@@ -689,7 +689,7 @@ init python:
                     popup_msg += __("s{#plural_emails}")
 
             if n_text > 0 and n_email > 0 and n_call > 0:
-                popup_msg += ", "
+                popup_msg += __(", {#separator_for_new_calls}")
             elif n_text > 0 and n_email > 0 and n_call <= 0:
                 popup_msg += " and "
 
