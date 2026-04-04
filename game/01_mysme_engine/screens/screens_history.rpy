@@ -239,16 +239,10 @@ screen timeline_item_history(item):
     default part_anim = participant_scroll if isinstance(item, ChatRoom) and get_participants(item) and len(get_participants(item)) > 4 else null_anim
     # ChatRoom story mode displays similarly to solo StoryMode in some cases
     default story_mode = item if isinstance(item, StoryMode) else item.story_mode if isinstance(item, ChatRoom) and item.story_mode else None
+    # StoryCall items display the same if they are alone or not
+    default story_calls = [item] if isinstance(item, StoryCall) else item.story_calls_list if isinstance(item, TimelineItem) and item.story_calls_list else None
 
     python:
-        # StoryCall items display the same if they are alone or not
-        if isinstance(item, StoryCall):
-            story_calls = [item]
-        elif isinstance(item, TimelineItem) and item.story_calls_list:
-            story_calls = item.story_calls_list
-        else:
-            story_calls = None
-
         replay_dictionary = {'observing': True,
                             'current_timeline_item': item,
                             'current_day': current_day,
