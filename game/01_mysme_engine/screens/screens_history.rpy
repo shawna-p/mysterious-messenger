@@ -242,14 +242,14 @@ screen timeline_item_history(item):
     # StoryCall items display the same if they are alone or not
     default story_calls = [item] if isinstance(item, StoryCall) else item.story_calls_list if isinstance(item, TimelineItem) and item.story_calls_list else None
 
-    python:
-        replay_dictionary = {'observing': True,
+    default replay_dictionary = {'observing': True,
                             'current_timeline_item': item,
                             'current_day': current_day,
                             'current_day_num': current_day_num,
                             'name': persistent.name,
                             'chat_name': persistent.chat_name}
 
+    python:
         expired_replay_dictionary = {'expired_replay': True,
                             'observing': True,
                             'current_timeline_item': item,
