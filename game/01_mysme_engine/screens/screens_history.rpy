@@ -249,8 +249,7 @@ screen timeline_item_history(item):
                             'name': persistent.name,
                             'chat_name': persistent.chat_name}
 
-    python:
-        expired_replay_dictionary = {'expired_replay': True,
+    default expired_replay_dictionary = {'expired_replay': True,
                             'observing': True,
                             'current_timeline_item': item,
                             'current_day': current_day,
@@ -258,6 +257,7 @@ screen timeline_item_history(item):
                             'name': persistent.name,
                             'chat_name': persistent.chat_name}
 
+    python:
         replay_dict_story = copy(replay_dictionary)
         replay_dict_story['current_timeline_item'] = story_mode
 
