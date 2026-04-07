@@ -257,9 +257,12 @@ screen timeline_item_history(item):
                             'name': persistent.name,
                             'chat_name': persistent.chat_name}
 
-    python:
-        replay_dict_story = copy(replay_dictionary)
-        replay_dict_story['current_timeline_item'] = story_mode
+    default replay_dict_story = {'observing': True,
+                            'current_timeline_item': story_mode,
+                            'current_day': current_day,
+                            'current_day_num': current_day_num,
+                            'name': persistent.name,
+                            'chat_name': persistent.chat_name}
 
     style_prefix None
     null height 10
