@@ -597,11 +597,8 @@ screen photo_album():
         on 'replace' action [AutoSave()]
         on 'show' action [AutoSave()]
 
+    default return_action = Show('select_history', Dissolve(0.5)) if main_menu else Show('chat_home', Dissolve(0.5))
     python:
-        if main_menu:
-            return_action = Show('select_history', Dissolve(0.5))
-        else:
-            return_action = Show('chat_home', Dissolve(0.5))
 
         grid_row = -(-len(all_albums) // 3)
         full_grids = (len(all_albums) // 3) * 3
