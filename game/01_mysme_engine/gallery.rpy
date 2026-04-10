@@ -677,6 +677,8 @@ screen photo_album():
 ## that will take you to the desired character's album.
 screen char_album(caption, name=None, album=None, cover=None):
 
+    default file_id = caption
+
     python:
         if name is None:
             # Caption is actually the file_id
