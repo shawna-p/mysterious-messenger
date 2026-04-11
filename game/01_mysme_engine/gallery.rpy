@@ -678,12 +678,10 @@ screen photo_album():
 screen char_album(caption, name=None, album=None, cover=None):
 
     default file_id = caption
-
+    # Caption is actually the file_id
+    default caption = caption if name is not None else 'cg_label_' + convert_to_file_name(file_id)
     python:
         if name is None:
-            # Caption is actually the file_id
-            file_id = caption
-            caption = 'cg_label_' + convert_to_file_name(file_id)
             name = get_name_from_file_id(file_id)
             album = getattr(store,
                     convert_to_file_name(file_id) + "_album")
