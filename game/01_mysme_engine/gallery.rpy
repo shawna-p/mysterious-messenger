@@ -677,15 +677,11 @@ screen photo_album():
 ## that will take you to the desired character's album.
 screen char_album(caption, name=None, album=None, cover=None):
 
-    default file_id = caption
+    default name = name if name is not None else get_name_from_file_id(caption)
+    default album = album if name is not None else getattr(store, convert_to_file_name(caption) + "_album")
+    default cover = cover if name is not None else convert_to_file_name(caption) + "_album_cover"
     # Caption is actually the file_id
-    default caption = caption if name is not None else 'cg_label_' + convert_to_file_name(file_id)
-    python:
-        if name is None:
-            name = get_name_from_file_id(file_id)
-            album = getattr(store,
-                    convert_to_file_name(file_id) + "_album")
-            cover = convert_to_file_name(file_id) + "_album_cover"
+    default caption = caption if name is not None else 'cg_label_' + convert_to_file_name(caption)
 
     button:
         vbox:
