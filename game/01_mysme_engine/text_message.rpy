@@ -36,11 +36,11 @@ screen text_message_hub():
 ## Displays an individual message preview.
 screen text_hub_display(i):
 
+    default text_log = i.text_msg.msg_list
+    default text_read = i.text_msg.read
+    default text_label = i.text_msg.reply_label
+    default text_notified = i.text_msg.notified
     python:
-        text_log = i.text_msg.msg_list
-        text_read = i.text_msg.read
-        text_label = i.text_msg.reply_label
-        text_notified = i.text_msg.notified
 
         if len(text_log) > 0:
             last_text = text_log[-1]
