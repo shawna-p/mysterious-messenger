@@ -40,15 +40,8 @@ screen text_hub_display(i):
     default text_read = i.text_msg.read
     default text_label = i.text_msg.reply_label
     default text_notified = i.text_msg.notified
-    python:
-
-        if len(text_log) > 0:
-            last_text = text_log[-1]
-            text_time = last_text.thetime
-        else:
-            last_text = False
-            text_time = False
-
+    default last_text = False if not text_log else text_log[-1]
+    default text_time = False if not text_log else text_log[-1].thetime
 
     button:
         style_prefix 'text_msg'
