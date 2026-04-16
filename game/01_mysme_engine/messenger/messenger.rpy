@@ -5,12 +5,9 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
     tag menu
     zorder 1
 
-    python:
-        # If we've gone past 20 entries that aren't in the no_anim_list,
-        # there is no animation list
-        if (no_anim_list and len(chatlog) > 20
-                and chatlog[-20] not in no_anim_list):
-            no_anim_list = None
+    # If we've gone past 20 entries that aren't in the no_anim_list,
+    # there is no animation list
+    default no_anim_list = None if no_anim_list and len(chatlog) > 20 and chatlog[-20] not in no_anim_list else no_anim_list
 
     frame:
         align (0.5, 1.0)
