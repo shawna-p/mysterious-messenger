@@ -301,8 +301,8 @@ screen text_message_footer(c):
 
     default text_log = c.text_msg.msg_list
     default text_read = c.text_msg.read
+    default text_label = c.text_msg.reply_label
     python:
-        text_label = c.text_msg.reply_label
         if len(text_log) > 0:
             last_msg = text_log[-1]
         else:
