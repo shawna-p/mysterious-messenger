@@ -302,11 +302,7 @@ screen text_message_footer(c):
     default text_log = c.text_msg.msg_list
     default text_read = c.text_msg.read
     default text_label = c.text_msg.reply_label
-    python:
-        if len(text_log) > 0:
-            last_msg = text_log[-1]
-        else:
-            last_msg = False
+    default last_msg = False if not text_log else text_log[-1]
 
     vbox:
         xalign 0.5 yalign 1.0 yoffset -30
