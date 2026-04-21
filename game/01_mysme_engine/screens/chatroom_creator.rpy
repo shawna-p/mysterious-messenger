@@ -915,11 +915,7 @@ screen pick_speaker(active_tab="Dialogue", pos=(320, 890), anchor=(0.0, 0.5),
         msg_ind=None):
 
     zorder 101
-    python:
-        if active_tab == "Emoji":
-            all_chara = [chara for chara in all_characters if chara.emote_list]
-        else:
-            all_chara = all_characters
+    default all_chara = all_characters if active_tab != "Emoji" else [chara for chara in all_characters if chara.emote_list]
 
     dismiss action Hide('pick_speaker')
     frame:
