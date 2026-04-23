@@ -109,11 +109,9 @@ init python:
 screen timed_menu_messages(no_anim_list=None):
     tag menu
     zorder 1
+    default finalchat = None if not chatlog else chatlog[-1]
     python:
         yadj.value = yadjValue
-        finalchat = None
-        if len(chatlog) > 0:
-            finalchat = chatlog[-1]
         if (no_anim_list and len(chatlog) > 20
                 and chatlog[-20] not in no_anim_list):
             no_anim_list = None
