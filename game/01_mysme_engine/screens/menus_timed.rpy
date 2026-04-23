@@ -110,11 +110,10 @@ screen timed_menu_messages(no_anim_list=None):
     tag menu
     zorder 1
     default finalchat = None if not chatlog else chatlog[-1]
+    default no_anim_list2 = None if (no_anim_list and len(chatlog) > 20
+                and chatlog[-20] not in no_anim_list) else no_anim_list
     python:
         yadj.value = yadjValue
-        if (no_anim_list and len(chatlog) > 20
-                and chatlog[-20] not in no_anim_list):
-            no_anim_list = None
 
     frame at slide_up_down(-220):
         align (0.5, 1.0)
@@ -144,11 +143,11 @@ screen timed_menu_messages(no_anim_list=None):
                     elif i == finalchat:
                         use chat_animation(i, True)
                     if (i.who.name not in ['msg', 'filler', 'answer']
-                            and (no_anim_list is None
-                                or i not in no_anim_list)):
+                            and (no_anim_list2 is None
+                                or i not in no_anim_list2)):
                         use chat_animation(i)
                     elif (i.who.name not in ['msg', 'filler', 'answer']
-                            and i in no_anim_list):
+                            and i in no_anim_list2):
                         use chat_animation(i, no_anim=True)
                 null height 10
 
