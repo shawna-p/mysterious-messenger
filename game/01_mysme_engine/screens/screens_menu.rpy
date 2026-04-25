@@ -569,13 +569,10 @@ screen load():
             use file_slots(_("Load"), current_page, num_pages,
                 slots_per_column, begin_page)
 
-screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
-        begin_page=0):
+init python:
 
-    on 'show' action FilePage(1)
-    on 'replace' action FilePage(1)
-
-    python:
+    def update_most_recent_item():
+        global most_recent_item
         # Retrieve the name and day of the most recently completed
         # chatroom for the save file name
         if (most_recent_item is None
@@ -586,6 +583,13 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
             most_recent_item = ChatRoom('Example Chatroom',
                                             'example_chat', '00:01')
 
+screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
+        begin_page=0):
+
+    on 'show' action FilePage(1), Function(update_most_recent_item)
+    on 'replace' action FilePage(1), Function(update_most_recent_item)
+
+    python:
         # Determine the beginning/end values
         if current_page == 0:
             begin_range = 0
