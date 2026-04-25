@@ -1361,15 +1361,13 @@ style tone_selection_button:
 ## each characters' voice on or off
 screen voice_buttons(char, voice_char=None):
 
+    default title = char.name if isinstance(char, ChatCharacter) else char
     python:
         if isinstance(char, ChatCharacter):
             if char == r:
                 voice_char = sa.file_id + '_voice'
             else:
                 voice_char = char.file_id + '_voice'
-            title = char.name
-        else:
-            title = char
     hbox:
         xalign 0.0
         spacing 10
