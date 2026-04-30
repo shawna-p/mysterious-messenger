@@ -667,15 +667,13 @@ screen no_modal_confirm(message, yes_action, no_action=False):
 screen script_error(message, link=False, link_text=False):
     modal True
     zorder 190
-    python:
-        message = "{=sser1xb}{color=#f00}Script Error:\n{/color}{/=sser1xb}" + message
-        if link:
-            message += "\n\nLink to documentation:"
+
+    default message2 = "{=sser1xb}{color=#f00}Script Error:\n{/color}{/=sser1xb}" + message + ("\n\nLink to documentation:" if link else "")
     style_prefix "confirm"
     add "gui/overlay/confirm.png"
     frame:
         vbox:
-            label message:
+            label message2:
                 style "confirm_prompt"
                 xalign 0.5
             if link:

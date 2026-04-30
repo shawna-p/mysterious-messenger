@@ -1362,12 +1362,8 @@ style tone_selection_button:
 screen voice_buttons(char, voice_char=None):
 
     default title = char.name if isinstance(char, ChatCharacter) else char
-    python:
-        if isinstance(char, ChatCharacter):
-            if char == r:
-                voice_char = sa.file_id + '_voice'
-            else:
-                voice_char = char.file_id + '_voice'
+    default the_voice = sa.file_id + '_voice' if isinstance(char, ChatCharacter) and char == r else char.file_id + '_voice' if isinstance(char, ChatCharacter) else voice_char
+
     hbox:
         xalign 0.0
         spacing 10
@@ -1381,7 +1377,7 @@ screen voice_buttons(char, voice_char=None):
             idle_child Text(_("On"), style="voice_toggle_on")
             hover_child Text(_("On"), style="voice_toggle_on")
             selected_child Text(_("Off"), style="voice_toggle_off")
-            action ToggleVoiceMute(voice_char)
+            action ToggleVoiceMute(the_voice)
 
 style voice_toggle_on:
     color "#99ffea"

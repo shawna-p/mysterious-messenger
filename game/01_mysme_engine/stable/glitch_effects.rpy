@@ -199,11 +199,12 @@ screen tear2(num_pieces=10, xoffset_min=-10, xoffset_max=10,
     zorder 150
 
     # Add the torn screenshot to the screen
-    add DynamicDisplayable(create_torn_screen, screenshot=BasicScreenshot(
+    default dd = DynamicDisplayable(create_torn_screen, screenshot=BasicScreenshot(
             img, width, height, create_tears=True,
             num_pieces=num_pieces, xoffset_min=xoffset_min,
             xoffset_max=xoffset_max, idle_len_multiplier=idle_len_multiplier,
-            move_len_multiplier=move_len_multiplier)):
+            move_len_multiplier=move_len_multiplier))
+    add dd:
         xysize (width or config.screen_width, height or config.screen_height)
         align (0.5, 0.5)
 
