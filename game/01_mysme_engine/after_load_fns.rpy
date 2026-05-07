@@ -116,7 +116,7 @@ init python:
             # Try to check if this save is on Tutorial Day, in which case
             # paraphrase choices should be off.
             try:
-                if store.story_archive[0].day == "Tutorial":
+                if store.story_archive[0].day == _("Tutorial"):
                     store.paraphrase_choices = False
                 else:
                     store.paraphrase_choices = True
