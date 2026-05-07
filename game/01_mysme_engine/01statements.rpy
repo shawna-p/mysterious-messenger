@@ -1540,7 +1540,7 @@ python early:
     # Definitions that allow you to stop the chat to wait for an interaction
     # (typically by clicking an in-chat link).
     def parse_stop_chat(l):
-        wait_text = l.string() or "Click the link to proceed"
+        wait_text = l.string() or _("Click the link to proceed")
         return wait_text
 
     def execute_stop_chat(wait_text):
