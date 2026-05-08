@@ -363,9 +363,9 @@ init python:
         store.persistent.phone_tone = 'audio/sfx/Ringtones etc/phone_basic_1.wav'
         store.persistent.text_tone = "audio/sfx/Ringtones etc/text_basic_1.wav"
         store.persistent.email_tone = 'audio/sfx/Ringtones etc/email_basic_1.wav'
-        store.persistent.phone_tone_name = "Default"
-        store.persistent.text_tone_name = "Default"
-        store.persistent.email_tone_name = "Default 1"
+        store.persistent.phone_tone_name = _("Default")
+        store.persistent.text_tone_name = _("Default")
+        store.persistent.email_tone_name = _("Default 1")
         define_variables()
         return
 
