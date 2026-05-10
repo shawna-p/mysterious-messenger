@@ -512,7 +512,7 @@ init python:
         for key, val in chara.__dict__.items():
             if key.startswith("_m1_character_definitions__"):
                 chara.__dict__["_m1_chatcharacter_definition__"
-                    + key[27:]] = val
+                    + key[len("_m1_character_definitions__"):]] = val
 
         new_c = ChatCharacter(chara.name, chara.file_id, chara.prof_pic,
             chara.participant_pic, chara.heart_color, chara.cover_pic,
