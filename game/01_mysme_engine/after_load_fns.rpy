@@ -696,7 +696,7 @@ init python:
             if n_text > 0:
                 popup_msg += str(n_text) + __(" unread text message")
                 if n_text > 1:
-                    popup_msg += "s"
+                    popup_msg += __("s{#plural_text_msgs}")
 
             if n_call > 0 and n_text > 0 and n_email > 0:
                 popup_msg += ", and "
