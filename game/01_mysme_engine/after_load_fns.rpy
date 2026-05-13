@@ -691,7 +691,7 @@ init python:
             if n_text > 0 and n_email > 0 and n_call > 0:
                 popup_msg += __(", {#separator_for_new_calls}")
             elif n_text > 0 and n_email > 0 and n_call <= 0:
-                popup_msg += __(" and {#plural_for_new_texts}")
+                popup_msg += __(" and {#separator_for_new_calls}")
 
             if n_text > 0:
                 popup_msg += str(n_text) + __(" unread text message")
@@ -701,7 +701,7 @@ init python:
             if n_call > 0 and n_text > 0 and n_email > 0:
                 popup_msg += __(", and {#separator_for_new_calls}")
             elif (n_call > 0 and n_text > 0) or (n_call > 0 and n_email > 0):
-                popup_msg += " and "
+                popup_msg += __(" and {#separator_for_new_calls}")
 
             if n_call > 0:
                 popup_msg += str(n_call) + __(" missed call")
