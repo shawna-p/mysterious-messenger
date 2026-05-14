@@ -992,7 +992,7 @@ init -6 python:
             is available.
             """
 
-            return "[[new story mode] " + self.title
+            return __("[[new story mode] ") + self.title
 
         def timeline_img(self, was_played=True):
             """
