@@ -757,7 +757,7 @@ init -6 python:
             is available.
             """
 
-            return "[[new chatroom] " + self.title
+            return __("[[new chatroom] ") + self.title
 
         @property
         def final_item(self):
