@@ -1133,7 +1133,7 @@ init -6 python:
             is available.
             """
 
-            return "[[new story call] " + self.title
+            return __("[[new story call] ") + self.title
 
 
     def create_dependent_storycall(parent, caller, phone_label):
