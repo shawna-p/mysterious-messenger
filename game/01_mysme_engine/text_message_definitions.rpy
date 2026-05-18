@@ -381,7 +381,6 @@ init -6 python:
         global name
         if not last_msg:
             return "Couldn't find a message"
-        last_msg.what = renpy.filter_text_tags(last_msg.what, allow=['image'])
 
         if (last_msg.img or "{image" in last_msg.what):
             if last_msg.who.right_msgr:
@@ -393,8 +392,9 @@ init -6 python:
                 else:
                     return msg
 
+        what = renpy.filter_text_tags(last_msg.what, allow=['image'])
         # Perform substitution on the message
-        preview = renpy.substitute(last_msg.what)
+        preview = renpy.substitute(what)
 
         if len(preview) > num_char:
             return preview[:num_char].strip() + '...'
