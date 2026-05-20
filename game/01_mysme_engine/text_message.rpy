@@ -415,9 +415,9 @@ screen text_message_screen(sender, animate=True):
             if (len(textlog) > 0 and ind > 0
                     and i.thetime.time_diff_minimum(textlog[ind-1].thetime, day=1)):
                 use text_date_separator(i.thetime)
-            if (len(textlog) > 0 and textlog[0] == i):
+            elif (len(textlog) > 0 and textlog[0] == i):
                 use text_date_separator(i.thetime)
-            if (len(textlog) > bubbles_to_keep
+            elif (len(textlog) > bubbles_to_keep
                     and textlog[-bubbles_to_keep] == i):
                 use text_date_separator(i.thetime)
             fixed:
