@@ -653,7 +653,7 @@ init -6 python:
                 chatroom_label = 'starter_chat'
         except:
             chatroom_label = 'starter_chat'
-        current_timeline_item = ChatRoom('Introduction', chatroom_label,
+        current_timeline_item = ChatRoom(_('Introduction'), chatroom_label,
                                         '00:00', participants)
         # This sets a specific variable that lets you have phone calls/
         # VNs for a starter chat/opening
