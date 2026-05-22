@@ -834,7 +834,7 @@ init -6 python:
         the_img = get_img_from_file()
         if the_img is None:
             # Can't use this as a profile picture
-            renpy.run(CConfirm("This image cannot be used as a profile picture."))
+            renpy.run(CConfirm(_("This image cannot be used as a profile picture.")))
             return
         # Otherwise, we're good to go
         store.m.prof_pic = the_img
