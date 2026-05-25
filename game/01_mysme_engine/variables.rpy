@@ -1320,7 +1320,7 @@ default shuffle = True
 
 ## Generic variables that are used for some program calls and setup.
 default 4 generic_chatroom = ChatRoom(_('Chatroom'), 'generic_chatroom', '00:00')
-default 4 generic_storymode = StoryMode('Story Mode', 'generic_storymode', '00:00')
+default 4 generic_storymode = StoryMode(_('Story Mode'), 'generic_storymode', '00:00')
 default 4 generic_storycall = StoryCall('Story Call', 'generic_storycall', '00:00', None)
 default 4 generic_timeline_items = [generic_chatroom, generic_storycall, generic_storymode]
 
