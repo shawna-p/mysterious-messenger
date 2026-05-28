@@ -1438,7 +1438,7 @@ default current_timeline_item = ChatRoom('title', 'chatroom_label', '00:00')
 # Item that should be used when saving the game or used for plot branches.
 default most_recent_item = None
 default name = _('Rainbow')
-default chat_name = 'Rainbow'
+default chat_name = _('Rainbow')
 default hacked_effect = False
 # True if the player can receive hourglasses in chatrooms
 default persistent.receive_hg = True
