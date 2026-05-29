@@ -1489,7 +1489,7 @@ image greeting_bubble = Frame("Menu Screens/Main Menu/greeting_bubble.webp", 40,
 image greeting_panel = Frame("Menu Screens/Main Menu/greeting_panel.webp", 20, 20)
 
 image rfa_greet:
-    Text("{k=-1}>>>>>>>{/k}  Welcome to Rika's Fundraising Association",
+    Text(_("{k=-1}>>>>>>>{/k}  Welcome to Rika's Fundraising Association"),
                 color="#ffffff", size=30, slow=True,
                 font=curlicue_font, slow_cps=8, bold=True)
     10.0
