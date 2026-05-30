@@ -500,7 +500,7 @@ init python:
             if not self.large_img:
                 self.large_img = self.thumbnail
             if not self.short_desc:
-                self.short_desc = ("No description was entered in this guest's Guest definition.")
+                self.short_desc = _("No description was entered in this guest's Guest definition.")
             if not self.personal_info:
                 self.personal_info = ("No personal info was given in this guest's Guest definition")
             if not self.comment_who:
