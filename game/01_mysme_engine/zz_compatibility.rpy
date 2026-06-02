@@ -510,7 +510,7 @@ init python:
             if not self.dialogue_name:
                 self.dialogue_name = string.capwords(self.name)
             if not self.dialogue_what:
-                self.dialogue_what = "This guest was not given anything to say."
+                self.dialogue_what = _("This guest was not given anything to say.")
 
             # Add the guest to the guestbook
             if self.name not in store.persistent.guestbook:
