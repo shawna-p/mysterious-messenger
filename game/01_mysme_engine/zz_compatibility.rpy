@@ -506,7 +506,7 @@ init python:
             if not self.comment_who:
                 self.comment_who = store.narrator
             if not self.comment_what:
-                self.comment_what = "No comment was entered for this guest."
+                self.comment_what = _("No comment was entered for this guest.")
             if not self.dialogue_name:
                 self.dialogue_name = string.capwords(self.name)
             if not self.dialogue_what:
