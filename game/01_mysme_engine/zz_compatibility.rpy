@@ -696,8 +696,6 @@ init python:
 
             return [self.first_msg(), self.second_msg(), self.third_msg()]
 
-
-
         def deliver(self):
             """
             Deliver the next email in the chain to the player and

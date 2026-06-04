@@ -1396,7 +1396,7 @@ init python:
             store._history = False
             store.gamestate = PHONE
             preferences.afm_enable = True
-            if not starter_story and not item == generic_storycall:
+            if not starter_story and item != generic_storycall:
                 store.current_call = item
 
             renpy.hide_screen('incoming_call')
