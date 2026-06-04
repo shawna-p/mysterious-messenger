@@ -101,7 +101,7 @@ label example_chat():
     $ tutorial_set = set()
     menu learn (paraphrased=True):
         set tutorial_set
-        "Emojis and Images" if not choice_picked == "emojis":
+        "Emojis and Images" if choice_picked != "emojis":
             $ choice_picked = "emojis"
             if first_choice:
                 m "I want to learn how to use emojis and images" (pauseVal=0)
@@ -113,7 +113,7 @@ label example_chat():
             pause 0.5
             jump emojis
 
-        "Banners & Other" if not choice_picked == "banners":
+        "Banners & Other" if choice_picked != "banners":
             $ choice_picked = "banners"
             if first_choice:
                 m "Can you teach me about banners?" (pauseVal=0)
@@ -125,7 +125,7 @@ label example_chat():
             pause 0.5
             jump banners
 
-        "Heart Icons" if not choice_picked == "heart icons":
+        "Heart Icons" if choice_picked != "heart icons":
             $ choice_picked = "heart icons"
             if first_choice:
                 m "I'd like to learn about heart icons" (pauseVal=0)
@@ -137,7 +137,7 @@ label example_chat():
             pause 0.5
             jump heart_icons
 
-        "Screen Shake and Special Bubbles" if not choice_picked == "spec bubbles":
+        "Screen Shake and Special Bubbles" if choice_picked != "spec bubbles":
             $ choice_picked = "spec bubbles"
             if first_choice:
                 m "Screen shake and special bubbles, please" (pauseVal=0)
