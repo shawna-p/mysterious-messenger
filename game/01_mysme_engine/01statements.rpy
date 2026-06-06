@@ -209,7 +209,7 @@ python early:
         """
 
         # Ensure the font is known
-        if not ffont in store.all_fonts_list:
+        if ffont not in store.all_fonts_list:
             ScriptError("The font", ffont, "for dialogue \"", what,
                 "\" could not be evaluated.",
                 header="Chatrooms",
