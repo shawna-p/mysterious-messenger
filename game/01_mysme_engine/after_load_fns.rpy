@@ -707,7 +707,7 @@ init python:
                 popup_msg += str(n_call) + __(" missed call")
                 if n_call > 1:
                     popup_msg += __("s{#plural_calls}")
-            popup_msg += "."
+            popup_msg += _(".{#popup_ender}")
         if popup_msg != "":
             renpy.show_screen('confirm', yes_action=Hide('confirm'),
                 message=popup_msg)
