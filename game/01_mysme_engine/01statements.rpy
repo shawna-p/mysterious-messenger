@@ -890,7 +890,6 @@ python early:
         return True
 
     def translate_msg_stmt(p):
-        return [ ]
         # Get the 'what'
         try:
             what = p['what']
