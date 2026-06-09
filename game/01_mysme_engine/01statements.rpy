@@ -604,8 +604,6 @@ python early:
         return
 
     def translate_backlog_stmt(p):
-        # TODO: Remove this
-        return [ ]
         messages = p['messages']
 
         translation = [ ]
