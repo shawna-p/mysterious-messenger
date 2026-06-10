@@ -1198,7 +1198,7 @@ python early:
         parse=parse_compose_text,
         execute=execute_compose_text,
         predict=predict_backlog_stmt,
-        #translation_strings=translate_backlog_stmt,
+        translation_strings=translate_backlog_stmt,
         lint=lint_compose_text,
         warp=lambda : True,
         block=True)
