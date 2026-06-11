@@ -1258,7 +1258,6 @@ python early:
 
         bad = p["bad"]
 
-
         # This ensures pending dialogue is posted before awarding a heart.
         # Fixes some issues with text message heart points.
         if (not store.dialogue_paraphrase and store.dialogue_picked != ""):
@@ -1283,7 +1282,7 @@ python early:
                         renpy.show_screen('heart_icon_screen', character=who,
                             hide_screen=popup_tag, _tag=popup_tag)
                     else:
-                        msg = "{} +{}".format(who.name, amount)
+                        msg = __("{} +{}").format(who.name, amount)
                         popup_tag = get_random_screen_tag()
                         renpy.show_screen('stackable_notifications', message=msg,
                             hide_screen=popup_tag,
