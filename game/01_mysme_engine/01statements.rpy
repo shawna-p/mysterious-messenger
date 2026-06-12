@@ -1389,7 +1389,7 @@ python early:
                 who = eval(p["who"])
             except Exception:
                 return [ ]
-        return [ "Heart Point/heartbreak_0.webp",
+        return ["Heart Point/heartbreak_0.webp",
                 "Heart Point/heartbreak_1.webp",
                 "Heart Point/heartbreak_2.webp",
                 "Heart Point/heartbreak_3.webp",
@@ -1761,7 +1761,7 @@ python early:
                         header="Miscellaneous", subheader="Adding New Audio")
 
             if the_caption:
-                notification =  ("SFX: " + the_caption)
+                notification =  (__("SFX: ") + renpy.translate(the_caption))
 
                 if store.persistent.audio_captions:
                     renpy.show_screen('notify', notification)
