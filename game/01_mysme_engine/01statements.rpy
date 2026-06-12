@@ -1375,7 +1375,7 @@ python early:
                 renpy.show_screen('heart_break_screen', character=who,
                     hide_screen=popup_tag, _tag=popup_tag)
             else:
-                msg = "{} -{}".format(who.name, amount)
+                msg = __("{} -{}").format(who.name, amount)
                 popup_tag = get_random_screen_tag()
                 renpy.show_screen('stackable_notifications', message=msg,
                     hide_screen=popup_tag, _tag=popup_tag)
