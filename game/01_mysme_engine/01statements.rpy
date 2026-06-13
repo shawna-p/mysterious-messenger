@@ -1666,7 +1666,7 @@ python early:
                         header="Miscellaneous", subheader="Adding New Audio")
 
             if the_caption:
-                notification =  ("♪ " + the_caption + " ♪")
+                notification =  ("♪ " + renpy.translate(the_caption) + " ♪")
 
                 if store.persistent.audio_captions:
                     renpy.show_screen('notify', notification)
