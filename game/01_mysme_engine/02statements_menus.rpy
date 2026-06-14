@@ -318,12 +318,12 @@ python early hide:
             item_actions.append(me)
 
         # Create a "dummy action" that can be used for autoanswer timed menu
-        label = "(Say nothing)"
-        value = renpy.ui.ChoiceReturn(label, item_actions[-1].value.value + 1,
+        thelabel = _("(Say nothing)")
+        value = renpy.ui.ChoiceReturn(thelabel, item_actions[-1].value.value + 1,
             location, sensitive=True, args=tuple(), kwargs=dict())
-        me = renpy.exports.MenuEntry((label, value))
+        me = renpy.exports.MenuEntry((thelabel, value))
         me.value = value
-        me.caption = label
+        me.caption = thelabel
         me.chosen = value.get_chosen()
         me.args = tuple()
         me.kwargs = dict()
