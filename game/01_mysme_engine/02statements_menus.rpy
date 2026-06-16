@@ -342,6 +342,9 @@ python early hide:
     def lint_timed_menu(p):
         return
 
+    def translate_timed_menu(p):
+        return [ ]
+
     def predict_timed_menu(p):
         return [ ]
 
@@ -372,6 +375,7 @@ python early hide:
         if store.timed_menu_dict and not store.timed_menu_dict.get('item', None):
             renpy.jump('end_of_timed_menu')
         return
+
 
     renpy.register_statement('timed menu',
                             parse=parse_timed_menu,
