@@ -979,11 +979,11 @@ python early hide:
 
             item = store.c_menu_dict['choice_id_dict'][p['choice_id']]
             # Create a "dummy action" that can be used for autoanswer timed menu
-            label = "(Say nothing)"
+            thelabel = _("(Say nothing)")
             location = renpy.game.context().current
-            value = renpy.ui.ChoiceReturn(label, 1,
+            value = renpy.ui.ChoiceReturn(thelabel, 1,
                 location, sensitive=True, args=tuple(), kwargs=dict())
-            me = renpy.exports.MenuEntry((label, value))
+            me = renpy.exports.MenuEntry((thelabel, value))
             me.value = value
             me.caption = label
             me.chosen = value.get_chosen()
