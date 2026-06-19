@@ -343,7 +343,10 @@ python early hide:
         return
 
     def translate_timed_menu(p):
-        return [ ]
+        ret = [ ]
+        for label, condition, block in p['items']:
+            ret.append(label)
+        return ret
 
     def predict_timed_menu(p):
         return [ ]
