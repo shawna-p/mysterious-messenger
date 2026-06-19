@@ -340,7 +340,11 @@ python early hide:
         renpy.jump('execute_timed_menu')
 
     def lint_timed_menu(p):
-        return
+
+        for label, condition, block in p['items']:
+            if condition:
+                renpy.try_compile("in the if clause of a timed menu choice", condition.strip())
+            renpy.lint.text_checks(label)
 
     def translate_timed_menu(p):
         ret = [ ]
