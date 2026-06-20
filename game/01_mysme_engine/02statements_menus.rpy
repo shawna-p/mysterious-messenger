@@ -390,7 +390,7 @@ python early hide:
                             execute=execute_timed_menu,
                             predict=predict_timed_menu,
                             label=label_timed_menu,
-                            #translation_strings=translate_timed_menu,
+                            translation_strings=translate_timed_menu,
                             force_begin_rollback=True,
                             post_label=post_timed_menu,
                             post_execute=post_execute_timed_menu,
