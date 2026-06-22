@@ -347,10 +347,7 @@ python early hide:
             renpy.lint.text_checks(label)
 
     def translate_timed_menu(p):
-        ret = [ ]
-        for label, condition, block in p['items']:
-            ret.append(label)
-        return ret
+        return [l for l, c, b in p['items']]
 
     def predict_timed_menu(p):
         return [ ]
