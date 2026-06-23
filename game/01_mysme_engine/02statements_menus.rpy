@@ -849,6 +849,8 @@ python early hide:
                     block=block)
 
     def lint_choice_stmt(p):
+        renpy.lint.text_checks(p['label'])
+        renpy.try_compile("in the if clause of a continuous menu choice", p['condition'].strip())
         return
 
     def execute_choice_stmt(p, recalculate_time=False, begin=-1):
