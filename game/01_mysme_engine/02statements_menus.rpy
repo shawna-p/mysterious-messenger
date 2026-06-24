@@ -853,6 +853,9 @@ python early hide:
         renpy.try_compile("in the if clause of a continuous menu choice", p['condition'].strip())
         return
 
+    def translate_choice_stmt(p):
+        return [ ]
+
     def execute_choice_stmt(p, recalculate_time=False, begin=-1):
 
         # If there is no continuous menu, do nothing. The menu is over.
@@ -954,6 +957,7 @@ python early hide:
     renpy.register_statement('choice',
                             parse=parse_choice_stmt,
                             lint=lint_choice_stmt,
+                            translate_strings=translate_choice_stmt,
                             execute=execute_choice_stmt,
                             block=True)
 
