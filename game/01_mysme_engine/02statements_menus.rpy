@@ -854,7 +854,7 @@ python early hide:
         return
 
     def translate_choice_stmt(p):
-        return [ ]
+        return p['label']
 
     def execute_choice_stmt(p, recalculate_time=False, begin=-1):
 
