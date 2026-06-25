@@ -100,14 +100,14 @@ init -50 python:
                 achievement.register(self.id, stat_max=stat_max,
                     stat_modulo=stat_modulo or None)
 
-        def get_timestamp(self, format="%b %d, %Y @ %I:%M %p"):
+        def get_timestamp(self, format=_("%b %d, %Y @ %I:%M %p{#achievement_timestamp}")):
             """
             Return the timestamp when this achievement was granted,
             using the provided string format.
             """
             if self.has():
-                return datetime.fromtimestamp(
-                    self._timestamp).strftime(format)
+                format = renpy.translation.translate_string(format)
+                return _strftime(format, self._timestamp)
             else:
                 return ""
 
