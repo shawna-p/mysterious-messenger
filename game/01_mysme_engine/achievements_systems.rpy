@@ -128,8 +128,8 @@ init -50 python:
                     if config.developer:
                         print("WARNING: Could not find timestamp for achievement with ID {}".format(self.id))
                     return ""
-                return __("Unlocked ") + ts.strftime(__(
-                    "%b %d, %Y @ %I:%M %p{#achievement_timestamp}"))
+                return __("Unlocked ") + self.get_timestamp(
+                    _("%b %d, %Y @ %I:%M %p{#achievement_timestamp}"))
             else:
                 return ""
 
