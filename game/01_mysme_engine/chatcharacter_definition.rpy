@@ -768,7 +768,7 @@ python early:
                 return self.__dict__['name']
             except:
                 print_file("ERROR: Could not retrieve name.")
-                return "DEFAULT"
+                return _("DEFAULT")
 
         @name.setter
         def name(self, new_name):
