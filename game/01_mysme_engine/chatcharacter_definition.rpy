@@ -958,9 +958,7 @@ python early:
         def __ne__(self, other):
             """Check for inequality between two ChatCharacter objects."""
 
-            if not isinstance(other, ChatCharacter):
-                return True
-            return self.file_id != other.file_id
+            return not self.__eq__(other)
 
 
 init -5 python:
