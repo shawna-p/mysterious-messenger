@@ -450,7 +450,7 @@ init python:
             self.num_emails = num_emails
             self.dialogue_what = dialogue_what or _("This guest was not given anything to say.")
             self.comment_who = comment_who or store.narrator
-            self.comment_what = comment_what or ("No comment was entered for this guest")
+            self.comment_what = comment_what or _("No comment was entered for this guest")
             self.comment_img = comment_img or "#000"
 
             self.attending = None
