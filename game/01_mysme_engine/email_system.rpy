@@ -1015,7 +1015,7 @@ screen guest_info_popup(guest, unlocked):
             alt _("Close")
             action [Hide('guest_info_popup')]
         vbox:
-            text '@[guest.name]':
+            text '@[guest.name!t]':
                 size 40 font gui.sans_serif_1b xoffset 40
             text guest.short_desc:
                 size 28 text_align 0.5 xalign 0.5 layout 'subtitle'
