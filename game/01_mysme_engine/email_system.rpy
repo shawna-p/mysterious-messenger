@@ -616,7 +616,7 @@ screen email_popup(e, hide_screen='email_popup'):
             hbox:
                 style_prefix 'email_popup2'
                 add Transform(e.guest.thumbnail, zoom=0.6)
-                text _("You have a new message from @") + e.guest.name
+                text __("You have a new message from @") + e.guest.name
 
             # This button takes you directly to the email. It is
             # included so long as the email popup is not shown
@@ -1015,7 +1015,7 @@ screen guest_info_popup(guest, unlocked):
             alt _("Close")
             action [Hide('guest_info_popup')]
         vbox:
-            text '@[guest.name]':
+            text '@[guest.name!t]':
                 size 40 font gui.sans_serif_1b xoffset 40
             text guest.short_desc:
                 size 28 text_align 0.5 xalign 0.5 layout 'subtitle'
