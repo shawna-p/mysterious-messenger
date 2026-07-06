@@ -576,7 +576,7 @@ init python:
                 Replay('guest_info',
                 {'guest_replay_info' :
                     guest}, False),
-                Function(renpy.retain_after_load),
+                Function(renpy.retain_after_load, _update_screens=False),
                 # Reset the dissolve transition
                 SetVariable('config.enter_replay_transition', None),
                 SetVariable('config.exit_replay_transition', None)]
