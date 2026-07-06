@@ -1933,7 +1933,7 @@ screen display_zoom_gallery(zg):
             modal True
             at smooth_in()
 
-            textbutton "Close":
+            textbutton _("Close"):
                 style_prefix "CG_close"
                 keysym "K_BACKSPACE"
                 if persistent.dialogue_outlines:
