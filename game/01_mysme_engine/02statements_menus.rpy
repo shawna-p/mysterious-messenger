@@ -957,7 +957,7 @@ python early hide:
     renpy.register_statement('choice',
                             parse=parse_choice_stmt,
                             lint=lint_choice_stmt,
-                            translate_strings=translate_choice_stmt,
+                            translation_strings=translate_choice_stmt,
                             execute=execute_choice_stmt,
                             block=True)
 
