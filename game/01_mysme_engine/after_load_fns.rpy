@@ -726,8 +726,6 @@ label after_load():
     jump reload_game_restart
 
 label reload_game_restart():
-    if renpy.version(tuple=True) >= (8, 2, 0):
-        $ renpy.reset_all_contexts()
     # Forcibly make sure the game isn't in an interaction so it can
     # jump to chat_home again.
     if renpy.game.context().interacting:
