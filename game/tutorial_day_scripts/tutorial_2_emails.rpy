@@ -161,7 +161,7 @@ Rainbow Unicorn"""), # don't forget the comma after the quotes
     ## An EmailReply object holds the information needed for an email message.
     ## The first argument is the text that will appear on the choice box when
     ## the player opts to answer the email.
-    "Indoor Party",
+    _("Indoor Party"),
 
     ## The next argument is the message that the player will send to the guest
     """Dear Rainbow,
