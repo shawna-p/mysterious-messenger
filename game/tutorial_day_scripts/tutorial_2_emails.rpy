@@ -164,14 +164,14 @@ Rainbow Unicorn"""), # don't forget the comma after the quotes
     _("Indoor Party"),
 
     ## The next argument is the message that the player will send to the guest
-    """Dear Rainbow,
+    _p("""Dear Rainbow,
 
     I'm pleased to inform you that the party will be indoors. No need for
     umbrellas or sunscreen!
 
     Hope to see you there,
 
-    [name], the party coordinator""", # Don't forget the comma
+    [name], the party coordinator"""), # Don't forget the comma
 
     ## And this is the reply the guest will send the player.
     """Hi again,
