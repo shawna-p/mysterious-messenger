@@ -174,7 +174,7 @@ Rainbow Unicorn"""), # don't forget the comma after the quotes
     [name], the party coordinator"""), # Don't forget the comma
 
     ## And this is the reply the guest will send the player.
-    """Hi again,
+    _p("""Hi again,
 
     Oh, how wonderful! I was worried about what the weather would be like
     on the day of the party. I thought of another question: what kind of
@@ -182,7 +182,7 @@ Rainbow Unicorn"""), # don't forget the comma after the quotes
 
     Hope to hear from you soon,
 
-    Rainbow Unicorn""", # Don't forget the comma
+    Rainbow Unicorn"""), # Don't forget the comma
 
     ## Now, since this choice continues the chain, you will add another
     ## EmailReply object.
