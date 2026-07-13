@@ -189,7 +189,7 @@ Rainbow Unicorn"""), # don't forget the comma after the quotes
     [EmailReply(
         _("Smooth Jazz"),
 
-        """Dear Rainbow,
+        _p("""Dear Rainbow,
 
         We've got a wonderful playlist full of smooth jazz songs to
         play at the party. We're also looking into the possibility of
@@ -199,7 +199,7 @@ Rainbow Unicorn"""), # don't forget the comma after the quotes
 
         Sincerely,
 
-        [name]""",
+        [name]"""),
 
         """Dear [name],
 
