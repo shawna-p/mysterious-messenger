@@ -187,7 +187,7 @@ Rainbow Unicorn"""), # don't forget the comma after the quotes
     ## Now, since this choice continues the chain, you will add another
     ## EmailReply object.
     [EmailReply(
-        "Smooth Jazz",
+        _("Smooth Jazz"),
 
         """Dear Rainbow,
 
