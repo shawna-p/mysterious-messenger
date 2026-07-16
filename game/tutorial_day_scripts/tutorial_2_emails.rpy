@@ -215,7 +215,7 @@ Rainbow Unicorn"""), # don't forget the comma after the quotes
 
         ## Once again, this is the good reply, so the chain continues
         [EmailReply(
-            "Spicy food",
+            _("Spicy food"),
 
             """To the lovely Rainbow,
 
