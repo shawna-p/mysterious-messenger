@@ -228,7 +228,7 @@ Rainbow Unicorn"""), # don't forget the comma after the quotes
 
             [name]"""),
 
-            """To [name],
+            _p("""To [name],
 
             Wow! I adore spicy foods; it's almost as though you read my mind!
             I will most certainly have to come and sample the dishes you've
@@ -239,7 +239,7 @@ Rainbow Unicorn"""), # don't forget the comma after the quotes
 
             Best,
 
-            Rainbow""",
+            Rainbow"""),
             ## This is the end of this particular chain, so no more EmailReply.
             ## However, you need to indicate whether getting to this reply
             ## resulted in a successful email chain or a failed one.
