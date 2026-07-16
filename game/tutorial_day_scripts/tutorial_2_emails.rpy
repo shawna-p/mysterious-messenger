@@ -217,7 +217,7 @@ Rainbow Unicorn"""), # don't forget the comma after the quotes
         [EmailReply(
             _("Spicy food"),
 
-            """To the lovely Rainbow,
+            _p("""To the lovely Rainbow,
 
             There will be a delicious selection of spicy food at the party!
             In particular there will be experienced chefs from places such as
@@ -226,7 +226,7 @@ Rainbow Unicorn"""), # don't forget the comma after the quotes
 
             Sincerely,
 
-            [name]""",
+            [name]"""),
 
             """To [name],
 
