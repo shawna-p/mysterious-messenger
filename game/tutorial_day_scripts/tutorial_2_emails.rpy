@@ -247,7 +247,7 @@ Rainbow Unicorn"""), # don't forget the comma after the quotes
         ), # Don't forget a comma here if you want to add more choices
         ## This is another choice for the menu
         EmailReply(
-            "Seafood",
+            _("Seafood"),
 
             """To the lovely Rainbow,
 
