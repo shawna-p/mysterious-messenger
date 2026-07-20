@@ -259,7 +259,7 @@ Rainbow Unicorn"""), # don't forget the comma after the quotes
 
             [name]"""),
 
-            """To [name],
+            _p("""To [name],
 
             That certainly sounds... interesting! I can't really consider
             myself a fan of seafood, however, so you'll have to excuse me
@@ -271,7 +271,7 @@ Rainbow Unicorn"""), # don't forget the comma after the quotes
 
             Sincerely,
 
-            Rainbow Unicorn""",
+            Rainbow Unicorn"""),
             ## This is the end of the email chain, but this was the incorrect
             ## reply, so indicate that.
             email_success=False
