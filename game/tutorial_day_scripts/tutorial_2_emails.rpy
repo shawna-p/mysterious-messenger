@@ -283,7 +283,7 @@ Rainbow Unicorn"""), # don't forget the comma after the quotes
     ## This is a choice that will show up alongside the "Smooth Jazz" choice.
     ## Note the indentation of the list elements.
     EmailReply(
-        "Heavy Metal",
+        _("Heavy Metal"),
 
         """Hi Rainbow,
 
