@@ -311,7 +311,7 @@ Rainbow Unicorn"""), # don't forget the comma after the quotes
 ),
 ## And this choice shows up alongside the "Indoor Party" choice.
 EmailReply(
-    "Outdoor party",
+    _("Outdoor party"),
 
     """Dear Rainbow,
 
