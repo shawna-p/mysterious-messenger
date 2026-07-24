@@ -313,14 +313,14 @@ Rainbow Unicorn"""), # don't forget the comma after the quotes
 EmailReply(
     _("Outdoor party"),
 
-    """Dear Rainbow,
+    _p("""Dear Rainbow,
 
     We're planning for an outdoor party! There are gardens at the venue that
     will be perfect for an elegant party. Hope to see you there!
 
     Sincerely,
 
-    [name], the party coordinator""",
+    [name], the party coordinator"""),
 
     """Hi again,
 
