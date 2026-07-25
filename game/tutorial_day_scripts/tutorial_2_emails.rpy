@@ -322,7 +322,7 @@ EmailReply(
 
     [name], the party coordinator"""),
 
-    """Hi again,
+    _p("""Hi again,
 
     Oh dear, I'm afraid I have terrible allergies and that may not work out
     well for me. I appreciate the time you've taken to email me but I may have
@@ -330,7 +330,7 @@ EmailReply(
 
     Thank you for the invitation, and best of luck to you and the party.
 
-    Rainbow Unicorn""",
+    Rainbow Unicorn"""),
 
     email_success=False
 )], # There's a comma here to continue adding information to the guest; the
