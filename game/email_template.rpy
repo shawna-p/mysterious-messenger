@@ -13,7 +13,7 @@ _("example"),
 
 ## The next string is the name of the guest as it should show up in the
 ## guestbook when they arrive at the party e.g. "Long Cat"
-"Example Guest",
+_("Example Guest"),
 
 ## This string is the image to use for the guest's
 ## thumbnail. It should be 155x155px
