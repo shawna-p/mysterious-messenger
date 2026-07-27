@@ -9,7 +9,7 @@ default example_guest = Guest(
 ## The first string, "example", is what will show up in the
 ## email chain as the guest's 'email' e.g. "longcat" shows up
 ## as "@longcat" in the email chain.
-"example",
+_("example"),
 
 ## The next string is the name of the guest as it should show up in the
 ## guestbook when they arrive at the party e.g. "Long Cat"
