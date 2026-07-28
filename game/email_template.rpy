@@ -26,7 +26,7 @@ _("Example Guest"),
 
 ## This next string is a short description of the guest, shown in the
 ## guestbook when they have been invited.
-"Example Guest, an example guest for this program.",
+_("Example Guest, an example guest for this program."),
 
 ## Personal Info section on the guest, shown in the guestbook after the
 ## guest has attended the party.
