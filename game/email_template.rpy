@@ -30,7 +30,7 @@ _("Example Guest, an example guest for this program."),
 
 ## Personal Info section on the guest, shown in the guestbook after the
 ## guest has attended the party.
-"Example Guest was made for users to better understand how to create a guest.",
+_("Example Guest was made for users to better understand how to create a guest."),
 
 ## This is the beginning email that will be sent to the player after the guest
 ## is invited. It is usually easier to write this with triple quotes so you
