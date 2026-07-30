@@ -37,7 +37,7 @@ _("Example Guest was made for users to better understand how to create a guest."
 ## can incorporate line breaks. Note that double line breaks will be preserved,
 ## but singular line breaks are replaced with a space, so you can split up
 ## lines for ease of reading the code.
-"""Dear [name],
+_p("""Dear [name],
 
 You can write whatever you want in here. It is the first message that is sent
 to the player after they invite the guest. The program will automatically turn
@@ -45,7 +45,7 @@ any single-line breaks into spaces, so it forms one continuous line. Double
 line breaks will be preserved. Use this to your advantage so you can easily
 write email dialogue without making one line 999 characters long!
 
-From, Example Guest""", # don't forget the comma after the quotes
+From, Example Guest"""), # don't forget the comma after the quotes
 
 ## This differs from the previous way to define guests. Here, you will define
 ## the sequence of choices the player has to answer for the guest.
