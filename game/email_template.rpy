@@ -53,7 +53,7 @@ From, Example Guest"""), # don't forget the comma after the quotes
     ## An EmailReply object holds the information needed for an email message.
     ## The first argument is the text that will appear on the choice box when
     ## the player opts to answer the email.
-    "There will be food at the party",
+    _("There will be food at the party"),
 
     ## The next argument is the message that the player will send to the guest
     """Dear Example Guest,
