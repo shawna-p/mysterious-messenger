@@ -64,11 +64,11 @@ From, Example Guest"""), # don't forget the comma after the quotes
     Sincerely, [name]"""), # Don't forget the comma
 
     ## And this is the reply the guest will send the player.
-    """Dear [name],
+    _p("""Dear [name],
 
     That sounds wonderful. Do you like soup?
 
-    From, Example Guest""", # Don't forget the comma
+    From, Example Guest"""), # Don't forget the comma
 
     ## Now, since this choice continues the chain, you will add another
     ## EmailReply object
