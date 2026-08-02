@@ -56,12 +56,12 @@ From, Example Guest"""), # don't forget the comma after the quotes
     _("There will be food at the party"),
 
     ## The next argument is the message that the player will send to the guest
-    """Dear Example Guest,
+    _p("""Dear Example Guest,
 
     Yes, we are planning to have an entire banquet at the party, with plenty
     of food.
 
-    Sincerely, [name]""", # Don't forget the comma
+    Sincerely, [name]"""), # Don't forget the comma
 
     ## And this is the reply the guest will send the player.
     """Dear [name],
