@@ -73,7 +73,7 @@ From, Example Guest"""), # don't forget the comma after the quotes
     ## Now, since this choice continues the chain, you will add another
     ## EmailReply object
     [EmailReply(
-        "I love soup",
+        _("I love soup"),
 
         """Dear Example Guest,
 
