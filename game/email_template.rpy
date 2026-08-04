@@ -75,7 +75,7 @@ From, Example Guest"""), # don't forget the comma after the quotes
     [EmailReply(
         _("I love soup"),
 
-        """Dear Example Guest,
+        _p("""Dear Example Guest,
 
         Yes I love soup!
 
@@ -85,7 +85,7 @@ From, Example Guest"""), # don't forget the comma after the quotes
 
         Oh, that is excellent news. What soup is your favourite?
 
-        From, Example Guest""",
+        From, Example Guest"""),
 
         ## Once again, this is the good reply, so the chain continues
         [EmailReply(
