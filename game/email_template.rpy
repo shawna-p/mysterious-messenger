@@ -79,9 +79,9 @@ From, Example Guest"""), # don't forget the comma after the quotes
 
         Yes I love soup!
 
-        Sincerely, [name]""",
+        Sincerely, [name]"""),
 
-        """Dear [name],
+        _p("""Dear [name],
 
         Oh, that is excellent news. What soup is your favourite?
 
