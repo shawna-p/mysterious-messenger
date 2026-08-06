@@ -89,7 +89,7 @@ From, Example Guest"""), # don't forget the comma after the quotes
 
         ## Once again, this is the good reply, so the chain continues
         [EmailReply(
-            "I love potato soup",
+            _("I love potato soup"),
 
             """Dear Example Guest,
 
