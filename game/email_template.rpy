@@ -91,11 +91,11 @@ From, Example Guest"""), # don't forget the comma after the quotes
         [EmailReply(
             _("I love potato soup"),
 
-            """Dear Example Guest,
+            _p("""Dear Example Guest,
 
             I love potato soup the most. Will I see you at the party?
 
-            Sincerely, [name]""",
+            Sincerely, [name]"""),
 
             """Dear [name],
 
