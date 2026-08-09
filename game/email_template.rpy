@@ -97,12 +97,12 @@ From, Example Guest"""), # don't forget the comma after the quotes
 
             Sincerely, [name]"""),
 
-            """Dear [name],
+            _p("""Dear [name],
 
             An excellent choice. I hope you are serving potato soup at the
             party. I will see you there!
 
-            From, Example Guest""",
+            From, Example Guest"""),
             ## This is the end of this particular chain, so no more EmailReply.
             ## However, you need to indicate whether getting to this reply
             ## resulted in a successful email chain or a failed one.
