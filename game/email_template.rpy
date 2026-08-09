@@ -110,7 +110,7 @@ From, Example Guest"""), # don't forget the comma after the quotes
         ), # Don't forget a comma here if you want to add more choices
         ## This is another choice for the menu
         EmailReply(
-            "I love stew",
+            _("I love stew"),
 
             """Dear Example Guest,
 
