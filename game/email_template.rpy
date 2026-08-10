@@ -112,11 +112,11 @@ From, Example Guest"""), # don't forget the comma after the quotes
         EmailReply(
             _("I love stew"),
 
-            """Dear Example Guest,
+            _p("""Dear Example Guest,
 
             I'd have to say I love stew best! Hope to see you at the party~
 
-            Sincerely, [name]""",
+            Sincerely, [name]"""),
 
             """Dear [name],
 
