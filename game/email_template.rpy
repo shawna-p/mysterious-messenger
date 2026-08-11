@@ -118,12 +118,12 @@ From, Example Guest"""), # don't forget the comma after the quotes
 
             Sincerely, [name]"""),
 
-            """Dear [name],
+            _p("""Dear [name],
 
             I believe we may have misunderstood each other. Stew is not soup!
             I may be at the party... I will have to think about it.
 
-            From, Example Guest""",
+            From, Example Guest"""),
             ## This is the end of the email chain, but this was the incorrect
             ## reply, so indicate that
             email_success=False
