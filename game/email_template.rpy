@@ -135,7 +135,7 @@ From, Example Guest"""), # don't forget the comma after the quotes
     ## This is a choice that will show up alongside the "I love soup" choice.
     ## Note the indentation and list elements.
     EmailReply(
-        "I like cereal better",
+        _("I like cereal better"),
 
         """Dear Example Guest,
 
