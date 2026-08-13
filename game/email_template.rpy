@@ -137,12 +137,12 @@ From, Example Guest"""), # don't forget the comma after the quotes
     EmailReply(
         _("I like cereal better"),
 
-        """Dear Example Guest,
+        _p("""Dear Example Guest,
 
         Soup is nice, but you know what's better? A nice bowl of cereal. I hope
         you'll agree.
 
-        Sincerely, [name].""",
+        Sincerely, [name]."""),
 
         """Dear [name],
 
