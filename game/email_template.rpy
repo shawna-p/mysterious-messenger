@@ -144,12 +144,12 @@ From, Example Guest"""), # don't forget the comma after the quotes
 
         Sincerely, [name]."""),
 
-        """Dear [name],
+        _p("""Dear [name],
 
         Cereal??? At a party??? I must say I question your food choices.
         I may not attend this party after all.
 
-        From, Example Guest""",
+        From, Example Guest"""),
 
         ## This email also ends the chain, so it is set to False here
         email_success=False
