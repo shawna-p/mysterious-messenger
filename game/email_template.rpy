@@ -158,7 +158,7 @@ From, Example Guest"""), # don't forget the comma after the quotes
 ## And this choice shows up alongside the "There will be food at the party"
 ## choice.
 EmailReply(
-    "We will have a DJ at the party",
+    _("We will have a DJ at the party"),
 
     """Dear Example Guest,
 
