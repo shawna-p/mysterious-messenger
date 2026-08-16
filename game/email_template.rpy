@@ -160,12 +160,12 @@ From, Example Guest"""), # don't forget the comma after the quotes
 EmailReply(
     _("We will have a DJ at the party"),
 
-    """Dear Example Guest,
+    _p("""Dear Example Guest,
 
     Thank you for your interest! We are planning to hire a DJ for the party.
 
     Hope to see you there,
-    [name]""",
+    [name]"""),
 
     """Dear [name],
 
