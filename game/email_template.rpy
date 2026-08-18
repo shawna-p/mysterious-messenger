@@ -167,13 +167,13 @@ EmailReply(
     Hope to see you there,
     [name]"""),
 
-    """Dear [name],
+    _p("""Dear [name],
 
     Ah, I was really hoping there might be some food at the party... I am
     quite the food lover. I don't know if I'll be attending this party after
     all.
 
-    From, Example Guest""",
+    From, Example Guest"""),
 
     email_success=False
 )], # There's a comma here to continue adding information to the guest; the
