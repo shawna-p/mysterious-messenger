@@ -182,7 +182,7 @@ EmailReply(
 # guestbook.
 
 ## The dialogue the guest says when they attend the party
-"Thank you for inviting me! I wonder if they're serving any potato soup...",
+_("Thank you for inviting me! I wonder if they're serving any potato soup..."),
 
 ## The ChatCharacter variable of the person who should talk about this
 ## guest in the long description in the guestbook.
