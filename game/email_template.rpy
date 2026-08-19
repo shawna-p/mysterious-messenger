@@ -189,7 +189,7 @@ _("Thank you for inviting me! I wonder if they're serving any potato soup..."),
 s,
 
 ## What the previous character says about this guest.
-"Here, the character from the last variable (Seven) will say this.",
+_("Here, the character from the last variable (Seven) will say this."),
 
 ## The expression/displayable name of the character to show
 "seven front party happy",
