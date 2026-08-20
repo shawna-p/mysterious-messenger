@@ -209,7 +209,7 @@ num_emails=3
 ## correctly, thus increasing the guest's odds of attending the party.
 default rainbow2 = Guest(
 
-"rainbow2",
+_("rainbow2"),
 
 "Rainbow",
 
