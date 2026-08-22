@@ -211,7 +211,7 @@ default rainbow2 = Guest(
 
 _("rainbow2"),
 
-"Rainbow",
+_("Rainbow"),
 
 "Email/Thumbnails/rainbow_unicorn_guest_icon.webp",
 
