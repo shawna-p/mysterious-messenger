@@ -217,7 +217,7 @@ _("Rainbow"),
 
 "Email/Guest Images/rainbow_unicorn.webp",
 
-"Rainbow Unicorn, the creator of this program.",
+_("Rainbow Unicorn, the creator of this program."),
 
 "Rainbow started working on this project back in 2018 and they're excited to share it with the world!",
 
