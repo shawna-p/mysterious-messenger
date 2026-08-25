@@ -235,7 +235,7 @@ Thanks,
 Rainbow Unicorn"""),
 
 [ EmailReply(
-    "Indoor Party",
+    _("Indoor Party"),
 
     """Dear Rainbow,
 
