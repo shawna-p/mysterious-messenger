@@ -221,7 +221,7 @@ _("Rainbow Unicorn, the creator of this program."),
 
 _("Rainbow started working on this project back in 2018 and they're excited to share it with the world!"),
 
-"""Hi [name]!
+_p("""Hi [name]!
 
 Really excited to hear about this party you're holding! Can't wait to see
 how things will turn out for you. Zen told me to make sure your inbox is
@@ -232,7 +232,7 @@ outside? Please let me know as soon as possible!
 
 Thanks,
 
-Rainbow Unicorn""",
+Rainbow Unicorn"""),
 
 [ EmailReply(
     "Indoor Party",
