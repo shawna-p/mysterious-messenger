@@ -237,14 +237,14 @@ Rainbow Unicorn"""),
 [ EmailReply(
     _("Indoor Party"),
 
-    """Dear Rainbow,
+    _p("""Dear Rainbow,
 
     I'm pleased to inform you that the party will be indoors. No need for
     umbrellas or sunscreen!
 
     Hope to see you there,
 
-    [name], the party coordinator""",
+    [name], the party coordinator"""),
 
     """Hi again,
 
