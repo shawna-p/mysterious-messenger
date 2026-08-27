@@ -246,7 +246,7 @@ Rainbow Unicorn"""),
 
     [name], the party coordinator"""),
 
-    """Hi again,
+    _p("""Hi again,
 
     Oh, how wonderful! I was worried about what the weather would be like
     on the day of the party. I thought of another question: what kind of
@@ -254,7 +254,7 @@ Rainbow Unicorn"""),
 
     Hope to hear from you soon,
 
-    Rainbow Unicorn""",
+    Rainbow Unicorn"""),
 
     [EmailReply(
         "Smooth Jazz",
