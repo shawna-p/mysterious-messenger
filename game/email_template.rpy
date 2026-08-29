@@ -257,7 +257,7 @@ Rainbow Unicorn"""),
     Rainbow Unicorn"""),
 
     [EmailReply(
-        "Smooth Jazz",
+        _("Smooth Jazz"),
 
         """Dear Rainbow,
 
