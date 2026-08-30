@@ -271,7 +271,7 @@ Rainbow Unicorn"""),
 
         [name]"""),
 
-        """Dear [name],
+        _p("""Dear [name],
 
         Oh, that's just fantastic news. Jazz is such a lovely music genre,
         isn't it? Just between the two of us, I'm also quite partial to video
@@ -281,7 +281,7 @@ Rainbow Unicorn"""),
         one last question -- what sort of food will there be at the party?
         Please let me know when you can!
 
-        From, Rainbow""",
+        From, Rainbow"""),
 
         [EmailReply(
             "Spicy food",
