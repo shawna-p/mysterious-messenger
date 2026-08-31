@@ -284,7 +284,7 @@ Rainbow Unicorn"""),
         From, Rainbow"""),
 
         [EmailReply(
-            "Spicy food",
+            _("Spicy food"),
 
             """To the lovely Rainbow,
 
