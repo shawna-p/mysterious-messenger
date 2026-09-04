@@ -314,7 +314,7 @@ Rainbow Unicorn"""),
         EmailReply(
             _("Seafood"),
 
-            """To the lovely Rainbow,
+            _p("""To the lovely Rainbow,
 
             We're planning to serve a variety of seafood at the party! There
             will be plenty of dishes to try, like fried octopus, shrimp
@@ -322,7 +322,7 @@ Rainbow Unicorn"""),
 
             From,
 
-            [name]""",
+            [name]"""),
 
             """To [name],
 
