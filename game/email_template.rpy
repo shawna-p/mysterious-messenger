@@ -312,7 +312,7 @@ Rainbow Unicorn"""),
             email_success=True
         ),
         EmailReply(
-            "Seafood",
+            _("Seafood"),
 
             """To the lovely Rainbow,
 
