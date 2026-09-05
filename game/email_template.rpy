@@ -324,7 +324,7 @@ Rainbow Unicorn"""),
 
             [name]"""),
 
-            """To [name],
+            _p("""To [name],
 
             That certainly sounds... interesting! I can't really consider
             myself a fan of seafood, however, so you'll have to excuse me
@@ -336,7 +336,7 @@ Rainbow Unicorn"""),
 
             Sincerely,
 
-            Rainbow Unicorn""",
+            Rainbow Unicorn"""),
             email_success=False
         )   ## If you like, you can add a comma here and add another EmailReply
             ## object to the list. However, this menu has two choices, so it
