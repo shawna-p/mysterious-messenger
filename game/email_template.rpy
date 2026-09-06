@@ -345,7 +345,7 @@ Rainbow Unicorn"""),
     ),
 
     EmailReply(
-        "Heavy Metal",
+        _("Heavy Metal"),
 
         """Hi Rainbow,
 
