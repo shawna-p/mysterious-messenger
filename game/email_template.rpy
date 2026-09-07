@@ -347,7 +347,7 @@ Rainbow Unicorn"""),
     EmailReply(
         _("Heavy Metal"),
 
-        """Hi Rainbow,
+        _p("""Hi Rainbow,
 
         I've found some wonderful heavy metal music to play at the party!
         Screaming vocals really set the mood, don't you think? I hope you'll
@@ -355,7 +355,7 @@ Rainbow Unicorn"""),
 
         Sincerely,
 
-        [name], the party coordinator""",
+        [name], the party coordinator"""),
 
         """Hi again,
 
