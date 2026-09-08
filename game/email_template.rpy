@@ -357,7 +357,7 @@ Rainbow Unicorn"""),
 
         [name], the party coordinator"""),
 
-        """Hi again,
+        _p("""Hi again,
 
         Oh dear, heavy metal? I can't say I enjoy that sort of music. I
         appreciate the invitation, but now that I know you'll be playing
@@ -366,7 +366,7 @@ Rainbow Unicorn"""),
 
         Thank you for your help.
 
-        Rainbow""",
+        Rainbow"""),
 
         [EmailReply(
             "Spicy food",
