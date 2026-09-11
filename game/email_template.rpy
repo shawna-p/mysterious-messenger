@@ -382,7 +382,7 @@ Rainbow Unicorn"""),
 
             [name]"""),
 
-            """To [name],
+            _p("""To [name],
 
             Wow! I adore spicy foods; it's almost as though you read my mind!
             I will most certainly have to come and sample the dishes you've
@@ -393,7 +393,7 @@ Rainbow Unicorn"""),
 
             Best,
 
-            Rainbow""",
+            Rainbow"""),
             email_success=True
         ),
         EmailReply(
