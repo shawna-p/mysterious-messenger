@@ -409,7 +409,7 @@ Rainbow Unicorn"""),
 
             [name]"""),
 
-            """To [name],
+            _p("""To [name],
 
             That certainly sounds... interesting! I can't really consider
             myself a fan of seafood, however, so you'll have to excuse me
@@ -421,7 +421,7 @@ Rainbow Unicorn"""),
 
             Sincerely,
 
-            Rainbow Unicorn""",
+            Rainbow Unicorn"""),
             email_success=False
         )
         ],
