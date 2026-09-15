@@ -433,7 +433,7 @@ Rainbow Unicorn"""),
     )]
 ),
 EmailReply(
-    "Outdoor party",
+    _("Outdoor party"),
 
     """Dear Rainbow,
 
