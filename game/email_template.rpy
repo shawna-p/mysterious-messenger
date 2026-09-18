@@ -457,7 +457,7 @@ EmailReply(
     email_success=False
 )],
 
-"Oh, it's so exciting to be at the party! I can't wait to see everyone.",
+_("Oh, it's so exciting to be at the party! I can't wait to see everyone."),
 
 z,
 
