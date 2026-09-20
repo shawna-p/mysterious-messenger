@@ -1787,6 +1787,107 @@ python early:
                             warp=warp_sound)
 
 
+    ########################################
+    ## EMAIL CDS
+    ########################################
+    ## Concept:
+    """
+    email rainbow:
+        thumbnail "Email/Thumbnails/rainbow_unicorn_guest_icon.webp"
+        name "Rainbow"
+        sprite "Email/Guest Images/rainbow_unicorn.webp"
+        description "Rainbow Unicorn, the creator of this program."
+        guestbook "Rainbow started working on this project back in 2018 and they're excited to share it with the world!"
+        party:
+            show zen front party happy
+            z "Is Rainbow's name a reference to me? Haha, well, I am quite a rainbow unicorn if I do say so myself~"
+
+        email 1:
+            Hi [name]!
+
+            Really excited to hear about this party you're holding! Can't wait to see
+            how things will turn out for you. Zen told me to make sure your inbox is
+            working, and well, if you're reading this, I guess it is! So that's good.
+
+            I did have one quick question though -- will the party be held inside or
+            outside? Please let me know as soon as possible!
+
+            Thanks,
+
+            Rainbow Unicorn
+
+        reply 1:
+            correct "Indoor Party":
+                Dear Rainbow,
+
+                I'm pleased to inform you that the party will be indoors. No need for
+                umbrellas or sunscreen!
+
+                Hope to see you there,
+
+                [name], the party coordinator
+
+            wrong "Outdoor party":
+                Dear Rainbow,
+
+                We're planning for an outdoor party! There are gardens at the venue that
+                will be perfect for an elegant party. Hope to see you there!
+
+                Sincerely,
+
+                [name], the party coordinator
+
+
+
+    Needed attributes:
+    ------------------
+    name : string
+        Name of the guest as it shows up in email replies.
+    dialogue_name : string
+        The name of the guest as it should appear in their dialogue box
+        when they arrive at the party e.g. "Long Cat".
+    thumbnail : string
+        File path to the thumbnail used for this guest's emails. Ideally
+        155x155 pixels.
+    large_img : string
+        File path to the full-body image of this guest. Shown when
+        they attend the party.
+    short_desc : string
+        Short description of the guest, shown in the guestbook.
+    personal_info : string
+        A longer description of the guest, viewable in the guestbook only
+        after they have attended the party.
+    start_msg : string
+        Initial message sent to the player upon agreeing to invite
+        this guest.
+    choices : EmailReply[]
+        A list of EmailReply objects containing the choices offered to
+        reply to each email.
+    num_emails : int
+        The number of emails the player must exchange with the guest to
+        fully complete the email chain.
+    dialogue_what : string
+        The guest's comment upon arriving at the party.
+    comment_who : ChatCharacter
+        The ChatCharacter object of the character who will talk about
+        this guest in the guestbook.
+    comment_what : string
+        What the comment_who character will say about the guest.
+    comment_img : string
+        A string corresponding to a defined image or layeredimage attributes
+        that will be used to display the sprite of the character speaking
+        about this guest e.g. "zen front party happy".
+    attending : bool
+        True if the guest is attending the party.
+    reply_icons : string[]
+        A list of the types of icons that should be used to display
+        whether a particular email in the chain was passed or failed.
+    callback : function
+        A function which will be called after the guest's reply is
+        delivered to the player.
+    """
+
+
 
 
 # Thoughts on how continuous menus might work
