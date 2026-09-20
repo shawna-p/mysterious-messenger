@@ -461,7 +461,7 @@ _("Oh, it's so exciting to be at the party! I can't wait to see everyone."),
 
 z,
 
-"Is Rainbow's name a reference to me? Haha, well, I am quite a rainbow unicorn if I do say so myself~",
+_("Is Rainbow's name a reference to me? Haha, well, I am quite a rainbow unicorn if I do say so myself~"),
 
 "zen front party happy",
 
