@@ -1802,7 +1802,7 @@ python early:
             show zen front party happy
             z "Is Rainbow's name a reference to me? Haha, well, I am quite a rainbow unicorn if I do say so myself~"
 
-        email 1:
+        email 1 goto reply 1:
             Hi [name]!
 
             Really excited to hear about this party you're holding! Can't wait to see
@@ -1817,7 +1817,7 @@ python early:
             Rainbow Unicorn
 
         reply 1:
-            correct "Indoor Party":
+            correct "Indoor Party" goto email 2a:
                 Dear Rainbow,
 
                 I'm pleased to inform you that the party will be indoors. No need for
@@ -1827,7 +1827,7 @@ python early:
 
                 [name], the party coordinator
 
-            wrong "Outdoor party":
+            wrong "Outdoor party" goto email 2b:
                 Dear Rainbow,
 
                 We're planning for an outdoor party! There are gardens at the venue that
@@ -1837,6 +1837,79 @@ python early:
 
                 [name], the party coordinator
 
+        email 2a goto reply 2:
+            Hi again,
+
+            Oh, how wonderful! I was worried about what the weather would be like
+            on the day of the party. I thought of another question: what kind of
+            music will there be at the party?
+
+            Hope to hear from you soon,
+
+            Rainbow Unicorn
+
+        email 2b end:
+            Hi again,
+
+            Oh dear, I'm afraid I have terrible allergies and that may not work out
+            well for me. I appreciate the time you've taken to email me but I may
+            have to decline.
+
+            Thank you for the invitation, and best of luck to you and the party.
+
+            Rainbow Unicorn
+
+        reply 2:
+            correct "Smooth Jazz" goto email 3a:
+
+                Dear Rainbow,
+
+                We've got a wonderful playlist full of smooth jazz songs to
+                play at the party. We're also looking into the possibility of
+                a live band!
+
+                Hope that answers your question.
+
+                Sincerely,
+
+                [name]
+
+            wrong "Heavy Metal" goto email 3b:
+
+                Hi Rainbow,
+
+                I've found some wonderful heavy metal music to play at the party!
+                Screaming vocals really set the mood, don't you think? I hope you'll
+                enjoy the music!
+
+                Sincerely,
+
+                [name], the party coordinator
+
+        email 3a goto reply 3:
+            Dear [name],
+
+            Oh, that's just fantastic news. Jazz is such a lovely music genre,
+            isn't it? Just between the two of us, I'm also quite partial to video
+            game soundtrack music. But I don't expect you to play that at the party!
+
+            You've been so kind with your answers, and if you don't mind, I had
+            one last question -- what sort of food will there be at the party?
+            Please let me know when you can!
+
+            From, Rainbow
+
+        email 3b goto reply 3:
+            Hi again,
+
+            Oh dear, heavy metal? I can't say I enjoy that sort of music. I
+            appreciate the invitation, but now that I know you'll be playing
+            heavy metal music... I'll have to think more on it. Could you tell me
+            what sort of food will be served at the party?
+
+            Thank you for your help.
+
+            Rainbow
 
 
     Needed attributes:
