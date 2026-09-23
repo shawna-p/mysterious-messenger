@@ -1935,6 +1935,35 @@ python early:
 
                 [name]
 
+        email 4a end:
+            To [name],
+
+            Wow! I adore spicy foods; it's almost as though you read my mind!
+            I will most certainly have to come and sample the dishes you've
+            described.
+
+            Thank you very much for taking the time to answer my questions.
+            I'll see you at the party!
+
+            Best,
+
+            Rainbow
+
+        email 4b end:
+            To [name],
+
+            That certainly sounds... interesting! I can't really consider
+            myself a fan of seafood, however, so you'll have to excuse me
+            for my lack of enthusiasm.
+
+            That said, I do appreciate you taking the time to answer me. I'm
+            a bit undecided on whether or not to attend, but wish you the
+            best of luck with the preparations!
+
+            Sincerely,
+
+            Rainbow Unicorn
+
 
 
     Needed attributes:
