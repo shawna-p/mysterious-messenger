@@ -1802,6 +1802,69 @@ python early:
             show zen front party happy
             z "Is Rainbow's name a reference to me? Haha, well, I am quite a rainbow unicorn if I do say so myself~"
 
+        email from_guest1:
+            Hi [name]!
+
+            Really excited to hear about this party you're holding! Can't wait to see
+            how things will turn out for you. Zen told me to make sure your inbox is
+            working, and well, if you're reading this, I guess it is! So that's good.
+
+            I did have one quick question though -- will the party be held inside or
+            outside? Please let me know as soon as possible!
+
+            Thanks,
+
+            Rainbow Unicorn
+
+        menu:
+            correct "Indoor Party":
+                email to_guest1a:
+                    Dear Rainbow,
+
+                    I'm pleased to inform you that the party will be indoors. No need for
+                    umbrellas or sunscreen!
+
+                    Hope to see you there,
+
+                    [name], the party coordinator
+
+                email from_guest2a:
+                    Hi again,
+
+                    Oh, how wonderful! I was worried about what the weather would be like
+                    on the day of the party. I thought of another question: what kind of
+                    music will there be at the party?
+
+                    Hope to hear from you soon,
+
+                    Rainbow Unicorn
+
+            wrong "Outdoor party":
+                email to_guest1b:
+                    Dear Rainbow,
+
+                    We're planning for an outdoor party! There are gardens at the venue that
+                    will be perfect for an elegant party. Hope to see you there!
+
+                    Sincerely,
+
+                    [name], the party coordinator
+
+                email from_guest1b:
+                    Hi again,
+
+                    Oh dear, I'm afraid I have terrible allergies and that may not work out
+                    well for me. I appreciate the time you've taken to email me but I may
+                    have to decline.
+
+                    Thank you for the invitation, and best of luck to you and the party.
+
+                    Rainbow Unicorn
+
+                end
+
+
+
         email 1 goto reply 1:
             Hi [name]!
 
