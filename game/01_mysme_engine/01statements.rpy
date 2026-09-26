@@ -1863,6 +1863,43 @@ python early:
 
                 end
 
+        menu:
+            correct "Smooth Jazz":
+
+                email to_guest2a:
+
+                    Dear Rainbow,
+
+                    We've got a wonderful playlist full of smooth jazz songs to
+                    play at the party. We're also looking into the possibility of
+                    a live band!
+
+                    Hope that answers your question.
+
+                    Sincerely,
+
+                    [name]
+
+                email from_guest2a:
+
+
+            wrong "Heavy Metal":
+
+                email to_guest2b:
+
+                    Hi Rainbow,
+
+                    I've found some wonderful heavy metal music to play at the party!
+                    Screaming vocals really set the mood, don't you think? I hope you'll
+                    enjoy the music!
+
+                    Sincerely,
+
+                    [name], the party coordinator
+
+                email from_guest2b:
+
+
 
 
         email 1 goto reply 1:
