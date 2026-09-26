@@ -1881,6 +1881,17 @@ python early:
                     [name]
 
                 email from_guest2a:
+                    Dear [name],
+
+                    Oh, that's just fantastic news. Jazz is such a lovely music genre,
+                    isn't it? Just between the two of us, I'm also quite partial to video
+                    game soundtrack music. But I don't expect you to play that at the party!
+
+                    You've been so kind with your answers, and if you don't mind, I had
+                    one last question -- what sort of food will there be at the party?
+                    Please let me know when you can!
+
+                    From, Rainbow
 
 
             wrong "Heavy Metal":
@@ -1898,7 +1909,16 @@ python early:
                     [name], the party coordinator
 
                 email from_guest2b:
+                    Hi again,
 
+                    Oh dear, heavy metal? I can't say I enjoy that sort of music. I
+                    appreciate the invitation, but now that I know you'll be playing
+                    heavy metal music... I'll have to think more on it. Could you tell me
+                    what sort of food will be served at the party?
+
+                    Thank you for your help.
+
+                    Rainbow
 
 
 
