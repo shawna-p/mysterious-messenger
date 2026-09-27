@@ -1920,7 +1920,31 @@ python early:
 
                     Rainbow
 
+        menu:
+            correct "Spicy food":
+                email to_guest3a:
+                    To the lovely Rainbow,
 
+                    There will be a delicious selection of spicy food at the party!
+                    In particular there will be experienced chefs from places such as
+                    India and Mexico who will be catering. I hope your taste buds
+                    are ready!
+
+                    Sincerely,
+
+                    [name]
+
+            wrong "Seafood":
+                email to_guest3b:
+                    To the lovely Rainbow,
+
+                    We're planning to serve a variety of seafood at the party! There
+                    will be plenty of dishes to try, like fried octopus, shrimp
+                    tempura, and caviar. Hope you come with an appetite!
+
+                    From,
+
+                    [name]
 
         email 1 goto reply 1:
             Hi [name]!
