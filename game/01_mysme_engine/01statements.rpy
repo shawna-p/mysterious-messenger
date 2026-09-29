@@ -1934,6 +1934,20 @@ python early:
 
                     [name]
 
+                email from_guest3a:
+                    To [name],
+
+                    Wow! I adore spicy foods; it's almost as though you read my mind!
+                    I will most certainly have to come and sample the dishes you've
+                    described.
+
+                    Thank you very much for taking the time to answer my questions.
+                    I'll see you at the party!
+
+                    Best,
+
+                    Rainbow
+
             wrong "Seafood":
                 email to_guest3b:
                     To the lovely Rainbow,
