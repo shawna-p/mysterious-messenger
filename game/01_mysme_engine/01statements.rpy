@@ -1960,6 +1960,23 @@ python early:
 
                     [name]
 
+                email from_guest3b:
+
+                    To [name],
+
+                    That certainly sounds... interesting! I can't really consider
+                    myself a fan of seafood, however, so you'll have to excuse me
+                    for my lack of enthusiasm.
+
+                    That said, I do appreciate you taking the time to answer me. I'm
+                    a bit undecided on whether or not to attend, but wish you the
+                    best of luck with the preparations!
+
+                    Sincerely,
+
+                    Rainbow Unicorn
+
+
         email 1 goto reply 1:
             Hi [name]!
 
