@@ -1948,6 +1948,8 @@ python early:
 
                     Rainbow
 
+                end
+
             wrong "Seafood":
                 email to_guest3b:
                     To the lovely Rainbow,
@@ -1975,6 +1977,8 @@ python early:
                     Sincerely,
 
                     Rainbow Unicorn
+
+                end
 
 
         email 1 goto reply 1:
