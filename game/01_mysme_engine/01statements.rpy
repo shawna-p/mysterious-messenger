@@ -1802,7 +1802,7 @@ python early:
             show zen front party happy
             z "Is Rainbow's name a reference to me? Haha, well, I am quite a rainbow unicorn if I do say so myself~"
 
-        email from_guest1:
+        email:
             Hi [name]!
 
             Really excited to hear about this party you're holding! Can't wait to see
@@ -1818,7 +1818,7 @@ python early:
 
         menu:
             correct "Indoor Party":
-                email to_guest1a:
+                email:
                     Dear Rainbow,
 
                     I'm pleased to inform you that the party will be indoors. No need for
@@ -1828,7 +1828,7 @@ python early:
 
                     [name], the party coordinator
 
-                email from_guest2a:
+                email:
                     Hi again,
 
                     Oh, how wonderful! I was worried about what the weather would be like
@@ -1840,7 +1840,7 @@ python early:
                     Rainbow Unicorn
 
             wrong "Outdoor party":
-                email to_guest1b:
+                email:
                     Dear Rainbow,
 
                     We're planning for an outdoor party! There are gardens at the venue that
@@ -1850,7 +1850,7 @@ python early:
 
                     [name], the party coordinator
 
-                email from_guest1b:
+                email:
                     Hi again,
 
                     Oh dear, I'm afraid I have terrible allergies and that may not work out
@@ -1866,7 +1866,7 @@ python early:
         menu:
             correct "Smooth Jazz":
 
-                email to_guest2a:
+                email:
 
                     Dear Rainbow,
 
@@ -1880,7 +1880,7 @@ python early:
 
                     [name]
 
-                email from_guest2a:
+                email:
                     Dear [name],
 
                     Oh, that's just fantastic news. Jazz is such a lovely music genre,
@@ -1896,7 +1896,7 @@ python early:
 
             wrong "Heavy Metal":
 
-                email to_guest2b:
+                email:
 
                     Hi Rainbow,
 
@@ -1908,7 +1908,7 @@ python early:
 
                     [name], the party coordinator
 
-                email from_guest2b:
+                email:
                     Hi again,
 
                     Oh dear, heavy metal? I can't say I enjoy that sort of music. I
@@ -1922,7 +1922,7 @@ python early:
 
         menu:
             correct "Spicy food":
-                email to_guest3a:
+                email:
                     To the lovely Rainbow,
 
                     There will be a delicious selection of spicy food at the party!
@@ -1934,7 +1934,7 @@ python early:
 
                     [name]
 
-                email from_guest3a:
+                email:
                     To [name],
 
                     Wow! I adore spicy foods; it's almost as though you read my mind!
@@ -1951,7 +1951,7 @@ python early:
                 end
 
             wrong "Seafood":
-                email to_guest3b:
+                email:
                     To the lovely Rainbow,
 
                     We're planning to serve a variety of seafood at the party! There
@@ -1962,7 +1962,7 @@ python early:
 
                     [name]
 
-                email from_guest3b:
+                email:
 
                     To [name],
 
