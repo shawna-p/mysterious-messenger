@@ -2029,6 +2029,20 @@ python early:
         delivered to the player.
     """
 
+    def parse_email_stmt(l):
+        return dict()
+
+    def execute_email_stmt(p):
+        return
+
+    renpy.register_statement('email',
+        parse=parse_email_stmt,
+        execute=execute_email_stmt,
+        # translation_strings=translate_email_stmt,
+        # lint=lint_email_stmt,
+        block=True,
+        init=True)
+
 
 
 
