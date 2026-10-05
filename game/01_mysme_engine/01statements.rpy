@@ -2030,7 +2030,15 @@ python early:
     """
 
     def parse_email_stmt(l):
-        return dict()
+        # First, we expect the email username, then a colon and a block
+        email_name = l.require(l.simple_expression)
+        l.require(":")
+        l.expect_eol()
+        l.expect_block("email block {}".format(email_name))
+
+        ll = l.subblock_lexer()
+
+        return dict(name=email_name)
 
     def execute_email_stmt(p):
         return
