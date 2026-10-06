@@ -2038,6 +2038,21 @@ python early:
 
         ll = l.subblock_lexer()
 
+        def subparse_cproperties(l, d):
+            ## Check for generic property value pairs and add them to
+            ## the dictionary d
+            propname = l.name()
+            if propname is not None:
+                if propname in d: # type: ignore
+                    l.error("style property %s appears twice." % propname)
+
+                d[propname] = l.require(l.simple_expression) # type: ignore
+                return True
+            return False
+
+        while subparse_cproperties(ll, properties):
+            pass
+
         return dict(name=email_name)
 
     def execute_email_stmt(p):
