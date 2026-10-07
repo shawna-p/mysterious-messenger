@@ -2038,6 +2038,8 @@ python early:
 
         ll = l.subblock_lexer()
 
+        properties = dict()
+
         def subparse_cproperties(l, d):
             ## Check for generic property value pairs and add them to
             ## the dictionary d
@@ -2050,8 +2052,9 @@ python early:
                 return True
             return False
 
-        while subparse_cproperties(ll, properties):
-            pass
+        while ll.advance():
+            while subparse_cproperties(ll, properties):
+                pass
 
         return dict(name=email_name)
 
