@@ -2052,6 +2052,12 @@ python early:
                 return True
             return False
 
+        valid_properties = ["sprite", "guestbook", "description",
+            "name", "dialogue_name", "thumbnail", "large_img",
+            "short_desc", "personal_info", "start_msg", "choices", "num_emails",
+            "dialogue_what", "comment_who", "comment_what", "comment_img",
+            "attending", "reply_icons", "callback"]
+
         while ll.advance():
             while subparse_cproperties(ll, properties):
                 pass
