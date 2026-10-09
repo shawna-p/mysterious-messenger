@@ -2046,7 +2046,9 @@ python early:
             propname = l.name()
             if propname is not None:
                 if propname in d: # type: ignore
-                    l.error("style property %s appears twice." % propname)
+                    l.error("property %s appears twice." % propname)
+                if propname not in valid_properties:
+                    l.error("property %s is not recognized." % propname)
 
                 d[propname] = l.require(l.simple_expression) # type: ignore
                 return True
