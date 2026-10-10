@@ -2063,6 +2063,11 @@ python early:
         while ll.advance():
             while subparse_cproperties(ll, properties):
                 pass
+            if ll.keyword("party"):
+                ll.require(":")
+                ll.expect_eol()
+                ll.expect_block("party block {}".format(email_name))
+
 
         return dict(name=email_name)
 
