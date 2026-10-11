@@ -2067,6 +2067,7 @@ python early:
                 ll.require(":")
                 ll.expect_eol()
                 ll.expect_block("party block {}".format(email_name))
+                lll = ll.subblock_lexer()
 
 
         return dict(name=email_name)
