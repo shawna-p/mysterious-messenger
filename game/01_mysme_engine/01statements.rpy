@@ -2068,6 +2068,10 @@ python early:
                 ll.expect_eol()
                 ll.expect_block("party block {}".format(email_name))
                 lll = ll.subblock_lexer()
+                ll.advance()
+                ## Expect a `show <image properties>` line.
+                if not l.keyword("show"):
+                    lll.error("Expected a show line for the party block.")
 
 
         return dict(name=email_name)
