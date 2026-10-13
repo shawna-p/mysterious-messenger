@@ -2039,6 +2039,7 @@ python early:
         ll = l.subblock_lexer()
 
         properties = dict()
+        party_image = None
 
         def subparse_cproperties(l, d):
             ## Check for generic property value pairs and add them to
@@ -2072,6 +2073,8 @@ python early:
                 ## Expect a `show <image properties>` line.
                 if not l.keyword("show"):
                     lll.error("Expected a show line for the party block.")
+                ## Expect a bunch of image properties
+                party_image = ll.require(ll.image_name_component)
 
 
         return dict(name=email_name)
