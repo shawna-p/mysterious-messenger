@@ -2039,7 +2039,7 @@ python early:
         ll = l.subblock_lexer()
 
         properties = dict()
-        party_image = None
+        party_image = list()
 
         def subparse_cproperties(l, d):
             ## Check for generic property value pairs and add them to
@@ -2062,24 +2062,33 @@ python early:
             "attending", "reply_icons", "callback"]
 
         while ll.advance():
-            while subparse_cproperties(ll, properties):
-                pass
             if ll.keyword("party"):
                 ll.require(":")
                 ll.expect_eol()
                 ll.expect_block("party block {}".format(email_name))
                 lll = ll.subblock_lexer()
-                ll.advance()
+                lll.advance()
                 ## Expect a `show <image properties>` line.
-                if not l.keyword("show"):
+                if not lll.keyword("show"):
                     lll.error("Expected a show line for the party block.")
                 ## Expect a bunch of image properties
-                party_image = ll.require(ll.image_name_component)
+                while True:
+                    pi = lll.image_name_component()
+                    if pi:
+                        party_image.append(pi)
+                    else:
+                        break
+                party_image = ' '.join(party_image)
+            while subparse_cproperties(ll, properties):
+                pass
 
 
-        return dict(name=email_name)
+        return dict(name=email_name, properties=properties, party_image=party_image)
 
     def execute_email_stmt(p):
+        print("Results:")
+        for k, v in p.items():
+            print(k, ":", v)
         return
 
     renpy.register_statement('email',
