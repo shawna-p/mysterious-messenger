@@ -2040,6 +2040,8 @@ python early:
 
         properties = dict()
         party_image = list()
+        speaker = None
+        dialogue = None
 
         def subparse_cproperties(l, d):
             ## Check for generic property value pairs and add them to
@@ -2079,11 +2081,19 @@ python early:
                     else:
                         break
                 party_image = ' '.join(party_image)
+                lll.advance()
+                ## Now we want a speaker and line of dialogue
+                speaker = lll.require(lll.simple_expression)
+                dialogue = lll.require(lll.string)
+
             while subparse_cproperties(ll, properties):
                 pass
 
 
-        return dict(name=email_name, properties=properties, party_image=party_image)
+        return dict(name=email_name, properties=properties,
+            party_image=party_image,
+            speaker=speaker,
+            dialogue=dialogue)
 
     def execute_email_stmt(p):
         print("Results:")
