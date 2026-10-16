@@ -2089,6 +2089,7 @@ python early:
             while subparse_cproperties(ll, properties):
                 pass
 
+        properties['dialogue_what'] = dialogue or properties.get('dialogue_what')
 
         return dict(name=email_name, properties=properties,
             party_image=party_image,
