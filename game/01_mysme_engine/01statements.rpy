@@ -2091,9 +2091,9 @@ python early:
 
         properties['comment_what'] = dialogue or properties.get('comment_what')
         properties['comment_who'] = speaker or properties.get('comment_who')
+        properties['comment_img'] = party_image or properties.get('comment_img')
 
-        return dict(name=email_name, properties=properties,
-            party_image=party_image)
+        return dict(name=email_name, properties=properties)
 
     def execute_email_stmt(p):
         print("Results:")
