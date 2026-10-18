@@ -2089,12 +2089,11 @@ python early:
             while subparse_cproperties(ll, properties):
                 pass
 
-        properties['dialogue_what'] = dialogue or properties.get('dialogue_what')
+        properties['comment_what'] = dialogue or properties.get('comment_what')
+        properties['comment_who'] = speaker or properties.get('comment_who')
 
         return dict(name=email_name, properties=properties,
-            party_image=party_image,
-            speaker=speaker,
-            dialogue=dialogue)
+            party_image=party_image)
 
     def execute_email_stmt(p):
         print("Results:")
