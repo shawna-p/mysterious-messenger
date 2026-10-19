@@ -114,7 +114,7 @@ email cds_test:
     guestbook "Rainbow started working on this project back in 2018 and they're excited to share it with the world!"
     party:
         show zen front party happy
-        #z "Is Rainbow's name a reference to me? Haha, well, I am quite a rainbow unicorn if I do say so myself~"
+        z "Is Rainbow's name a reference to me? Haha, well, I am quite a rainbow unicorn if I do say so myself~"
 
 ## This is how you will set up guests for the party. A template can be found
 ## in email_template.rpy along with more detailed explanations of the fields.
