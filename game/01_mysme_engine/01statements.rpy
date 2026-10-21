@@ -2092,6 +2092,7 @@ python early:
         properties['comment_what'] = dialogue or properties.get('comment_what')
         properties['comment_who'] = speaker or properties.get('comment_who')
         properties['comment_img'] = party_image or properties.get('comment_img')
+        properties["large_image"] = properties.get("large_image") or properties.get("sprite")
 
         return dict(name=email_name, properties=properties)
 
