@@ -2093,6 +2093,7 @@ python early:
         properties['comment_who'] = speaker or properties.get('comment_who')
         properties['comment_img'] = party_image or properties.get('comment_img')
         properties["large_image"] = properties.get("large_image") or properties.get("sprite")
+        properties["short_desc"] = properties.get("short_desc",properties.get("description"))
 
         return dict(name=email_name, properties=properties)
 
