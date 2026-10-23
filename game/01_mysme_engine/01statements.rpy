@@ -2095,6 +2095,7 @@ python early:
         properties["large_image"] = properties.get("large_image") or properties.get("sprite")
         properties["short_desc"] = properties.get("short_desc", properties.get("description"))
         properties["personal_info"] = properties.get("personal_info", properties.get("guestbook"))
+        properties["name"] = properties.get("name", properties.get("dialogue_name"))
 
         return dict(name=email_name, properties=properties)
 
