@@ -2043,6 +2043,8 @@ python early:
         speaker = None
         dialogue = None
 
+        emails = dict()
+
         def subparse_cproperties(l, d):
             ## Check for generic property value pairs and add them to
             ## the dictionary d
@@ -2056,6 +2058,20 @@ python early:
                 d[propname] = l.require(l.simple_expression) # type: ignore
                 return True
             return False
+
+        def parse_email_block(l):
+            """Parse an email: block."""
+            if not l.keyword("email"):
+                return
+            # Otherwise, got an email
+            l.require(":")
+            l.expect_eol()
+            l.expect_block("email block inside email {}".format(email_name))
+            ll = l.subblock_lexer()
+            contents = ""
+            ll.advance()
+            contents = ll.triple_string()
+            return '\n'.join(contents)
 
         valid_properties = ["sprite", "guestbook", "description",
             "name", "dialogue_name", "thumbnail", "large_img",
@@ -2086,8 +2102,13 @@ python early:
                 speaker = lll.require(lll.simple_expression)
                 dialogue = lll.require(lll.string)
 
+            ret = parse_email_block(ll)
+            if ret:
+                emails['start'] = ret # TEMP
+
             while subparse_cproperties(ll, properties):
                 pass
+
 
         properties['comment_what'] = dialogue or properties.get('comment_what')
         properties['comment_who'] = speaker or properties.get('comment_who')
@@ -2097,7 +2118,7 @@ python early:
         properties["personal_info"] = properties.get("personal_info", properties.get("guestbook"))
         properties["name"] = properties.get("name", properties.get("dialogue_name"))
 
-        return dict(name=email_name, properties=properties)
+        return dict(name=email_name, properties=properties, emails=emails)
 
     def execute_email_stmt(p):
         print("Results:")

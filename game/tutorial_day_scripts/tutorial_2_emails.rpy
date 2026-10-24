@@ -116,6 +116,20 @@ email cds_test:
         show zen front party happy
         z "Is Rainbow's name a reference to me? Haha, well, I am quite a rainbow unicorn if I do say so myself~"
 
+    email:
+        """Hi [name]!
+
+        Really excited to hear about this party you're holding! Can't wait to see
+        how things will turn out for you. Zen told me to make sure your inbox is
+        working, and well, if you're reading this, I guess it is! So that's good.
+
+        I did have one quick question though -- will the party be held inside or
+        outside? Please let me know as soon as possible!
+
+        Thanks,
+
+        Rainbow Unicorn"""
+
 ## This is how you will set up guests for the party. A template can be found
 ## in email_template.rpy along with more detailed explanations of the fields.
 default rainbow = Guest(
