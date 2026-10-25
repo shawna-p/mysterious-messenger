@@ -2073,6 +2073,19 @@ python early:
             contents = ll.triple_string()
             return '\n'.join(contents)
 
+        def parse_menu_block(l):
+            """Parse a menu: block."""
+            if not l.keyword("menu"):
+                return
+            # Otherwise, got a menu block
+            l.require(":")
+            l.expect_eol()
+            l.expect_block("menu block inside email {}".format(email_name))
+            ll = l.subblock_lexer()
+            choices = [ ]
+            while ll.advance():
+                pass
+
         valid_properties = ["sprite", "guestbook", "description",
             "name", "dialogue_name", "thumbnail", "large_img",
             "short_desc", "personal_info", "start_msg", "choices", "num_emails",
@@ -2105,6 +2118,9 @@ python early:
             ret = parse_email_block(ll)
             if ret:
                 emails['start'] = ret # TEMP
+
+            ## Expect a menu block
+            ret = parse_menu_block(ll)
 
             while subparse_cproperties(ll, properties):
                 pass

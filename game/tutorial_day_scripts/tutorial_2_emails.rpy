@@ -130,6 +130,53 @@ email cds_test:
 
         Rainbow Unicorn"""
 
+    menu:
+        correct "Indoor Party":
+            email:
+                '''Dear Rainbow,
+
+                I'm pleased to inform you that the party will be indoors. No need for
+                umbrellas or sunscreen!
+
+                Hope to see you there,
+
+                [name], the party coordinator'''
+
+            email:
+                '''Hi again,
+
+                Oh, how wonderful! I was worried about what the weather would be like
+                on the day of the party. I thought of another question: what kind of
+                music will there be at the party?
+
+                Hope to hear from you soon,
+
+                Rainbow Unicorn'''
+
+        wrong "Outdoor party":
+            email:
+                '''Dear Rainbow,
+
+                We're planning for an outdoor party! There are gardens at the venue that
+                will be perfect for an elegant party. Hope to see you there!
+
+                Sincerely,
+
+                [name], the party coordinator'''
+
+            email:
+                '''Hi again,
+
+                Oh dear, I'm afraid I have terrible allergies and that may not work out
+                well for me. I appreciate the time you've taken to email me but I may
+                have to decline.
+
+                Thank you for the invitation, and best of luck to you and the party.
+
+                Rainbow Unicorn'''
+
+            end
+
 ## This is how you will set up guests for the party. A template can be found
 ## in email_template.rpy along with more detailed explanations of the fields.
 default rainbow = Guest(
