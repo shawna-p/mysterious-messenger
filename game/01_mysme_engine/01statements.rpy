@@ -2084,7 +2084,11 @@ python early:
             ll = l.subblock_lexer()
             choices = [ ]
             while ll.advance():
-                pass
+                if ll.keyword("correct"):
+                    choice_text = ll.require(ll.string)
+                    ll.require(":")
+                    ll.expect_eol()
+
 
         valid_properties = ["sprite", "guestbook", "description",
             "name", "dialogue_name", "thumbnail", "large_img",
