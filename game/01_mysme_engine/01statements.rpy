@@ -2084,10 +2084,18 @@ python early:
             ll = l.subblock_lexer()
             choices = [ ]
             while ll.advance():
+                choice_type = None
                 if ll.keyword("correct"):
-                    choice_text = ll.require(ll.string)
-                    ll.require(":")
-                    ll.expect_eol()
+                    choice_type = "correct"
+                elif ll.keyword("wrong"):
+                    choice_type = "wrong"
+                else:
+                    # Invalid
+                    ll.error("Couldn't parse email menu")
+
+                choice_text = ll.require(ll.string)
+                ll.require(":")
+                ll.expect_eol()
 
 
         valid_properties = ["sprite", "guestbook", "description",
