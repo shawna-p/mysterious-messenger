@@ -2096,6 +2096,8 @@ python early:
                 choice_text = ll.require(ll.string)
                 ll.require(":")
                 ll.expect_eol()
+                ll.expect_block("email block inside email choice {}".format(email_name))
+                lll = ll.subblock_lexer()
 
 
         valid_properties = ["sprite", "guestbook", "description",
