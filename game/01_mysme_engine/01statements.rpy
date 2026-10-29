@@ -2098,6 +2098,8 @@ python early:
                 ll.expect_eol()
                 ll.expect_block("email block inside email choice {}".format(email_name))
                 lll = ll.subblock_lexer()
+                lll.advance()
+                email = parse_email_block(lll)
 
 
         valid_properties = ["sprite", "guestbook", "description",
