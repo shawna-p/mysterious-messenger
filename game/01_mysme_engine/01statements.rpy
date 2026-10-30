@@ -2073,6 +2073,21 @@ python early:
             contents = ll.triple_string()
             return '\n'.join(contents)
 
+        """
+        choice_text : string
+            The text of the choice to reply to the email.
+        player_msg : string
+            The message the player writes after the choice is made.
+        guest_reply : string
+            The guest's reply to the player's message.
+        continue_chain : EmailReply[]
+            If this email chain will continue after the player selects this
+            reply, this is a list of EmailReply objects that will be available
+            the next time the player is given the opportunity to reply.
+        email_success : bool or None
+            If explicitly set to a boolean value, this indicates if it ends
+            the email chain in a good (True) or bad (False) way.
+        """
         def parse_menu_block(l):
             """Parse a menu: block."""
             if not l.keyword("menu"):
@@ -2099,7 +2114,11 @@ python early:
                 ll.expect_block("email block inside email choice {}".format(email_name))
                 lll = ll.subblock_lexer()
                 lll.advance()
-                email = parse_email_block(lll)
+                player_msg = parse_email_block(lll)
+                ## Do it again for the reply
+                lll.advance()
+                guest_reply = parse_email_block(lll)
+
 
 
         valid_properties = ["sprite", "guestbook", "description",
