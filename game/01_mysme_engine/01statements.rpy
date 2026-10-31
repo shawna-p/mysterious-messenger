@@ -2099,6 +2099,7 @@ python early:
             ll = l.subblock_lexer()
             choices = [ ]
             while ll.advance():
+                is_end = False
                 choice_type = None
                 if ll.keyword("correct"):
                     choice_type = "correct"
@@ -2118,6 +2119,13 @@ python early:
                 ## Do it again for the reply
                 lll.advance()
                 guest_reply = parse_email_block(lll)
+                lll.advance()
+                ## There might be an `end` keyword here
+                if lll.keyword("end"):
+                    is_end = True
+                choices.append(
+                    (choice_type, choice_text, player_msg, guest_reply, is_end)
+                )
 
 
 
