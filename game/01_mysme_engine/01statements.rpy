@@ -2044,6 +2044,7 @@ python early:
         dialogue = None
 
         emails = dict()
+        choices = list()
 
         def subparse_cproperties(l, d):
             ## Check for generic property value pairs and add them to
@@ -2126,6 +2127,7 @@ python early:
                 choices.append(
                     (choice_type, choice_text, player_msg, guest_reply, is_end)
                 )
+            return choices
 
 
 
@@ -2164,6 +2166,8 @@ python early:
 
             ## Expect a menu block
             ret = parse_menu_block(ll)
+            if ret:
+                choices.append(ret)
 
             while subparse_cproperties(ll, properties):
                 pass
@@ -2177,7 +2181,8 @@ python early:
         properties["personal_info"] = properties.get("personal_info", properties.get("guestbook"))
         properties["name"] = properties.get("name", properties.get("dialogue_name"))
 
-        return dict(name=email_name, properties=properties, emails=emails)
+        return dict(name=email_name, properties=properties, emails=emails,
+            choices=choices)
 
     def execute_email_stmt(p):
         print("Results:")
