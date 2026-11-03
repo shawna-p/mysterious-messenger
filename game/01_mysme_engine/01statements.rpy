@@ -2043,7 +2043,7 @@ python early:
         speaker = None
         dialogue = None
 
-        emails = dict()
+        emails = list()
         choices = list()
 
         def subparse_cproperties(l, d):
@@ -2162,7 +2162,7 @@ python early:
 
             ret = parse_email_block(ll)
             if ret:
-                emails['start'] = ret # TEMP
+                emails.append(ret) # TEMP
 
             ## Expect a menu block
             ret = parse_menu_block(ll)
