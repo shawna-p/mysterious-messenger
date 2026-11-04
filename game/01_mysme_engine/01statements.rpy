@@ -2103,9 +2103,9 @@ python early:
                 is_end = False
                 choice_type = None
                 if ll.keyword("correct"):
-                    choice_type = "correct"
+                    choice_type = True
                 elif ll.keyword("wrong"):
-                    choice_type = "wrong"
+                    choice_type = False
                 else:
                     # Invalid
                     ll.error("Couldn't parse email menu")
@@ -2125,7 +2125,7 @@ python early:
                 if lll.keyword("end"):
                     is_end = True
                 choices.append(
-                    (choice_type, choice_text, player_msg, guest_reply, is_end)
+                    (choice_text, player_msg, guest_reply, is_end, choice_type)
                 )
             return choices
 
