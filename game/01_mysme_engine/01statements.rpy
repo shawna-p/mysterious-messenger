@@ -2188,6 +2188,26 @@ python early:
         print("Results:")
         for k, v in p.items():
             print(k, ":", v)
+
+        emails = p['emails']
+        choices = p['choices']
+        final_emails = [ ]
+        final_choices = [ ]
+        for choice in choices:
+            final_choices.append(EmailReply(
+                choice_text=choice[0],
+                player_msg=choice[1],
+                guest_reply=choice[2],
+                continue_chain=choice[3],
+                email_success=choice[4],
+            ))
+        print("Final choices:")
+        for choice in final_choices:
+            print("   ", choice.choice_text)
+            print("   ", choice.player_msg)
+            print("   ", choice.guest_reply)
+            print("   ", choice.continue_chain)
+            print("   ", choice.email_success)
         return
 
     renpy.register_statement('email',
