@@ -2125,7 +2125,7 @@ python early:
                 if lll.keyword("end"):
                     is_end = True
                 choices.append(
-                    (choice_text, player_msg, guest_reply, is_end, choice_type)
+                    (choice_text, player_msg, guest_reply, not is_end, choice_type)
                 )
             return choices
 
@@ -2167,7 +2167,7 @@ python early:
             ## Expect a menu block
             ret = parse_menu_block(ll)
             if ret:
-                choices.append(ret)
+                choices.extend(ret)
 
             while subparse_cproperties(ll, properties):
                 pass
@@ -2203,11 +2203,22 @@ python early:
             ))
         print("Final choices:")
         for choice in final_choices:
-            print("   ", choice.choice_text)
+            print("\n   ", choice.choice_text)
             print("   ", choice.player_msg)
             print("   ", choice.guest_reply)
             print("   ", choice.continue_chain)
             print("   ", choice.email_success)
+
+        current_emrep = final_choices.pop(0)
+        start_email = current_emrep
+        while final_choices:
+            while current_emrep.continue_chain and final_choices:
+                next_reply = final_choices.pop(0)
+                current_emrep = next_reply
+            if final_choices:
+                current_emrep = final_choices.pop(0)
+        print("Traverse email replies")
+        print(start_email.pretty_print())
         return
 
     renpy.register_statement('email',
