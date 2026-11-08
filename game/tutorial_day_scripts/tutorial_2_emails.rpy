@@ -177,6 +177,123 @@ email cds_test:
 
             end
 
+    menu:
+        correct "Smooth Jazz":
+
+            email:
+
+                '''Dear Rainbow,
+
+                We've got a wonderful playlist full of smooth jazz songs to
+                play at the party. We're also looking into the possibility of
+                a live band!
+
+                Hope that answers your question.
+
+                Sincerely,
+
+                [name]'''
+
+            email:
+                '''Dear [name],
+
+                Oh, that's just fantastic news. Jazz is such a lovely music genre,
+                isn't it? Just between the two of us, I'm also quite partial to video
+                game soundtrack music. But I don't expect you to play that at the party!
+
+                You've been so kind with your answers, and if you don't mind, I had
+                one last question -- what sort of food will there be at the party?
+                Please let me know when you can!
+
+                From, Rainbow'''
+
+
+        wrong "Heavy Metal":
+
+            email:
+
+                '''Hi Rainbow,
+
+                I've found some wonderful heavy metal music to play at the party!
+                Screaming vocals really set the mood, don't you think? I hope you'll
+                enjoy the music!
+
+                Sincerely,
+
+                [name], the party coordinator'''
+
+            email:
+                '''Hi again,
+
+                Oh dear, heavy metal? I can't say I enjoy that sort of music. I
+                appreciate the invitation, but now that I know you'll be playing
+                heavy metal music... I'll have to think more on it. Could you tell me
+                what sort of food will be served at the party?
+
+                Thank you for your help.
+
+                Rainbow'''
+
+    menu:
+        correct "Spicy food":
+            email:
+                '''To the lovely Rainbow,
+
+                There will be a delicious selection of spicy food at the party!
+                In particular there will be experienced chefs from places such as
+                India and Mexico who will be catering. I hope your taste buds
+                are ready!
+
+                Sincerely,
+
+                [name]'''
+
+            email:
+                '''To [name],
+
+                Wow! I adore spicy foods; it's almost as though you read my mind!
+                I will most certainly have to come and sample the dishes you've
+                described.
+
+                Thank you very much for taking the time to answer my questions.
+                I'll see you at the party!
+
+                Best,
+
+                Rainbow'''
+
+            end
+
+        wrong "Seafood":
+            email:
+                '''To the lovely Rainbow,
+
+                We're planning to serve a variety of seafood at the party! There
+                will be plenty of dishes to try, like fried octopus, shrimp
+                tempura, and caviar. Hope you come with an appetite!
+
+                From,
+
+                [name]'''
+
+            email:
+
+                '''To [name],
+
+                That certainly sounds... interesting! I can't really consider
+                myself a fan of seafood, however, so you'll have to excuse me
+                for my lack of enthusiasm.
+
+                That said, I do appreciate you taking the time to answer me. I'm
+                a bit undecided on whether or not to attend, but wish you the
+                best of luck with the preparations!
+
+                Sincerely,
+
+                Rainbow Unicorn'''
+
+            end
+
 ## This is how you will set up guests for the party. A template can be found
 ## in email_template.rpy along with more detailed explanations of the fields.
 default rainbow = Guest(

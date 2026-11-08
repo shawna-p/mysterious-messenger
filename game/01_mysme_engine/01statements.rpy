@@ -2200,6 +2200,7 @@ python early:
                 guest_reply=choice[2],
                 continue_chain=choice[3],
                 email_success=choice[4],
+                skip_filters=True
             ))
         print("Final choices:")
         for choice in final_choices:

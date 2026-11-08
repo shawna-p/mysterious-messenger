@@ -501,11 +501,11 @@ init python:
         """
 
         def __init__(self, choice_text, player_msg, guest_reply,
-                continue_chain=None, email_success=None):
+                continue_chain=None, email_success=None, skip_filters=False):
 
             self.choice_text = choice_text
-            self.player_msg = filter_whitespace(player_msg)
-            self.guest_reply = filter_whitespace(guest_reply)
+            self.player_msg = filter_whitespace(player_msg) if not skip_filters else player_msg
+            self.guest_reply = filter_whitespace(guest_reply) if not skip_filters else guest_reply
             self.continue_chain = continue_chain or []
             self.email_success = email_success
 
