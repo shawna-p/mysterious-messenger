@@ -2043,7 +2043,8 @@ python early:
         speaker = None
         dialogue = None
 
-        emails = dict()
+        emails = list()
+        choices = list()
 
         def subparse_cproperties(l, d):
             ## Check for generic property value pairs and add them to
@@ -2102,9 +2103,9 @@ python early:
                 is_end = False
                 choice_type = None
                 if ll.keyword("correct"):
-                    choice_type = "correct"
+                    choice_type = True
                 elif ll.keyword("wrong"):
-                    choice_type = "wrong"
+                    choice_type = False
                 else:
                     # Invalid
                     ll.error("Couldn't parse email menu")
@@ -2124,8 +2125,9 @@ python early:
                 if lll.keyword("end"):
                     is_end = True
                 choices.append(
-                    (choice_type, choice_text, player_msg, guest_reply, is_end)
+                    (choice_text, player_msg, guest_reply, not is_end, choice_type)
                 )
+            return choices
 
 
 
@@ -2160,10 +2162,12 @@ python early:
 
             ret = parse_email_block(ll)
             if ret:
-                emails['start'] = ret # TEMP
+                emails.append(ret) # TEMP
 
             ## Expect a menu block
             ret = parse_menu_block(ll)
+            if ret:
+                choices.extend(ret)
 
             while subparse_cproperties(ll, properties):
                 pass
@@ -2177,12 +2181,44 @@ python early:
         properties["personal_info"] = properties.get("personal_info", properties.get("guestbook"))
         properties["name"] = properties.get("name", properties.get("dialogue_name"))
 
-        return dict(name=email_name, properties=properties, emails=emails)
+        return dict(name=email_name, properties=properties, emails=emails,
+            choices=choices)
 
     def execute_email_stmt(p):
         print("Results:")
         for k, v in p.items():
             print(k, ":", v)
+
+        emails = p['emails']
+        choices = p['choices']
+        final_emails = [ ]
+        final_choices = [ ]
+        for choice in choices:
+            final_choices.append(EmailReply(
+                choice_text=choice[0],
+                player_msg=choice[1],
+                guest_reply=choice[2],
+                continue_chain=choice[3],
+                email_success=choice[4],
+            ))
+        print("Final choices:")
+        for choice in final_choices:
+            print("\n   ", choice.choice_text)
+            print("   ", choice.player_msg)
+            print("   ", choice.guest_reply)
+            print("   ", choice.continue_chain)
+            print("   ", choice.email_success)
+
+        current_emrep = final_choices.pop(0)
+        start_email = current_emrep
+        while final_choices:
+            while current_emrep.continue_chain and final_choices:
+                next_reply = final_choices.pop(0)
+                current_emrep = next_reply
+            if final_choices:
+                current_emrep = final_choices.pop(0)
+        print("Traverse email replies")
+        print(start_email.pretty_print())
         return
 
     renpy.register_statement('email',
