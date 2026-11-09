@@ -2193,11 +2193,14 @@ python early:
         choices = p['choices']
         final_emails = [ ]
         final_choices = [ ]
+
         for choice in choices:
+            player_msg = choice[1].replace('\n', '\n\n')
+            guest_reply = choice[2].replace('\n', '\n\n')
             final_choices.append(EmailReply(
                 choice_text=choice[0],
-                player_msg=choice[1],
-                guest_reply=choice[2],
+                player_msg=player_msg,
+                guest_reply=guest_reply,
                 continue_chain=choice[3],
                 email_success=choice[4],
                 skip_filters=True
