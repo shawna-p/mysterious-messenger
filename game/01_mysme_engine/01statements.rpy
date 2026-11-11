@@ -2218,11 +2218,15 @@ python early:
         while final_choices:
             while current_emrep.continue_chain and final_choices:
                 next_reply = final_choices.pop(0)
+                if not isinstance(current_emrep.continue_chain, list):
+                    current_emrep.continue_chain = [next_reply]
+                else:
+                    current_emrep.continue_chain.append(next_reply)
                 current_emrep = next_reply
             if final_choices:
                 current_emrep = final_choices.pop(0)
         print("Traverse email replies")
-        print(start_email.pretty_print())
+        print(start_email.pretty_print(only_title=True))
         return
 
     renpy.register_statement('email',
