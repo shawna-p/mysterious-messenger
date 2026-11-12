@@ -2167,7 +2167,7 @@ python early:
             ## Expect a menu block
             ret = parse_menu_block(ll)
             if ret:
-                choices.extend(ret)
+                choices.append(ret)
 
             while subparse_cproperties(ll, properties):
                 pass
@@ -2194,17 +2194,19 @@ python early:
         final_emails = [ ]
         final_choices = [ ]
 
-        for choice in choices:
-            player_msg = choice[1].replace('\n', '\n\n')
-            guest_reply = choice[2].replace('\n', '\n\n')
-            final_choices.append(EmailReply(
-                choice_text=choice[0],
-                player_msg=player_msg,
-                guest_reply=guest_reply,
-                continue_chain=choice[3],
-                email_success=choice[4],
-                skip_filters=True
-            ))
+        for choice_list in choices:
+            if isinstance(choice_list, list):
+                for choice in choice_list:
+                    player_msg = choice[1].replace('\n', '\n\n')
+                    guest_reply = choice[2].replace('\n', '\n\n')
+                    final_choices.append(EmailReply(
+                        choice_text=choice[0],
+                        player_msg=player_msg,
+                        guest_reply=guest_reply,
+                        continue_chain=choice[3],
+                        email_success=choice[4],
+                        skip_filters=True
+                    ))
         print("Final choices:")
         for choice in final_choices:
             print("\n   ", choice.choice_text)
