@@ -2196,10 +2196,11 @@ python early:
 
         for choice_list in choices:
             if isinstance(choice_list, list):
+                final_choices.append(list())
                 for choice in choice_list:
                     player_msg = choice[1].replace('\n', '\n\n')
                     guest_reply = choice[2].replace('\n', '\n\n')
-                    final_choices.append(EmailReply(
+                    final_choices[-1].append(EmailReply(
                         choice_text=choice[0],
                         player_msg=player_msg,
                         guest_reply=guest_reply,
