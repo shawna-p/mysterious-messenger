@@ -2209,27 +2209,29 @@ python early:
                         skip_filters=True
                     ))
         print("Final choices:")
-        for choice in final_choices:
-            print("\n   ", choice.choice_text)
-            print("   ", choice.player_msg)
-            print("   ", choice.guest_reply)
-            print("   ", choice.continue_chain)
-            print("   ", choice.email_success)
+        for choice_list in final_choices:
+            if isinstance(choice_list, list):
+                for choice in choice_list:
+                    print("\n   ", choice.choice_text)
+                    print("   ", choice.player_msg)
+                    print("   ", choice.guest_reply)
+                    print("   ", choice.continue_chain)
+                    print("   ", choice.email_success)
 
-        current_emrep = final_choices.pop(0)
-        start_email = current_emrep
-        while final_choices:
-            while current_emrep.continue_chain and final_choices:
-                next_reply = final_choices.pop(0)
-                if not isinstance(current_emrep.continue_chain, list):
-                    current_emrep.continue_chain = [next_reply]
-                else:
-                    current_emrep.continue_chain.append(next_reply)
-                current_emrep = next_reply
-            if final_choices:
-                current_emrep = final_choices.pop(0)
-        print("Traverse email replies")
-        print(start_email.pretty_print(only_title=True))
+        # current_emrep = final_choices.pop(0)
+        # start_email = current_emrep
+        # while final_choices:
+        #     while current_emrep.continue_chain and final_choices:
+        #         next_reply = final_choices.pop(0)
+        #         if not isinstance(current_emrep.continue_chain, list):
+        #             current_emrep.continue_chain = [next_reply]
+        #         else:
+        #             current_emrep.continue_chain.append(next_reply)
+        #         current_emrep = next_reply
+        #     if final_choices:
+        #         current_emrep = final_choices.pop(0)
+        # print("Traverse email replies")
+        # print(start_email.pretty_print(only_title=True))
         return
 
     renpy.register_statement('email',

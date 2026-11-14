@@ -223,7 +223,7 @@ email cds_test:
                 [name], the party coordinator'''
 
             email:
-                '''Hi again,
+                """Hi again,
 
                 Oh dear, heavy metal? I can't say I enjoy that sort of music. I
                 appreciate the invitation, but now that I know you'll be playing
@@ -232,7 +232,7 @@ email cds_test:
 
                 Thank you for your help.
 
-                Rainbow'''
+                Rainbow"""
 
     menu:
         correct "Spicy food":
