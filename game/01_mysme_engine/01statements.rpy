@@ -2194,6 +2194,7 @@ python early:
         final_emails = [ ]
         final_choices = [ ]
 
+        last_continuing_replies = [ ]
         for choice_list in choices:
             if isinstance(choice_list, list):
                 final_choices.append(list())
@@ -2208,6 +2209,9 @@ python early:
                         email_success=choice[4],
                         skip_filters=True
                     ))
+                    if choice[3]: # Does not end the email chain
+                        last_continuing_replies.append(final_choices[-1][-1])
+
         print("Final choices:")
         for choice_list in final_choices:
             if isinstance(choice_list, list):
