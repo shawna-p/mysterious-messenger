@@ -2167,7 +2167,7 @@ python early:
             ## Expect a menu block
             ret = parse_menu_block(ll)
             if ret:
-                choices.extend(ret)
+                choices.append(ret)
 
             while subparse_cproperties(ll, properties):
                 pass
@@ -2194,39 +2194,48 @@ python early:
         final_emails = [ ]
         final_choices = [ ]
 
-        for choice in choices:
-            player_msg = choice[1].replace('\n', '\n\n')
-            guest_reply = choice[2].replace('\n', '\n\n')
-            final_choices.append(EmailReply(
-                choice_text=choice[0],
-                player_msg=player_msg,
-                guest_reply=guest_reply,
-                continue_chain=choice[3],
-                email_success=choice[4],
-                skip_filters=True
-            ))
-        print("Final choices:")
-        for choice in final_choices:
-            print("\n   ", choice.choice_text)
-            print("   ", choice.player_msg)
-            print("   ", choice.guest_reply)
-            print("   ", choice.continue_chain)
-            print("   ", choice.email_success)
+        last_continuing_replies = [ ]
+        for choice_list in choices:
+            if isinstance(choice_list, list):
+                final_choices.append(list())
+                for choice in choice_list:
+                    player_msg = choice[1].replace('\n', '\n\n')
+                    guest_reply = choice[2].replace('\n', '\n\n')
+                    final_choices[-1].append(EmailReply(
+                        choice_text=choice[0],
+                        player_msg=player_msg,
+                        guest_reply=guest_reply,
+                        continue_chain=choice[3],
+                        email_success=choice[4],
+                        skip_filters=True
+                    ))
+                    if choice[3]: # Does not end the email chain
+                        last_continuing_replies.append(final_choices[-1][-1])
 
-        current_emrep = final_choices.pop(0)
-        start_email = current_emrep
-        while final_choices:
-            while current_emrep.continue_chain and final_choices:
-                next_reply = final_choices.pop(0)
-                if not isinstance(current_emrep.continue_chain, list):
-                    current_emrep.continue_chain = [next_reply]
-                else:
-                    current_emrep.continue_chain.append(next_reply)
-                current_emrep = next_reply
-            if final_choices:
-                current_emrep = final_choices.pop(0)
-        print("Traverse email replies")
-        print(start_email.pretty_print(only_title=True))
+        print("Final choices:")
+        for choice_list in final_choices:
+            if isinstance(choice_list, list):
+                for choice in choice_list:
+                    print("\n   ", choice.choice_text)
+                    print("   ", choice.player_msg)
+                    print("   ", choice.guest_reply)
+                    print("   ", choice.continue_chain)
+                    print("   ", choice.email_success)
+
+        # current_emrep = final_choices.pop(0)
+        # start_email = current_emrep
+        # while final_choices:
+        #     while current_emrep.continue_chain and final_choices:
+        #         next_reply = final_choices.pop(0)
+        #         if not isinstance(current_emrep.continue_chain, list):
+        #             current_emrep.continue_chain = [next_reply]
+        #         else:
+        #             current_emrep.continue_chain.append(next_reply)
+        #         current_emrep = next_reply
+        #     if final_choices:
+        #         current_emrep = final_choices.pop(0)
+        # print("Traverse email replies")
+        # print(start_email.pretty_print(only_title=True))
         return
 
     renpy.register_statement('email',
