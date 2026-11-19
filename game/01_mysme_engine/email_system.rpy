@@ -509,16 +509,16 @@ init python:
             self.continue_chain = continue_chain or []
             self.email_success = email_success
 
-        def pretty_print(self, only_title=False):
+        def pretty_print(self, only_title=False, level=0):
             """A function to print out the contents of an EmailReply chain."""
-            print("\nChoice:", self.choice_text)
+            print("\n", " "*level*3, "Choice:", self.choice_text)
             if not only_title:
                 print(self.player_msg)
                 print(self.guest_reply)
-            print("SUCCESS" if self.email_success else "FAILURE")
+            print(" "*level*3, "SUCCESS" if self.email_success else "FAILURE")
             if isinstance(self.continue_chain, list):
                 for e in self.continue_chain:
-                    e.pretty_print(only_title=True)
+                    e.pretty_print(only_title=True, level=level+1)
 
     def filter_whitespace(s):
         """Filter excess whitespace from a string. Used for emails."""

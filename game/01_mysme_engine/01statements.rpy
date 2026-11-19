@@ -2220,15 +2220,19 @@ python early:
                         choice.continue_chain = last_continuing_replies
                 last_continuing_replies = choice_list
 
-        print("Final choices:")
-        for choice_list in final_choices:
-            if isinstance(choice_list, list):
-                for choice in choice_list:
-                    print("\n   ", choice.choice_text)
-                    print("   ", choice.player_msg)
-                    print("   ", choice.guest_reply)
-                    print("   ", choice.continue_chain)
-                    print("   ", choice.email_success)
+        print("Final choice tree:")
+        for c in final_choices[0]:
+            print(c.pretty_print(only_title=True))
+
+
+        # for choice_list in final_choices:
+        #     if isinstance(choice_list, list):
+        #         for choice in choice_list:
+        #             print("\n   ", choice.choice_text)
+        #             print("   ", choice.player_msg)
+        #             print("   ", choice.guest_reply)
+        #             print("   ", choice.continue_chain)
+        #             print("   ", choice.email_success)
 
         # current_emrep = final_choices.pop(0)
         # start_email = current_emrep
