@@ -2172,7 +2172,6 @@ python early:
             while subparse_cproperties(ll, properties):
                 pass
 
-
         properties['comment_what'] = dialogue or properties.get('comment_what')
         properties['comment_who'] = speaker or properties.get('comment_who')
         properties['comment_img'] = party_image or properties.get('comment_img')
@@ -2193,8 +2192,6 @@ python early:
         choices = p['choices']
         final_emails = [ ]
         final_choices = [ ]
-
-
 
         last_continuing_replies = [ ]
         for choice_list in choices:
@@ -2224,35 +2221,24 @@ python early:
         for c in final_choices[0]:
             print(c.pretty_print(only_title=True))
 
-
-        # for choice_list in final_choices:
-        #     if isinstance(choice_list, list):
-        #         for choice in choice_list:
-        #             print("\n   ", choice.choice_text)
-        #             print("   ", choice.player_msg)
-        #             print("   ", choice.guest_reply)
-        #             print("   ", choice.continue_chain)
-        #             print("   ", choice.email_success)
-
-        # current_emrep = final_choices.pop(0)
-        # start_email = current_emrep
-        # while final_choices:
-        #     while current_emrep.continue_chain and final_choices:
-        #         next_reply = final_choices.pop(0)
-        #         if not isinstance(current_emrep.continue_chain, list):
-        #             current_emrep.continue_chain = [next_reply]
-        #         else:
-        #             current_emrep.continue_chain.append(next_reply)
-        #         current_emrep = next_reply
-        #     if final_choices:
-        #         current_emrep = final_choices.pop(0)
-        # print("Traverse email replies")
-        # print(start_email.pretty_print(only_title=True))
+        properties = p['properties']
+        final_properties = dict()
+        for prop in ['name', 'dialogue_name', 'thumbnail', 'large_img',
+                'short_desc', 'personal_info',
+                'dialogue_what', 'comment_who',
+                'num_emails', 'callback'
+                ]:
+            if properties.get(prop):
+                final_properties[prop] = eval(properties[prop])
+        final_properties['comment_what'] = properties['comment_what']
+        final_properties['comment_img'] = properties['comment_img']
+        print("Final properties:", final_properties)
+        # start_msg, choices,
         return
 
     renpy.register_statement('email',
         parse=parse_email_stmt,
-        execute=execute_email_stmt,
+        execute_default=execute_email_stmt,
         # translation_strings=translate_email_stmt,
         # lint=lint_email_stmt,
         block=True,
