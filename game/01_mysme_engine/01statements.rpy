@@ -2230,8 +2230,10 @@ python early:
                 ]:
             if properties.get(prop):
                 final_properties[prop] = eval(properties[prop])
-        final_properties['comment_what'] = properties['comment_what']
-        final_properties['comment_img'] = properties['comment_img']
+        if 'comment_what' in properties:
+            final_properties['comment_what'] = properties['comment_what']
+        if 'comment_img' in properties:
+            final_properties['comment_img'] = properties['comment_img']
         print("Final properties:", final_properties)
         # start_msg, choices,
         return
