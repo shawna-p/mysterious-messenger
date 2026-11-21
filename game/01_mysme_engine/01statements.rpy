@@ -2184,10 +2184,6 @@ python early:
             choices=choices)
 
     def execute_email_stmt(p):
-        print("Results:")
-        for k, v in p.items():
-            print(k, ":", v)
-
         emails = p['emails']
         choices = p['choices']
         final_emails = [ ]
@@ -2217,9 +2213,9 @@ python early:
                         choice.continue_chain = last_continuing_replies
                 last_continuing_replies = choice_list
 
-        print("Final choice tree:")
-        for c in final_choices[0]:
-            print(c.pretty_print(only_title=True))
+        # print("Final choice tree:")
+        # for c in final_choices[0]:
+        #     print(c.pretty_print(only_title=True))
 
         properties = p['properties']
         final_properties = dict()
