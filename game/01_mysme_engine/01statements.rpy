@@ -2232,6 +2232,7 @@ python early:
             final_properties['comment_img'] = properties['comment_img']
         # start_msg, choices,
         final_properties['start_msg'] = emails[0]
+        final_properties['choices'] = final_choices
         return
 
     renpy.register_statement('email',
