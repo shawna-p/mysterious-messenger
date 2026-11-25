@@ -153,7 +153,7 @@ screen day_display(day, day_num):
                     xysize (80, 30)
                     align (0.5, 0.5)
                     background 'day_percent_border'
-                    text '[partic_percent]\%'
+                    text '[partic_percent]%'
         fixed:
             xfit True yfit True
             add day.day_icon
