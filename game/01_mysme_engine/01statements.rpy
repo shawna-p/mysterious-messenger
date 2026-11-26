@@ -2072,7 +2072,10 @@ python early:
             contents = ""
             ll.advance()
             contents = ll.triple_string()
-            return '\n'.join(contents)
+            try:
+                return '\n'.join(contents)
+            except:
+                return '\n'.join([b for a, b in contents])
 
         """
         choice_text : string
