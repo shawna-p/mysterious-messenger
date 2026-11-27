@@ -1666,7 +1666,10 @@ python early:
                         header="Miscellaneous", subheader="Adding New Audio")
 
             if the_caption:
-                notification =  ("♪ " + renpy.translate(the_caption) + " ♪")
+                try:
+                    notification =  ("♪ " + renpy.translate(the_caption) + " ♪")
+                except AttributeError:
+                    notification =  ("♪ " + renpy.translate_string(the_caption) + " ♪")
 
                 if store.persistent.audio_captions:
                     renpy.show_screen('notify', notification)
@@ -1761,7 +1764,10 @@ python early:
                         header="Miscellaneous", subheader="Adding New Audio")
 
             if the_caption:
-                notification =  (__("SFX: ") + renpy.translate(the_caption))
+                try:
+                    notification =  (__("SFX: ") + renpy.translate(the_caption))
+                except AttributeError:
+                    notification =  (__("SFX: ") + renpy.translate_string(the_caption))
 
                 if store.persistent.audio_captions:
                     renpy.show_screen('notify', notification)
